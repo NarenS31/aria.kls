@@ -1,0 +1,41 @@
+{
+  "total_samples": 532,
+  "by_cognitive_state": {
+    "CONFUSED": 73,
+    "FLOW": 74,
+    "FRUSTRATED": 81,
+    "INSIGHT": 74,
+    "PLANNING": 76,
+    "RUSHING": 73,
+    "STUCK": 81
+  },
+  "by_subject": {
+    "ACT English": 49,
+    "ACT Math": 40,
+    "ACT Reading": 63,
+    "ACT Science": 55,
+    "Algebra": 56,
+    "Biology": 53,
+    "Chemistry": 41,
+    "Geometry": 50,
+    "Python Programming": 61,
+    "US History": 64
+  },
+  "by_difficulty": {
+    "easy": 190,
+    "hard": 174,
+    "medium": 168
+  },
+  "by_adhd_type": {
+    "combined": 164,
+    "hyperactive": 188,
+    "inattentive": 180
+  },
+  "correct_answer_rate": 0.784,
+  "avg_words": {
+    "pre_attempt": 22.53,
+    "during_attempt": 74.81,
+    "post_attempt": 18.14
+  },
+  "model": "llama3.1:8b"
+}

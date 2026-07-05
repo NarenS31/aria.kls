@@ -1,0 +1,63 @@
+{
+  "student": "demo",
+  "stats": {
+    "PLANNING": {
+      "Good \u2014 what's your overall strategy?": {
+        "tries": 1,
+        "improved": 0
+      }
+    },
+    "FLOW": {
+      "What would happen if you changed one part of your approach?": {
+        "tries": 1,
+        "improved": 0
+      }
+    },
+    "CONFUSED": {
+      "What would you try if you had to guess?": {
+        "tries": 1,
+        "improved": 0
+      }
+    },
+    "RUSHING": {
+      "Walk me through your reasoning step by step.": {
+        "tries": 1,
+        "improved": 0
+      }
+    },
+    "FRUSTRATED": {
+      "You're not missing something obvious \u2014 what have you tried?": {
+        "tries": 1,
+        "improved": 0
+      },
+      "That's genuinely hard. What's the one part you DO understand?": {
+        "tries": 1,
+        "improved": 0
+      }
+    },
+    "STUCK": {
+      "What would you tell a friend to do first?": {
+        "tries": 1,
+        "improved": 0
+      },
+      "What's one word in this problem you recognize?": {
+        "tries": 1,
+        "improved": 0
+      },
+      "Just read the first sentence out loud.": {
+        "tries": 1,
+        "improved": 0
+      },
+      "Let's do the very first step together: read the problem and write down the one thing it's asking for. What's the next step after that?": {
+        "tries": 1,
+        "improved": 0
+      }
+    },
+    "INSIGHT": {
+      "What was the moment it clicked?": {
+        "tries": 1,
+        "improved": 0
+      }
+    }
+  }
+}

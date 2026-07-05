@@ -1,0 +1,113 @@
+{
+  "student_name": "demo",
+  "sessions": [
+    {
+      "session_id": "demo_2026-07-04T16:29:30.487052",
+      "started_at": "2026-07-04T16:29:30.487062",
+      "ended_at": "2026-07-04T16:29:30.488057",
+      "student_name": "demo",
+      "state_events": [
+        {
+          "state": "CONFUSED",
+          "timestamp": "2026-07-04T16:29:30.487067",
+          "text": "(CONFUSED)",
+          "confidence": 0.9,
+          "turn": 1,
+          "self_correction": false,
+          "planning_detected": false,
+          "insight_moment": false,
+          "gave_up": false,
+          "was_error": true
+        },
+        {
+          "state": "STUCK",
+          "timestamp": "2026-07-04T16:29:30.487353",
+          "text": "(STUCK)",
+          "confidence": 0.9,
+          "turn": 2,
+          "self_correction": false,
+          "planning_detected": false,
+          "insight_moment": false,
+          "gave_up": false,
+          "was_error": true
+        },
+        {
+          "state": "CONFUSED",
+          "timestamp": "2026-07-04T16:29:30.487544",
+          "text": "(CONFUSED)",
+          "confidence": 0.9,
+          "turn": 3,
+          "self_correction": false,
+          "planning_detected": false,
+          "insight_moment": false,
+          "gave_up": false,
+          "was_error": true
+        },
+        {
+          "state": "PLANNING",
+          "timestamp": "2026-07-04T16:29:30.487687",
+          "text": "(PLANNING)",
+          "confidence": 0.9,
+          "turn": 4,
+          "self_correction": false,
+          "planning_detected": true,
+          "insight_moment": false,
+          "gave_up": false,
+          "was_error": false
+        },
+        {
+          "state": "FLOW",
+          "timestamp": "2026-07-04T16:29:30.487829",
+          "text": "(FLOW)",
+          "confidence": 0.9,
+          "turn": 5,
+          "self_correction": false,
+          "planning_detected": false,
+          "insight_moment": false,
+          "gave_up": false,
+          "was_error": false
+        },
+        {
+          "state": "INSIGHT",
+          "timestamp": "2026-07-04T16:29:30.487942",
+          "text": "(INSIGHT)",
+          "confidence": 0.9,
+          "turn": 6,
+          "self_correction": true,
+          "planning_detected": false,
+          "insight_moment": true,
+          "gave_up": false,
+          "was_error": false
+        }
+      ],
+      "intervention_events": [],
+      "metrics": {
+        "total_turns": 6,
+        "planning_turns": 1,
+        "flow_turns": 2,
+        "errors": 3,
+        "self_corrections": 1,
+        "insight_events": 1,
+        "planning_ratio": 0.167,
+        "flow_ratio": 0.333,
+        "self_correction_rate": 0.333,
+        "recovery_speed_turns": 3.0,
+        "state_duration_turns": {
+          "CONFUSED": 2,
+          "STUCK": 1,
+          "PLANNING": 1,
+          "FLOW": 1,
+          "INSIGHT": 1
+        },
+        "state_duration_seconds": {
+          "CONFUSED": 0.0,
+          "STUCK": 0.0,
+          "PLANNING": 0.0,
+          "FLOW": 0.0
+        },
+        "had_frustration": false
+      }
+    }
+  ],
+  "updated_at": "2026-07-04T16:54:26.867225"
+}

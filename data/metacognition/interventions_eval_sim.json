@@ -1,0 +1,95 @@
+{
+  "student": "eval_sim",
+  "stats": {
+    "PLANNING": {
+      "Good \u2014 what's your overall strategy?": {
+        "tries": 1,
+        "improved": 0
+      },
+      "Before you start, what do you predict will be hardest?": {
+        "tries": 1,
+        "improved": 0
+      },
+      "What do you already know that applies here?": {
+        "tries": 1,
+        "improved": 0
+      }
+    },
+    "FLOW": {
+      "What would happen if you changed one part of your approach?": {
+        "tries": 1,
+        "improved": 0
+      },
+      "Would this same approach work on a different problem?": {
+        "tries": 1,
+        "improved": 0
+      },
+      "Can you explain why that step works, not just what you did?": {
+        "tries": 1,
+        "improved": 1
+      }
+    },
+    "CONFUSED": {
+      "What would you try if you had to guess?": {
+        "tries": 1,
+        "improved": 0
+      },
+      "Forget the whole problem. What's the very first word in the question?": {
+        "tries": 1,
+        "improved": 0
+      },
+      "Tell me what you DO understand so far.": {
+        "tries": 1,
+        "improved": 0
+      }
+    },
+    "RUSHING": {
+      "Walk me through your reasoning step by step.": {
+        "tries": 1,
+        "improved": 0
+      },
+      "What did the problem actually ask for?": {
+        "tries": 2,
+        "improved": 2
+      }
+    },
+    "FRUSTRATED": {
+      "You're not missing something obvious \u2014 what have you tried?": {
+        "tries": 1,
+        "improved": 0
+      },
+      "Take 30 seconds. Then tell me just the first thing you'd try.": {
+        "tries": 2,
+        "improved": 1
+      }
+    },
+    "STUCK": {
+      "What would you tell a friend to do first?": {
+        "tries": 1,
+        "improved": 0
+      },
+      "If you had to make a guess, what would it be?": {
+        "tries": 1,
+        "improved": 0
+      },
+      "What's one word in this problem you recognize?": {
+        "tries": 1,
+        "improved": 1
+      }
+    },
+    "INSIGHT": {
+      "What was the moment it clicked?": {
+        "tries": 1,
+        "improved": 0
+      },
+      "Explain it back to me like I've never seen this.": {
+        "tries": 1,
+        "improved": 0
+      },
+      "Could you solve a harder version of this now?": {
+        "tries": 1,
+        "improved": 0
+      }
+    }
+  }
+}

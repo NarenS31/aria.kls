@@ -1,0 +1,126 @@
+{
+  "student_name": "Naren",
+  "sessions": [
+    {
+      "session_id": "naren_2026-07-04T16:53:56.917324",
+      "started_at": "2026-07-04T16:53:56.917327",
+      "ended_at": "2026-07-04T16:53:56.917931",
+      "student_name": "Naren",
+      "state_events": [
+        {
+          "state": "CONFUSED",
+          "timestamp": "2026-07-04T16:53:56.917490",
+          "text": "wait, huh? I have no idea what this is asking, I don't get it",
+          "confidence": 0.97,
+          "turn": 1,
+          "self_correction": false,
+          "planning_detected": false,
+          "insight_moment": false,
+          "gave_up": false,
+          "was_error": false
+        }
+      ],
+      "intervention_events": [
+        {
+          "intervention": "Forget the whole problem. What's the very first word in the question?",
+          "state_before": "CONFUSED",
+          "state_after": null,
+          "escalated": false,
+          "escalation_kind": null,
+          "timestamp": "2026-07-04T16:53:56.917794",
+          "turn": 1
+        }
+      ],
+      "metrics": {
+        "total_turns": 1,
+        "planning_turns": 0,
+        "flow_turns": 0,
+        "errors": 0,
+        "self_corrections": 0,
+        "insight_events": 0,
+        "planning_ratio": 0.0,
+        "flow_ratio": 0.0,
+        "self_correction_rate": null,
+        "recovery_speed_turns": null,
+        "state_duration_turns": {
+          "CONFUSED": 1
+        },
+        "state_duration_seconds": {},
+        "had_frustration": false
+      }
+    },
+    {
+      "session_id": "naren_2026-07-04T23:26:12.866332",
+      "started_at": "2026-07-04T23:26:12.866337",
+      "ended_at": "2026-07-04T23:28:03.699109",
+      "student_name": "Naren",
+      "state_events": [
+        {
+          "state": "PLANNING",
+          "timestamp": "2026-07-04T23:26:12.866664",
+          "text": "First I need to move the 3 into the parentheses, so 3x minus 12.",
+          "confidence": 0.97,
+          "turn": 1,
+          "self_correction": false,
+          "planning_detected": true,
+          "insight_moment": false,
+          "gave_up": false,
+          "was_error": false
+        },
+        {
+          "state": "FLOW",
+          "timestamp": "2026-07-04T23:28:03.697033",
+          "text": "Wait, actually let me subtract 2x from both sides.",
+          "confidence": 0.8,
+          "turn": 2,
+          "self_correction": true,
+          "planning_detected": false,
+          "insight_moment": false,
+          "gave_up": false,
+          "was_error": false
+        }
+      ],
+      "intervention_events": [
+        {
+          "intervention": "Good — what's your overall strategy?",
+          "state_before": "PLANNING",
+          "state_after": "FLOW",
+          "escalated": false,
+          "escalation_kind": null,
+          "timestamp": "2026-07-04T23:26:12.867698",
+          "turn": 1
+        },
+        {
+          "intervention": "What would happen if you changed one part of your approach?",
+          "state_before": "FLOW",
+          "state_after": null,
+          "escalated": false,
+          "escalation_kind": null,
+          "timestamp": "2026-07-04T23:28:03.698283",
+          "turn": 2
+        }
+      ],
+      "metrics": {
+        "total_turns": 2,
+        "planning_turns": 1,
+        "flow_turns": 1,
+        "errors": 0,
+        "self_corrections": 1,
+        "insight_events": 0,
+        "planning_ratio": 0.5,
+        "flow_ratio": 0.5,
+        "self_correction_rate": null,
+        "recovery_speed_turns": null,
+        "state_duration_turns": {
+          "PLANNING": 1,
+          "FLOW": 1
+        },
+        "state_duration_seconds": {
+          "PLANNING": 110.8
+        },
+        "had_frustration": false
+      }
+    }
+  ],
+  "updated_at": "2026-07-04T23:28:03.699506"
+}

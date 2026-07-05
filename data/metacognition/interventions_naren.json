@@ -1,0 +1,23 @@
+{
+  "student": "Naren",
+  "stats": {
+    "CONFUSED": {
+      "Forget the whole problem. What's the very first word in the question?": {
+        "tries": 1,
+        "improved": 0
+      }
+    },
+    "PLANNING": {
+      "Good \u2014 what's your overall strategy?": {
+        "tries": 1,
+        "improved": 1
+      }
+    },
+    "FLOW": {
+      "What would happen if you changed one part of your approach?": {
+        "tries": 1,
+        "improved": 0
+      }
+    }
+  }
+}
