@@ -16,9 +16,16 @@ Analysis pipeline:
 import json
 import math
 import random
+import sys
 from collections import defaultdict
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
+
+# Ensure the repo root is importable so `from eval.* import ...` works whether
+# this file is run as a script (python3.11 eval/failure_analyzer.py) or imported.
+ROOT = Path(__file__).resolve().parent.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 import matplotlib
 matplotlib.use("Agg")
@@ -439,3 +446,43 @@ def plot_failure_heatmap(
 
 def _dim_name(d: str) -> str:
     return {"TC": "Task Chunk", "SC": "Session Cons.", "FA": "Frustration Adapt."}[d]
+
+
+# ------------------------------------------------------------------
+# CLI
+# ------------------------------------------------------------------
+
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="Run failure-pattern analysis on all reasoning traces."
+    )
+    parser.add_argument("--quiet", action="store_true", help="Suppress progress output")
+    args = parser.parse_args()
+
+    verbose = not args.quiet
+
+    # Load every trace record and derive the model list from the records
+    # themselves (each record carries a "model" field).
+    records = load_traces()
+    if not records:
+        print(
+            "[failure_analyzer] No reasoning traces found in "
+            f"{TRACES_DIR}. Run the experiment first "
+            "(python3.11 eval/full_experiment.py --full --local-only)."
+        )
+        raise SystemExit(1)
+
+    models = sorted({r.get("model", "unknown") for r in records})
+    patterns = run_failure_analysis(records=records, models=models, verbose=verbose)
+
+    # Also (re)generate the failure-rate heatmap figure so Step 3 leaves a
+    # visual artifact alongside data/failure_patterns.json.
+    if patterns:
+        try:
+            plot_failure_heatmap(patterns, models)
+        except Exception as e:  # pragma: no cover - figure is best-effort
+            print(f"[failure_analyzer] Heatmap generation skipped: {e}")
+
+    print(f"[failure_analyzer] Done. {len(records)} traces across {len(models)} models.")

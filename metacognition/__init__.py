@@ -11,6 +11,12 @@ Public API:
     MetacognitionTracker            — per-session + longitudinal tracking
     ThinkAloudListener              — optional mic recording + transcription
     COGNITIVE_STATES                — the seven canonical states
+
+Metacognitive development measurement (are students learning the skill, not
+just responding to prompts?):
+    TransferDetector                — self-initiated vs prompted metacognition
+    CalibrationTracker              — does the student know what they know?
+    InterventionTimer               — the optimal moment to intervene per state
 """
 
 from .analyzer import (
@@ -26,6 +32,24 @@ from .interventions import (
     STATE_RANK,
 )
 from .tracker import MetacognitionTracker
+from .transfer import (
+    TransferDetector,
+    detect_self_initiation,
+    classify_metacognition,
+    is_metacognitive_prompt,
+    TRANSFER_THRESHOLD,
+)
+from .calibration import (
+    CalibrationTracker,
+    normalise_confidence,
+    CONFIDENCE_PROMPT,
+)
+from .timing import (
+    InterventionTimer,
+    NEGATIVE_STATES,
+    DEFAULT_OPTIMAL,
+    adhd_subtype,
+)
 
 # ThinkAloudListener depends on optional audio libraries; import defensively so
 # that the text pipeline works even when sounddevice/whisper are absent.
@@ -47,4 +71,17 @@ __all__ = [
     "MetacognitionTracker",
     "ThinkAloudListener",
     "AudioFeatures",
+    # Metacognitive development measurement
+    "TransferDetector",
+    "detect_self_initiation",
+    "classify_metacognition",
+    "is_metacognitive_prompt",
+    "TRANSFER_THRESHOLD",
+    "CalibrationTracker",
+    "normalise_confidence",
+    "CONFIDENCE_PROMPT",
+    "InterventionTimer",
+    "NEGATIVE_STATES",
+    "DEFAULT_OPTIMAL",
+    "adhd_subtype",
 ]

@@ -37,6 +37,8 @@ from typing import Any, Optional
 
 import ollama
 
+from .transfer import detect_self_initiation
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.dirname(HERE)
 
@@ -178,6 +180,10 @@ class AnalysisResult:
     self_correction: bool = False
     insight_moment: bool = False
     gave_up: bool = False
+    # Transfer: did the student self-initiate metacognition (unprompted)?
+    self_initiated_metacognition: bool = False
+    metacognitive_type: str = "none"
+    prompted_by_aria: bool = False
     heuristic_state: Optional[str] = None
     heuristic_confidence: float = 0.0
     llm_state: Optional[str] = None
@@ -193,6 +199,9 @@ class AnalysisResult:
             "self_correction": self.self_correction,
             "insight_moment": self.insight_moment,
             "gave_up": self.gave_up,
+            "self_initiated_metacognition": self.self_initiated_metacognition,
+            "metacognitive_type": self.metacognitive_type,
+            "prompted_by_aria": self.prompted_by_aria,
             "heuristic_state": self.heuristic_state,
             "heuristic_confidence": round(self.heuristic_confidence, 3),
             "llm_state": self.llm_state,
@@ -218,9 +227,20 @@ class CognitiveStateAnalyzer:
         self,
         text: str,
         audio_features: Optional[dict] = None,
+        aria_previous_prompt: str = "",
     ) -> dict[str, Any]:
-        """Classify `text` and return a result dict (see AnalysisResult)."""
+        """Classify `text` and return a result dict (see AnalysisResult).
+
+        Before state detection, transfer detection checks whether the student
+        self-initiated metacognition (planning/monitoring/reflection) without
+        ARIA prompting it. `aria_previous_prompt` is ARIA's last message: if it
+        was a metacognitive question, metacognition here is prompted, not
+        self-initiated. The result is folded into the returned dict so callers
+        can acknowledge self-initiation and avoid re-prompting a habit the
+        student already showed.
+        """
         text = (text or "").strip()
+        transfer = detect_self_initiation(text, aria_previous_prompt)
         flags = self._extract_flags(text)
 
         h_state, h_conf, h_evidence, scores = self._heuristic(text)
@@ -257,6 +277,9 @@ class CognitiveStateAnalyzer:
             self_correction=flags["self_correction"],
             insight_moment=flags["insight_moment"],
             gave_up=flags["gave_up"],
+            self_initiated_metacognition=transfer["self_initiated_metacognition"],
+            metacognitive_type=transfer["metacognitive_type"],
+            prompted_by_aria=transfer["prompted_by_aria"],
             heuristic_state=h_state,
             heuristic_confidence=h_conf,
             llm_state=llm_state,

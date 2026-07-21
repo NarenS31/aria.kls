@@ -58,6 +58,19 @@ from metacognition.interventions import (  # noqa: E402
     INTERVENTION_BANK,
     STATE_RANK,
 )
+from metacognition.transfer import (  # noqa: E402
+    detect_self_initiation,
+    classify_metacognition,
+)
+from metacognition.calibration import (  # noqa: E402
+    CalibrationTracker,
+    normalise_confidence,
+)
+from metacognition.timing import (  # noqa: E402
+    InterventionTimer,
+    NEGATIVE_STATES,
+    bucket_of,
+)
 
 DATA_DIR = os.path.join(HERE, "data")
 TEST_PATH = os.path.join(DATA_DIR, "synthetic_thinkaloud", "test.jsonl")
@@ -264,6 +277,228 @@ def metric_transition_effectiveness(trials_per_state: int = 3, use_llm: bool = T
 
 
 # ------------------------------------------------------------------
+# METRIC 4 — Transfer Detection Accuracy
+# ------------------------------------------------------------------
+
+def _binary_prf(y_true: list[bool], y_pred: list[bool]) -> dict:
+    """Precision / recall / F1 with the positive class = True (self-initiated)."""
+    tp = sum(1 for t, p in zip(y_true, y_pred) if t and p)
+    fp = sum(1 for t, p in zip(y_true, y_pred) if not t and p)
+    fn = sum(1 for t, p in zip(y_true, y_pred) if t and not p)
+    tn = sum(1 for t, p in zip(y_true, y_pred) if not t and not p)
+    precision = tp / (tp + fp) if (tp + fp) else 0.0
+    recall = tp / (tp + fn) if (tp + fn) else 0.0
+    f1 = (2 * precision * recall / (precision + recall)) if (precision + recall) else 0.0
+    accuracy = (tp + tn) / len(y_true) if y_true else 0.0
+    return {
+        "precision": round(precision, 3), "recall": round(recall, 3),
+        "f1": round(f1, 3), "accuracy": round(accuracy, 3),
+        "tp": tp, "fp": fp, "fn": fn, "tn": tn,
+    }
+
+
+def metric_transfer_detection(test_path: str, limit: int = 0) -> dict:
+    """Detect self-initiated metacognition on the labelled dataset vs ground truth.
+
+    The samples carry a `self_initiated_metacognition` ground-truth field (added
+    by generate.py). Each think-aloud is a standalone utterance with no ARIA
+    prompt, so any metacognition present is by definition self-initiated. We run
+    the TransferDetector and report precision / recall / F1 for the binary
+    self-initiation decision, plus metacognitive-type classification accuracy.
+    """
+    print("\n" + "=" * 70)
+    print("METRIC 4 — Transfer Detection Accuracy")
+    print("=" * 70)
+
+    records = _load_jsonl(test_path)
+    if limit:
+        records = records[:limit]
+    labelled = [r for r in records if "self_initiated_metacognition" in r]
+    if not labelled:
+        print("  No self_initiated_metacognition ground truth in the dataset.\n"
+              "  Run: python3.11 metacognition/generate.py --backfill")
+        return {"error": "no ground-truth self_initiated field", "n": 0}
+
+    y_true, y_pred = [], []
+    type_correct = 0
+    type_total = 0
+    for rec in labelled:
+        text = _join_think_aloud(rec.get("think_aloud", ""))
+        gt = bool(rec.get("self_initiated_metacognition"))
+        det = detect_self_initiation(text, "")  # standalone => no ARIA prompt
+        y_true.append(gt)
+        y_pred.append(bool(det["self_initiated_metacognition"]))
+        # Type accuracy on the positive (self-initiated) ground-truth samples.
+        if gt:
+            type_total += 1
+            if det["metacognitive_type"] == rec.get("metacognitive_type"):
+                type_correct += 1
+
+    prf = _binary_prf(y_true, y_pred)
+    type_acc = round(type_correct / type_total, 3) if type_total else None
+
+    n_pos = sum(y_true)
+    print(f"  n={len(y_true)}  (self-initiated ground truth: {n_pos}, not: {len(y_true) - n_pos})")
+    print(f"  confusion: tp={prf['tp']} fp={prf['fp']} fn={prf['fn']} tn={prf['tn']}")
+    print(f"  precision={prf['precision']:.3f}  recall={prf['recall']:.3f}  "
+          f"F1={prf['f1']:.3f}  accuracy={prf['accuracy']:.3f}")
+    print(f"  metacognitive-type accuracy (on self-initiated): "
+          f"{type_acc if type_acc is not None else 'n/a'}")
+
+    return {
+        "n": len(y_true),
+        "precision": prf["precision"],
+        "recall": prf["recall"],
+        "f1": prf["f1"],
+        "accuracy": prf["accuracy"],
+        "confusion": {k: prf[k] for k in ("tp", "fp", "fn", "tn")},
+        "metacognitive_type_accuracy": type_acc,
+    }
+
+
+# ------------------------------------------------------------------
+# METRIC 5 — Calibration Validity
+# ------------------------------------------------------------------
+
+def metric_calibration_validity(n: int = 50) -> dict:
+    """Simulate confidence ratings with known outcomes and verify the maths.
+
+    Builds `n` (confidence, correct) pairs with known outcomes, computes the
+    calibration error via CalibrationTracker, and cross-checks it against an
+    independent inline reference calculation. Also verifies the two extremes:
+    a perfectly-calibrated set has error 0.0 and a perfectly anti-calibrated set
+    has error 1.0.
+    """
+    print("\n" + "=" * 70)
+    print(f"METRIC 5 — Calibration Validity ({n} simulated ratings)")
+    print("=" * 70)
+
+    tr = CalibrationTracker("eval_calibration")
+
+    # Deterministic simulation: a moderately mis-calibrated student whose
+    # correctness probability rises with confidence but imperfectly. LCG so we
+    # never touch Math.random / os time.
+    seed = 12345
+    def _rand() -> float:
+        nonlocal seed
+        seed = (1103515245 * seed + 12345) & 0x7FFFFFFF
+        return seed / 0x7FFFFFFF
+
+    records = []
+    for i in range(n):
+        conf = 1 + (i % 5)  # cycles 1..5 evenly
+        p_correct = 0.15 + 0.17 * (conf - 1)  # 0.15 .. 0.83
+        correct = _rand() < p_correct
+        records.append(tr.record(f"sim{i}", "sim_topic", "medium", conf, correct,
+                                 cognitive_state_during="FLOW", session="sim", persist=False))
+
+    cal_err = tr.calibration_error(records)
+    over = tr.overconfidence_rate(records)
+    under = tr.underconfidence_rate(records)
+
+    # Independent reference computation of the same quantity.
+    ref = sum(abs(normalise_confidence(r["confidence_before"]) - (1.0 if r["correct"] else 0.0))
+              for r in records) / len(records)
+    matches_reference = abs((cal_err or 0.0) - ref) < 1e-9
+
+    # Extremes.
+    perfect = [tr.record("p", "t", "d", 5, True, persist=False),
+               tr.record("p", "t", "d", 1, False, persist=False)]
+    anti = [tr.record("a", "t", "d", 5, False, persist=False),
+            tr.record("a", "t", "d", 1, True, persist=False)]
+    perfect_err = tr.calibration_error(perfect)
+    anti_err = tr.calibration_error(anti)
+    perfect_ok = abs(perfect_err) < 1e-9
+    anti_ok = abs(anti_err - 1.0) < 1e-9
+
+    valid = matches_reference and perfect_ok and anti_ok
+    print(f"  mean calibration error : {cal_err:.4f}  (reference {ref:.4f})")
+    print(f"  overconfidence rate    : {over:.3f}")
+    print(f"  underconfidence rate   : {under:.3f}")
+    print(f"  matches reference calc : {matches_reference}")
+    print(f"  perfect-calibration=0.0: {perfect_ok}  (got {perfect_err:.4f})")
+    print(f"  anti-calibration=1.0   : {anti_ok}  (got {anti_err:.4f})")
+    print(f"  VALIDITY               : {'PASS' if valid else 'FAIL'}")
+
+    return {
+        "n": n,
+        "mean_calibration_error": cal_err,
+        "reference_error": round(ref, 4),
+        "overconfidence_rate": over,
+        "underconfidence_rate": under,
+        "matches_reference": matches_reference,
+        "perfect_calibration_error": round(perfect_err, 4),
+        "anti_calibration_error": round(anti_err, 4),
+        "valid": valid,
+    }
+
+
+# ------------------------------------------------------------------
+# METRIC 6 — Timing Optimization Validity
+# ------------------------------------------------------------------
+
+def metric_timing_validity(n_scenarios: int = 30) -> dict:
+    """Simulate episodes with a KNOWN optimal timing and verify detection.
+
+    For each negative state we plant a ground-truth optimal intervention turn:
+    episodes intervened at that turn recover reliably, episodes at other turns
+    recover rarely. We generate ~`n_scenarios` episodes total, run
+    InterventionTimer.optimal_timing, and check the detected optimum matches the
+    planted ground truth per state.
+    """
+    print("\n" + "=" * 70)
+    print(f"METRIC 6 — Timing Optimization Validity ({n_scenarios} scenarios)")
+    print("=" * 70)
+
+    # Ground-truth optimal intervention turn per state, and a distractor turn
+    # whose episodes recover poorly (so the detector has to discriminate).
+    ground_truth = {"CONFUSED": 2, "RUSHING": 1, "FRUSTRATED": 1, "STUCK": 3}
+    distractor = {"CONFUSED": 4, "RUSHING": 3, "FRUSTRATED": 4, "STUCK": 1}
+    timer = InterventionTimer("eval_timing")
+
+    # Split the scenario budget so each planted bucket clears the evidence
+    # threshold (>= MIN_EPISODES_PER_BUCKET) — otherwise there's nothing to
+    # detect. Two buckets per state. Recovery is planted deterministically (the
+    # optimal turn always recovers, the distractor rarely does) so the metric
+    # tests the DETECTION LOGIC, not sampling luck.
+    from metacognition.timing import MIN_EPISODES_PER_BUCKET
+    n_buckets = len(ground_truth) * 2
+    per_bucket = max(MIN_EPISODES_PER_BUCKET, -(-n_scenarios // n_buckets))  # ceil
+    episodes = []
+    idx = 0
+    for state, opt in ground_truth.items():
+        # optimal bucket: every episode recovers; distractor: only ~1/3 recover.
+        for turn, n_recover in ((opt, per_bucket), (distractor[state], per_bucket // 3)):
+            for k in range(per_bucket):
+                recovered = k < n_recover
+                ttr = 1 if recovered else 3
+                episodes.append(timer.record_episode(
+                    f"sc{idx}", state, turn, "q?", ttr, recovered, session="sim", persist=False))
+                idx += 1
+
+    matches = 0
+    details = {}
+    for state, opt in ground_truth.items():
+        detected = timer.optimal_timing(state, episodes)
+        ok = detected == opt
+        matches += int(ok)
+        details[state] = {"ground_truth": opt, "detected": detected, "match": ok}
+        print(f"  {state:12s} ground-truth optimal={opt}  detected={detected}  "
+              f"{'MATCH' if ok else 'MISS'}")
+
+    match_rate = round(matches / len(ground_truth), 3)
+    print(f"\n  scenarios generated: {len(episodes)}")
+    print(f"  optimal-timing match rate: {matches}/{len(ground_truth)} = {match_rate:.0%}")
+
+    return {
+        "n_scenarios": len(episodes),
+        "per_state": details,
+        "match_rate": match_rate,
+        "valid": matches == len(ground_truth),
+    }
+
+
+# ------------------------------------------------------------------
 # Orchestration
 # ------------------------------------------------------------------
 
@@ -290,6 +525,23 @@ def print_summary_table(results: dict) -> None:
         ov = m3.get("negative_state_mean_improvement")
         print(f"  {'3. Neg-state improvement rate':40s}"
               f"{(f'{ov:.0%}' if ov is not None else 'n/a'):>20s}")
+    m4 = results.get("transfer_detection", {})
+    m5 = results.get("calibration_validity", {})
+    m6 = results.get("timing_validity", {})
+    if m4 and not m4.get("error"):
+        print(f"  {'4. Transfer detection F1':40s}{m4.get('f1', 0):>20.3f}")
+        pr = f"{m4.get('precision', 0):.2f} / {m4.get('recall', 0):.2f}"
+        print(f"  {'   precision / recall':40s}{pr:>20s}")
+    if m5:
+        ce = m5.get("mean_calibration_error")
+        print(f"  {'5. Calibration error (sim)':40s}"
+              f"{(f'{ce:.3f}' if ce is not None else 'n/a'):>20s}")
+        print(f"  {'   computation valid':40s}"
+              f"{('PASS' if m5.get('valid') else 'FAIL'):>20s}")
+    if m6:
+        print(f"  {'6. Timing optimal match rate':40s}{m6.get('match_rate', 0):>19.0%}")
+        print(f"  {'   detection valid':40s}"
+              f"{('PASS' if m6.get('valid') else 'FAIL'):>20s}")
     print(f"\nResults saved to {RESULTS_PATH}")
 
 
@@ -307,6 +559,10 @@ def main(argv: list[str] | None = None) -> int:
                     help="Skip metric 2 (LLM judge).")
     ap.add_argument("--skip-sim", action="store_true",
                     help="Skip metric 3 (LLM simulation).")
+    ap.add_argument("--calib-n", type=int, default=50,
+                    help="Simulated confidence ratings (metric 5).")
+    ap.add_argument("--timing-n", type=int, default=30,
+                    help="Simulated timing scenarios (metric 6).")
     args = ap.parse_args(argv if argv is not None else sys.argv[1:])
 
     if not os.path.exists(args.test):
@@ -324,6 +580,11 @@ def main(argv: list[str] | None = None) -> int:
     if not args.skip_sim:
         results["transition_effectiveness"] = metric_transition_effectiveness(
             trials_per_state=args.trials, use_llm=not args.no_llm)
+
+    # Metacognitive-development metrics (fast, no LLM) — always run.
+    results["transfer_detection"] = metric_transfer_detection(args.test, limit=args.limit)
+    results["calibration_validity"] = metric_calibration_validity(n=args.calib_n)
+    results["timing_validity"] = metric_timing_validity(n_scenarios=args.timing_n)
 
     os.makedirs(RESULTS_DIR, exist_ok=True)
     with open(RESULTS_PATH, "w", encoding="utf-8") as fh:

@@ -1,114 +1,114 @@
 {
   "state_detection": {
-    "accuracy": 0.8364,
-    "n": 55,
+    "accuracy": 0.8143,
+    "n": 350,
     "per_state": {
       "PLANNING": {
-        "precision": 1.0,
-        "recall": 0.714,
-        "f1": 0.833,
-        "support": 7
+        "precision": 0.933,
+        "recall": 0.84,
+        "f1": 0.884,
+        "support": 50
       },
       "FLOW": {
-        "precision": 0.75,
-        "recall": 0.75,
-        "f1": 0.75,
-        "support": 8
+        "precision": 0.718,
+        "recall": 0.56,
+        "f1": 0.629,
+        "support": 50
       },
       "CONFUSED": {
-        "precision": 0.778,
-        "recall": 0.875,
-        "f1": 0.824,
-        "support": 8
+        "precision": 0.672,
+        "recall": 0.78,
+        "f1": 0.722,
+        "support": 50
       },
       "RUSHING": {
-        "precision": 1.0,
-        "recall": 0.875,
-        "f1": 0.933,
-        "support": 8
+        "precision": 0.913,
+        "recall": 0.84,
+        "f1": 0.875,
+        "support": 50
       },
       "FRUSTRATED": {
-        "precision": 0.7,
-        "recall": 0.875,
-        "f1": 0.778,
-        "support": 8
+        "precision": 0.814,
+        "recall": 0.96,
+        "f1": 0.881,
+        "support": 50
       },
       "STUCK": {
         "precision": 1.0,
-        "recall": 0.75,
-        "f1": 0.857,
-        "support": 8
+        "recall": 0.74,
+        "f1": 0.851,
+        "support": 50
       },
       "INSIGHT": {
-        "precision": 0.8,
-        "recall": 1.0,
-        "f1": 0.889,
-        "support": 8
+        "precision": 0.742,
+        "recall": 0.98,
+        "f1": 0.845,
+        "support": 50
       }
     },
     "confusion_matrix": [
       [
-        5,
+        42,
+        4,
         2,
         0,
         0,
         0,
+        2
+      ],
+      [
+        3,
+        28,
+        4,
+        4,
         0,
-        0
+        0,
+        11
       ],
       [
         0,
         6,
-        1,
+        39,
         0,
-        0,
+        4,
         0,
         1
       ],
       [
         0,
-        0,
-        7,
-        0,
         1,
+        4,
+        42,
         0,
-        0
+        0,
+        3
       ],
       [
-        0,
-        0,
-        0,
-        7,
-        0,
-        0,
-        1
-      ],
-      [
-        0,
-        0,
-        1,
-        0,
-        7,
-        0,
-        0
-      ],
-      [
-        0,
-        0,
         0,
         0,
         2,
-        6,
+        0,
+        48,
+        0,
         0
       ],
       [
         0,
         0,
+        6,
+        0,
+        7,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
         0,
         0,
         0,
-        0,
-        8
+        49
       ]
     ],
     "labels": [
@@ -120,196 +120,146 @@
       "STUCK",
       "INSIGHT"
     ],
-    "macro_f1": 0.838
+    "macro_f1": 0.812
   },
   "intervention_appropriateness": {
     "per_state": {
       "PLANNING": {
         "mean_appropriateness": 1.0,
-        "n_rated": 5,
+        "n_rated": 3,
         "ratings": [
-          1,
-          1,
           1,
           1,
           1
         ]
       },
       "FLOW": {
-        "mean_appropriateness": 1.4,
-        "n_rated": 5,
+        "mean_appropriateness": 1.333,
+        "n_rated": 3,
         "ratings": [
           2,
           1,
-          1,
-          2,
           1
         ]
       },
       "CONFUSED": {
-        "mean_appropriateness": 0.2,
-        "n_rated": 5,
+        "mean_appropriateness": 0.0,
+        "n_rated": 3,
         "ratings": [
           0,
           0,
-          0,
-          1,
           0
         ]
       },
       "RUSHING": {
-        "mean_appropriateness": 0.4,
-        "n_rated": 5,
+        "mean_appropriateness": 0.333,
+        "n_rated": 3,
         "ratings": [
           1,
           0,
-          0,
+          0
+        ]
+      },
+      "FRUSTRATED": {
+        "mean_appropriateness": 0.667,
+        "n_rated": 3,
+        "ratings": [
+          1,
           0,
           1
         ]
       },
-      "FRUSTRATED": {
-        "mean_appropriateness": 0.6,
-        "n_rated": 5,
-        "ratings": [
-          1,
-          0,
-          1,
-          1,
-          0
-        ]
-      },
       "STUCK": {
         "mean_appropriateness": 0.0,
-        "n_rated": 5,
+        "n_rated": 3,
         "ratings": [
-          0,
-          0,
           0,
           0,
           0
         ]
       },
       "INSIGHT": {
-        "mean_appropriateness": 0.6,
-        "n_rated": 5,
+        "mean_appropriateness": 1.0,
+        "n_rated": 3,
         "ratings": [
           0,
           1,
-          2,
-          0,
-          0
+          2
         ]
       }
     },
-    "overall_mean": 0.6,
+    "overall_mean": 0.619,
     "judge_model": "llama3.1:8b"
   },
   "transition_effectiveness": {
     "per_state": {
       "PLANNING": {
         "improvement_rate": 0.0,
-        "trials": 2,
+        "trials": 1,
         "transitions": [
           {
-            "intervention": "Before you start, what do you predict will be hardest?",
-            "reply": "Um, I'm not really sure... maybe the math part? I always get confused with, like, fractions and decimals and stuff...",
-            "new_state": "CONFUSED",
-            "improved": false
-          },
-          {
-            "intervention": "What do you already know that applies here?",
-            "reply": "\"Um, I think... um, that there are formulas for stuff like this... and that it's related to statistics or something... *",
-            "new_state": "CONFUSED",
+            "intervention": "Good — what's your overall strategy?",
+            "reply": "\"Umm... okay so I'm thinking like we need to solve for x first? But then how do I even get to that point? We've got all ",
+            "new_state": "PLANNING",
             "improved": false
           }
         ]
       },
       "FLOW": {
-        "improvement_rate": 0.5,
-        "trials": 2,
+        "improvement_rate": 0.0,
+        "trials": 1,
         "transitions": [
-          {
-            "intervention": "Would this same approach work on a different problem?",
-            "reply": "\"Hmm, I'm not really sure if it'd apply... does it have to do with the same kind of stuff? The algebra and the equation ",
-            "new_state": "CONFUSED",
-            "improved": false
-          },
           {
             "intervention": "Can you explain why that step works, not just what you did?",
-            "reply": "\"Um, I think it's like... when we rearranged the equation like that, it made more sense because the numbers were on oppo",
-            "new_state": "INSIGHT",
-            "improved": true
-          }
-        ]
-      },
-      "CONFUSED": {
-        "improvement_rate": 0.0,
-        "trials": 2,
-        "transitions": [
-          {
-            "intervention": "Forget the whole problem. What's the very first word in the question?",
-            "reply": "\"Umm... I'm not even sure if that's a good idea... Like, is it gonna help or just confuse me more?\"",
-            "new_state": "CONFUSED",
-            "improved": false
-          },
-          {
-            "intervention": "Tell me what you DO understand so far.",
-            "reply": "Uh, I get that it's like a quadratic equation or something, and I'm supposed to solve for x... but like, I don't really ",
-            "new_state": "CONFUSED",
-            "improved": false
-          }
-        ]
-      },
-      "RUSHING": {
-        "improvement_rate": 1.0,
-        "trials": 2,
-        "transitions": [
-          {
-            "intervention": "What did the problem actually ask for?",
-            "reply": "Wait, I think it wants us to find the x-intercept... no, that's not right... umm what does it mean for a graph to be shi",
-            "new_state": "PLANNING",
-            "improved": true
-          },
-          {
-            "intervention": "What did the problem actually ask for?",
-            "reply": "Um, I think it wants me to find the... like, a value or something? I'm not really sure which one, because there are so m",
-            "new_state": "PLANNING",
-            "improved": true
-          }
-        ]
-      },
-      "FRUSTRATED": {
-        "improvement_rate": 0.5,
-        "trials": 2,
-        "transitions": [
-          {
-            "intervention": "Take 30 seconds. Then tell me just the first thing you'd try.",
-            "reply": "\"Okay, so I have to divide... umm, what was it again? *pauses* Oh yeah! The numerator by the denominator... which is 5x ",
-            "new_state": "PLANNING",
-            "improved": true
-          },
-          {
-            "intervention": "Take 30 seconds. Then tell me just the first thing you'd try.",
-            "reply": "Ugh, okay... umm so I guess I'd try... drawing a diagram or something and seeing if that helps me visualize the problem,",
+            "reply": "\"Okay, so like... I'm trying to remember why I multiplied both the numerator and the denominator by that number... ugh, ",
             "new_state": "FRUSTRATED",
             "improved": false
           }
         ]
       },
-      "STUCK": {
-        "improvement_rate": 0.5,
-        "trials": 2,
+      "CONFUSED": {
+        "improvement_rate": 1.0,
+        "trials": 1,
         "transitions": [
           {
-            "intervention": "If you had to make a guess, what would it be?",
-            "reply": "Umm... I don't know... I'm just trying to think of a number that makes sense with the formula and stuff, but my brain is",
+            "intervention": "Forget the whole problem. What's the very first word in the question?",
+            "reply": "Uh, I think it's... like, \"What\" something? Wait, is that right? Do we need the whole question or just the first word?",
+            "new_state": "FLOW",
+            "improved": true
+          }
+        ]
+      },
+      "RUSHING": {
+        "improvement_rate": 0.0,
+        "trials": 1,
+        "transitions": [
+          {
+            "intervention": "Stop. What's your plan before going further?",
+            "reply": "Uh, I don't know... um, I guess I just need to like, break it down into smaller parts and stuff? But now that you say so",
             "new_state": "STUCK",
             "improved": false
-          },
+          }
+        ]
+      },
+      "FRUSTRATED": {
+        "improvement_rate": 1.0,
+        "trials": 1,
+        "transitions": [
+          {
+            "intervention": "That's genuinely hard. What's the one part you DO understand?",
+            "reply": "\"I guess it's when we're adding fractions with like, common denominators... yeah, that part I can kinda handle...\"",
+            "new_state": "FLOW",
+            "improved": true
+          }
+        ]
+      },
+      "STUCK": {
+        "improvement_rate": 1.0,
+        "trials": 1,
+        "transitions": [
           {
             "intervention": "What's one word in this problem you recognize?",
-            "reply": "Umm... \"Squaring\"? I know that sounds like a math thing and it looks kinda familiar...",
+            "reply": "\"Umm... okay, so like a word that looks familiar... is it 'sum'?\"",
             "new_state": "PLANNING",
             "improved": true
           }
@@ -317,23 +267,69 @@
       },
       "INSIGHT": {
         "improvement_rate": 0.0,
-        "trials": 2,
+        "trials": 1,
         "transitions": [
           {
-            "intervention": "Explain it back to me like I've never seen this.",
-            "reply": "Okay so basically... um... when we're talking about like, energy and work rates... I think it's because if you have less",
-            "new_state": "PLANNING",
-            "improved": false
-          },
-          {
             "intervention": "Could you solve a harder version of this now?",
-            "reply": "\"Wait, okay so if I have to... um, scale it up like that, do I need to just multiply all the variables by some factor or",
-            "new_state": "CONFUSED",
+            "reply": "Wait, really? Like, a harder version? Okay, um, I'm not sure if I can do that... I mean, I just figured it out for the e",
+            "new_state": "FLOW",
             "improved": false
           }
         ]
       }
     },
-    "negative_state_mean_improvement": 0.5
+    "negative_state_mean_improvement": 0.75
+  },
+  "transfer_detection": {
+    "n": 350,
+    "precision": 0.715,
+    "recall": 0.98,
+    "f1": 0.827,
+    "accuracy": 0.883,
+    "confusion": {
+      "tp": 98,
+      "fp": 39,
+      "fn": 2,
+      "tn": 211
+    },
+    "metacognitive_type_accuracy": 0.97
+  },
+  "calibration_validity": {
+    "n": 50,
+    "mean_calibration_error": 0.29,
+    "reference_error": 0.29,
+    "overconfidence_rate": 0.06,
+    "underconfidence_rate": 0.08,
+    "matches_reference": true,
+    "perfect_calibration_error": 0.0,
+    "anti_calibration_error": 1.0,
+    "valid": true
+  },
+  "timing_validity": {
+    "n_scenarios": 32,
+    "per_state": {
+      "CONFUSED": {
+        "ground_truth": 2,
+        "detected": 2,
+        "match": true
+      },
+      "RUSHING": {
+        "ground_truth": 1,
+        "detected": 1,
+        "match": true
+      },
+      "FRUSTRATED": {
+        "ground_truth": 1,
+        "detected": 1,
+        "match": true
+      },
+      "STUCK": {
+        "ground_truth": 3,
+        "detected": 3,
+        "match": true
+      }
+    },
+    "match_rate": 1.0,
+    "valid": true
   }
 }

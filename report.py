@@ -308,18 +308,85 @@ def generate_report(
 
 
 # ------------------------------------------------------------------
+# Full 7-figure report (default) — regenerates the canonical fig1..fig7
+# from saved experiment artifacts, matching the paper's figure set.
+# ------------------------------------------------------------------
+
+def generate_all_figures_from_saved(verbose: bool = True) -> List[Path]:
+    """
+    Rebuild the seven canonical figures (fig1..fig7) at 300 DPI from whatever
+    experiment artifacts are already on disk:
+
+        data/experiment_results_full.json   (per-model stats + pairwise)
+        data/reasoning_traces/*.jsonl        (per-turn records, per model)
+        data/failure_patterns.json           (failure heatmap)
+        data/learning_curve_full.json        (learning curve, if present)
+
+    Figure code is reused from eval.full_experiment so the figures are
+    identical to those produced by the full pipeline.
+    Returns the list of figure paths that were written.
+    """
+    # Import here to avoid a hard dependency when only the legacy report is used.
+    from eval.full_experiment import generate_all_figures, MODEL_LABELS
+    from eval.reasoning_extractor import load_traces
+
+    stats_path = DATA_DIR / "experiment_results_full.json"
+    fp_path = DATA_DIR / "failure_patterns.json"
+    lc_path = DATA_DIR / "learning_curve_full.json"
+
+    stats = json.loads(stats_path.read_text()) if stats_path.exists() else {"per_model": {}, "pairwise": {}}
+    failure_patterns = json.loads(fp_path.read_text()) if fp_path.exists() else {}
+    lc_data = json.loads(lc_path.read_text()) if lc_path.exists() else {}
+    # learning_curve JSON stores integer N keys as strings; restore ints so
+    # fig2 can sort/plot them (baseline_* keys are left as-is).
+    if lc_data:
+        lc_data = {(int(k) if str(k).lstrip("-").isdigit() else k): v for k, v in lc_data.items()}
+
+    # Build all_results from the per-model trace files.
+    all_results: Dict[str, List[dict]] = {}
+    for model in MODEL_LABELS:
+        recs = load_traces(model)
+        if recs:
+            all_results[model] = recs
+
+    if verbose:
+        n = sum(len(v) for v in all_results.values())
+        print(f"[report] Loaded {n} trace records across {len(all_results)} models")
+        print(f"[report] stats models: {list(stats.get('per_model', {}).keys())}")
+        print(f"[report] learning-curve data: {'present' if lc_data else 'absent (fig2 skipped)'}")
+
+    before = set(FIGURES_DIR.glob("fig*.png"))
+    generate_all_figures(all_results, stats, failure_patterns, lc_data)
+    after = sorted(FIGURES_DIR.glob("fig*.png"))
+
+    if verbose:
+        print(f"\n[report] {len(after)} figures now in {FIGURES_DIR}/ (300 DPI):")
+        for p in after:
+            marker = "NEW" if p not in before else "upd"
+            print(f"    [{marker}] {p.name}")
+    return after
+
+
+# ------------------------------------------------------------------
 # CLI
 # ------------------------------------------------------------------
 
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(description="Generate ARIA evaluation report")
-    parser.add_argument("--aria", type=str, default=None, help="Path to aria eval JSONL")
-    parser.add_argument("--baseline", type=str, default=None, help="Path to baseline eval JSONL")
+    parser = argparse.ArgumentParser(description="Generate ARIA evaluation report / figures")
+    parser.add_argument("--legacy", action="store_true",
+                        help="Legacy ARIA-vs-baseline 3-figure report "
+                             "(needs data/eval_results_{aria,baseline}_*.jsonl).")
+    parser.add_argument("--aria", type=str, default=None, help="[legacy] Path to aria eval JSONL")
+    parser.add_argument("--baseline", type=str, default=None, help="[legacy] Path to baseline eval JSONL")
     args = parser.parse_args()
 
-    generate_report(
-        aria_path=Path(args.aria) if args.aria else None,
-        baseline_path=Path(args.baseline) if args.baseline else None,
-    )
+    if args.legacy or args.aria or args.baseline:
+        generate_report(
+            aria_path=Path(args.aria) if args.aria else None,
+            baseline_path=Path(args.baseline) if args.baseline else None,
+        )
+    else:
+        # Default: regenerate the 7 canonical paper figures from saved results.
+        generate_all_figures_from_saved(verbose=True)

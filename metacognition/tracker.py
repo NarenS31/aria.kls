@@ -60,6 +60,9 @@ class StateEvent:
     insight_moment: bool = False
     gave_up: bool = False
     was_error: bool = False  # student made an error this turn
+    # Transfer: did the student self-initiate metacognition this turn (unprompted)?
+    self_initiated: bool = False
+    metacognitive_type: str = "none"
 
 
 @dataclass
@@ -173,6 +176,8 @@ class MetacognitionTracker:
             insight_moment=bool(analysis.get("insight_moment", False)),
             gave_up=bool(analysis.get("gave_up", False)),
             was_error=was_error,
+            self_initiated=bool(analysis.get("self_initiated_metacognition", False)),
+            metacognitive_type=str(analysis.get("metacognitive_type", "none")),
         )
         sess.state_events.append(ev)
         self._save()
