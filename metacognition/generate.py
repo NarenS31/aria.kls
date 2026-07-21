@@ -163,6 +163,58 @@ STATE_GROUND_TRUTH = {
     "INSIGHT":    {"planning_detected": False, "self_correction": True,  "insight_moment": True,  "gave_up": False},
 }
 
+# Ground-truth self-initiated metacognition, derived deterministically from the
+# cognitive state. In a standalone think-aloud (no ARIA prompt) these are the
+# states whose voice contains DISTINCTIVE, separable self-initiated metacognitive
+# language:
+#   PLANNING -> deliberate setup ("first I need to…", "let me think…", "my plan")
+#   INSIGHT  -> a spontaneous realization ("ohhh", "it clicks", "the reason…")
+# The other states (FLOW narration; CONFUSED/RUSHING/FRUSTRATED/STUCK) share the
+# same messy "no wait / or is it" doubt across the board, so generic monitoring
+# language is NOT a reliable self-initiation signal in this corpus — labelling
+# them positive would only add noise. These labels train + evaluate the
+# TransferDetector (eval Metric 4).
+STATE_SELF_INITIATED = {
+    "PLANNING":   (True,  "planning"),
+    "FLOW":       (False, "none"),
+    "CONFUSED":   (False, "none"),
+    "RUSHING":    (False, "none"),
+    "FRUSTRATED": (False, "none"),
+    "STUCK":      (False, "none"),
+    "INSIGHT":    (True,  "reflection"),
+}
+
+
+def confidence_from_subject(subject_confidence: float) -> int:
+    """Map a 0-1 subject confidence onto a 1-5 pre-attempt confidence rating."""
+    return max(1, min(5, int(round(1 + float(subject_confidence) * 4))))
+
+
+def metacognition_labels(state: str, subject_confidence: float, correct: bool) -> dict[str, Any]:
+    """Deterministic per-sample metacognition ground-truth fields (spec §7)."""
+    si, mtype = STATE_SELF_INITIATED.get(state, (False, "none"))
+    return {
+        "self_initiated_metacognition": si,
+        "metacognitive_type": mtype,
+        "confidence_before": confidence_from_subject(subject_confidence),
+        "correct": bool(correct),
+    }
+
+
+def ensure_meta_fields(record: dict[str, Any]) -> dict[str, Any]:
+    """Add (or refresh) the metacognition ground-truth fields on a sample.
+
+    Derived purely from existing content (cognitive_state, subject_confidence,
+    correct_answer), so it backfills older samples without any model calls. The
+    fields are recomputed deterministically every time, so the corpus always
+    reflects the current STATE_SELF_INITIATED mapping.
+    """
+    state = record.get("cognitive_state", "FLOW")
+    conf = record.get("student_profile", {}).get("subject_confidence", 0.5)
+    correct = record.get("correct_answer", record.get("correct", False))
+    record.update(metacognition_labels(state, conf, correct))
+    return record
+
 
 # ------------------------------------------------------------------
 # Sample specification
@@ -338,7 +390,7 @@ def generate_one(spec: SampleSpec, model: str) -> dict[str, Any]:
 
 
 def _assemble(spec: SampleSpec, pre: str, during: str, post: str, correct: bool) -> dict[str, Any]:
-    return {
+    record = {
         "id": spec.key,
         "student_profile": {
             "adhd_type": spec.adhd_type,
@@ -360,6 +412,9 @@ def _assemble(spec: SampleSpec, pre: str, during: str, post: str, correct: bool)
         "ground_truth": dict(STATE_GROUND_TRUTH[spec.cognitive_state]),
         "correct_answer": bool(correct),
     }
+    # Metacognition ground-truth fields for the three measurement systems (§7).
+    record.update(metacognition_labels(spec.cognitive_state, spec.subject_confidence, correct))
+    return record
 
 
 # ------------------------------------------------------------------
@@ -481,6 +536,8 @@ def compute_stats(records: list[dict[str, Any]]) -> dict[str, Any]:
     by_subject = Counter(r["problem"]["subject"] for r in records)
     by_difficulty = Counter(r["problem"]["difficulty"] for r in records)
     by_adhd = Counter(r["student_profile"]["adhd_type"] for r in records)
+    by_metacog_type = Counter(r.get("metacognitive_type", "none") for r in records)
+    self_initiated = sum(1 for r in records if r.get("self_initiated_metacognition"))
     correct = sum(1 for r in records if r["correct_answer"])
 
     def avg_len(field_name: str) -> float:
@@ -495,6 +552,8 @@ def compute_stats(records: list[dict[str, Any]]) -> dict[str, Any]:
         "by_subject": dict(sorted(by_subject.items())),
         "by_difficulty": dict(sorted(by_difficulty.items())),
         "by_adhd_type": dict(sorted(by_adhd.items())),
+        "by_metacognitive_type": dict(sorted(by_metacog_type.items())),
+        "self_initiated_rate": round(self_initiated / len(records), 3) if records else 0.0,
         "correct_answer_rate": round(correct / len(records), 3) if records else 0.0,
         "avg_words": {
             "pre_attempt": avg_len("pre_attempt"),
@@ -545,11 +604,26 @@ def write_jsonl(path: str, records: list[dict[str, Any]]) -> None:
 
 
 def finalize(model: str) -> None:
-    """Recompute stats + splits from the full dataset on disk."""
+    """Recompute stats + splits from the full dataset on disk.
+
+    Backfills the deterministic metacognition ground-truth fields onto every
+    record (older samples predate them) and rewrites dataset.jsonl so the whole
+    corpus — and the train/val/test splits derived from it — carries the fields
+    the three measurement systems need.
+    """
     records = load_all(DATASET_PATH)
     if not records:
         print("No records to finalize.")
         return
+
+    missing = sum(1 for r in records if "self_initiated_metacognition" not in r)
+    records = [ensure_meta_fields(r) for r in records]
+    # Rewrite the corpus so every sample carries the (deterministic) metacognition
+    # fields under the current STATE_SELF_INITIATED mapping.
+    write_jsonl(DATASET_PATH, records)
+    if missing:
+        print(f"Added metacognition fields to {missing} samples missing them.")
+    print(f"Refreshed metacognition ground-truth fields on {len(records)} samples.")
 
     stats = compute_stats(records)
     stats["model"] = model
@@ -676,6 +750,9 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     p.add_argument("--model", type=str, default=DEFAULT_MODEL,
                    help="Ollama model to use for generation.")
     p.add_argument("--seed", type=int, default=1234, help="Spec-generation seed.")
+    p.add_argument("--backfill", action="store_true",
+                   help="Add metacognition fields to the existing dataset and "
+                        "rewrite stats + splits — no new generation.")
     return p.parse_args(argv)
 
 
@@ -696,6 +773,15 @@ def check_model(model: str) -> None:
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv if argv is not None else sys.argv[1:])
     os.makedirs(OUT_DIR, exist_ok=True)
+
+    # Backfill-only: add the new metacognition fields to the existing corpus and
+    # rewrite stats + splits, without any (slow) model generation.
+    if args.backfill:
+        print("Backfill mode: adding metacognition fields to the existing dataset.")
+        finalize(args.model)
+        print_state_samples()
+        return 0
+
     check_model(args.model)
 
     specs = build_specs(args.samples, seed=args.seed)

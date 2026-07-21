@@ -3,15 +3,15 @@
   "stats": {
     "PLANNING": {
       "Good \u2014 what's your overall strategy?": {
-        "tries": 1,
+        "tries": 4,
         "improved": 0
       },
       "Before you start, what do you predict will be hardest?": {
-        "tries": 1,
+        "tries": 3,
         "improved": 0
       },
       "What do you already know that applies here?": {
-        "tries": 1,
+        "tries": 3,
         "improved": 0
       }
     },
@@ -25,21 +25,29 @@
         "improved": 0
       },
       "Can you explain why that step works, not just what you did?": {
-        "tries": 1,
-        "improved": 1
+        "tries": 8,
+        "improved": 3
       }
     },
     "CONFUSED": {
       "What would you try if you had to guess?": {
-        "tries": 1,
+        "tries": 2,
         "improved": 0
       },
       "Forget the whole problem. What's the very first word in the question?": {
-        "tries": 1,
-        "improved": 0
+        "tries": 2,
+        "improved": 1
       },
       "Tell me what you DO understand so far.": {
-        "tries": 1,
+        "tries": 2,
+        "improved": 0
+      },
+      "What do you know for certain, even if it's tiny?": {
+        "tries": 2,
+        "improved": 0
+      },
+      "Here's one tiny nudge: focus on just the numbers or key terms first. Now \u2014 forget the whole problem. what's the very first word in the question?": {
+        "tries": 2,
         "improved": 0
       }
     },
@@ -49,8 +57,16 @@
         "improved": 0
       },
       "What did the problem actually ask for?": {
-        "tries": 2,
+        "tries": 5,
         "improved": 2
+      },
+      "Read the question out loud again.": {
+        "tries": 1,
+        "improved": 0
+      },
+      "Stop. What's your plan before going further?": {
+        "tries": 3,
+        "improved": 1
       }
     },
     "FRUSTRATED": {
@@ -59,6 +75,14 @@
         "improved": 0
       },
       "Take 30 seconds. Then tell me just the first thing you'd try.": {
+        "tries": 2,
+        "improved": 1
+      },
+      "That's genuinely hard. What's the one part you DO understand?": {
+        "tries": 5,
+        "improved": 5
+      },
+      "Take a real break. Come back in 5 minutes.": {
         "tries": 2,
         "improved": 1
       }
@@ -73,21 +97,29 @@
         "improved": 0
       },
       "What's one word in this problem you recognize?": {
-        "tries": 1,
-        "improved": 1
+        "tries": 6,
+        "improved": 6
+      },
+      "Let's do the very first step together: read the problem and write down the one thing it's asking for. What's the next step after that?": {
+        "tries": 2,
+        "improved": 2
       }
     },
     "INSIGHT": {
       "What was the moment it clicked?": {
-        "tries": 1,
+        "tries": 3,
         "improved": 0
       },
       "Explain it back to me like I've never seen this.": {
-        "tries": 1,
+        "tries": 2,
         "improved": 0
       },
       "Could you solve a harder version of this now?": {
-        "tries": 1,
+        "tries": 3,
+        "improved": 0
+      },
+      "Where else could you use what you just figured out?": {
+        "tries": 2,
         "improved": 0
       }
     }

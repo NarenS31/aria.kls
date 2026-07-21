@@ -1,41 +1,47 @@
 {
-  "total_samples": 532,
+  "total_samples": 3507,
   "by_cognitive_state": {
-    "CONFUSED": 73,
-    "FLOW": 74,
-    "FRUSTRATED": 81,
-    "INSIGHT": 74,
-    "PLANNING": 76,
-    "RUSHING": 73,
-    "STUCK": 81
+    "CONFUSED": 501,
+    "FLOW": 501,
+    "FRUSTRATED": 501,
+    "INSIGHT": 501,
+    "PLANNING": 501,
+    "RUSHING": 501,
+    "STUCK": 501
   },
   "by_subject": {
-    "ACT English": 49,
-    "ACT Math": 40,
-    "ACT Reading": 63,
-    "ACT Science": 55,
-    "Algebra": 56,
-    "Biology": 53,
-    "Chemistry": 41,
-    "Geometry": 50,
-    "Python Programming": 61,
-    "US History": 64
+    "ACT English": 350,
+    "ACT Math": 351,
+    "ACT Reading": 353,
+    "ACT Science": 351,
+    "Algebra": 342,
+    "Biology": 339,
+    "Chemistry": 353,
+    "Geometry": 354,
+    "Python Programming": 358,
+    "US History": 356
   },
   "by_difficulty": {
-    "easy": 190,
-    "hard": 174,
-    "medium": 168
+    "easy": 1179,
+    "hard": 1161,
+    "medium": 1167
   },
   "by_adhd_type": {
-    "combined": 164,
-    "hyperactive": 188,
-    "inattentive": 180
+    "combined": 1176,
+    "hyperactive": 1168,
+    "inattentive": 1163
   },
-  "correct_answer_rate": 0.784,
+  "by_metacognitive_type": {
+    "none": 2505,
+    "planning": 501,
+    "reflection": 501
+  },
+  "self_initiated_rate": 0.286,
+  "correct_answer_rate": 0.766,
   "avg_words": {
-    "pre_attempt": 22.53,
-    "during_attempt": 74.81,
-    "post_attempt": 18.14
+    "pre_attempt": 22.42,
+    "during_attempt": 75.47,
+    "post_attempt": 17.86
   },
   "model": "llama3.1:8b"
 }
