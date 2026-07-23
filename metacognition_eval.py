@@ -43,7 +43,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 if HERE not in sys.path:
     sys.path.insert(0, HERE)
 
-import ollama  # noqa: E402
+try:
+    import ollama  # noqa: E402
+except ImportError:  # pragma: no cover - depends on local optional install
+    ollama = None  # type: ignore
 
 from metacognition.analyzer import (  # noqa: E402
     CognitiveStateAnalyzer,
@@ -55,7 +58,6 @@ from metacognition.analyzer import (  # noqa: E402
 )
 from metacognition.interventions import (  # noqa: E402
     MetacognitiveInterventionGenerator,
-    INTERVENTION_BANK,
     STATE_RANK,
 )
 from metacognition.transfer import (  # noqa: E402
@@ -139,9 +141,12 @@ def metric_state_detection(test_path: str, use_llm: bool, limit: int = 0) -> dic
 # METRIC 2 — Intervention Appropriateness
 # ------------------------------------------------------------------
 
-def _rate_intervention(state: str, intervention: str) -> int | None:
+def _rate_intervention(
+    state: str, intervention: str, student_input: str = ""
+) -> int | None:
     prompt = (
         f"Rate this intervention for a student in state {state}:\n"
+        f"Student think-aloud: \"{student_input}\"\n"
         f"\"{intervention}\"\n"
         "0=wrong, 1=okay, 2=perfect. JSON only: {\"rating\": 0|1|2}"
     )
@@ -173,21 +178,39 @@ def metric_intervention_appropriateness(sample_n: int = 10) -> dict:
     print("=" * 70)
 
     gen = MetacognitiveInterventionGenerator("eval_judge")
+    representative_inputs = {
+        "PLANNING": "First I will list what I know, then choose a formula.",
+        "FLOW": "I substituted the value because that keeps both sides equal.",
+        "CONFUSED": "I'm confused about the quadratic formula.",
+        "RUSHING": "Easy, I'll just put 12.",
+        "FRUSTRATED": "This makes no sense and I'm getting annoyed.",
+        "STUCK": "I don't know what to do.",
+        "INSIGHT": "Oh, now I see why the signs cancel.",
+    }
     per_state: dict[str, dict] = {}
     for state in COGNITIVE_STATES:
-        bank = INTERVENTION_BANK[state]
-        # Sample up to sample_n interventions (cycle the bank if smaller).
-        samples = [bank[i % len(bank)] for i in range(min(sample_n, max(sample_n, len(bank))))][:sample_n]
+        gen.reset_session()
+        samples = [
+            gen.generate(
+                state,
+                consecutive_count=1,
+                student_input=representative_inputs[state],
+            )["text"]
+            for _ in range(sample_n)
+        ]
         ratings = []
+        scored_samples = []
         for iv in samples:
-            r = _rate_intervention(state, iv)
+            r = _rate_intervention(state, iv, representative_inputs[state])
             if r is not None:
                 ratings.append(r)
+                scored_samples.append({"intervention": iv, "rating": r})
         mean = sum(ratings) / len(ratings) if ratings else None
         per_state[state] = {
             "mean_appropriateness": round(mean, 3) if mean is not None else None,
             "n_rated": len(ratings),
             "ratings": ratings,
+            "scored_samples": scored_samples,
         }
         mean_str = f"{mean:.2f}" if mean is not None else "n/a"
         print(f"  {state:12s} mean={mean_str}  (n={len(ratings)})")
@@ -502,7 +525,7 @@ def metric_timing_validity(n_scenarios: int = 30) -> dict:
 # Orchestration
 # ------------------------------------------------------------------
 
-def print_summary_table(results: dict) -> None:
+def print_summary_table(results: dict, results_path: str = RESULTS_PATH) -> None:
     print("\n" + "=" * 70)
     print("SUMMARY")
     print("=" * 70)
@@ -542,7 +565,7 @@ def print_summary_table(results: dict) -> None:
         print(f"  {'6. Timing optimal match rate':40s}{m6.get('match_rate', 0):>19.0%}")
         print(f"  {'   detection valid':40s}"
               f"{('PASS' if m6.get('valid') else 'FAIL'):>20s}")
-    print(f"\nResults saved to {RESULTS_PATH}")
+    print(f"\nResults saved to {results_path}")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -563,6 +586,8 @@ def main(argv: list[str] | None = None) -> int:
                     help="Simulated confidence ratings (metric 5).")
     ap.add_argument("--timing-n", type=int, default=30,
                     help="Simulated timing scenarios (metric 6).")
+    ap.add_argument("--output", default=RESULTS_PATH,
+                    help="Path for the evaluation JSON output.")
     args = ap.parse_args(argv if argv is not None else sys.argv[1:])
 
     if not os.path.exists(args.test):
@@ -586,11 +611,12 @@ def main(argv: list[str] | None = None) -> int:
     results["calibration_validity"] = metric_calibration_validity(n=args.calib_n)
     results["timing_validity"] = metric_timing_validity(n_scenarios=args.timing_n)
 
-    os.makedirs(RESULTS_DIR, exist_ok=True)
-    with open(RESULTS_PATH, "w", encoding="utf-8") as fh:
+    output_path = os.path.abspath(args.output)
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    with open(output_path, "w", encoding="utf-8") as fh:
         json.dump(results, fh, indent=2, ensure_ascii=False)
 
-    print_summary_table(results)
+    print_summary_table(results, output_path)
     return 0
 
 

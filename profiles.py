@@ -475,7 +475,7 @@ def seed_all_profiles(n_history_sessions: int = 10, verbose: bool = True) -> Non
     """
     import sys
     sys.path.insert(0, str(Path(__file__).parent.parent))
-    from eval.synthetic_history import seed_history
+    from synthetic_history import seed_history
 
     for profile in ALL_PROFILES:
         if verbose:

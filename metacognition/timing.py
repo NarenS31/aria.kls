@@ -49,10 +49,34 @@ STATE_RANK = {
 TIMING_BUCKETS = [1, 2, 3, 4]      # 4 means "4+"
 MAX_BUCKET = 4
 
-# Theory-driven defaults, used before a student has enough data to adapt.
-#   RUSHING / FRUSTRATED: intervene immediately (turn 1)
-#   CONFUSED / STUCK:     let them try once or twice first (turn 2)
-DEFAULT_OPTIMAL = {"CONFUSED": 2, "RUSHING": 1, "FRUSTRATED": 1, "STUCK": 2}
+# Theory-informed defaults, used before a student has enough local data to
+# adapt. Citations provide design rationale; they do not validate these exact
+# turn thresholds, which remain hypotheses ARIA tests against logged outcomes.
+TIMING_RULES = {
+    "CONFUSED": {
+        "default_turn": 2,
+        "citation_key": "sweller_1988",
+        "rationale": "Allow one attempt, then reduce working-memory load.",
+    },
+    "RUSHING": {
+        "default_turn": 1,
+        "citation_key": "barkley_2015",
+        "rationale": "Prompt immediate process monitoring for impulsive responding.",
+    },
+    "FRUSTRATED": {
+        "default_turn": 1,
+        "citation_key": "shaw_2014",
+        "rationale": "Respond early to an emotional-regulation signal.",
+    },
+    "STUCK": {
+        "default_turn": 2,
+        "citation_key": "sweller_1988",
+        "rationale": "Permit productive struggle before offering a micro-step.",
+    },
+}
+DEFAULT_OPTIMAL = {
+    state: rule["default_turn"] for state, rule in TIMING_RULES.items()
+}
 
 # ADHD-subtype shift applied to the default wait, in turns.
 #   hyperactive: earlier (they spiral fast)   -> shift earlier

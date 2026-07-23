@@ -5,12 +5,14 @@ Text + audio think-aloud analysis, metacognitive intervention generation, and
 longitudinal cognitive-state tracking.
 
 Public API:
-    CognitiveStateAnalyzer          — detect cognitive state from think-aloud
-    evaluate                        — score the analyzer on a labelled dataset
-    MetacognitiveInterventionGenerator — Socratic questions per state
-    MetacognitionTracker            — per-session + longitudinal tracking
-    ThinkAloudListener              — optional mic recording + transcription
-    COGNITIVE_STATES                — the seven canonical states
+    CognitiveStateAnalyzer          - detect cognitive state from think-aloud
+    evaluate                        - score the analyzer on a labelled dataset
+    MetacognitiveInterventionGenerator - Socratic questions per state
+    MetacognitionTracker            - per-session + longitudinal tracking
+    InteractionLogger               - SQLite logs for interactions/outcomes
+    RuleBasedJITAIPolicy            - interpretable JITAI decision policy
+    ThinkAloudListener              - optional mic recording + transcription
+    COGNITIVE_STATES                - the seven canonical states
 
 Metacognitive development measurement (are students learning the skill, not
 just responding to prompts?):
@@ -29,7 +31,9 @@ from .analyzer import (
 from .interventions import (
     MetacognitiveInterventionGenerator,
     INTERVENTION_BANK,
+    INTERVENTION_CITATIONS,
     STATE_RANK,
+    extract_concept,
 )
 from .tracker import MetacognitionTracker
 from .transfer import (
@@ -48,7 +52,25 @@ from .timing import (
     InterventionTimer,
     NEGATIVE_STATES,
     DEFAULT_OPTIMAL,
+    TIMING_RULES,
     adhd_subtype,
+)
+from .interaction_logger import (
+    InteractionLogger,
+    InteractionEvent,
+    InterventionEvent,
+    InterventionOutcome,
+    tone_proxy,
+    summarize_pauses,
+)
+from .jitai import (
+    JITAIContext,
+    JITAIDecision,
+    JITAIComponents,
+    RuleBasedJITAIPolicy,
+    build_jitai_intervention,
+    context_from_signals,
+    topic_stats_from_learning_graph,
 )
 
 # ThinkAloudListener depends on optional audio libraries; import defensively so
@@ -67,7 +89,9 @@ __all__ = [
     "print_confusion_matrix",
     "MetacognitiveInterventionGenerator",
     "INTERVENTION_BANK",
+    "INTERVENTION_CITATIONS",
     "STATE_RANK",
+    "extract_concept",
     "MetacognitionTracker",
     "ThinkAloudListener",
     "AudioFeatures",
@@ -83,5 +107,19 @@ __all__ = [
     "InterventionTimer",
     "NEGATIVE_STATES",
     "DEFAULT_OPTIMAL",
+    "TIMING_RULES",
     "adhd_subtype",
+    "InteractionLogger",
+    "InteractionEvent",
+    "InterventionEvent",
+    "InterventionOutcome",
+    "tone_proxy",
+    "summarize_pauses",
+    "JITAIContext",
+    "JITAIDecision",
+    "JITAIComponents",
+    "RuleBasedJITAIPolicy",
+    "build_jitai_intervention",
+    "context_from_signals",
+    "topic_stats_from_learning_graph",
 ]

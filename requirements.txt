@@ -1,0 +1,9 @@
+chromadb
+google-genai
+gradio>=5.0
+matplotlib
+networkx
+numpy
+ollama
+openai
+tqdm

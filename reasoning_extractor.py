@@ -20,8 +20,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
-from eval.api_clients import query_model, is_available, ALL_MODELS
-from eval.rubric import score_turn, WEIGHTS
+from api_clients import query_model, is_available, ALL_MODELS
+from rubric import score_turn, WEIGHTS
 
 DATA_DIR = Path(__file__).parent.parent / "data"
 TRACES_DIR = DATA_DIR / "reasoning_traces"
@@ -209,7 +209,7 @@ def run_episode_with_reasoning(
     Run one full episode extracting reasoning at every turn.
     Returns list of trace records.
     """
-    from eval.simulator import SUBJECTS, SimulatedStudent
+    from simulator import SUBJECTS, SimulatedStudent
 
     episode_id = str(uuid.uuid4())
     student = SimulatedStudent(persona_name, subject_name, seed_idx)

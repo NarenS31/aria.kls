@@ -35,12 +35,20 @@ from collections import Counter
 from dataclasses import dataclass, field
 from typing import Any, Optional
 
-import ollama
-
-from .transfer import detect_self_initiation
+try:
+    import ollama
+except ImportError:  # pragma: no cover - depends on local optional install
+    ollama = None  # type: ignore
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.dirname(HERE)
+if REPO_ROOT not in sys.path:
+    sys.path.insert(0, REPO_ROOT)
+
+try:
+    from .transfer import detect_self_initiation
+except ImportError:  # Support `python3.11 metacognition/analyzer.py`.
+    from metacognition.transfer import detect_self_initiation
 
 COGNITIVE_STATES = [
     "PLANNING", "FLOW", "CONFUSED", "RUSHING",
@@ -386,6 +394,8 @@ class CognitiveStateAnalyzer:
     # -- step 2: LLM -------------------------------------------------
 
     def _llm_classify(self, text: str, heuristic_hint: str) -> Optional[dict]:
+        if ollama is None:
+            return None
         prompt = (
             "Classify this student think-aloud. Output JSON only:\n"
             '{"state": "PLANNING|FLOW|CONFUSED|RUSHING|FRUSTRATED|STUCK|INSIGHT",\n'

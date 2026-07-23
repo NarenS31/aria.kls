@@ -346,8 +346,8 @@ if __name__ == "__main__":
     import sys
     sys.path.insert(0, str(Path(__file__).parent.parent))
 
-    from eval.profiles import ProfileVectorStore, ProfileLearningGraph
-    from eval.synthetic_profile import ALEX_CHEN
+    from profiles import ProfileVectorStore, ProfileLearningGraph
+    from synthetic_profile import ALEX_CHEN
 
     n = int(sys.argv[1]) if len(sys.argv) > 1 else 10
     print(f"Seeding {n} synthetic history sessions for {ALEX_CHEN.name}...")
