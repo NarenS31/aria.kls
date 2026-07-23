@@ -35,14 +35,14 @@ import numpy as np
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT))
 
-from eval.rubric import WEIGHTS, DIMENSIONS
-from eval.simulator import PERSONAS, SUBJECTS, run_episode
-from eval.baseline import BaselineAgent
-from eval.scoring import (
+from rubric import WEIGHTS, DIMENSIONS
+from simulator import PERSONAS, SUBJECTS, run_episode
+from baseline import BaselineAgent
+from scoring import (
     bootstrap_ci, paired_ttest, cohens_d, summarize, learning_curve_summary
 )
-from eval.synthetic_profile import ALEX_CHEN, profile_as_aria_profile, generate_profile_json
-from eval.synthetic_history import seed_history_n
+from synthetic_profile import ALEX_CHEN, profile_as_aria_profile, generate_profile_json
+from synthetic_history import seed_history_n
 
 DATA_DIR = ROOT / "data"
 FIGURES_DIR = DATA_DIR / "figures"
@@ -82,7 +82,7 @@ def _build_aria_agent(n_sessions: int, fresh_stores: bool = True):
     Build an ARIAAgent pre-warmed with N synthetic history sessions.
     fresh_stores=True creates isolated in-memory stores per run to avoid cross-contamination.
     """
-    from eval.profiles import ProfileVectorStore, ProfileLearningGraph
+    from profiles import ProfileVectorStore, ProfileLearningGraph
     from agent.reasoning import ARIAAgent
 
     vs = ProfileVectorStore("eval_aria")
@@ -130,7 +130,7 @@ def _run_condition(
     output_path: Optional[Path] = None,
     verbose: bool = True,
 ) -> List[dict]:
-    from eval.rubric import score_turn
+    from rubric import score_turn
 
     plan = _episode_plan(n_episodes)
     records = []

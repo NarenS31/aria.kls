@@ -21,7 +21,7 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
-# Ensure the repo root is importable so `from eval.* import ...` works whether
+# Ensure the repo root is importable so sibling imports work whether
 # this file is run as a script (python3.11 eval/failure_analyzer.py) or imported.
 ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
@@ -32,8 +32,8 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
-from eval.api_clients import query_model
-from eval.reasoning_extractor import load_traces, TRACES_DIR
+from api_clients import query_model
+from reasoning_extractor import load_traces, TRACES_DIR
 
 DATA_DIR = Path(__file__).parent.parent / "data"
 FIGURES_DIR = DATA_DIR / "figures"

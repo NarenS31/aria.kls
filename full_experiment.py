@@ -37,14 +37,14 @@ import numpy as np
 ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(ROOT))
 
-from eval.api_clients import query_model, is_available, ALL_EVAL_MODELS, LOCAL_ONLY_MODELS, session_cost_summary
-from eval.profiles import ALL_PROFILES, PROFILE_MAP, ProfileVectorStore, ProfileLearningGraph, seed_all_profiles
-from eval.rubric import WEIGHTS, DIMENSIONS
-from eval.simulator import PERSONAS, SUBJECTS, run_episode
-from eval.reasoning_extractor import run_episode_with_reasoning, load_traces, TRACES_DIR
-from eval.failure_analyzer import run_failure_analysis, plot_failure_heatmap
-from eval.distillation import run_distillation_pipeline, run_distilled_inference
-from eval.scoring import bootstrap_ci, paired_ttest, cohens_d, summarize
+from api_clients import query_model, is_available, ALL_EVAL_MODELS, LOCAL_ONLY_MODELS, session_cost_summary
+from profiles import ALL_PROFILES, PROFILE_MAP, ProfileVectorStore, ProfileLearningGraph, seed_all_profiles
+from rubric import WEIGHTS, DIMENSIONS
+from simulator import PERSONAS, SUBJECTS, run_episode
+from reasoning_extractor import run_episode_with_reasoning, load_traces, TRACES_DIR
+from failure_analyzer import run_failure_analysis, plot_failure_heatmap
+from distillation import run_distillation_pipeline, run_distilled_inference
+from scoring import bootstrap_ci, paired_ttest, cohens_d, summarize
 
 DATA_DIR = ROOT / "data"
 FIGURES_DIR = DATA_DIR / "figures"
@@ -573,7 +573,7 @@ def generate_all_figures(
 # ------------------------------------------------------------------
 
 def run_learning_curve(episodes_per_n: int = 60, n_values: Optional[List[int]] = None, verbose: bool = True) -> dict:
-    from eval.synthetic_history import seed_history_n
+    from synthetic_history import seed_history_n
     if n_values is None:
         n_values = [0, 5, 10, 20]
 
@@ -612,8 +612,8 @@ def run_learning_curve(episodes_per_n: int = 60, n_values: Optional[List[int]] =
             plg = ProfileLearningGraph(profile.profile_id)
 
             # Temporarily seed extra history
-            from eval.synthetic_history import seed_history_n as shn
-            from eval.profiles import _make_vs_adaptor, _make_lg_adaptor
+            from synthetic_history import seed_history_n as shn
+            from profiles import _make_vs_adaptor, _make_lg_adaptor
             if n > 0:
                 shn(_make_vs_adaptor(pvs), _make_lg_adaptor(plg), profile.as_aria_profile(), n=n, verbose=False)
 

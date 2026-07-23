@@ -18,7 +18,7 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Optional
 
-from eval.rubric import DIMENSIONS, WEIGHTS
+from rubric import DIMENSIONS, WEIGHTS
 
 DATA_DIR = Path(__file__).parent.parent / "data"
 MODELFILE_PATH = DATA_DIR / "Modelfile_ARIA_distilled"

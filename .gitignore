@@ -4,3 +4,9 @@ __pycache__/
 .claude/settings.local.json
 .env
 .DS_Store
+
+# Keep local environments and generated session data off Git.
+.venv/
+data/logs/
+data/metacognition/interventions_demo_*.json
+data/metacognition/interventions_eval_judge.json

@@ -26,7 +26,10 @@ from dataclasses import dataclass, field, asdict
 from datetime import datetime, timedelta
 from typing import Any, Optional
 
-import ollama
+try:
+    import ollama
+except ImportError:  # pragma: no cover - depends on local optional install
+    ollama = None  # type: ignore
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.dirname(HERE)
@@ -352,7 +355,7 @@ class MetacognitionTracker:
         prev = self._aggregate(last_week)
 
         facts = self._summary_facts(cur, prev)
-        if not use_llm:
+        if not use_llm or ollama is None:
             return "\n".join(facts)
 
         prompt = (

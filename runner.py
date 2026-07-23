@@ -21,8 +21,8 @@ from typing import Callable, List, Optional
 # Allow running as: python eval/runner.py from project root
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from eval.rubric import score_turn, WEIGHTS
-from eval.simulator import PERSONAS, SUBJECTS, run_episode
+from rubric import score_turn, WEIGHTS
+from simulator import PERSONAS, SUBJECTS, run_episode
 
 DATA_DIR = Path(__file__).parent.parent / "data"
 DATA_DIR.mkdir(exist_ok=True)
@@ -67,7 +67,7 @@ def _build_tutor_fn(model_name: str, extra_context: Optional[dict] = None) -> tu
     extra_context: optional dict with pre-seeded profile/history for experiment use.
     """
     if model_name == "aria":
-        from eval.profiles import ProfileVectorStore, ProfileLearningGraph
+        from profiles import ProfileVectorStore, ProfileLearningGraph
         from agent.reasoning import ARIAAgent
 
         profile = {
@@ -92,7 +92,7 @@ def _build_tutor_fn(model_name: str, extra_context: Optional[dict] = None) -> tu
         return tutor_fn, agent
 
     elif model_name == "baseline":
-        from eval.baseline import BaselineAgent
+        from baseline import BaselineAgent
         agent = BaselineAgent()
 
         def tutor_fn(msg: str) -> str:

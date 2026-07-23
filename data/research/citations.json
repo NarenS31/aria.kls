@@ -1,0 +1,95 @@
+{
+  "version": 2,
+  "status": "metadata_verified",
+  "note": "These sources provide design rationale, not clinical validation of ARIA or proof that any exact JITAI threshold is optimal.",
+  "verified_on": "2026-07-23",
+  "citations": {
+    "zimmerman_2002": {
+      "title": "Becoming a Self-Regulated Learner: An Overview",
+      "authors": ["Barry J. Zimmerman"],
+      "year": 2002,
+      "journal": "Theory Into Practice",
+      "volume": "41(2)",
+      "pages": "64-70",
+      "doi": "10.1207/s15430421tip4102_2",
+      "url": "https://doi.org/10.1207/s15430421tip4102_2",
+      "relevance": "Foundation for self-regulated learning through planning, monitoring, and reflection."
+    },
+    "barkley_2015": {
+      "title": "Attention-Deficit Hyperactivity Disorder: A Handbook for Diagnosis and Treatment",
+      "authors": ["Russell A. Barkley"],
+      "contributor_role": "editor",
+      "year": 2015,
+      "publisher": "Guilford Press",
+      "edition": "4th",
+      "isbn": "9781462517725",
+      "url": "https://www.guilford.com/books/Attention-Deficit-Hyperactivity-Disorder/Russell-Barkley/9781462538874",
+      "relevance": "Reference work on ADHD, executive functioning, impulsivity, and emotional dysregulation."
+    },
+    "sweller_1988": {
+      "title": "Cognitive Load During Problem Solving: Effects on Learning",
+      "authors": ["John Sweller"],
+      "year": 1988,
+      "journal": "Cognitive Science",
+      "volume": "12(2)",
+      "pages": "257-285",
+      "doi": "10.1207/s15516709cog1202_4",
+      "url": "https://doi.org/10.1207/s15516709cog1202_4",
+      "relevance": "Working-memory load theory and the rationale for reducing a task to smaller steps."
+    },
+    "bloom_1984": {
+      "title": "The 2 Sigma Problem: The Search for Methods of Group Instruction as Effective as One-to-One Tutoring",
+      "authors": ["Benjamin S. Bloom"],
+      "year": 1984,
+      "journal": "Educational Researcher",
+      "volume": "13(6)",
+      "pages": "4-16",
+      "doi": "10.3102/0013189X013006004",
+      "url": "https://doi.org/10.3102/0013189X013006004",
+      "relevance": "Motivation for studying adaptive tutoring approaches."
+    },
+    "zhang_2024": {
+      "title": "Using Large Language Models to Detect Self-Regulated Learning in Think-Aloud Protocols",
+      "authors": ["Jiayi Zhang", "Conrad Borchers", "Vincent Aleven", "Ryan S. Baker"],
+      "year": 2024,
+      "venue": "Proceedings of the 17th International Conference on Educational Data Mining",
+      "pages": "157-168",
+      "doi": "10.5281/zenodo.12729790",
+      "url": "https://doi.org/10.5281/zenodo.12729790",
+      "relevance": "Direct research precedent for automated self-regulated-learning detection in think-aloud transcripts."
+    },
+    "shaw_2014": {
+      "title": "Emotion Dysregulation in Attention Deficit Hyperactivity Disorder",
+      "authors": ["Philip Shaw", "Argyris Stringaris", "Joel Nigg", "Ellen Leibenluft"],
+      "year": 2014,
+      "journal": "American Journal of Psychiatry",
+      "volume": "171(3)",
+      "pages": "276-293",
+      "doi": "10.1176/appi.ajp.2013.13070966",
+      "url": "https://doi.org/10.1176/appi.ajp.2013.13070966",
+      "relevance": "Research basis for treating emotional dysregulation as relevant context in ADHD support."
+    },
+    "black_wiliam_1998": {
+      "title": "Assessment and Classroom Learning",
+      "authors": ["Paul Black", "Dylan Wiliam"],
+      "year": 1998,
+      "journal": "Assessment in Education: Principles, Policy & Practice",
+      "volume": "5(1)",
+      "pages": "7-74",
+      "doi": "10.1080/0969595980050102",
+      "url": "https://doi.org/10.1080/0969595980050102",
+      "relevance": "Formative assessment rationale for using observed learning signals to adjust support."
+    },
+    "hattie_timperley_2007": {
+      "title": "The Power of Feedback",
+      "authors": ["John Hattie", "Helen Timperley"],
+      "year": 2007,
+      "journal": "Review of Educational Research",
+      "volume": "77(1)",
+      "pages": "81-112",
+      "doi": "10.3102/003465430298487",
+      "url": "https://doi.org/10.3102/003465430298487",
+      "relevance": "Framework for feedback focused on task, process, and self-regulation."
+    }
+  }
+}

@@ -29,7 +29,9 @@ from __future__ import annotations
 
 import json
 import os
-from dataclasses import dataclass, field
+import random
+import re
+from dataclasses import dataclass
 from typing import Optional
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -61,10 +63,12 @@ INTERVENTION_BANK: dict[str, list[str]] = {
         "What would happen if you changed one part of your approach?",
     ],
     "CONFUSED": [
-        "Forget the whole problem. What's the very first word in the question?",
-        "What do you know for certain, even if it's tiny?",
-        "What would you try if you had to guess?",
-        "Tell me what you DO understand so far.",
+        "You mentioned {concept}. What do you already know about that specifically?",
+        "You mentioned {concept}. Which part feels unclear right now?",
+        "You mentioned {concept}. Can you point to the exact step that loses you?",
+        "Where does {concept} stop making sense to you?",
+        "Which part of {concept} would be most useful to clarify first?",
+        "You mentioned {concept}. What do you understand so far, even a little?",
     ],
     "RUSHING": [
         "Stop. What's your plan before going further?",
@@ -78,17 +82,31 @@ INTERVENTION_BANK: dict[str, list[str]] = {
         "You're not missing something obvious — what have you tried?",
     ],
     "STUCK": [
-        "Just read the first sentence out loud.",
-        "What's one word in this problem you recognize?",
-        "If you had to make a guess, what would it be?",
-        "What would you tell a friend to do first?",
+        "What is the smallest action you can take without solving the whole problem?",
+        "What is one tiny first step you can take without finding the answer?",
+        "You're stuck, so let's make this tiny: what is one thing you know for certain?",
+        "What is the question asking you to find, in your own words?",
+        "Without solving it, what is one detail you can write down?",
+        "What is one useful action you can take in the next ten seconds?",
     ],
     "INSIGHT": [
-        "Explain it back to me like I've never seen this.",
-        "Where else could you use what you just figured out?",
-        "What was the moment it clicked?",
-        "Could you solve a harder version of this now?",
+        "What changed in your thinking when it clicked?",
+        "Where else could you apply what you just realized?",
+        "How would you explain what just clicked to another student?",
+        "What clue could help you recognize this pattern next time?",
+        "How is this insight different from what you thought before?",
+        "What made it click for you just now?",
     ],
+}
+
+INTERVENTION_CITATIONS = {
+    "PLANNING": "zimmerman_2002",
+    "FLOW": "hattie_timperley_2007",
+    "CONFUSED": "sweller_1988",
+    "RUSHING": "barkley_2015",
+    "FRUSTRATED": "shaw_2014",
+    "STUCK": "sweller_1988",
+    "INSIGHT": "zimmerman_2002",
 }
 
 # States for which repeated occurrence triggers escalation.
@@ -100,9 +118,11 @@ ESCALATION_THRESHOLD = 3
 class Intervention:
     state: str
     text: str
+    template: str = ""
     escalated: bool = False
     escalation_kind: Optional[str] = None  # "hint" | "break" | "first_step"
     consecutive: int = 1
+    citation_key: str = ""
 
     def to_dict(self) -> dict:
         return {
@@ -111,6 +131,8 @@ class Intervention:
             "escalated": self.escalated,
             "escalation_kind": self.escalation_kind,
             "consecutive": self.consecutive,
+            "citation_key": self.citation_key,
+            "citation_keys": [self.citation_key] if self.citation_key else [],
         }
 
 
@@ -119,8 +141,7 @@ class MetacognitiveInterventionGenerator:
 
     def __init__(self, student_name: str = "default", seed: int = 0):
         self.student_name = student_name
-        # Deterministic-yet-varied index counter (no Math.random needed).
-        self._counter = seed
+        self._rng = random.Random(seed)
         # Per-student effectiveness stats:
         #   stats[state][text] = {"tries": n, "improved": m}
         self.stats: dict[str, dict[str, dict]] = {}
@@ -130,6 +151,9 @@ class MetacognitiveInterventionGenerator:
         # Track (state, text) of the last intervention so record_outcome() can
         # attribute an improvement to it.
         self._last_intervention: Optional[tuple[str, str]] = None
+        self._last_template: Optional[str] = None
+        self._rotation_queues: dict[str, list[str]] = {}
+        self.interventions_used_this_session: set[str] = set()
         self._path = os.path.join(META_DIR, f"interventions_{_slug(student_name)}.json")
         self._load()
 
@@ -156,6 +180,7 @@ class MetacognitiveInterventionGenerator:
         self,
         state: str,
         consecutive_count: Optional[int] = None,
+        student_input: str = "",
     ) -> dict:
         """Return one intervention for `state`.
 
@@ -177,56 +202,91 @@ class MetacognitiveInterventionGenerator:
 
         # Escalate if stuck in a hard state too long.
         if state in ESCALATION_STATES and self._consecutive >= ESCALATION_THRESHOLD:
-            interv = self._escalate(state, self._consecutive)
+            interv = self._escalate(state, self._consecutive, student_input)
         else:
-            text = self._select(state)
-            interv = Intervention(state=state, text=text, consecutive=self._consecutive)
+            template = self._select_template(state)
+            text = _render_template(template, student_input)
+            interv = Intervention(
+                state=state,
+                text=text,
+                template=template,
+                consecutive=self._consecutive,
+                citation_key=INTERVENTION_CITATIONS[state],
+            )
 
-        self._last_intervention = (interv.state, interv.text)
-        self._register_try(interv.state, interv.text)
+        tracked_text = interv.template or interv.text
+        self._last_intervention = (interv.state, tracked_text)
+        self._register_try(interv.state, tracked_text)
         return interv.to_dict()
 
-    def _escalate(self, state: str, consecutive: int) -> Intervention:
+    def reset_session(self) -> None:
+        """Reset prompt rotation and consecutive-state tracking."""
+        self._last_state = None
+        self._consecutive = 0
+        self._last_intervention = None
+        self._last_template = None
+        self._rotation_queues.clear()
+        self.interventions_used_this_session.clear()
+
+    def _escalate(
+        self, state: str, consecutive: int, student_input: str
+    ) -> Intervention:
         if state == "CONFUSED":
-            # add one tiny hint then ask again
-            base = self._select(state)
+            template = self._select_template(state)
+            base = _render_template(template, student_input)
             text = ("Here's one tiny nudge: focus on just the numbers or key "
                     f"terms first. Now — {base.lower()}")
-            return Intervention(state, text, escalated=True,
-                                escalation_kind="hint", consecutive=consecutive)
+            return Intervention(
+                state, text, template=template, escalated=True,
+                escalation_kind="hint", consecutive=consecutive,
+                citation_key=INTERVENTION_CITATIONS[state],
+            )
         if state == "FRUSTRATED":
             text = "Take a real break. Come back in 5 minutes."
-            return Intervention(state, text, escalated=True,
-                                escalation_kind="break", consecutive=consecutive)
+            return Intervention(
+                state, text, template=text, escalated=True,
+                escalation_kind="break", consecutive=consecutive,
+                citation_key=INTERVENTION_CITATIONS[state],
+            )
         # STUCK -> give the first step only, then ask what's next
         text = ("Let's do the very first step together: read the problem and "
                 "write down the one thing it's asking for. What's the next step "
                 "after that?")
-        return Intervention(state, text, escalated=True,
-                            escalation_kind="first_step", consecutive=consecutive)
+        return Intervention(
+            state, text, template=text, escalated=True,
+            escalation_kind="first_step", consecutive=consecutive,
+            citation_key=INTERVENTION_CITATIONS[state],
+        )
 
-    def _select(self, state: str) -> str:
-        """Pick an intervention, weighted by per-student effectiveness."""
+    def _select_template(self, state: str) -> str:
+        """Rotate a shuffled bank, preferring prompts that helped this student."""
         options = INTERVENTION_BANK[state]
-        state_stats = self.stats.get(state, {})
+        queue = self._rotation_queues.get(state, [])
+        if not queue:
+            for template in options:
+                self.interventions_used_this_session.discard(template)
 
-        # Score each option: prefer higher success rate; unused options get a
-        # neutral optimistic prior so they still get tried.
-        scored: list[tuple[float, int, str]] = []
-        for i, text in enumerate(options):
-            s = state_stats.get(text, {"tries": 0, "improved": 0})
-            tries, improved = s["tries"], s["improved"]
-            # Laplace-smoothed success rate.
-            rate = (improved + 1) / (tries + 2)
-            # Rotate the tie-breaker so equal-rate options cycle deterministically.
-            rotation = (i + self._counter) % len(options)
-            scored.append((rate, -rotation, text))
+            queue = list(options)
+            self._rng.shuffle(queue)
+            state_stats = self.stats.get(state, {})
 
-        self._counter += 1
-        # Deprioritise options that consistently never work (rate ~0 with
-        # enough evidence) by sorting them last.
-        scored.sort(key=lambda t: (t[0], t[1]), reverse=True)
-        return scored[0][2]
+            def effectiveness(template: str) -> float:
+                item = state_stats.get(template, {"tries": 0, "improved": 0})
+                return (item["improved"] + 1) / (item["tries"] + 2)
+
+            queue.sort(key=effectiveness, reverse=True)
+            if (
+                len(queue) > 1
+                and self._last_template is not None
+                and queue[0] == self._last_template
+            ):
+                queue[0], queue[1] = queue[1], queue[0]
+            self._rotation_queues[state] = queue
+
+        template = queue.pop(0)
+        self.interventions_used_this_session.add(template)
+        self._last_template = template
+        return template
 
     # -- effectiveness tracking -------------------------------------
 
@@ -281,6 +341,52 @@ class MetacognitiveInterventionGenerator:
 
 def _slug(name: str) -> str:
     return "".join(c if c.isalnum() else "_" for c in name.strip().lower()) or "default"
+
+
+def extract_concept(student_input: str) -> str:
+    """Extract a short problem concept without requiring another model call."""
+    text = re.sub(r"\s+", " ", (student_input or "").strip())
+    if not text:
+        return "the problem"
+
+    patterns = (
+        r"(?:don'?t|do not|can'?t|cannot)\s+(?:understand|get|figure out)\s+(.+)",
+        r"(?:confused|stuck)\s+(?:about|on|with)\s+(.+)",
+        r"(?:question|problem|part)\s+(?:about|on|with)\s+(.+)",
+        r"(?:how|why|what)\s+(?:do|does|is|are|can)\s+(.+)",
+    )
+    candidate = ""
+    for pattern in patterns:
+        match = re.search(pattern, text, re.IGNORECASE)
+        if match:
+            candidate = match.group(1)
+            break
+
+    if not candidate:
+        quoted = re.search(r"[\"']([^\"']{2,80})[\"']", text)
+        candidate = quoted.group(1) if quoted else text
+
+    candidate = re.split(
+        r"\b(?:because|but|and then|even though|so i|please help)\b",
+        candidate,
+        maxsplit=1,
+        flags=re.IGNORECASE,
+    )[0]
+    candidate = re.sub(r"^[\s,.:;!?-]+|[\s,.:;!?-]+$", "", candidate)
+    candidate = re.sub(
+        r"^(?:the\s+)?(?:whole\s+)?(?:thing|it|this|that|anything|everything)$",
+        "",
+        candidate,
+        flags=re.IGNORECASE,
+    )
+    words = candidate.split()
+    if not words:
+        return "the problem"
+    return " ".join(words[:8])
+
+
+def _render_template(template: str, student_input: str) -> str:
+    return template.format(concept=extract_concept(student_input))
 
 
 # ------------------------------------------------------------------

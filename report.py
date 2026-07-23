@@ -24,8 +24,8 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from eval.rubric import WEIGHTS, DIMENSIONS
-from eval.scoring import summarize, load_results, bootstrap_ci, learning_curve_summary
+from rubric import WEIGHTS, DIMENSIONS
+from scoring import summarize, load_results, bootstrap_ci, learning_curve_summary
 
 DATA_DIR = Path(__file__).parent.parent / "data"
 FIGURES_DIR = DATA_DIR / "figures"
@@ -322,13 +322,13 @@ def generate_all_figures_from_saved(verbose: bool = True) -> List[Path]:
         data/failure_patterns.json           (failure heatmap)
         data/learning_curve_full.json        (learning curve, if present)
 
-    Figure code is reused from eval.full_experiment so the figures are
+    Figure code is reused from full_experiment so the figures are
     identical to those produced by the full pipeline.
     Returns the list of figure paths that were written.
     """
     # Import here to avoid a hard dependency when only the legacy report is used.
-    from eval.full_experiment import generate_all_figures, MODEL_LABELS
-    from eval.reasoning_extractor import load_traces
+    from full_experiment import generate_all_figures, MODEL_LABELS
+    from reasoning_extractor import load_traces
 
     stats_path = DATA_DIR / "experiment_results_full.json"
     fp_path = DATA_DIR / "failure_patterns.json"
