@@ -50,12 +50,94 @@ try:
 except ImportError:  # Support `python3.11 metacognition/analyzer.py`.
     from metacognition.transfer import detect_self_initiation
 
+try:
+    from .behavioral import (
+        BehavioralFeatureExtractor,
+        BEHAVIORAL_SIGNALS,
+        SIGNAL_TO_STATE,
+        dominant_signal,
+    )
+except ImportError:  # Support `python3.11 metacognition/analyzer.py`.
+    from metacognition.behavioral import (
+        BehavioralFeatureExtractor,
+        BEHAVIORAL_SIGNALS,
+        SIGNAL_TO_STATE,
+        dominant_signal,
+    )
+
 COGNITIVE_STATES = [
     "PLANNING", "FLOW", "CONFUSED", "RUSHING",
     "FRUSTRATED", "STUCK", "INSIGHT",
 ]
 
 LLM_MODEL = os.environ.get("ARIA_META_MODEL", "llama3.2:3b")
+
+
+# ------------------------------------------------------------------
+# Multi-generator few-shot examples for the LLM classifier
+# ------------------------------------------------------------------
+# Loaded from data/eval/mixed_fewshot_examples.json (built by
+# `generate.py --fewshot`): 2 highest-confidence examples per state per
+# generator, so the in-context examples span all four generators' writing
+# styles (llama/mistral/gemma2/phi3) rather than only llama's. This is the
+# "retraining" for an LLM-as-classifier — updating the in-context examples.
+# An absent/unreadable file yields an empty block => zero-shot fallback, so
+# there is no regression when the JSON is missing.
+
+FEWSHOT_PATH = os.path.join(
+    REPO_ROOT, "data", "eval", "mixed_fewshot_examples.json")
+FEWSHOT_PER_GENERATOR = 2
+# Each example is trimmed to its opening (where the state markers live) so the
+# 56-example block (2/state x 4 generators) stays small enough to prefill fast.
+_FEWSHOT_MAX_CHARS = 130
+
+
+def _build_fewshot_block(path: str = FEWSHOT_PATH,
+                         per_generator: int = FEWSHOT_PER_GENERATOR) -> str:
+    """Format up to `per_generator` examples per (state, generator) from the
+    mixed few-shot JSON into a compact labelled block for the LLM prompt.
+    Returns '' when the file is unavailable (=> zero-shot)."""
+    try:
+        with open(path, "r", encoding="utf-8") as fh:
+            data = json.load(fh)
+    except (OSError, json.JSONDecodeError):
+        return ""
+    examples = data.get("examples", {})
+    lines: list[str] = []
+    for state in COGNITIVE_STATES:
+        per_gen_count: dict[str, int] = {}
+        for item in examples.get(state, []):
+            gen = str(item.get("generator_model", "?"))
+            if per_gen_count.get(gen, 0) >= per_generator:
+                continue
+            per_gen_count[gen] = per_gen_count.get(gen, 0) + 1
+            think_aloud = " ".join(str(item.get("think_aloud", "")).split())
+            if len(think_aloud) > _FEWSHOT_MAX_CHARS:
+                think_aloud = think_aloud[:_FEWSHOT_MAX_CHARS].rstrip() + "…"
+            if think_aloud:
+                lines.append(f'[{state}] "{think_aloud}"')
+    if not lines:
+        return ""
+    return ("Here are labelled think-aloud examples spanning multiple LLM "
+            "generators and writing styles:\n" + "\n".join(lines) + "\n\n")
+
+
+# Built once at import; '' when the JSON is absent (zero-shot fallback).
+_FEWSHOT_BLOCK = _build_fewshot_block()
+
+# A shared Ollama client with a finite request timeout, so a saturated/stuck
+# GPU can never make the LLM call block forever (it raises -> the caller falls
+# back to the heuristic). No effect when the GPU is free. httpx clients are
+# thread-safe, so one shared instance is fine across concurrent classify calls.
+_LLM_TIMEOUT = float(os.environ.get("ARIA_META_TIMEOUT", "120"))
+_LLM_CLIENT = None
+
+
+def _llm_client():
+    global _LLM_CLIENT
+    if _LLM_CLIENT is None and ollama is not None:
+        _LLM_CLIENT = ollama.Client(timeout=_LLM_TIMEOUT)
+    return _LLM_CLIENT
 
 
 # ------------------------------------------------------------------
@@ -196,6 +278,15 @@ class AnalysisResult:
     heuristic_confidence: float = 0.0
     llm_state: Optional[str] = None
     scores: dict = field(default_factory=dict)
+    # Multimodal behavioral fusion (all optional; None/"text_only" with no
+    # behavioral features => identical to the previous text-only behaviour).
+    behavioral_features: Optional[dict] = None
+    fusion_method: str = "text_only"  # text_only|text_dominant|behavioral_override|weighted_fusion
+    fusion_evidence: str = ""
+    # The text-only verdict before behavioral fusion (equals state/confidence
+    # when no behavioral features were supplied).
+    text_state: Optional[str] = None
+    text_confidence: Optional[float] = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -213,6 +304,14 @@ class AnalysisResult:
             "heuristic_state": self.heuristic_state,
             "heuristic_confidence": round(self.heuristic_confidence, 3),
             "llm_state": self.llm_state,
+            "behavioral_features": self.behavioral_features,
+            "fusion_method": self.fusion_method,
+            "fusion_evidence": self.fusion_evidence,
+            "text_state": self.text_state,
+            "text_confidence": (
+                round(self.text_confidence, 3)
+                if self.text_confidence is not None else None
+            ),
         }
 
 
@@ -228,6 +327,9 @@ class CognitiveStateAnalyzer:
     def __init__(self, model: str = LLM_MODEL, use_llm: bool = True):
         self.model = model
         self.use_llm = use_llm
+        # Behavioral (keystroke/timing) layer. Lazily populated so the text
+        # pipeline works even if the behavioral module is unavailable.
+        self._behavioral_extractor: Optional[BehavioralFeatureExtractor] = None
 
     # -- public API --------------------------------------------------
 
@@ -236,6 +338,7 @@ class CognitiveStateAnalyzer:
         text: str,
         audio_features: Optional[dict] = None,
         aria_previous_prompt: str = "",
+        behavioral_features: Optional[dict] = None,
     ) -> dict[str, Any]:
         """Classify `text` and return a result dict (see AnalysisResult).
 
@@ -246,6 +349,13 @@ class CognitiveStateAnalyzer:
         self-initiated. The result is folded into the returned dict so callers
         can acknowledge self-initiation and avoid re-prompting a habit the
         student already showed.
+
+        `behavioral_features` is optional multimodal telemetry. It may be either
+        raw keystroke data (``pause_before_first_key_ms`` etc.) or an already
+        extracted feature dict containing ``behavioral_state_signals``. When
+        provided, the behavioral signals are fused with the text state (see
+        ``_fuse_behavioral``); when absent the result is exactly the text-only
+        classification (zero regression).
         """
         text = (text or "").strip()
         transfer = detect_self_initiation(text, aria_previous_prompt)
@@ -276,6 +386,19 @@ class CognitiveStateAnalyzer:
                 state, conf, evidence, method, scores, audio_features
             )
 
+        # Text (+ optional audio) classification is complete: this is the
+        # "text state" the behavioral layer fuses on top of.
+        text_state, text_confidence = state, conf
+
+        behavioral_dict: Optional[dict] = None
+        fusion_method = "text_only"
+        fusion_evidence = ""
+        if behavioral_features:
+            behavioral_dict, signals = self._resolve_behavioral(text, behavioral_features)
+            state, conf, fusion_method, fusion_evidence = self._fuse_behavioral(
+                text_state, text_confidence, signals
+            )
+
         result = AnalysisResult(
             state=state,
             confidence=conf,
@@ -292,8 +415,96 @@ class CognitiveStateAnalyzer:
             heuristic_confidence=h_conf,
             llm_state=llm_state,
             scores=scores,
+            behavioral_features=behavioral_dict,
+            fusion_method=fusion_method,
+            fusion_evidence=fusion_evidence,
+            text_state=text_state,
+            text_confidence=text_confidence,
         )
         return result.to_dict()
+
+    # -- multimodal behavioral fusion --------------------------------
+
+    def _resolve_behavioral(
+        self, text: str, behavioral_features: dict
+    ) -> tuple[dict, dict[str, float]]:
+        """Return (feature_dict, signals). Accepts either an already-extracted
+        feature dict (with ``behavioral_state_signals``) or raw keystroke data,
+        in which case the BehavioralFeatureExtractor is run on it."""
+        if isinstance(behavioral_features, dict) and "behavioral_state_signals" in behavioral_features:
+            raw = behavioral_features.get("behavioral_state_signals") or {}
+            signals = {k: float(raw.get(k, 0.0) or 0.0) for k in BEHAVIORAL_SIGNALS}
+            return behavioral_features, signals
+
+        if self._behavioral_extractor is None:
+            self._behavioral_extractor = BehavioralFeatureExtractor()
+        feats = self._behavioral_extractor.extract(text, behavioral_features, [])
+        raw = feats.get("behavioral_state_signals") or {}
+        signals = {k: float(raw.get(k, 0.0) or 0.0) for k in BEHAVIORAL_SIGNALS}
+        return feats, signals
+
+    def _fuse_behavioral(
+        self, text_state: str, text_confidence: float, signals: dict[str, float]
+    ) -> tuple[str, float, str, str]:
+        """Fuse the text state with behavioral signals.
+
+        Returns (state, confidence, fusion_method, fusion_evidence).
+
+        FLOW is handled specially (it is the weakest text-only class): a strong
+        planning or rushing behavioral signal overrides a text FLOW call. For
+        other states, an ambiguous text classification (confidence < 0.7) can be
+        overturned by a strong (> 0.6) behavioral signal for a different state
+        via a confidence-weighted vote.
+        """
+        planning = signals.get("planning", 0.0)
+        rushing = signals.get("rushing", 0.0)
+
+        if text_state == "FLOW":
+            if planning > 0.6:
+                conf = round(min(0.97, 0.5 * text_confidence + 0.5 * planning), 3)
+                return "PLANNING", conf, "behavioral_override", (
+                    f"text=FLOW but planning behavioral signal {planning:.2f} > 0.6 "
+                    f"(long pre-typing pause / slow deliberate typing) → PLANNING"
+                )
+            if rushing > 0.5:
+                conf = round(min(0.97, 0.5 * text_confidence + 0.5 * rushing), 3)
+                return "RUSHING", conf, "behavioral_override", (
+                    f"text=FLOW but rushing behavioral signal {rushing:.2f} > 0.5 "
+                    f"(fast typing / very short response) → RUSHING"
+                )
+            return "FLOW", text_confidence, "text_dominant", (
+                f"text=FLOW kept; behavioral signals not decisive "
+                f"(planning={planning:.2f}, rushing={rushing:.2f})"
+            )
+
+        if text_confidence < 0.7:
+            best_signal, best_score = dominant_signal(signals)
+            best_state = SIGNAL_TO_STATE.get(best_signal)
+            if best_score > 0.6 and best_state and best_state != text_state:
+                text_vote = text_confidence * 0.6
+                beh_vote = best_score * 0.4
+                if beh_vote > text_vote:
+                    total = text_vote + beh_vote
+                    conf = round(beh_vote / total, 3) if total > 0 else round(best_score, 3)
+                    return best_state, conf, "weighted_fusion", (
+                        f"ambiguous text ({text_state} @ {text_confidence:.2f}); "
+                        f"behavioral {best_signal}={best_score:.2f} outweighs it "
+                        f"(text_vote={text_vote:.2f} < beh_vote={beh_vote:.2f}) → {best_state}"
+                    )
+                return text_state, text_confidence, "text_dominant", (
+                    f"ambiguous text ({text_state} @ {text_confidence:.2f}); behavioral "
+                    f"{best_signal}={best_score:.2f} considered but text vote stronger "
+                    f"(text_vote={text_vote:.2f} ≥ beh_vote={beh_vote:.2f})"
+                )
+            return text_state, text_confidence, "text_dominant", (
+                f"ambiguous text ({text_state} @ {text_confidence:.2f}); no behavioral "
+                f"signal > 0.6 for an alternative state"
+            )
+
+        return text_state, text_confidence, "text_dominant", (
+            f"text confident ({text_state} @ {text_confidence:.2f}); behavioral signals "
+            f"logged but not fused"
+        )
 
     # -- step 1: heuristics -----------------------------------------
 
@@ -397,14 +608,16 @@ class CognitiveStateAnalyzer:
         if ollama is None:
             return None
         prompt = (
-            "Classify this student think-aloud. Output JSON only:\n"
+            _FEWSHOT_BLOCK +
+            "Using the examples above as a guide, classify the following student "
+            "think-aloud into exactly one state. Output JSON only:\n"
             '{"state": "PLANNING|FLOW|CONFUSED|RUSHING|FRUSTRATED|STUCK|INSIGHT",\n'
             ' "confidence": 0.0-1.0,\n'
             ' "evidence": "one sentence explaining why"}\n\n'
             f"Think-aloud: \"{text}\"\n"
         )
         try:
-            resp = ollama.chat(
+            resp = _llm_client().chat(
                 model=self.model,
                 messages=[
                     {"role": "system", "content":
@@ -413,7 +626,8 @@ class CognitiveStateAnalyzer:
                     {"role": "user", "content": prompt},
                 ],
                 format="json",
-                options={"temperature": 0.0, "num_predict": 150},
+                # num_ctx sized to fit the multi-generator few-shot block.
+                options={"temperature": 0.0, "num_predict": 150, "num_ctx": 4096},
             )
             raw = resp.message.content
             data = self._parse_json(raw)

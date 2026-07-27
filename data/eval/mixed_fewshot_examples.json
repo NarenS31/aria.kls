@@ -1,0 +1,485 @@
+{
+  "description": "Multi-generator few-shot examples for the LLM-as-classifier (Part 3). Highest-confidence examples per (state, generator).",
+  "per_generator": 2,
+  "generators": [
+    "gemma2:9b",
+    "llama3.1:8b",
+    "mistral:7b",
+    "phi3:medium"
+  ],
+  "n_states": 7,
+  "counts_per_state": {
+    "PLANNING": 8,
+    "FLOW": 8,
+    "CONFUSED": 8,
+    "RUSHING": 8,
+    "FRUSTRATED": 8,
+    "STUCK": 8,
+    "INSIGHT": 8
+  },
+  "wiring_note": "Not yet wired into metacognition/analyzer.py (off-limits: concurrent process). Load this JSON into the LLM few-shot prompt to apply.",
+  "examples": {
+    "PLANNING": [
+      {
+        "generator_model": "llama3.1:8b",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "Okay, so this is a pretty easy one... I just need to remember what checks and balances are about. Um, let me think for a sec. Alright, so the system of checks and balances was put in place by the Founding Fathers, right? They wanted to make sure no single branch of government got too powerful... like how the executive branch kinda did under George Washington... no, wait, that's not it. Okay, so they needed a way to balance each other out. That's why Congress has some powers over the president and stuff. Yeah, I think I've got this... First, let me just list all the branches real quick: legislative, executive, judicial... and then we have these overlapping powers... okay, now I remember! Checks and balances was put in place to stop anyone from getting too much power. Like, if Congress started doing stuff that wasn't good for the country. Yeah, I'm pretty sure I got this right. System of checks and balances is all about balancing out the branches so none get too powerful... duh!",
+        "cognitive_state": "PLANNING",
+        "source_id": "PLANNING|US History|easy|inattentive|the constitution|0.78"
+      },
+      {
+        "generator_model": "llama3.1:8b",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "Okay, so I'm pretty sure railroads changed the economy, but how... let me think. Alright, first I need to figure out what exactly they changed. Um, wasn't it something about transporting goods and people faster? Yeah, that's right! So, it made trade easier, which helped businesses grow and stuff. But, wait, isn't there something else? Ah, yeah! Railroads also connected the country, making it easier for people to move around and find work... or was that the Transcontinental Railroad thingy? I'm pretty sure I got most of it right... hopefully.",
+        "cognitive_state": "PLANNING",
+        "source_id": "PLANNING|US History|easy|inattentive|industrialization|0.63|#1"
+      },
+      {
+        "generator_model": "mistral:7b",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "[sighs] Alright, let me focus. First I need to think about how railroads might have affected the economy back then. [pauses, scratches head] Uh, so maybe... [pause] wait, no, that's not it. Let me see... Railroads could have made transporting goods faster and cheaper, right? So maybe they allowed for more trade and economic growth? But what else? Oh, wait, they also connected different regions, probably leading to increased interaction and potential for industrial expansion. [checks watch] Okay, I think I got it. Hopefully, that's right.",
+        "cognitive_state": "PLANNING",
+        "source_id": "PLANNING|US History|easy|inattentive|industrialization|0.63|mistral"
+      },
+      {
+        "generator_model": "mistral:7b",
+        "confidence_before": 4,
+        "subject": "Geometry",
+        "think_aloud": "['First I need to remember the formula for the area of a circle, let me think... pi times radius squared, right?'] [\"Okay, so it's pi times 5 squared... hang on, that's not right. Pi times something squared should be multiplied by itself, not just the number. So that's pi times 25. Wait, no! Radius squared, not diameter squared.\"] ['There it is, I got it! 78.54 area units. Pi times 5 squared divided by 2.']",
+        "cognitive_state": "PLANNING",
+        "source_id": "PLANNING|Geometry|easy|combined|area|0.70|mistral"
+      },
+      {
+        "generator_model": "gemma2:9b",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "Okay, so railroads... hmm, gotta think about how they impacted the economy. That seems kinda broad, though. first I need to remember what kind of things changed in the late 1800s. Like, was it mostly stuff with farms? Or maybe factories?  Wait, no, railroads are about moving stuff around right? So maybe faster shipping and connecting places is a big deal? That seems like the direction I wanna go with it at least. Need to find more specific examples though.",
+        "cognitive_state": "PLANNING",
+        "source_id": "PLANNING|US History|easy|inattentive|industrialization|0.63|gemma2"
+      },
+      {
+        "generator_model": "gemma2:9b",
+        "confidence_before": 4,
+        "subject": "Python Programming",
+        "think_aloud": "Okay, reversing a string... hmmm. Python has a bunch of ways to do this right? I bet there's a built-in function for it, gotta be! first I need to think about how we usually reverse stuff... like maybe slicing the string backwards? let me see... could it be something like `s[::-1]`?? that seems plausible. hmm, not sure if Python would use that syntax though. Okay, so `[::-1]` worked! Super easy. Makes sense now.",
+        "cognitive_state": "PLANNING",
+        "source_id": "PLANNING|Python Programming|easy|hyperactive|strings|0.79|gemma2"
+      },
+      {
+        "generator_model": "phi3:medium",
+        "confidence_before": 4,
+        "subject": "Python Programming",
+        "think_aloud": "Okay, I remember something about slicing... or was it the reverse method? Gotta focus. Let's try to do this step by step. I think Python has a [::-1] thingy for reversals. Wait, but is that just for lists? No wait, strings are like lists too, right? I'm gonna use s[::-1]. Alright, fingers crossed this works! Phew, it worked! Slicing in Python rocks.",
+        "cognitive_state": "PLANNING",
+        "source_id": "PLANNING|Python Programming|easy|hyperactive|strings|0.79|phi3"
+      },
+      {
+        "generator_model": "phi3:medium",
+        "confidence_before": 4,
+        "subject": "Geometry",
+        "think_aloud": "First I need to remember that formula for circle area, it's like pi something... Pi r squared? Ugh, hope I got this right. Okay, so the radius is 5. That means pi times 25 should give me the answer. Wait no! Do I need to round up first or not? This ain't clear... Phew, I think I did it right. Just hope my teacher doesn't ask about a detailed explanation today.",
+        "cognitive_state": "PLANNING",
+        "source_id": "PLANNING|Geometry|easy|combined|area|0.70|phi3"
+      }
+    ],
+    "FLOW": [
+      {
+        "generator_model": "llama3.1:8b",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "Alright, let's see... I'm pretty sure this is from the Unit on Federalism or something. I've been studying for this test and I feel good about it. Okay, so the system of checks and balances was put in place to prevent one branch of government from getting too powerful, right? Like, Congress can't just make laws without the President's approval, and the courts can't just overrule the Executive... um... unless I remember that wrong. Yeah, no, it's like a balance between all three branches so they can check each other. It makes sense now. We learned this last week in class. Yeah, I'm pretty sure that's right. I mean, I was worried for a second there but it just clicked into place.",
+        "cognitive_state": "FLOW",
+        "source_id": "FLOW|US History|easy|inattentive|the constitution|0.65"
+      },
+      {
+        "generator_model": "llama3.1:8b",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "Okay, I know this one... Railroads changed everything back then. Let's get this done! So, the transcontinental railroad was finished in 1869 and that connected the East Coast to the West, which made it easier for people and goods to move around. That would've made trade and business more efficient, so companies could grow faster... And with that growth, there'd be more jobs created, right? It's like a snowball effect, as soon as they finished building the railroad, everything else started moving too. That makes total sense! I'm pretty sure that's how it went down. Yeah, railroads were huge for the economy back then.",
+        "cognitive_state": "FLOW",
+        "source_id": "FLOW|US History|easy|inattentive|industrialization|0.78"
+      },
+      {
+        "generator_model": "mistral:7b",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "[\"Alright, let's see. Brown v. Board of Education, right? This is a pretty basic question, but my mind's all over the place today.\", 'Gotta focus... Brown v. Board of Education... Significance... Hmm.'] [\"Ah, got it! Brown v. Board of Education was a landmark Supreme Court case that declared 'separate educational facilities are inherently unequal'. Basically, it ruled that segregation in schools is unconstitutional.\", \"Wait, no... that's just the ruling. What was its significance?\", \"Oh right! The decision overturned the 'separate but equal' doctrine and paved the way for civil rights and racial equality in education.\"] [\"Yep, that's it. Brown v. Board of Education was a major step towards ending racial segregation and promoting equal educational opportunities.\", 'Feels good to have gotten that right. Gotta keep this flow going.']",
+        "cognitive_state": "FLOW",
+        "source_id": "FLOW|US History|easy|inattentive|civil rights movement|0.78|mistral|flow"
+      },
+      {
+        "generator_model": "mistral:7b",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "[\"Alright, let's dive into this one. Brown v. Board of Education... hmm, got it in my head but feeling a bit scattered today.\"] [\"Okay, so this case was a major turning point in US History, right? It challenged the 'separate but equal' doctrine, which was... yeah, that was the Plessy v. Ferguson ruling. Brown v. Board of Education said that separate education facilities are inherently unequal. Got it. So, it overturned Plessy and basically paved the way for civil rights for black Americans in schools.\"] ['Awesome, I nailed that one. Brown v. Board of Education was a huge deal in US History, setting the stage for desegregation and equal education opportunities.']",
+        "cognitive_state": "FLOW",
+        "source_id": "FLOW|US History|easy|inattentive|civil rights movement|0.78|mistral"
+      },
+      {
+        "generator_model": "gemma2:9b",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "Okay, Brown v. Board of Education...Wasn't that something about schools? Like, segregation?  I kinda remember that from class. Yeah, it was definitely about school segregation! Uh, so the board decided, or maybe it was the Supreme Court, that separate facilities for black and white kids were unequal. That means...that meant segregation in schools was unconstitutional!   Boom, there we go. That felt good. I think I got it right this time.",
+        "cognitive_state": "FLOW",
+        "source_id": "FLOW|US History|easy|inattentive|civil rights movement|0.78|gemma2|flow"
+      },
+      {
+        "generator_model": "gemma2:9b",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "Okay, checks and balances... sounds like a recipe for something super organized. But what did they REALLY try to stop? Hmm, maybe they wanted to prevent one branch of government from getting too powerful? Like, imagine if the President could just make any law without Congress saying anything – chaos! Yeah, that's gotta be it. That makes total sense. Checks and balances definitely keep things from going haywire.",
+        "cognitive_state": "FLOW",
+        "source_id": "FLOW|US History|easy|combined|the constitution|0.75|gemma2|flow"
+      },
+      {
+        "generator_model": "phi3:medium",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "Okay, I think I got this. Brown v. Board of Education was like a big turning point or something for schools. So firstly, it ended segregation in public schools by declaring 'separate but equal' unconstitutional... wait, is that the right way to put it? I mean, they actually said separate educational facilities are inherently unequal. Got it! That was a big win for civil rights. Oh man, this topic doesn't even bore me out like some others. Just gotta make sure I nail all these points. Cool, that wasn't too bad. This case basically changed the game and helped start desegregation in schools.",
+        "cognitive_state": "FLOW",
+        "source_id": "FLOW|US History|easy|inattentive|civil rights movement|0.78|phi3|flow"
+      },
+      {
+        "generator_model": "phi3:medium",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "Okay, Brown v. Board of Education... Wasn't it something about schools? Yeah, I remember learning that it was a big deal for civil rights. Brown v. Board was important because before that case, kids were like, segregated in public schools based on their race or something... That's not cool! Oh wait, isn't it actually about the Supreme Court saying 'Nope, this is unconstitutional?' Okay, so I guess Brown v. Board of Education was significant because it ended legal school segregation with that ruling. There we go, got it! It helped end racial discrimination in schools and pushed America towards equality.",
+        "cognitive_state": "FLOW",
+        "source_id": "FLOW|US History|easy|inattentive|civil rights movement|0.78|phi3"
+      }
+    ],
+    "CONFUSED": [
+      {
+        "generator_model": "llama3.1:8b",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "I think I know this one... we did something on it in class, but I'm not really sure... Huh, the system of checks and balances... was it like, to prevent tyranny? No, that's not it. Wait, why is it important to have three branches of government? Is it because they're all equal or something? That can't be right... I don't get it. Circular reasoning, I'm doing circular reasoning... Ugh, why do I always second-guess myself on this stuff? I'm just going to go with what I think is the most likely answer and hope it's correct...",
+        "cognitive_state": "CONFUSED",
+        "source_id": "CONFUSED|US History|easy|inattentive|the constitution|0.66"
+      },
+      {
+        "generator_model": "llama3.1:8b",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "Uh, railroads... we did something with them in class... now what was it again? Wait, I think they made trade easier or something? Yeah, because they could transport goods faster and cheaper. That's gotta be right. No, that's not it... unless... unless it was also something about how the government supported them with grants or whatever. That sounds kinda like a pattern we've seen before... but is it relevant to this question? I don't get it. Okay, let me try again from scratch... hmm, what if it was because they connected east and west coasts or something? No, that can't be right, because we already did the manifest destiny stuff... Ugh, why am I getting all mixed up? I'm so confused now. Okay, fine, let me just take a wild guess.",
+        "cognitive_state": "CONFUSED",
+        "source_id": "CONFUSED|US History|easy|inattentive|industrialization|0.76"
+      },
+      {
+        "generator_model": "mistral:7b",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "[\"Aw man, history again? Alright, let's see... Wait, railroads in the late 1800s, got it. But why am I feeling so huh?\", \"I think they had something to do with the economy, but I don't get it clearly yet.\"] ['Okay, okay... Railroads probably connected more places, which meant goods could move faster. That should have helped businesses, right? But wait, there must be more to it than that...', \"I remember something about the economy growing because of all this new trade. Could it be about that? But I'm not sure, let me recheck...\", \"Nope, that's not it. Circular reasoning here... Wait, maybe it was about industrialization due to easier transportation of resources? Or something like that...\"] [\"I guess I got it somehow... Railroads changed the American economy by connecting more places and making trade easier, leading to increased production and industrial growth. Phew, I don't feel so confused anymore, but there were so many twists!\"]",
+        "cognitive_state": "CONFUSED",
+        "source_id": "CONFUSED|US History|easy|hyperactive|industrialization|0.65|mistral"
+      },
+      {
+        "generator_model": "mistral:7b",
+        "confidence_before": 4,
+        "subject": "Python Programming",
+        "think_aloud": "[\"Man, where's my focus today? Alright, let's do this loop thingy. Print numbers 1 to 5, easy peasy.\", 'Wait a sec, what was the question again?'] [\"Okay, so loop... loop... right? Let's see... maybe a for loop?\", \"Huh, I don't know if that's right. Wait, no, it can't be for, got it! While loop then.\", \"Nope, that's not it either. Hang on, let me think. This is simple... right?\", \"Okay, let's do a while loop and keep checking if the number is less than or equal to 5, got it!\"] [\"Yeah, I think that should work. Let's see if it prints correctly. Hope I didn't mess up.\"]",
+        "cognitive_state": "CONFUSED",
+        "source_id": "CONFUSED|Python Programming|easy|hyperactive|loops|0.70|mistral"
+      },
+      {
+        "generator_model": "gemma2:9b",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "Okay, railroads... hmm, big deal back then, right? Like trains everywhere, I guess? Wait, how did they change the economy, though? Maybe, like, made it easier to ship stuff? No, that's too basic. Did they create jobs? But wouldn't all those jobs be on the railroads themselves? Ugh, I don't get it. That was dumb. Trains helped transport goods, duh!",
+        "cognitive_state": "CONFUSED",
+        "source_id": "CONFUSED|US History|easy|hyperactive|industrialization|0.65|gemma2"
+      },
+      {
+        "generator_model": "gemma2:9b",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "Okay, railroads... hmm, they were everywhere back then, right? Like super important. How did that make money or something? Wait, so if there are more railroads, does that mean things can be shipped faster and cheaper? But that doesn't really explain how it changed the economy... huh, maybe it made factories grow bigger cuz they could get stuff easier? I dunno, this is kinda circular. That kinda makes sense, I guess. I still feel like I'm missing something though.",
+        "cognitive_state": "CONFUSED",
+        "source_id": "CONFUSED|US History|easy|combined|industrialization|0.73|gemma2"
+      },
+      {
+        "generator_model": "phi3:medium",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "Okay, I remember we talked about the railroads in class. They were a big deal, right? Like they made things cheaper or something. Wait, so the railroads connected all these places and made it easier to send goods across long distances. That meant people could sell stuff farther away and make more money! But wait, didn't it also cause some problems? I think there were some unfair laws about land grants that helped the rich get even richer while others struggled. Oh man, this is hard. Maybe they built towns too because you need stations for the trains, right? It's like building a highway nowadays but back then with steam engines and all. I think I got it... Railroads definitely changed how people moved stuff around in America by making trade easier. But there were also some not-so-good things, like laws that favored the rich more than others.",
+        "cognitive_state": "CONFUSED",
+        "source_id": "CONFUSED|US History|easy|combined|industrialization|0.73|phi3"
+      },
+      {
+        "generator_model": "phi3:medium",
+        "confidence_before": 4,
+        "subject": "Python Programming",
+        "think_aloud": "Okay, let's print some numbers. I think a for loop can do that. Do we start with 'for i in range(1,5)' or was it (1,6) to include 5? I'll try the first option: 'for i in range(1,5): print(i)'. Wait, why isn't it printing 5? Oh right, ranges are end-exclusive! Let's do (1,6). Hmmm...still no 5. It has to be something with the brackets. I remember my teacher mentioned syntax once. Ugh, this is tricky. Okay, so it was 'for i in range(1,6): print(i)' that worked. I forgot ranges are exclusive of the upper limit. That's kinda silly but also makes sense. Gotta keep track next time!",
+        "cognitive_state": "CONFUSED",
+        "source_id": "CONFUSED|Python Programming|easy|hyperactive|loops|0.70|phi3"
+      }
+    ],
+    "RUSHING": [
+      {
+        "generator_model": "llama3.1:8b",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "Oh man, I know this one, right? Just gotta remember the economy thing... Okay so it's like... probably something to do with slavery or whatever... and that the North didn't really care about owning slaves but the South did. And they grew different crops, too - corn in the North and cotton in the South. Wait, no, that's not it... It's just that the North was all industrialized and stuff, so they had factories and jobs... and the South, uh, probably relied more on agriculture? Yeah, I'm pretty sure that's right... No, wait, is that even right? *sigh* Whatever, gotta move on. Yeah, I think I got it - the North was industrialized, so they didn't need slaves, and the South had plantations and relied on them. Ugh, wish this test was over...",
+        "cognitive_state": "RUSHING",
+        "source_id": "RUSHING|US History|easy|inattentive|civil war|0.79"
+      },
+      {
+        "generator_model": "llama3.1:8b",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "Okay, so what was it again... we did this in class, I think... something about the colonists and taxes? Uh, they were mad because they had to pay taxes but didn't get to vote for anyone, probably. Or was it that they wanted more representation or something? Whatever, it's on the board somewhere... *scribbles* Okay, so it says here: 'taxation without representation'. That makes sense, I guess. Yeah, they were all upset because they felt like the British government wasn't listening to them, or whatever. Yeah, that sounds right... I think we had a note on this in class. Hopefully, it's enough for the test...",
+        "cognitive_state": "RUSHING",
+        "source_id": "RUSHING|US History|easy|inattentive|causes of the revolution|0.77"
+      },
+      {
+        "generator_model": "mistral:7b",
+        "confidence_before": 4,
+        "subject": "Python Programming",
+        "think_aloud": "[\"Alright, let's do this. Quick square function. Piece of cake.\", 'Ugh, where did I put that last square function code? Oh wait, here it is.'] [\"Okay, so it was something like... ah yes, power function! That's the ticket. Power function times the number times itself. Whatever.\", \"Whoa, hold on. This isn't quite right. Something's off. Oh yeah, I forgot about the exponent thingy.\", 'Okay, so it should be like this: def square(num): return num**2. Probably works.'] [\"Whew! Done! Let's hope this is right.\"]",
+        "cognitive_state": "RUSHING",
+        "source_id": "RUSHING|Python Programming|easy|inattentive|functions|0.74|mistral"
+      },
+      {
+        "generator_model": "mistral:7b",
+        "confidence_before": 4,
+        "subject": "Python Programming",
+        "think_aloud": "[\"Alright, alright, let's get this over with. I need to find the largest number in a list, no biggie.\"] [\"Okay, let me see... I think I remember something about loops and comparing. Just a sec... wait, no loops yet! Maybe I can just sort it quickly... hold on... oh, wait, that's the wrong function. Let's see... max... yup, that's got to be it!\"] ['Whew, alright then. That worked, whatever. Gotta remember that for next time.']",
+        "cognitive_state": "RUSHING",
+        "source_id": "RUSHING|Python Programming|easy|hyperactive|lists|0.70|mistral"
+      },
+      {
+        "generator_model": "gemma2:9b",
+        "confidence_before": 4,
+        "subject": "Python Programming",
+        "think_aloud": "Okay, square of a number... gotta be an exponent or something. UGH, I have like five seconds to figure this out. Alright, so it's `def square(number):` probably... then what? Oh yeah, raise it to the power of two! Um, `return number ** 2`, right? Whatever. Let's go! That seems right. Hopefully I didn't mess up anything crazy.",
+        "cognitive_state": "RUSHING",
+        "source_id": "RUSHING|Python Programming|easy|inattentive|functions|0.74|gemma2"
+      },
+      {
+        "generator_model": "gemma2:9b",
+        "confidence_before": 4,
+        "subject": "Python Programming",
+        "think_aloud": "Okay, okay, biggest number... gotta be something with the loop, right? Ugh, focus. Maybe I just use a for loop and keep track of the big one. Yeah! Like, start with nums[0] as the biggest, then check each other one... probably... whatever, if it's bigger, swap 'em out. No, wait, that's sorting! Okay, new plan. How about I just make a variable for the big one and keep comparing? Faster than sorting. Okay, that felt kind of right. Worked though, so whatever.",
+        "cognitive_state": "RUSHING",
+        "source_id": "RUSHING|Python Programming|easy|hyperactive|lists|0.70|gemma2"
+      },
+      {
+        "generator_model": "phi3:medium",
+        "confidence_before": 4,
+        "subject": "Python Programming",
+        "think_aloud": "Alright, gotta do a square thingy function. Should be easy-peasy, right? Just make the number go crazy on itself. Okay, so it's like... num*num I guess? Wait! Or is it something else? Oh man, focus! Yeah, num**2 should work. But what if the input isn't a number? Nah, probably just ignore that for now. Phew, done. Hope this works fine. Probably need to double-check with some test cases later.",
+        "cognitive_state": "RUSHING",
+        "source_id": "RUSHING|Python Programming|easy|inattentive|functions|0.74|phi3"
+      },
+      {
+        "generator_model": "phi3:medium",
+        "confidence_before": 4,
+        "subject": "Python Programming",
+        "think_aloud": "Okay, this should be easy. Just need to square a number. I remember something about ** and stuff... Let's just do it quickly. So, like we start with def function... uh... takes an input, right? Then probably use the power operator or whatever that looks like two little three... So here: return number**3. Wait no wait... I mean squaring not cubing! That's wrong... Should be **2. Man, this is harder than it looks when you have to rush. Phew, done that fast thing with the two asterisks for squaring. Let’s hope it works.",
+        "cognitive_state": "RUSHING",
+        "source_id": "RUSHING|Python Programming|easy|combined|functions|0.72|phi3"
+      }
+    ],
+    "FRUSTRATED": [
+      {
+        "generator_model": "llama3.1:8b",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "ugh, I swear I knew this stuff, but now I'm totally blanking... system of checks and balances, right? We learned about that in Mrs. Johnson's class... wait, was it to prevent the government from getting too powerful or something? Ugh, this makes no sense, I thought we covered this in like, chapter 5? Forget it, let me just recall... Ah, yeah! It's like, the branches of government have these powers so they can balance each other out. Yeah, that sounds right... The legislative branch can't just make laws without the executive branch agreeing or something... Ugh, I hate this question... Um, was it to prevent a coup or something? Like, if one branch gets too powerful and takes over? meh, I guess I got it kinda-sorta right... Now where's my notes from class so I can see what I wrote down...",
+        "cognitive_state": "FRUSTRATED",
+        "source_id": "FRUSTRATED|US History|easy|inattentive|the constitution|0.80"
+      },
+      {
+        "generator_model": "llama3.1:8b",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "Ugh, okay... so I know this is gonna be easy... but still, railroads and economics... this makes no sense... Wait, didn't the Transcontinental Railroad open up West to settlers or something? Yeah, that's it... I think. But how did it change the economy?... Ugh, forget it. Just gotta remember, the railroad expanded the market, made trade easier... and stuff. Oh man, I hope this is right, 'cause I'm totally blanking on this one... But, didn't something about the robber barons come from this period too? Hmm... I think so. Gah, that was such a struggle... but yeah, I guess railroads basically created new opportunities for trade and business to grow",
+        "cognitive_state": "FRUSTRATED",
+        "source_id": "FRUSTRATED|US History|easy|inattentive|industrialization|0.66"
+      },
+      {
+        "generator_model": "mistral:7b",
+        "confidence_before": 4,
+        "subject": "Geometry",
+        "think_aloud": "['Ugh, another geometry problem. Why does this have to be so hard?', \"This makes no sense, let's just dive in and see what happens.\"] [\"Okay, okay... volume of a cube, right? Side length is given as 4. So, side * side * side... Wait, that can't be right because it seems too easy.\", 'Let me double-check: Side^3... Yeah, that feels wrong somehow.'] [\"Oh, of course! Side^3 equals 64 cubic units. I don't know why I was overthinking it. Frustrating.\"]",
+        "cognitive_state": "FRUSTRATED",
+        "source_id": "FRUSTRATED|Geometry|easy|combined|volume|0.64|mistral"
+      },
+      {
+        "generator_model": "mistral:7b",
+        "confidence_before": 4,
+        "subject": "Chemistry",
+        "think_aloud": "[\"Ugh, chemistry again. Alright, let's see... CO₂, carbon dioxide. Got it.\"] [\"Wait, what's the atomic mass of carbon? Uh, 12. I think that's right. And oxygen... umm, 16, right? So total molar mass should be... let me write this down. Oh no, I don't have a pen.\"] [\"Alright, that can't be wrong, but it feels like I missed something. Maybe I need to double-check my numbers.\"]",
+        "cognitive_state": "FRUSTRATED",
+        "source_id": "FRUSTRATED|Chemistry|easy|hyperactive|molar mass|0.69|mistral"
+      },
+      {
+        "generator_model": "gemma2:9b",
+        "confidence_before": 4,
+        "subject": "Chemistry",
+        "think_aloud": "Ugh, seriously? Another balancing equation. I feel like I just did this yesterday. Okay, so we need two H's on each side... what was it again?  H₂ plus O₂, makes... right, H₂O. Okay, maybe if I put a 2 in front of the H₂O.... Nope, that doesn't work either. This makes no sense! Finally! It took forever to figure that out.",
+        "cognitive_state": "FRUSTRATED",
+        "source_id": "FRUSTRATED|Chemistry|easy|hyperactive|balancing equations|0.76|gemma2"
+      },
+      {
+        "generator_model": "gemma2:9b",
+        "confidence_before": 3,
+        "subject": "US History",
+        "think_aloud": "Ugh, okay.  North vs. South... This is like, basic stuff, right? But I can't even remember what they were arguing about. Was it, like, slavery? No, that's dumb. I mean, yeah, they were totally obsessed with it, but I don't think that's the *main* economic difference.  Wait, wasn't the South all agriculture and stuff? And the North was more industrial? That has to be it, right? I dunno if that's totally right... but it sounds good enough.",
+        "cognitive_state": "FRUSTRATED",
+        "source_id": "FRUSTRATED|US History|medium|combined|civil war|0.51|gemma2"
+      },
+      {
+        "generator_model": "phi3:medium",
+        "confidence_before": 4,
+        "subject": "Chemistry",
+        "think_aloud": "Ugh, chemistry again? Molar mass of CO₂... What even is molar mass? I feel like my brain's gonna explode. 'Okay, so carbon has an atomic mass of about 12 u and oxygen is like 16 u. That makes two times 16 for the oxygens... Wait, do you just add these together? But why twice for oxygen? Man, this is confusing. Phew, finally got it to be around 44 u, that's right! But what took me so long?",
+        "cognitive_state": "FRUSTRATED",
+        "source_id": "FRUSTRATED|Chemistry|easy|hyperactive|molar mass|0.69|phi3"
+      },
+      {
+        "generator_model": "phi3:medium",
+        "confidence_before": 3,
+        "subject": "US History",
+        "think_aloud": "'Ugh, another question about history. I can't even remember what we learned last week. Hopefully it's something with dates or battles... those are easier to guess.' 'Okay, so they fought a war because of slavery and all that jazz, but the question is about economics? Ugh. Wasn’t there some sort of industry in the North... maybe factories or something? Wait no, the South was more into agriculture right... cotton farms. I guess those are pretty different.' 'Alright, so I think it's like, the North had industries and stuff while the South relied on plantations for their economy. That should be enough to pass this time.'",
+        "cognitive_state": "FRUSTRATED",
+        "source_id": "FRUSTRATED|US History|medium|combined|civil war|0.51|phi3"
+      }
+    ],
+    "STUCK": [
+      {
+        "generator_model": "llama3.1:8b",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "Okay, I think I know this one... we did it last year in class. Brown v. Board of Education was like, a big court case or something. [pause] Um, wait, what was the question again? Oh yeah, significance... So, wasn't it about segregation and schools? Yeah, that's right! But I don't know, was it just like a normal court case or was there something more to it? [sigh] Why can't I remember this?! I swear we talked about it so much last year. Um, let me try to think... The Topeka one, the NAACP, they were suing for equal rights... But what does that even mean? Wasn't it like, a game-changer or something? Ugh, I still don't know if I got this right. Brown v. Board of Education was important because... um... [ pause ]",
+        "cognitive_state": "STUCK",
+        "source_id": "STUCK|US History|easy|hyperactive|civil rights movement|0.78"
+      },
+      {
+        "generator_model": "llama3.1:8b",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "Okay, so I know this is gonna be easy... we learned about railroads in class, right? I just need to remember what they said. Umm, so the Transcontinental Railroad was a big deal... it connected the east and west coasts... but how did that change the economy? Hmm... something about jobs, maybe? Or trade? Wait, no, that's not right. Railroads made things cheaper to transport... but what else? Uh-oh, I don't know... [pause] ...No, no, think about it! They helped connect cities and states... and industries like mining and agriculture could move goods more easily... [stammering] But how exactly did that change the economy... I don't know... *sigh* I'm just not getting this. Maybe we didn't cover it in class as well as I thought.",
+        "cognitive_state": "STUCK",
+        "source_id": "STUCK|US History|easy|combined|industrialization|0.78"
+      },
+      {
+        "generator_model": "mistral:7b",
+        "confidence_before": 4,
+        "subject": "Python Programming",
+        "think_aloud": "[\"Alright, let's see... Reverse a string in Python? I think I know this one, but my mind is all over the place today.\", '[pause]'] [\"I think it's got something to do with slicing or list reversal, but my memory is fuzzy. Let me check out some functions... Oh wait, there's reverse(), but that seems wrong...\", \"Hang on, I remember using a method with slicing... It was like s[::-1]... No, that can't be right... [mental breakdown of progress]\", \"[pause] Okay, let me try it again... If s[::-1] doesn't work, then maybe it's just reverse(s)... That's more likely.\"] [\"Yup, that worked! I'm not 100% sure I understand why exactly, but at least I got the result I wanted.\"]",
+        "cognitive_state": "STUCK",
+        "source_id": "STUCK|Python Programming|easy|hyperactive|strings|0.78|mistral"
+      },
+      {
+        "generator_model": "mistral:7b",
+        "confidence_before": 4,
+        "subject": "Python Programming",
+        "think_aloud": "[\"Man, where's my focus today? Alright, let's see... nums, find the largest number. Ugh, this is easy but my brain feels scrambled.\", \"I don't know, I think I remember something about loops and comparing numbers...\"] [\"Okay, so maybe a for loop? But how do I compare each number to find the biggest one? Wait, I got it! Let me try... nope, that's not right. [pause] Alright, if this was reverse order, I could just pop off the end, but what about this...\", 'Oh, duh! I need a variable to store the largest number and update it as I go through the loop!'] [\"Awesome! I did it. That wasn't so bad once I figured out how to think about it.\"]",
+        "cognitive_state": "STUCK",
+        "source_id": "STUCK|Python Programming|easy|hyperactive|lists|0.77|mistral"
+      },
+      {
+        "generator_model": "gemma2:9b",
+        "confidence_before": 4,
+        "subject": "Python Programming",
+        "think_aloud": "Okay, reversing a string... sounds easy peasy. Wait, is it like literally flipping it? Or do I gotta use some fancy function? [pause] Um, maybe there's something with *reverse* or *flip*... Nah, that doesn't seem right. [pause] What if I try using a for loop? Start at the end and go backward, maybe? Like...  I don't know. This is harder than it looks. Ugh, this is so frustrating! I swear there's gotta be a way to do this easily...",
+        "cognitive_state": "STUCK",
+        "source_id": "STUCK|Python Programming|easy|hyperactive|strings|0.78|gemma2"
+      },
+      {
+        "generator_model": "gemma2:9b",
+        "confidence_before": 4,
+        "subject": "Python Programming",
+        "think_aloud": "Okay, so like, the biggest number... gotta find it.  Is there even a Python thing for that? Hmm. I don't know. Maybe I could use a loop to go through each number and compare them, but that seems kinda slow... Ugh, what if there's a built-in function? [pause] Wait, is it like max()?   No, that can't be right...  It has to be something else. Max() is usually for finding the maximum value of things in a math problem, not lists. I don't know. Maybe I should ask Mr. B about this later. This isn't making any sense.",
+        "cognitive_state": "STUCK",
+        "source_id": "STUCK|Python Programming|easy|hyperactive|lists|0.77|gemma2"
+      },
+      {
+        "generator_model": "phi3:medium",
+        "confidence_before": 4,
+        "subject": "Python Programming",
+        "think_aloud": "Okay, let's see... squaring a number? I kinda remember this from math class. Maybe it's just multiplying the thing by itself? Gotta focus! [pause] So, first I start with def square(num), then inside that, do num * num right? Wait... am I sure about that again? Ahh man. Alright, I think it's like this: def square(num): return num*num. That was kinda scary but also not too bad. Phew!",
+        "cognitive_state": "STUCK",
+        "source_id": "STUCK|Python Programming|easy|hyperactive|functions|0.71|phi3"
+      },
+      {
+        "generator_model": "phi3:medium",
+        "confidence_before": 4,
+        "subject": "Geometry",
+        "think_aloud": "Ugh, I hate circles. What even is a radius? Why can't this be simple numbers or something. [pause] Okay, so it’s Pi times the radius squared... But what was that number again? Oh wait, pi is like 3.14 but I think my book said to use more digits... Um, let's try [5^2]*pi... Nope, too high, nope, too low... This is so confusing! Wait a sec, did that mean 78.5? I remember now; radius squared is just the number times itself. But did I add up everything right?",
+        "cognitive_state": "STUCK",
+        "source_id": "STUCK|Geometry|easy|hyperactive|area|0.68|phi3"
+      }
+    ],
+    "INSIGHT": [
+      {
+        "generator_model": "llama3.1:8b",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "okay, checks and balances... i know this one... um what was the question again? oh wait, we learned about that in chapter 5... something to do with power, right? yeah, it's like the branches of government are all trying to keep each other from getting too strong... ohhhh, it's like a game of tug-of-war! if one branch gets too powerful, they can just pull back and restore balance. like, congress is supposed to be able to impeach the president or something. yeah, that sounds right... i'm pretty sure that's what checks and balances are all about",
+        "cognitive_state": "INSIGHT",
+        "source_id": "INSIGHT|US History|easy|inattentive|the constitution|0.79"
+      },
+      {
+        "generator_model": "llama3.1:8b",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "Okay, so I know this is gonna be easy... um, was it something about slavery? Nah, that's not right... we just learned about the three-fifths compromise... Wait, what if it's because of the way they grew their crops? Oh, yeah! The North had all those factories and stuff, but the South had plantations and they relied on slave labor. That sounds kinda important... OHHHHH, I think I got it! Because the North was industrialized, they could just use machines to grow food or whatever, whereas the South had to rely on people, and that's a major difference. Yup, I'm pretty sure that's right. We did learn about how different their economies were...",
+        "cognitive_state": "INSIGHT",
+        "source_id": "INSIGHT|US History|easy|inattentive|civil war|0.79"
+      },
+      {
+        "generator_model": "mistral:7b",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "[\"Okay, let's see... railroads in the late 1800s, hmmm. I think this is easy but I might have ADHD so who knows...\"] [\"Railroads connected different parts of America quickly, wait... ohhhh, that's it! They helped goods to move faster across the country, right? And that led to more trade and growth of industries... but I think there's something else...\"] ['Yeah, I got this one. Railroads really changed the American economy by making transportation more efficient, boosting industry, agriculture, and overall economic growth in the late 1800s.']",
+        "cognitive_state": "INSIGHT",
+        "source_id": "INSIGHT|US History|easy|hyperactive|industrialization|0.75|mistral"
+      },
+      {
+        "generator_model": "mistral:7b",
+        "confidence_before": 4,
+        "subject": "Geometry",
+        "think_aloud": "[\"Man, focus. Alright, let's see here... Triangle, angles, gotta use that ol' trick...\"] ['Wait a sec, sum of the angles in a triangle is... oh right, 180 degrees. Got 40 and 75 left... Let me subtract them from 180... OH! There it is!'] [\"Yeah, that's what I thought. Easy peasy.\"]",
+        "cognitive_state": "INSIGHT",
+        "source_id": "INSIGHT|Geometry|easy|combined|triangles|0.79|mistral"
+      },
+      {
+        "generator_model": "gemma2:9b",
+        "confidence_before": 4,
+        "subject": "Geometry",
+        "think_aloud": "Okay, so three angles in a triangle... gotta find the missing one. Hmm, that's easy right? Easy-peasy... 40 plus 75...  OH wait! That's not right, I forgot about the whole 180 degrees thing. Yeah, so 180 minus 40 minus 75...  ohhhh that's gotta be it. Yup, totally makes sense now. It was just that stupid 180 degrees thing I was forgetting about again.",
+        "cognitive_state": "INSIGHT",
+        "source_id": "INSIGHT|Geometry|easy|combined|triangles|0.79|gemma2"
+      },
+      {
+        "generator_model": "gemma2:9b",
+        "confidence_before": 4,
+        "subject": "Biology",
+        "think_aloud": "Okay, so natural selection... like survival of the fittest? But how does that actually change things in a whole population over time? OH, wait! So if certain traits help an organism survive better, they're more likely to reproduce right? And then their offspring inherit those traits... ohhhh, so basically it's like the good traits get passed down more and become more common in the population over time. That makes sense! Yeah, that feels right. Kinda obvious now that I think about it.",
+        "cognitive_state": "INSIGHT",
+        "source_id": "INSIGHT|Biology|easy|combined|evolution|0.76|gemma2"
+      },
+      {
+        "generator_model": "phi3:medium",
+        "confidence_before": 4,
+        "subject": "US History",
+        "think_aloud": "Okay, I got this... I think. Railroads and the economy in like a hundred years ago? That's cool but confusing. Wait, they totally changed how things were shipped right? More stuff could get to where it needed faster - that must have boosted trade or something. Ohhhh, so maybe... more jobs because of all the train tracks and stations being built! But did it make life better for everyone? Hmmm. Hmm... I'd say railroads made the economy go super fast-like cause goods could move quicker. Jobs probably came from that too, but wasn't everything else expensive or something 'cause of all the coal used by those trains?",
+        "cognitive_state": "INSIGHT",
+        "source_id": "INSIGHT|US History|easy|hyperactive|industrialization|0.75|phi3"
+      },
+      {
+        "generator_model": "phi3:medium",
+        "confidence_before": 4,
+        "subject": "Geometry",
+        "think_aloud": "Ugh, geometry... I think the angles in a triangle add up to something? Let's see if I can figure this out. So it's like, there are three angles. We got two here: 40 and 75 degrees. Hmmm, what was that formula again... ohhhh, the sum of angles in a triangle is always 180°! So let me see... we subtract those from 180... wait, I might have messed up my math... Woah, it clicked. The third angle has to be 65 degrees!",
+        "cognitive_state": "INSIGHT",
+        "source_id": "INSIGHT|Geometry|easy|combined|triangles|0.79|phi3"
+      }
+    ]
+  }
+}

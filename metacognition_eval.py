@@ -81,6 +81,11 @@ RESULTS_PATH = os.path.join(RESULTS_DIR, "metacognition_eval_results.json")
 
 JUDGE_MODEL = os.environ.get("ARIA_JUDGE_MODEL", "llama3.1:8b")
 SIM_MODEL = os.environ.get("ARIA_META_MODEL", "llama3.2:3b")
+# Fixed decoding seed for the LLM judge. At temperature 0 the judge is greedy,
+# but llama.cpp is not bit-reproducible across process runs; pinning the seed
+# makes Metric 2 reproducible so a re-run can be compared to a baseline without
+# ±0.1 nondeterminism masquerading as a regression.
+JUDGE_SEED = int(os.environ.get("ARIA_JUDGE_SEED", "0"))
 
 
 # ------------------------------------------------------------------
@@ -104,21 +109,27 @@ def _parse_json(text: str) -> dict:
 # METRIC 1 — State Detection Accuracy
 # ------------------------------------------------------------------
 
-def metric_state_detection(test_path: str, use_llm: bool, limit: int = 0) -> dict:
+def metric_state_detection(test_path: str, use_llm: bool, limit: int = 0,
+                           generator_filter: str | None = None) -> dict:
     print("\n" + "=" * 70)
     print("METRIC 1 — State Detection Accuracy")
     print("=" * 70)
 
     records = _load_jsonl(test_path)
+    if generator_filter:
+        records = [r for r in records
+                   if r.get("generator_model") == generator_filter]
+        print(f"Filtered to generator={generator_filter}: {len(records)} records")
     if limit:
         records = records[:limit]
     analyzer = CognitiveStateAnalyzer(use_llm=use_llm)
 
-    y_true, y_pred = [], []
+    y_true, y_pred, y_gen = [], [], []
     for i, rec in enumerate(records, 1):
         text = _join_think_aloud(rec.get("think_aloud", ""))
         y_true.append(rec.get("cognitive_state", ""))
         y_pred.append(analyzer.analyze(text)["state"])
+        y_gen.append(rec.get("generator_model", "unknown"))
         if i % 20 == 0:
             print(f"  ...{i}/{len(records)}")
 
@@ -134,7 +145,55 @@ def metric_state_detection(test_path: str, use_llm: bool, limit: int = 0) -> dic
     macro_f1 = sum(metrics["per_state"][s]["f1"] for s in COGNITIVE_STATES) / len(COGNITIVE_STATES)
     metrics["macro_f1"] = round(macro_f1, 3)
     print(f"\nMacro-F1: {macro_f1:.3f}")
+
+    # --- Per-generator breakdown (does F1 stay consistent across generators?) ---
+    metrics["per_generator"] = _per_generator_breakdown(y_true, y_pred, y_gen)
     return metrics
+
+
+def _per_generator_breakdown(y_true, y_pred, y_gen) -> dict:
+    """Per-generator per-state F1 — the key metric for whether multi-generator
+    training fixed generator overfitting (consistent F1 across generators)."""
+    generators = sorted(set(y_gen))
+    if len(generators) <= 1:
+        return {}
+    per_gen: dict[str, dict] = {}
+    for g in generators:
+        idx = [i for i, gg in enumerate(y_gen) if gg == g]
+        gt = [y_true[i] for i in idx]
+        gp = [y_pred[i] for i in idx]
+        gm = compute_classification_metrics(gt, gp, COGNITIVE_STATES)
+        macro = round(sum(gm["per_state"][s]["f1"]
+                          for s in COGNITIVE_STATES) / len(COGNITIVE_STATES), 3)
+        per_gen[g] = {"n": len(idx), "accuracy": gm["accuracy"],
+                      "macro_f1": macro, "per_state": gm["per_state"]}
+
+    print("\n" + "-" * 70)
+    print("PER-GENERATOR breakdown (F1 by state x generator)")
+    print("-" * 70)
+    header = "state".ljust(12) + "".join(g.split(":")[0][:9].rjust(10) for g in generators)
+    print(header)
+    for state in COGNITIVE_STATES:
+        row = state.ljust(12)
+        for g in generators:
+            row += f"{per_gen[g]['per_state'][state]['f1']:>10.3f}"
+        print(row)
+    print("macro-F1".ljust(12) + "".join(f"{per_gen[g]['macro_f1']:>10.3f}" for g in generators))
+    print("n".ljust(12) + "".join(f"{per_gen[g]['n']:>10d}" for g in generators))
+
+    # Consistency: spread of FLOW F1 (and macro-F1) across generators.
+    flow_f1s = [per_gen[g]["per_state"]["FLOW"]["f1"] for g in generators]
+    macro_f1s = [per_gen[g]["macro_f1"] for g in generators]
+    consistency = {
+        "flow_f1_by_generator": {g: per_gen[g]["per_state"]["FLOW"]["f1"] for g in generators},
+        "flow_f1_spread": round(max(flow_f1s) - min(flow_f1s), 3) if flow_f1s else None,
+        "macro_f1_spread": round(max(macro_f1s) - min(macro_f1s), 3) if macro_f1s else None,
+    }
+    print(f"\nFLOW F1 spread across generators: {consistency['flow_f1_spread']}  "
+          f"(macro-F1 spread {consistency['macro_f1_spread']})  "
+          f"— smaller = less generator overfitting")
+    per_gen["_consistency"] = consistency
+    return per_gen
 
 
 # ------------------------------------------------------------------
@@ -162,7 +221,7 @@ def _rate_intervention(
                 {"role": "user", "content": prompt},
             ],
             format="json",
-            options={"temperature": 0.0, "num_predict": 30},
+            options={"temperature": 0.0, "seed": JUDGE_SEED, "num_predict": 30},
         )
         data = _parse_json(resp.message.content)
         rating = int(data.get("rating"))
@@ -571,6 +630,12 @@ def print_summary_table(results: dict, results_path: str = RESULTS_PATH) -> None
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="Evaluate the ARIA metacognition engine.")
     ap.add_argument("--test", default=TEST_PATH, help="Path to test.jsonl")
+    ap.add_argument("--dataset", default=None,
+                    help="Named split under data/synthetic_thinkaloud/ (e.g. "
+                         "'mixed_test', 'mixed_val', 'test'); overrides --test.")
+    ap.add_argument("--generator", default=None,
+                    help="Evaluate only records from this generator_model "
+                         "(e.g. 'mistral:7b').")
     ap.add_argument("--no-llm", action="store_true",
                     help="Metric 1: heuristics only (skip analyzer LLM fallback).")
     ap.add_argument("--limit", type=int, default=0, help="Cap test records (metric 1).")
@@ -590,14 +655,24 @@ def main(argv: list[str] | None = None) -> int:
                     help="Path for the evaluation JSON output.")
     args = ap.parse_args(argv if argv is not None else sys.argv[1:])
 
+    # Resolve --dataset (named split) into a concrete path, overriding --test.
+    if args.dataset:
+        cand = args.dataset
+        if not os.path.isabs(cand) and not cand.endswith(".jsonl"):
+            cand = os.path.join(DATA_DIR, "synthetic_thinkaloud", f"{cand}.jsonl")
+        args.test = cand
+
     if not os.path.exists(args.test):
         print(f"ERROR: test set not found at {args.test}\n"
               f"Run: python3.11 metacognition/generate.py --samples 50", file=sys.stderr)
         return 1
 
     results: dict = {}
+    results["dataset"] = args.test
+    results["generator_filter"] = args.generator
     results["state_detection"] = metric_state_detection(
-        args.test, use_llm=not args.no_llm, limit=args.limit)
+        args.test, use_llm=not args.no_llm, limit=args.limit,
+        generator_filter=args.generator)
 
     if not args.skip_judge:
         results["intervention_appropriateness"] = metric_intervention_appropriateness(

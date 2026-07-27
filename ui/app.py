@@ -12,6 +12,7 @@ from typing import Any
 import gradio as gr
 
 from metacognition.analyzer import CognitiveStateAnalyzer
+from metacognition.behavioral import BehavioralFeatureExtractor, SIGNAL_TO_STATE
 from metacognition.interaction_logger import (
     InteractionEvent,
     InteractionLogger,
@@ -24,6 +25,62 @@ from metacognition.interventions import (
     MetacognitiveInterventionGenerator,
 )
 from metacognition.jitai import JITAIContext, RuleBasedJITAIPolicy
+
+
+# ------------------------------------------------------------------
+# Client-side keystroke capture
+# ------------------------------------------------------------------
+# BEHAVIORAL_SETUP_JS runs once on page load and attaches keydown listeners to
+# the think-aloud textarea, accumulating the four behavioral signals in a
+# per-tab JS global (window.__ariaKS). BEHAVIORAL_INJECT_JS runs client-side on
+# every submit BEFORE the Python handler: it snapshots the accumulated metrics
+# into the hidden behavioral textbox (so they travel to the server alongside the
+# message) and then resets the accumulator for the next turn. typing_speed_wpm
+# is left null here and computed server-side from total_typing_time_ms + words.
+
+BEHAVIORAL_SETUP_JS = """
+() => {
+  function bind() {
+    const input = document.querySelector('textarea[placeholder*="Think"]');
+    if (!input) { setTimeout(bind, 300); return; }
+    if (input.__ariaBound) return;
+    input.__ariaBound = true;
+    window.__ariaKS = {
+      firstKeyTime: null, keyCount: 0, backspaceCount: 0,
+      problemAppearedAt: Date.now(), lastSubmitAt: null
+    };
+    input.addEventListener('keydown', (e) => {
+      const ks = window.__ariaKS;
+      if (!ks.firstKeyTime) ks.firstKeyTime = Date.now();
+      ks.keyCount++;
+      if (e.key === 'Backspace' || e.key === 'Delete') ks.backspaceCount++;
+    });
+  }
+  bind();
+}
+"""
+
+BEHAVIORAL_INJECT_JS = """
+(message, history, session_id, profile_id, topic, use_llm, behavioral) => {
+  const ks = window.__ariaKS || {
+    firstKeyTime: null, keyCount: 0, backspaceCount: 0,
+    problemAppearedAt: Date.now(), lastSubmitAt: null
+  };
+  const now = Date.now();
+  const features = {
+    pause_before_first_key_ms: ks.firstKeyTime ? (ks.firstKeyTime - ks.problemAppearedAt) : null,
+    total_typing_time_ms: ks.firstKeyTime ? (now - ks.firstKeyTime) : null,
+    backspace_rate: ks.keyCount > 0 ? (ks.backspaceCount / ks.keyCount) : 0,
+    typing_speed_wpm: null,
+    time_since_last_message_ms: ks.lastSubmitAt ? (now - ks.lastSubmitAt) : null
+  };
+  window.__ariaKS = {
+    firstKeyTime: null, keyCount: 0, backspaceCount: 0,
+    problemAppearedAt: now, lastSubmitAt: now
+  };
+  return [message, history, session_id, profile_id, topic, use_llm, JSON.stringify(features)];
+}
+"""
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -59,12 +116,17 @@ class SessionRuntime:
     analyzer: CognitiveStateAnalyzer
     generator: MetacognitiveInterventionGenerator
     logger: InteractionLogger
+    behavioral_extractor: BehavioralFeatureExtractor = field(
+        default_factory=BehavioralFeatureExtractor
+    )
     policy: RuleBasedJITAIPolicy = field(default_factory=RuleBasedJITAIPolicy)
     last_state: str = ""
     consecutive_state_count: int = 0
     last_turn_at: float | None = None
     pending_intervention_id: int | None = None
     pending_state: str = ""
+    # Prior turns (each {"response_length_words": int}) for the length trend.
+    turn_history: list[dict[str, Any]] = field(default_factory=list)
 
 
 _RUNTIMES: dict[str, SessionRuntime] = {}
@@ -128,6 +190,50 @@ def _state_readout(state: str, confidence: float, method: str) -> str:
     )
 
 
+def _behavioral_readout(analysis: dict[str, Any] | None) -> str:
+    """Small panel showing the captured keystroke signals + fusion decision."""
+    if not analysis or not analysis.get("behavioral_features"):
+        return (
+            "<div class='aria-behavioral'><em>No keystroke data yet — type a "
+            "message and the behavioral layer will appear here.</em></div>"
+        )
+    feats = analysis["behavioral_features"]
+    signals = feats.get("behavioral_state_signals", {})
+    fusion = analysis.get("fusion_method", "text_only")
+    pause = feats.get("pause_before_first_key_ms")
+    wpm = feats.get("typing_speed_wpm")
+    back = feats.get("backspace_rate")
+
+    def _bar(name: str, score: float) -> str:
+        pct = max(0.0, min(1.0, float(score)))
+        color = STATE_COLORS.get(SIGNAL_TO_STATE.get(name, ""), "#64748b")
+        return (
+            f"<div style='display:flex;align-items:center;gap:8px;margin:2px 0;'>"
+            f"<span style='width:78px;font-size:12px;color:var(--body-text-color-subdued)'>{name}</span>"
+            f"<span style='flex:1;background:#1e222e33;border-radius:5px;height:9px;overflow:hidden;'>"
+            f"<span style='display:block;width:{pct*100:.0f}%;height:100%;background:{color};'></span></span>"
+            f"<span style='width:34px;text-align:right;font-size:12px;'>{pct:.2f}</span></div>"
+        )
+
+    bars = "".join(_bar(n, signals.get(n, 0.0))
+                   for n in ("rushing", "stuck", "flow", "planning", "frustrated"))
+    meta = (
+        f"pause {pause} ms · " if pause is not None else ""
+    ) + (
+        f"{wpm:.0f} wpm · " if wpm is not None else ""
+    ) + (
+        f"backspace {back:.0%}" if back is not None else ""
+    )
+    return (
+        "<div class='aria-behavioral'>"
+        "<div style='font-size:12px;color:var(--body-text-color-subdued);margin-bottom:4px;'>"
+        f"Behavioral signals &nbsp;·&nbsp; fusion: <b>{fusion}</b></div>"
+        f"{bars}"
+        f"<div style='font-size:11px;color:var(--body-text-color-subdued);margin-top:4px;'>{meta}</div>"
+        "</div>"
+    )
+
+
 def _session_rows(logger: InteractionLogger, session_id: str) -> list[list[Any]]:
     rows = logger.get_recent_interaction_signals(session_id, limit=20)
     output: list[list[Any]] = []
@@ -170,6 +276,17 @@ def _close_pending_outcome(
     runtime.pending_state = ""
 
 
+def _parse_behavioral(behavioral_json: str | None) -> dict[str, Any]:
+    """Parse the JSON keystroke payload injected client-side; tolerate junk."""
+    if not behavioral_json:
+        return {}
+    try:
+        data = json.loads(behavioral_json)
+    except (json.JSONDecodeError, TypeError):
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
 def handle_message(
     message: str,
     history: list[dict[str, Any]] | None,
@@ -177,6 +294,7 @@ def handle_message(
     profile_id: str,
     topic: str,
     use_llm: bool,
+    behavioral_json: str | None = None,
 ) -> tuple[
     str,
     list[dict[str, Any]],
@@ -186,6 +304,7 @@ def handle_message(
     str,
     str,
     list[list[Any]],
+    str,
 ]:
     """Run one complete analyzer -> policy -> intervention -> logger turn."""
     clean_message = (message or "").strip()
@@ -200,6 +319,7 @@ def handle_message(
             "",
             "No outcome to record",
             [],
+            _behavioral_readout(None),
         )
 
     runtime = _runtime(session_id, profile_id.strip() or "demo_student", use_llm)
@@ -209,7 +329,24 @@ def handle_message(
         if runtime.last_turn_at is not None
         else None
     )
-    analysis = runtime.analyzer.analyze(clean_message)
+
+    # --- Behavioral (keystroke) layer -------------------------------------
+    keystroke_data = _parse_behavioral(behavioral_json)
+    if elapsed_ms is not None and keystroke_data.get("time_since_last_message_ms") is None:
+        keystroke_data["time_since_last_message_ms"] = elapsed_ms
+    behavioral_features = runtime.behavioral_extractor.extract(
+        clean_message, keystroke_data, runtime.turn_history
+    )
+    # Fuse text + behavioral. With no keystroke data the extractor still returns
+    # well-formed features and fusion falls back to text_dominant/text_only.
+    analysis = runtime.analyzer.analyze(
+        clean_message, behavioral_features=behavioral_features
+    )
+    runtime.turn_history.append(
+        {"response_length_words": behavioral_features["response_length_words"]}
+    )
+    if len(runtime.turn_history) > 50:
+        del runtime.turn_history[: len(runtime.turn_history) - 50]
     state = analysis["state"]
 
     _close_pending_outcome(runtime, "responded", next_state=state)
@@ -282,9 +419,14 @@ def handle_message(
             tone_proxy_evidence=tone.evidence,
             cognitive_state=state,
             analyzer_confidence=float(analysis["confidence"]),
+            behavioral_features=behavioral_features,
+            text_state=analysis.get("text_state"),
+            text_confidence=analysis.get("text_confidence"),
+            fusion_method=analysis.get("fusion_method"),
             metadata={
                 "evidence": analysis["evidence"],
                 "method": analysis["method"],
+                "fusion_evidence": analysis.get("fusion_evidence", ""),
                 "rule_id": decision.rule_id,
             },
         )
@@ -301,6 +443,7 @@ def handle_message(
         _citation_text(citation_keys),
         outcome_status,
         _session_rows(runtime.logger, session_id),
+        _behavioral_readout(analysis),
     )
 
 
@@ -328,6 +471,7 @@ def reset_session() -> tuple[
     str,
     str,
     list[list[Any]],
+    str,
 ]:
     session_id = _new_session_id()
     return (
@@ -339,6 +483,7 @@ def reset_session() -> tuple[
         "",
         "New session",
         [],
+        _behavioral_readout(None),
     )
 
 
@@ -379,11 +524,20 @@ def create_demo() -> gr.Blocks:
                     _state_readout("WAITING", 0.0, "idle"), label="State"
                 )
                 evidence = gr.Textbox(label="Detection evidence", interactive=False)
+                behavioral_readout = gr.HTML(
+                    _behavioral_readout(None), label="Behavioral signals"
+                )
                 rule = gr.Markdown(label="Decision rule")
                 citations = gr.Markdown(label="Research basis")
                 profile_id = gr.Textbox(value="demo_student", label="Student")
                 topic = gr.Textbox(value="algebra", label="Topic")
                 use_llm = gr.Checkbox(value=True, label="Use local Ollama fallback")
+
+        # Hidden field carrying the client-side keystroke JSON to the server.
+        # BEHAVIORAL_INJECT_JS fills it on every submit before the handler runs.
+        behavioral_box = gr.Textbox(
+            value="{}", visible=False, elem_id="aria-behavioral-features"
+        )
 
         session_table = gr.Dataframe(
             headers=SESSION_COLUMNS,
@@ -394,7 +548,8 @@ def create_demo() -> gr.Blocks:
             wrap=True,
         )
 
-        turn_inputs = [message, chatbot, session_id, profile_id, topic, use_llm]
+        turn_inputs = [message, chatbot, session_id, profile_id, topic, use_llm,
+                       behavioral_box]
         turn_outputs = [
             message,
             chatbot,
@@ -404,9 +559,12 @@ def create_demo() -> gr.Blocks:
             citations,
             outcome_status,
             session_table,
+            behavioral_readout,
         ]
-        send.click(handle_message, inputs=turn_inputs, outputs=turn_outputs)
-        message.submit(handle_message, inputs=turn_inputs, outputs=turn_outputs)
+        send.click(handle_message, inputs=turn_inputs, outputs=turn_outputs,
+                   js=BEHAVIORAL_INJECT_JS)
+        message.submit(handle_message, inputs=turn_inputs, outputs=turn_outputs,
+                       js=BEHAVIORAL_INJECT_JS)
 
         for button, outcome in (
             (reengaged, "re_engaged"),
@@ -432,7 +590,11 @@ def create_demo() -> gr.Blocks:
                 citations,
                 outcome_status,
                 session_table,
+                behavioral_readout,
             ],
         )
+
+        # Attach keystroke listeners once the page has loaded.
+        demo.load(js=BEHAVIORAL_SETUP_JS)
 
     return demo

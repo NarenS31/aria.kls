@@ -3,30 +3,30 @@
   "stats": {
     "PLANNING": {
       "Good \u2014 what's your overall strategy?": {
-        "tries": 4,
+        "tries": 7,
         "improved": 0
       },
       "Before you start, what do you predict will be hardest?": {
-        "tries": 3,
+        "tries": 6,
         "improved": 0
       },
       "What do you already know that applies here?": {
-        "tries": 3,
+        "tries": 6,
         "improved": 0
       }
     },
     "FLOW": {
       "What would happen if you changed one part of your approach?": {
-        "tries": 1,
+        "tries": 4,
         "improved": 0
       },
       "Would this same approach work on a different problem?": {
-        "tries": 1,
+        "tries": 4,
         "improved": 0
       },
       "Can you explain why that step works, not just what you did?": {
-        "tries": 8,
-        "improved": 3
+        "tries": 11,
+        "improved": 4
       }
     },
     "CONFUSED": {
@@ -49,6 +49,30 @@
       "Here's one tiny nudge: focus on just the numbers or key terms first. Now \u2014 forget the whole problem. what's the very first word in the question?": {
         "tries": 2,
         "improved": 0
+      },
+      "You mentioned {concept}. What do you already know about that specifically?": {
+        "tries": 2,
+        "improved": 1
+      },
+      "You mentioned {concept}. Can you point to the exact step that loses you?": {
+        "tries": 2,
+        "improved": 1
+      },
+      "You mentioned {concept}. Which part feels unclear right now?": {
+        "tries": 1,
+        "improved": 0
+      },
+      "You mentioned {concept}. What's the one piece you'd want cleared up first?": {
+        "tries": 2,
+        "improved": 1
+      },
+      "You mentioned {concept}. Where exactly does it start to feel fuzzy?": {
+        "tries": 1,
+        "improved": 0
+      },
+      "You mentioned {concept}. Which specific part is tripping you up?": {
+        "tries": 1,
+        "improved": 0
       }
     },
     "RUSHING": {
@@ -67,6 +91,30 @@
       "Stop. What's your plan before going further?": {
         "tries": 3,
         "improved": 1
+      },
+      "What made you pick that approach?": {
+        "tries": 3,
+        "improved": 1
+      },
+      "Before you check \u2014 how sure are you, 1 to 5?": {
+        "tries": 1,
+        "improved": 0
+      },
+      "What would you check first if you were wrong?": {
+        "tries": 1,
+        "improved": 0
+      },
+      "If you had to bet on that answer, how sure are you?": {
+        "tries": 1,
+        "improved": 0
+      },
+      "You moved fast there \u2014 walk me through it?": {
+        "tries": 2,
+        "improved": 1
+      },
+      "Before you move on \u2014 how could you double-check it?": {
+        "tries": 1,
+        "improved": 0
       }
     },
     "FRUSTRATED": {
@@ -83,7 +131,27 @@
         "improved": 5
       },
       "Take a real break. Come back in 5 minutes.": {
+        "tries": 5,
+        "improved": 4
+      },
+      "I hear you \u2014 this is hard. What made you want to give up just now?": {
+        "tries": 1,
+        "improved": 0
+      },
+      "This one's genuinely tough \u2014 no shame in being annoyed. What's the piece that's bugging you most?": {
+        "tries": 1,
+        "improved": 0
+      },
+      "Makes sense you're annoyed. What's the smallest part you'd be willing to look at with me?": {
         "tries": 2,
+        "improved": 2
+      },
+      "Okay. Stop working. What part made you want to quit?": {
+        "tries": 1,
+        "improved": 0
+      },
+      "Totally reasonable to be frustrated here. Where should we point our attention first?": {
+        "tries": 1,
         "improved": 1
       }
     },
@@ -101,6 +169,18 @@
         "improved": 6
       },
       "Let's do the very first step together: read the problem and write down the one thing it's asking for. What's the next step after that?": {
+        "tries": 5,
+        "improved": 5
+      },
+      "You're stuck, so let's make this tiny: what is one thing you know for certain?": {
+        "tries": 1,
+        "improved": 0
+      },
+      "What is the smallest action you can take without solving the whole problem?": {
+        "tries": 3,
+        "improved": 1
+      },
+      "What is the question asking you to find, in your own words?": {
         "tries": 2,
         "improved": 2
       }
@@ -120,6 +200,30 @@
       },
       "Where else could you use what you just figured out?": {
         "tries": 2,
+        "improved": 0
+      },
+      "What clue could help you recognize this pattern next time?": {
+        "tries": 2,
+        "improved": 0
+      },
+      "How is this insight different from what you thought before?": {
+        "tries": 2,
+        "improved": 0
+      },
+      "Where else could you apply what you just realized?": {
+        "tries": 2,
+        "improved": 0
+      },
+      "How would you explain what just clicked to another student?": {
+        "tries": 1,
+        "improved": 0
+      },
+      "What changed in your thinking when it clicked?": {
+        "tries": 1,
+        "improved": 0
+      },
+      "What made it click for you just now?": {
+        "tries": 1,
         "improved": 0
       }
     }

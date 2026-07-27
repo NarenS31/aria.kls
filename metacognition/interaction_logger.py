@@ -83,6 +83,14 @@ class InteractionEvent:
     tone_proxy_evidence: list[str] = field(default_factory=list)
     cognitive_state: Optional[str] = None
     analyzer_confidence: Optional[float] = None
+    # Multimodal behavioral layer. `cognitive_state` is the fused (final) state;
+    # `text_state`/`text_confidence` record what the text classifier alone said,
+    # and `fusion_method` how the two were combined. All optional -> a turn with
+    # no keystroke telemetry logs an empty behavioral_features and text_only.
+    behavioral_features: dict[str, Any] = field(default_factory=dict)
+    text_state: Optional[str] = None
+    text_confidence: Optional[float] = None
+    fusion_method: Optional[str] = None
     metadata: dict[str, Any] = field(default_factory=dict)
 
 
@@ -140,6 +148,10 @@ class InteractionLogger:
                     tone_proxy_evidence_json TEXT NOT NULL DEFAULT '[]',
                     cognitive_state TEXT,
                     analyzer_confidence REAL,
+                    behavioral_features_json TEXT NOT NULL DEFAULT '{}',
+                    text_state TEXT,
+                    text_confidence REAL,
+                    fusion_method TEXT,
                     metadata_json TEXT NOT NULL DEFAULT '{}'
                 );
 
@@ -198,6 +210,30 @@ class InteractionLogger:
                     ON typing_pause_events(session_id, timestamp);
                 """
             )
+            self._migrate(conn)
+
+    def _migrate(self, conn: sqlite3.Connection) -> None:
+        """Additively bring an existing interaction_events table up to date.
+
+        CREATE TABLE IF NOT EXISTS never adds columns to a pre-existing table, so
+        databases created before the behavioral layer need the new columns added
+        via ALTER TABLE. This is idempotent and preserves all existing rows.
+        """
+        existing = {
+            row["name"]
+            for row in conn.execute("PRAGMA table_info(interaction_events)")
+        }
+        additions = [
+            ("behavioral_features_json", "TEXT NOT NULL DEFAULT '{}'"),
+            ("text_state", "TEXT"),
+            ("text_confidence", "REAL"),
+            ("fusion_method", "TEXT"),
+        ]
+        for name, decl in additions:
+            if name not in existing:
+                conn.execute(
+                    f"ALTER TABLE interaction_events ADD COLUMN {name} {decl}"
+                )
 
     def _connect(self) -> sqlite3.Connection:
         conn = sqlite3.connect(self.db_path)
@@ -221,8 +257,9 @@ class InteractionLogger:
                     aria_response, response_latency_ms, time_since_previous_ms,
                     pause_summary_json, tone_proxy_label, tone_proxy_score,
                     tone_proxy_evidence_json, cognitive_state, analyzer_confidence,
-                    metadata_json
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    behavioral_features_json, text_state, text_confidence,
+                    fusion_method, metadata_json
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     event.timestamp,
@@ -239,6 +276,10 @@ class InteractionLogger:
                     _json_dumps(event.tone_proxy_evidence),
                     event.cognitive_state,
                     event.analyzer_confidence,
+                    _json_dumps(event.behavioral_features),
+                    event.text_state,
+                    event.text_confidence,
+                    event.fusion_method,
                     _json_dumps(event.metadata),
                 ),
             )

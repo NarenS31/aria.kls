@@ -1,47 +1,65 @@
 {
-  "total_samples": 3507,
+  "total_samples": 4030,
   "by_cognitive_state": {
-    "CONFUSED": 501,
-    "FLOW": 501,
-    "FRUSTRATED": 501,
-    "INSIGHT": 501,
-    "PLANNING": 501,
-    "RUSHING": 501,
-    "STUCK": 501
+    "CONFUSED": 576,
+    "FLOW": 576,
+    "FRUSTRATED": 576,
+    "INSIGHT": 575,
+    "PLANNING": 576,
+    "RUSHING": 575,
+    "STUCK": 576
   },
   "by_subject": {
-    "ACT English": 350,
-    "ACT Math": 351,
-    "ACT Reading": 353,
-    "ACT Science": 351,
-    "Algebra": 342,
-    "Biology": 339,
-    "Chemistry": 353,
-    "Geometry": 354,
-    "Python Programming": 358,
-    "US History": 356
+    "ACT English": 407,
+    "ACT Math": 399,
+    "ACT Reading": 398,
+    "ACT Science": 402,
+    "Algebra": 381,
+    "Biology": 363,
+    "Chemistry": 401,
+    "Geometry": 428,
+    "Python Programming": 444,
+    "US History": 407
   },
   "by_difficulty": {
-    "easy": 1179,
-    "hard": 1161,
-    "medium": 1167
+    "easy": 1386,
+    "hard": 1304,
+    "medium": 1340
   },
   "by_adhd_type": {
-    "combined": 1176,
-    "hyperactive": 1168,
-    "inattentive": 1163
+    "combined": 1379,
+    "hyperactive": 1333,
+    "inattentive": 1318
   },
   "by_metacognitive_type": {
-    "none": 2505,
-    "planning": 501,
-    "reflection": 501
+    "none": 2879,
+    "planning": 576,
+    "reflection": 575
   },
   "self_initiated_rate": 0.286,
-  "correct_answer_rate": 0.766,
+  "correct_answer_rate": 0.742,
   "avg_words": {
-    "pre_attempt": 22.42,
-    "during_attempt": 75.47,
-    "post_attempt": 17.86
+    "pre_attempt": 22.27,
+    "during_attempt": 71.8,
+    "post_attempt": 17.96
   },
-  "model": "llama3.1:8b"
+  "source": "dataset_mixed.jsonl",
+  "by_generator": {
+    "gemma2:9b": 175,
+    "llama3.1:8b": 3507,
+    "mistral:7b": 174,
+    "phi3:medium": 174
+  },
+  "flow_augmentation": {
+    "file": "flow_hard_negatives.jsonl",
+    "total": 160,
+    "hard_negatives": 80,
+    "genuine_flow": 80,
+    "folded_into": "mixed_train.jsonl"
+  },
+  "splits": {
+    "mixed_train": 3385,
+    "mixed_val": 392,
+    "mixed_test": 413
+  }
 }

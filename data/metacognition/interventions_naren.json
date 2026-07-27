@@ -18,6 +18,12 @@
         "tries": 1,
         "improved": 0
       }
+    },
+    "STUCK": {
+      "Just read the first sentence out loud.": {
+        "tries": 1,
+        "improved": 0
+      }
     }
   }
 }

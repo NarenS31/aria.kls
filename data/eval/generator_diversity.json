@@ -1,0 +1,2682 @@
+{
+  "n_records": 4030,
+  "generators": [
+    "gemma2:9b",
+    "llama3.1:8b",
+    "mistral:7b",
+    "phi3:medium"
+  ],
+  "cells": {
+    "gemma2:9b|PLANNING": {
+      "generator": "gemma2:9b",
+      "state": "PLANNING",
+      "top_discriminative_tokens": [
+        {
+          "token": "let",
+          "log_odds": 3.735
+        },
+        {
+          "token": "first",
+          "log_odds": 2.516
+        },
+        {
+          "token": "'for",
+          "log_odds": 2.436
+        },
+        {
+          "token": "returned",
+          "log_odds": 2.436
+        },
+        {
+          "token": "repeated",
+          "log_odds": 2.436
+        },
+        {
+          "token": "redundant",
+          "log_odds": 2.436
+        },
+        {
+          "token": "you'd",
+          "log_odds": 2.436
+        },
+        {
+          "token": "broad",
+          "log_odds": 2.436
+        },
+        {
+          "token": "backwards",
+          "log_odds": 2.03
+        },
+        {
+          "token": "went",
+          "log_odds": 1.897
+        },
+        {
+          "token": "tricky",
+          "log_odds": 1.848
+        },
+        {
+          "token": "repeating",
+          "log_odds": 1.743
+        },
+        {
+          "token": "missed",
+          "log_odds": 1.743
+        },
+        {
+          "token": "rid",
+          "log_odds": 1.743
+        },
+        {
+          "token": "head",
+          "log_odds": 1.743
+        },
+        {
+          "token": "reaction",
+          "log_odds": 1.743
+        },
+        {
+          "token": "zero",
+          "log_odds": 1.743
+        },
+        {
+          "token": "debate",
+          "log_odds": 1.743
+        },
+        {
+          "token": "dividing",
+          "log_odds": 1.743
+        },
+        {
+          "token": "need",
+          "log_odds": 1.667
+        }
+      ],
+      "n_samples": 25,
+      "mean_sentence_length": 6.18,
+      "filler_rate": 0.0751,
+      "question_rate": 0.2424,
+      "negation_rate": 0.0146
+    },
+    "gemma2:9b|FLOW": {
+      "generator": "gemma2:9b",
+      "state": "FLOW",
+      "top_discriminative_tokens": [
+        {
+          "token": "president",
+          "log_odds": 2.455
+        },
+        {
+          "token": "talks",
+          "log_odds": 2.455
+        },
+        {
+          "token": "study",
+          "log_odds": 2.455
+        },
+        {
+          "token": "prove",
+          "log_odds": 2.455
+        },
+        {
+          "token": "smooth",
+          "log_odds": 2.455
+        },
+        {
+          "token": "picture",
+          "log_odds": 2.455
+        },
+        {
+          "token": "snow",
+          "log_odds": 2.455
+        },
+        {
+          "token": "nice",
+          "log_odds": 2.455
+        },
+        {
+          "token": "nailed",
+          "log_odds": 2.455
+        },
+        {
+          "token": "closing",
+          "log_odds": 2.05
+        },
+        {
+          "token": "less",
+          "log_odds": 2.05
+        },
+        {
+          "token": "pretty",
+          "log_odds": 2.05
+        },
+        {
+          "token": "said",
+          "log_odds": 2.05
+        },
+        {
+          "token": "slope",
+          "log_odds": 1.762
+        },
+        {
+          "token": "isolate",
+          "log_odds": 1.762
+        },
+        {
+          "token": "boom",
+          "log_odds": 1.762
+        },
+        {
+          "token": "remembered",
+          "log_odds": 1.762
+        },
+        {
+          "token": "experiments",
+          "log_odds": 1.762
+        },
+        {
+          "token": "hypotenuse",
+          "log_odds": 1.645
+        },
+        {
+          "token": "alright",
+          "log_odds": 1.58
+        }
+      ],
+      "n_samples": 25,
+      "mean_sentence_length": 6.16,
+      "filler_rate": 0.0656,
+      "question_rate": 0.1353,
+      "negation_rate": 0.0132
+    },
+    "gemma2:9b|CONFUSED": {
+      "generator": "gemma2:9b",
+      "state": "CONFUSED",
+      "top_discriminative_tokens": [
+        {
+          "token": "huh",
+          "log_odds": 3.996
+        },
+        {
+          "token": "cuz",
+          "log_odds": 2.674
+        },
+        {
+          "token": "'n'",
+          "log_odds": 2.674
+        },
+        {
+          "token": "responsible",
+          "log_odds": 2.386
+        },
+        {
+          "token": "circular",
+          "log_odds": 2.386
+        },
+        {
+          "token": "fried",
+          "log_odds": 2.386
+        },
+        {
+          "token": "man",
+          "log_odds": 2.386
+        },
+        {
+          "token": "ratio",
+          "log_odds": 2.386
+        },
+        {
+          "token": "challenges",
+          "log_odds": 2.386
+        },
+        {
+          "token": "chlorine",
+          "log_odds": 2.386
+        },
+        {
+          "token": "trait",
+          "log_odds": 2.386
+        },
+        {
+          "token": "everywhere",
+          "log_odds": 2.386
+        },
+        {
+          "token": "bunnies",
+          "log_odds": 2.386
+        },
+        {
+          "token": "starve",
+          "log_odds": 2.386
+        },
+        {
+          "token": "smiling",
+          "log_odds": 2.386
+        },
+        {
+          "token": "trains",
+          "log_odds": 2.386
+        },
+        {
+          "token": "moles",
+          "log_odds": 2.099
+        },
+        {
+          "token": "plants",
+          "log_odds": 1.799
+        },
+        {
+          "token": "confusing",
+          "log_odds": 1.758
+        },
+        {
+          "token": "opposite",
+          "log_odds": 1.693
+        }
+      ],
+      "n_samples": 25,
+      "mean_sentence_length": 6.35,
+      "filler_rate": 0.0793,
+      "question_rate": 0.4361,
+      "negation_rate": 0.0331
+    },
+    "gemma2:9b|RUSHING": {
+      "generator": "gemma2:9b",
+      "state": "RUSHING",
+      "top_discriminative_tokens": [
+        {
+          "token": "fast",
+          "log_odds": 3.131
+        },
+        {
+          "token": "quick",
+          "log_odds": 3.131
+        },
+        {
+          "token": "match",
+          "log_odds": 2.908
+        },
+        {
+          "token": "input",
+          "log_odds": 2.908
+        },
+        {
+          "token": "done",
+          "log_odds": 2.62
+        },
+        {
+          "token": "hurry",
+          "log_odds": 2.62
+        },
+        {
+          "token": "that'd",
+          "log_odds": 2.62
+        },
+        {
+          "token": "colonists",
+          "log_odds": 2.62
+        },
+        {
+          "token": "mad",
+          "log_odds": 2.62
+        },
+        {
+          "token": "vote",
+          "log_odds": 2.62
+        },
+        {
+          "token": "couldn't",
+          "log_odds": 2.62
+        },
+        {
+          "token": "price",
+          "log_odds": 2.62
+        },
+        {
+          "token": "exponent",
+          "log_odds": 2.62
+        },
+        {
+          "token": "black",
+          "log_odds": 2.62
+        },
+        {
+          "token": "whatever",
+          "log_odds": 2.215
+        },
+        {
+          "token": "segregation",
+          "log_odds": 2.032
+        },
+        {
+          "token": "taxes",
+          "log_odds": 2.032
+        },
+        {
+          "token": "return",
+          "log_odds": 1.927
+        },
+        {
+          "token": "original",
+          "log_odds": 1.927
+        },
+        {
+          "token": "hypothesis",
+          "log_odds": 1.927
+        }
+      ],
+      "n_samples": 25,
+      "mean_sentence_length": 4.77,
+      "filler_rate": 0.0619,
+      "question_rate": 0.2416,
+      "negation_rate": 0.0175
+    },
+    "gemma2:9b|FRUSTRATED": {
+      "generator": "gemma2:9b",
+      "state": "FRUSTRATED",
+      "top_discriminative_tokens": [
+        {
+          "token": "forget",
+          "log_odds": 4.098
+        },
+        {
+          "token": "never",
+          "log_odds": 2.777
+        },
+        {
+          "token": "bother",
+          "log_odds": 2.777
+        },
+        {
+          "token": "students'",
+          "log_odds": 2.489
+        },
+        {
+          "token": "seriously",
+          "log_odds": 2.489
+        },
+        {
+          "token": "h's",
+          "log_odds": 2.489
+        },
+        {
+          "token": "'each",
+          "log_odds": 2.489
+        },
+        {
+          "token": "lonely",
+          "log_odds": 2.489
+        },
+        {
+          "token": "another",
+          "log_odds": 2.489
+        },
+        {
+          "token": "fine",
+          "log_odds": 2.489
+        },
+        {
+          "token": "gonna",
+          "log_odds": 2.083
+        },
+        {
+          "token": "three",
+          "log_odds": 2.083
+        },
+        {
+          "token": "finally",
+          "log_odds": 1.901
+        },
+        {
+          "token": "balancing",
+          "log_odds": 1.796
+        },
+        {
+          "token": "forever",
+          "log_odds": 1.796
+        },
+        {
+          "token": "modulus",
+          "log_odds": 1.796
+        },
+        {
+          "token": "volume",
+          "log_odds": 1.796
+        },
+        {
+          "token": "stupid",
+          "log_odds": 1.727
+        },
+        {
+          "token": "test",
+          "log_odds": 1.678
+        },
+        {
+          "token": "individually",
+          "log_odds": 1.39
+        }
+      ],
+      "n_samples": 25,
+      "mean_sentence_length": 5.35,
+      "filler_rate": 0.0644,
+      "question_rate": 0.2943,
+      "negation_rate": 0.0445
+    },
+    "gemma2:9b|STUCK": {
+      "generator": "gemma2:9b",
+      "state": "STUCK",
+      "top_discriminative_tokens": [
+        {
+          "token": "pause",
+          "log_odds": 4.729
+        },
+        {
+          "token": "ask",
+          "log_odds": 2.905
+        },
+        {
+          "token": "week",
+          "log_odds": 2.905
+        },
+        {
+          "token": "webs",
+          "log_odds": 2.394
+        },
+        {
+          "token": "using",
+          "log_odds": 2.394
+        },
+        {
+          "token": "falls",
+          "log_odds": 2.394
+        },
+        {
+          "token": "food",
+          "log_odds": 2.394
+        },
+        {
+          "token": "thingy",
+          "log_odds": 2.394
+        },
+        {
+          "token": "lists",
+          "log_odds": 2.394
+        },
+        {
+          "token": "while",
+          "log_odds": 2.394
+        },
+        {
+          "token": "freaking",
+          "log_odds": 2.394
+        },
+        {
+          "token": "sort",
+          "log_odds": 2.394
+        },
+        {
+          "token": "seven",
+          "log_odds": 1.988
+        },
+        {
+          "token": "know",
+          "log_odds": 1.937
+        },
+        {
+          "token": "die",
+          "log_odds": 1.701
+        },
+        {
+          "token": "isolated",
+          "log_odds": 1.701
+        },
+        {
+          "token": "slow",
+          "log_odds": 1.701
+        },
+        {
+          "token": "hurt",
+          "log_odds": 1.701
+        },
+        {
+          "token": "contradicting",
+          "log_odds": 1.701
+        },
+        {
+          "token": "apart",
+          "log_odds": 1.701
+        }
+      ],
+      "n_samples": 25,
+      "mean_sentence_length": 5.84,
+      "filler_rate": 0.0711,
+      "question_rate": 0.3466,
+      "negation_rate": 0.0472
+    },
+    "gemma2:9b|INSIGHT": {
+      "generator": "gemma2:9b",
+      "state": "INSIGHT",
+      "top_discriminative_tokens": [
+        {
+          "token": "ohhhh",
+          "log_odds": 4.32
+        },
+        {
+          "token": "ohhh",
+          "log_odds": 3.375
+        },
+        {
+          "token": "ninety",
+          "log_odds": 2.816
+        },
+        {
+          "token": "thirty",
+          "log_odds": 2.816
+        },
+        {
+          "token": "identical",
+          "log_odds": 2.528
+        },
+        {
+          "token": "implies",
+          "log_odds": 2.528
+        },
+        {
+          "token": "sometimes",
+          "log_odds": 2.528
+        },
+        {
+          "token": "'forced",
+          "log_odds": 2.528
+        },
+        {
+          "token": "stayed",
+          "log_odds": 2.528
+        },
+        {
+          "token": "sarcastic",
+          "log_odds": 2.122
+        },
+        {
+          "token": "inside",
+          "log_odds": 2.122
+        },
+        {
+          "token": "words",
+          "log_odds": 1.835
+        },
+        {
+          "token": "'same",
+          "log_odds": 1.835
+        },
+        {
+          "token": "raining",
+          "log_odds": 1.835
+        },
+        {
+          "token": "long",
+          "log_odds": 1.835
+        },
+        {
+          "token": "tone",
+          "log_odds": 1.835
+        },
+        {
+          "token": "spot'",
+          "log_odds": 1.835
+        },
+        {
+          "token": "smiles'",
+          "log_odds": 1.717
+        },
+        {
+          "token": "traits",
+          "log_odds": 1.717
+        },
+        {
+          "token": "bad",
+          "log_odds": 1.652
+        }
+      ],
+      "n_samples": 25,
+      "mean_sentence_length": 5.48,
+      "filler_rate": 0.0794,
+      "question_rate": 0.2074,
+      "negation_rate": 0.0127
+    },
+    "llama3.1:8b|PLANNING": {
+      "generator": "llama3.1:8b",
+      "state": "PLANNING",
+      "top_discriminative_tokens": [
+        {
+          "token": "version",
+          "log_odds": 3.024
+        },
+        {
+          "token": "halls",
+          "log_odds": 3.024
+        },
+        {
+          "token": "textiles",
+          "log_odds": 2.736
+        },
+        {
+          "token": "squarer",
+          "log_odds": 2.736
+        },
+        {
+          "token": "hundred",
+          "log_odds": 2.736
+        },
+        {
+          "token": "proportion",
+          "log_odds": 2.736
+        },
+        {
+          "token": "stared",
+          "log_odds": 2.736
+        },
+        {
+          "token": "field",
+          "log_odds": 2.736
+        },
+        {
+          "token": "train",
+          "log_odds": 2.736
+        },
+        {
+          "token": "bbbb",
+          "log_odds": 2.736
+        },
+        {
+          "token": "decreased",
+          "log_odds": 2.736
+        },
+        {
+          "token": "cost",
+          "log_odds": 2.736
+        },
+        {
+          "token": "figuring",
+          "log_odds": 2.736
+        },
+        {
+          "token": "tails",
+          "log_odds": 2.736
+        },
+        {
+          "token": "integrating",
+          "log_odds": 2.736
+        },
+        {
+          "token": "sky's",
+          "log_odds": 2.736
+        },
+        {
+          "token": "defend",
+          "log_odds": 2.736
+        },
+        {
+          "token": "applies",
+          "log_odds": 2.736
+        },
+        {
+          "token": "than'",
+          "log_odds": 2.736
+        },
+        {
+          "token": "reduce",
+          "log_odds": 2.736
+        }
+      ],
+      "n_samples": 501,
+      "mean_sentence_length": 8.11,
+      "filler_rate": 0.0625,
+      "question_rate": 0.2211,
+      "negation_rate": 0.0221
+    },
+    "llama3.1:8b|FLOW": {
+      "generator": "llama3.1:8b",
+      "state": "FLOW",
+      "top_discriminative_tokens": [
+        {
+          "token": "smooth",
+          "log_odds": 4.675
+        },
+        {
+          "token": "roll",
+          "log_odds": 4.033
+        },
+        {
+          "token": "crush",
+          "log_odds": 3.522
+        },
+        {
+          "token": "nail",
+          "log_odds": 3.522
+        },
+        {
+          "token": "shutting",
+          "log_odds": 3.34
+        },
+        {
+          "token": "challenged",
+          "log_odds": 3.34
+        },
+        {
+          "token": "fire",
+          "log_odds": 3.34
+        },
+        {
+          "token": "breeze",
+          "log_odds": 3.178
+        },
+        {
+          "token": "cellular",
+          "log_odds": 3.117
+        },
+        {
+          "token": "dimensions",
+          "log_odds": 3.117
+        },
+        {
+          "token": "slam",
+          "log_odds": 3.117
+        },
+        {
+          "token": "pro",
+          "log_odds": 3.117
+        },
+        {
+          "token": "zone",
+          "log_odds": 3.117
+        },
+        {
+          "token": "awesome",
+          "log_odds": 3.117
+        },
+        {
+          "token": "dunk",
+          "log_odds": 3.117
+        },
+        {
+          "token": "sell",
+          "log_odds": 3.117
+        },
+        {
+          "token": "enabled",
+          "log_odds": 3.117
+        },
+        {
+          "token": "sister",
+          "log_odds": 3.117
+        },
+        {
+          "token": "mitochondria's",
+          "log_odds": 3.117
+        },
+        {
+          "token": "told",
+          "log_odds": 3.03
+        }
+      ],
+      "n_samples": 501,
+      "mean_sentence_length": 7.91,
+      "filler_rate": 0.0479,
+      "question_rate": 0.1327,
+      "negation_rate": 0.018
+    },
+    "llama3.1:8b|CONFUSED": {
+      "generator": "llama3.1:8b",
+      "state": "CONFUSED",
+      "top_discriminative_tokens": [
+        {
+          "token": "circular",
+          "log_odds": 7.409
+        },
+        {
+          "token": "reasoning",
+          "log_odds": 6.288
+        },
+        {
+          "token": "alert",
+          "log_odds": 3.593
+        },
+        {
+          "token": "huh",
+          "log_odds": 3.492
+        },
+        {
+          "token": "counter",
+          "log_odds": 3.256
+        },
+        {
+          "token": "safe",
+          "log_odds": 3.256
+        },
+        {
+          "token": "guessing",
+          "log_odds": 3.242
+        },
+        {
+          "token": "sit",
+          "log_odds": 3.033
+        },
+        {
+          "token": "lowercase",
+          "log_odds": 3.033
+        },
+        {
+          "token": "non",
+          "log_odds": 3.033
+        },
+        {
+          "token": "tenses",
+          "log_odds": 2.746
+        },
+        {
+          "token": "guesses",
+          "log_odds": 2.746
+        },
+        {
+          "token": "animal",
+          "log_odds": 2.746
+        },
+        {
+          "token": "workable",
+          "log_odds": 2.746
+        },
+        {
+          "token": "trips",
+          "log_odds": 2.746
+        },
+        {
+          "token": "position",
+          "log_odds": 2.746
+        },
+        {
+          "token": "solvable",
+          "log_odds": 2.746
+        },
+        {
+          "token": "weirder",
+          "log_odds": 2.746
+        },
+        {
+          "token": "perpendicular",
+          "log_odds": 2.746
+        },
+        {
+          "token": "needing",
+          "log_odds": 2.746
+        }
+      ],
+      "n_samples": 501,
+      "mean_sentence_length": 7.74,
+      "filler_rate": 0.0595,
+      "question_rate": 0.3257,
+      "negation_rate": 0.0399
+    },
+    "llama3.1:8b|RUSHING": {
+      "generator": "llama3.1:8b",
+      "state": "RUSHING",
+      "top_discriminative_tokens": [
+        {
+          "token": "hurry",
+          "log_odds": 5.747
+        },
+        {
+          "token": "skips",
+          "log_odds": 5.452
+        },
+        {
+          "token": "glances",
+          "log_odds": 4.73
+        },
+        {
+          "token": "rushes",
+          "log_odds": 4.295
+        },
+        {
+          "token": "rushing",
+          "log_odds": 4.094
+        },
+        {
+          "token": "rushed",
+          "log_odds": 3.843
+        },
+        {
+          "token": "gym",
+          "log_odds": 3.689
+        },
+        {
+          "token": "test's",
+          "log_odds": 3.506
+        },
+        {
+          "token": "hastily",
+          "log_odds": 3.506
+        },
+        {
+          "token": "submit",
+          "log_odds": 3.506
+        },
+        {
+          "token": "bell",
+          "log_odds": 3.506
+        },
+        {
+          "token": "jumps",
+          "log_odds": 3.437
+        },
+        {
+          "token": "probably",
+          "log_odds": 3.312
+        },
+        {
+          "token": "behind",
+          "log_odds": 3.283
+        },
+        {
+          "token": "careless",
+          "log_odds": 3.283
+        },
+        {
+          "token": "rings",
+          "log_odds": 3.283
+        },
+        {
+          "token": "finish",
+          "log_odds": 3.283
+        },
+        {
+          "token": "crap",
+          "log_odds": 3.283
+        },
+        {
+          "token": "distractedly",
+          "log_odds": 3.283
+        },
+        {
+          "token": "poor",
+          "log_odds": 3.283
+        }
+      ],
+      "n_samples": 501,
+      "mean_sentence_length": 6.56,
+      "filler_rate": 0.0617,
+      "question_rate": 0.1766,
+      "negation_rate": 0.0236
+    },
+    "llama3.1:8b|FRUSTRATED": {
+      "generator": "llama3.1:8b",
+      "state": "FRUSTRATED",
+      "top_discriminative_tokens": [
+        {
+          "token": "forget",
+          "log_odds": 3.714
+        },
+        {
+          "token": "stressing",
+          "log_odds": 3.43
+        },
+        {
+          "token": "confuse",
+          "log_odds": 3.334
+        },
+        {
+          "token": "mutter",
+          "log_odds": 3.191
+        },
+        {
+          "token": "forgive",
+          "log_odds": 3.111
+        },
+        {
+          "token": "breed",
+          "log_odds": 3.111
+        },
+        {
+          "token": "variations",
+          "log_odds": 2.824
+        },
+        {
+          "token": "opportunities",
+          "log_odds": 2.824
+        },
+        {
+          "token": "rolls",
+          "log_odds": 2.824
+        },
+        {
+          "token": "youtube",
+          "log_odds": 2.824
+        },
+        {
+          "token": "'unless'",
+          "log_odds": 2.824
+        },
+        {
+          "token": "anxious",
+          "log_odds": 2.824
+        },
+        {
+          "token": "output",
+          "log_odds": 2.824
+        },
+        {
+          "token": "busy",
+          "log_odds": 2.824
+        },
+        {
+          "token": "great",
+          "log_odds": 2.536
+        },
+        {
+          "token": "cooperating",
+          "log_odds": 2.418
+        },
+        {
+          "token": "'went",
+          "log_odds": 2.418
+        },
+        {
+          "token": "easiest",
+          "log_odds": 2.418
+        },
+        {
+          "token": "eventually",
+          "log_odds": 2.418
+        },
+        {
+          "token": "argh",
+          "log_odds": 2.195
+        }
+      ],
+      "n_samples": 501,
+      "mean_sentence_length": 6.83,
+      "filler_rate": 0.0546,
+      "question_rate": 0.2314,
+      "negation_rate": 0.0407
+    },
+    "llama3.1:8b|STUCK": {
+      "generator": "llama3.1:8b",
+      "state": "STUCK",
+      "top_discriminative_tokens": [
+        {
+          "token": "stammering",
+          "log_odds": 4.911
+        },
+        {
+          "token": "pause",
+          "log_odds": 4.89
+        },
+        {
+          "token": "stunned",
+          "log_odds": 4.177
+        },
+        {
+          "token": "stares",
+          "log_odds": 3.926
+        },
+        {
+          "token": "breakdown",
+          "log_odds": 3.889
+        },
+        {
+          "token": "blankly",
+          "log_odds": 3.832
+        },
+        {
+          "token": "silence",
+          "log_odds": 3.771
+        },
+        {
+          "token": "whispering",
+          "log_odds": 3.638
+        },
+        {
+          "token": "nowhere",
+          "log_odds": 3.638
+        },
+        {
+          "token": "know'",
+          "log_odds": 3.301
+        },
+        {
+          "token": "frozen",
+          "log_odds": 3.301
+        },
+        {
+          "token": "uggghhh",
+          "log_odds": 3.078
+        },
+        {
+          "token": "aloud",
+          "log_odds": 2.791
+        },
+        {
+          "token": "freezing",
+          "log_odds": 2.791
+        },
+        {
+          "token": "overturn",
+          "log_odds": 2.791
+        },
+        {
+          "token": "cubic",
+          "log_odds": 2.791
+        },
+        {
+          "token": "bracket",
+          "log_odds": 2.791
+        },
+        {
+          "token": "stopped",
+          "log_odds": 2.791
+        },
+        {
+          "token": "college",
+          "log_odds": 2.791
+        },
+        {
+          "token": "whisper",
+          "log_odds": 2.791
+        }
+      ],
+      "n_samples": 501,
+      "mean_sentence_length": 6.88,
+      "filler_rate": 0.063,
+      "question_rate": 0.2581,
+      "negation_rate": 0.0488
+    },
+    "llama3.1:8b|INSIGHT": {
+      "generator": "llama3.1:8b",
+      "state": "INSIGHT",
+      "top_discriminative_tokens": [
+        {
+          "token": "ohhhh",
+          "log_odds": 7.297
+        },
+        {
+          "token": "ohhhhh",
+          "log_odds": 7.064
+        },
+        {
+          "token": "ohhh",
+          "log_odds": 5.707
+        },
+        {
+          "token": "clicks",
+          "log_odds": 3.702
+        },
+        {
+          "token": "realized",
+          "log_odds": 3.365
+        },
+        {
+          "token": "'this",
+          "log_odds": 3.142
+        },
+        {
+          "token": "crowds",
+          "log_odds": 3.142
+        },
+        {
+          "token": "sooner",
+          "log_odds": 3.142
+        },
+        {
+          "token": "ummm",
+          "log_odds": 3.142
+        },
+        {
+          "token": "snap",
+          "log_odds": 2.855
+        },
+        {
+          "token": "thousand",
+          "log_odds": 2.855
+        },
+        {
+          "token": "diff",
+          "log_odds": 2.855
+        },
+        {
+          "token": "cancelling",
+          "log_odds": 2.855
+        },
+        {
+          "token": "illogical",
+          "log_odds": 2.855
+        },
+        {
+          "token": "thats",
+          "log_odds": 2.855
+        },
+        {
+          "token": "alex",
+          "log_odds": 2.855
+        },
+        {
+          "token": "lets",
+          "log_odds": 2.855
+        },
+        {
+          "token": "anxiety",
+          "log_odds": 2.855
+        },
+        {
+          "token": "communication",
+          "log_odds": 2.855
+        },
+        {
+          "token": "ouch",
+          "log_odds": 2.855
+        }
+      ],
+      "n_samples": 501,
+      "mean_sentence_length": 7.06,
+      "filler_rate": 0.0597,
+      "question_rate": 0.1945,
+      "negation_rate": 0.0232
+    },
+    "mistral:7b|PLANNING": {
+      "generator": "mistral:7b",
+      "state": "PLANNING",
+      "top_discriminative_tokens": [
+        {
+          "token": "'first",
+          "log_odds": 3.397
+        },
+        {
+          "token": "five",
+          "log_odds": 3.109
+        },
+        {
+          "token": "deep",
+          "log_odds": 2.927
+        },
+        {
+          "token": "verb",
+          "log_odds": 2.704
+        },
+        {
+          "token": "supporting",
+          "log_odds": 2.416
+        },
+        {
+          "token": "wrote",
+          "log_odds": 2.416
+        },
+        {
+          "token": "'hey",
+          "log_odds": 2.416
+        },
+        {
+          "token": "sighs",
+          "log_odds": 2.416
+        },
+        {
+          "token": "theory",
+          "log_odds": 2.416
+        },
+        {
+          "token": "celsius",
+          "log_odds": 2.416
+        },
+        {
+          "token": "x's",
+          "log_odds": 2.416
+        },
+        {
+          "token": "parentheses",
+          "log_odds": 2.416
+        },
+        {
+          "token": "ninety",
+          "log_odds": 2.416
+        },
+        {
+          "token": "reversing",
+          "log_odds": 2.416
+        },
+        {
+          "token": "thirty",
+          "log_odds": 2.416
+        },
+        {
+          "token": "rate",
+          "log_odds": 2.416
+        },
+        {
+          "token": "forty",
+          "log_odds": 2.416
+        },
+        {
+          "token": "agreement",
+          "log_odds": 2.416
+        },
+        {
+          "token": "resolve",
+          "log_odds": 2.416
+        },
+        {
+          "token": "heavily",
+          "log_odds": 2.416
+        }
+      ],
+      "n_samples": 25,
+      "mean_sentence_length": 7.53,
+      "filler_rate": 0.0291,
+      "question_rate": 0.1261,
+      "negation_rate": 0.0225
+    },
+    "mistral:7b|FLOW": {
+      "generator": "mistral:7b",
+      "state": "FLOW",
+      "top_discriminative_tokens": [
+        {
+          "token": "excited",
+          "log_odds": 3.484
+        },
+        {
+          "token": "satisfied",
+          "log_odds": 3.014
+        },
+        {
+          "token": "murmur",
+          "log_odds": 3.014
+        },
+        {
+          "token": "nailed",
+          "log_odds": 3.014
+        },
+        {
+          "token": "interpreting",
+          "log_odds": 2.791
+        },
+        {
+          "token": "simultaneously",
+          "log_odds": 2.791
+        },
+        {
+          "token": "hypotenuse",
+          "log_odds": 2.657
+        },
+        {
+          "token": "government",
+          "log_odds": 2.503
+        },
+        {
+          "token": "checked",
+          "log_odds": 2.503
+        },
+        {
+          "token": "crush",
+          "log_odds": 2.503
+        },
+        {
+          "token": "are'",
+          "log_odds": 2.503
+        },
+        {
+          "token": "contraction",
+          "log_odds": 2.503
+        },
+        {
+          "token": "oops",
+          "log_odds": 2.503
+        },
+        {
+          "token": "branches",
+          "log_odds": 2.503
+        },
+        {
+          "token": "keep",
+          "log_odds": 2.503
+        },
+        {
+          "token": "point",
+          "log_odds": 2.503
+        },
+        {
+          "token": "happening",
+          "log_odds": 2.503
+        },
+        {
+          "token": "eye",
+          "log_odds": 2.503
+        },
+        {
+          "token": "plessy",
+          "log_odds": 2.503
+        },
+        {
+          "token": "'they",
+          "log_odds": 2.503
+        }
+      ],
+      "n_samples": 25,
+      "mean_sentence_length": 6.78,
+      "filler_rate": 0.0323,
+      "question_rate": 0.0959,
+      "negation_rate": 0.0131
+    },
+    "mistral:7b|CONFUSED": {
+      "generator": "mistral:7b",
+      "state": "CONFUSED",
+      "top_discriminative_tokens": [
+        {
+          "token": "circular",
+          "log_odds": 3.816
+        },
+        {
+          "token": "reasoning",
+          "log_odds": 3.816
+        },
+        {
+          "token": "confused",
+          "log_odds": 3.197
+        },
+        {
+          "token": "guessing",
+          "log_odds": 3.042
+        },
+        {
+          "token": "places",
+          "log_odds": 2.86
+        },
+        {
+          "token": "myself",
+          "log_odds": 2.755
+        },
+        {
+          "token": "balanced",
+          "log_odds": 2.637
+        },
+        {
+          "token": "chlorine",
+          "log_odds": 2.637
+        },
+        {
+          "token": "count",
+          "log_odds": 2.349
+        },
+        {
+          "token": "situation",
+          "log_odds": 2.349
+        },
+        {
+          "token": "switch",
+          "log_odds": 2.349
+        },
+        {
+          "token": "weird",
+          "log_odds": 2.349
+        },
+        {
+          "token": "triangles",
+          "log_odds": 2.349
+        },
+        {
+          "token": "sodium",
+          "log_odds": 2.349
+        },
+        {
+          "token": "quadratic",
+          "log_odds": 2.349
+        },
+        {
+          "token": "organisms",
+          "log_odds": 2.349
+        },
+        {
+          "token": "source",
+          "log_odds": 2.349
+        },
+        {
+          "token": "sqrt",
+          "log_odds": 2.349
+        },
+        {
+          "token": "confident",
+          "log_odds": 2.349
+        },
+        {
+          "token": "increment",
+          "log_odds": 2.349
+        }
+      ],
+      "n_samples": 25,
+      "mean_sentence_length": 6.62,
+      "filler_rate": 0.0309,
+      "question_rate": 0.2225,
+      "negation_rate": 0.0313
+    },
+    "mistral:7b|RUSHING": {
+      "generator": "mistral:7b",
+      "state": "RUSHING",
+      "top_discriminative_tokens": [
+        {
+          "token": "whatever",
+          "log_odds": 3.941
+        },
+        {
+          "token": "mol",
+          "log_odds": 3.248
+        },
+        {
+          "token": "price",
+          "log_odds": 3.248
+        },
+        {
+          "token": "rushing",
+          "log_odds": 3.066
+        },
+        {
+          "token": "fast",
+          "log_odds": 2.555
+        },
+        {
+          "token": "return",
+          "log_odds": 2.555
+        },
+        {
+          "token": "representation'",
+          "log_odds": 2.555
+        },
+        {
+          "token": "conjunction",
+          "log_odds": 2.555
+        },
+        {
+          "token": "segregation",
+          "log_odds": 2.555
+        },
+        {
+          "token": "hurry",
+          "log_odds": 2.555
+        },
+        {
+          "token": "ended",
+          "log_odds": 2.555
+        },
+        {
+          "token": "ending",
+          "log_odds": 2.555
+        },
+        {
+          "token": "british",
+          "log_odds": 2.555
+        },
+        {
+          "token": "parliament",
+          "log_odds": 2.555
+        },
+        {
+          "token": "discounted",
+          "log_odds": 2.555
+        },
+        {
+          "token": "whoa",
+          "log_odds": 2.555
+        },
+        {
+          "token": "grams",
+          "log_odds": 2.555
+        },
+        {
+          "token": "school",
+          "log_odds": 2.555
+        },
+        {
+          "token": "mass",
+          "log_odds": 2.304
+        },
+        {
+          "token": "probably",
+          "log_odds": 2.198
+        }
+      ],
+      "n_samples": 24,
+      "mean_sentence_length": 5.81,
+      "filler_rate": 0.0322,
+      "question_rate": 0.1226,
+      "negation_rate": 0.0237
+    },
+    "mistral:7b|FRUSTRATED": {
+      "generator": "mistral:7b",
+      "state": "FRUSTRATED",
+      "top_discriminative_tokens": [
+        {
+          "token": "'even'",
+          "log_odds": 3.228
+        },
+        {
+          "token": "frustrating",
+          "log_odds": 2.823
+        },
+        {
+          "token": "swear",
+          "log_odds": 2.823
+        },
+        {
+          "token": "'forget",
+          "log_odds": 2.823
+        },
+        {
+          "token": "course",
+          "log_odds": 2.535
+        },
+        {
+          "token": "frustrated",
+          "log_odds": 2.535
+        },
+        {
+          "token": "programming",
+          "log_odds": 2.535
+        },
+        {
+          "token": "'for",
+          "log_odds": 2.535
+        },
+        {
+          "token": "'odd'",
+          "log_odds": 2.535
+        },
+        {
+          "token": "others",
+          "log_odds": 2.535
+        },
+        {
+          "token": "zero",
+          "log_odds": 2.535
+        },
+        {
+          "token": "conditions",
+          "log_odds": 2.535
+        },
+        {
+          "token": "cross",
+          "log_odds": 2.535
+        },
+        {
+          "token": "forget",
+          "log_odds": 2.478
+        },
+        {
+          "token": "'ugh",
+          "log_odds": 2.284
+        },
+        {
+          "token": "'is'",
+          "log_odds": 2.13
+        },
+        {
+          "token": "event",
+          "log_odds": 1.842
+        },
+        {
+          "token": "graph",
+          "log_odds": 1.842
+        },
+        {
+          "token": "factories",
+          "log_odds": 1.842
+        },
+        {
+          "token": "simplify",
+          "log_odds": 1.842
+        }
+      ],
+      "n_samples": 25,
+      "mean_sentence_length": 6.28,
+      "filler_rate": 0.0352,
+      "question_rate": 0.1662,
+      "negation_rate": 0.0323
+    },
+    "mistral:7b|STUCK": {
+      "generator": "mistral:7b",
+      "state": "STUCK",
+      "top_discriminative_tokens": [
+        {
+          "token": "pause",
+          "log_odds": 3.798
+        },
+        {
+          "token": "week",
+          "log_odds": 2.881
+        },
+        {
+          "token": "based",
+          "log_odds": 2.658
+        },
+        {
+          "token": "consumers",
+          "log_odds": 2.658
+        },
+        {
+          "token": "'sat",
+          "log_odds": 2.37
+        },
+        {
+          "token": "name",
+          "log_odds": 2.37
+        },
+        {
+          "token": "least",
+          "log_odds": 2.37
+        },
+        {
+          "token": "adjust",
+          "log_odds": 2.37
+        },
+        {
+          "token": "concentration",
+          "log_odds": 2.37
+        },
+        {
+          "token": "random",
+          "log_odds": 2.37
+        },
+        {
+          "token": "dang",
+          "log_odds": 2.37
+        },
+        {
+          "token": "doubles",
+          "log_odds": 2.37
+        },
+        {
+          "token": "breakdown",
+          "log_odds": 2.37
+        },
+        {
+          "token": "mutations",
+          "log_odds": 2.37
+        },
+        {
+          "token": "secondary",
+          "log_odds": 2.37
+        },
+        {
+          "token": "progress",
+          "log_odds": 2.37
+        },
+        {
+          "token": "everyone",
+          "log_odds": 2.37
+        },
+        {
+          "token": "mental",
+          "log_odds": 2.37
+        },
+        {
+          "token": "claim",
+          "log_odds": 1.965
+        },
+        {
+          "token": "functions",
+          "log_odds": 1.965
+        }
+      ],
+      "n_samples": 25,
+      "mean_sentence_length": 6.61,
+      "filler_rate": 0.0365,
+      "question_rate": 0.2025,
+      "negation_rate": 0.0286
+    },
+    "mistral:7b|INSIGHT": {
+      "generator": "mistral:7b",
+      "state": "INSIGHT",
+      "top_discriminative_tokens": [
+        {
+          "token": "ohhhh",
+          "log_odds": 4.35
+        },
+        {
+          "token": "snow",
+          "log_odds": 3.069
+        },
+        {
+          "token": "heavy",
+          "log_odds": 2.846
+        },
+        {
+          "token": "'ohhhh",
+          "log_odds": 2.846
+        },
+        {
+          "token": "common",
+          "log_odds": 2.846
+        },
+        {
+          "token": "aaah",
+          "log_odds": 2.558
+        },
+        {
+          "token": "click",
+          "log_odds": 2.558
+        },
+        {
+          "token": "feet",
+          "log_odds": 2.558
+        },
+        {
+          "token": "snowing",
+          "log_odds": 2.558
+        },
+        {
+          "token": "smiles'",
+          "log_odds": 2.558
+        },
+        {
+          "token": "stays",
+          "log_odds": 2.558
+        },
+        {
+          "token": "ordeal",
+          "log_odds": 2.558
+        },
+        {
+          "token": "gauntlet",
+          "log_odds": 2.307
+        },
+        {
+          "token": "returned",
+          "log_odds": 2.019
+        },
+        {
+          "token": "problems",
+          "log_odds": 1.865
+        },
+        {
+          "token": "overall",
+          "log_odds": 1.865
+        },
+        {
+          "token": "crying",
+          "log_odds": 1.865
+        },
+        {
+          "token": "ladder",
+          "log_odds": 1.865
+        },
+        {
+          "token": "'yep",
+          "log_odds": 1.865
+        },
+        {
+          "token": "used",
+          "log_odds": 1.865
+        }
+      ],
+      "n_samples": 25,
+      "mean_sentence_length": 5.95,
+      "filler_rate": 0.0415,
+      "question_rate": 0.1201,
+      "negation_rate": 0.0167
+    },
+    "phi3:medium|PLANNING": {
+      "generator": "phi3:medium",
+      "state": "PLANNING",
+      "top_discriminative_tokens": [
+        {
+          "token": "controlled",
+          "log_odds": 2.729
+        },
+        {
+          "token": "redundant",
+          "log_odds": 2.729
+        },
+        {
+          "token": "constants",
+          "log_odds": 2.441
+        },
+        {
+          "token": "weep",
+          "log_odds": 2.441
+        },
+        {
+          "token": "conjunction",
+          "log_odds": 2.441
+        },
+        {
+          "token": "repeat",
+          "log_odds": 2.441
+        },
+        {
+          "token": "'identical'",
+          "log_odds": 2.441
+        },
+        {
+          "token": "economic",
+          "log_odds": 2.441
+        },
+        {
+          "token": "rice",
+          "log_odds": 2.441
+        },
+        {
+          "token": "tobacco",
+          "log_odds": 2.441
+        },
+        {
+          "token": "slice",
+          "log_odds": 2.035
+        },
+        {
+          "token": "plantations",
+          "log_odds": 1.748
+        },
+        {
+          "token": "rates",
+          "log_odds": 1.748
+        },
+        {
+          "token": "along",
+          "log_odds": 1.748
+        },
+        {
+          "token": "lists",
+          "log_odds": 1.748
+        },
+        {
+          "token": "sentences",
+          "log_odds": 1.748
+        },
+        {
+          "token": "fastest",
+          "log_odds": 1.748
+        },
+        {
+          "token": "'back'",
+          "log_odds": 1.748
+        },
+        {
+          "token": "elimination",
+          "log_odds": 1.748
+        },
+        {
+          "token": "businesses",
+          "log_odds": 1.748
+        }
+      ],
+      "n_samples": 25,
+      "mean_sentence_length": 8.11,
+      "filler_rate": 0.0497,
+      "question_rate": 0.1937,
+      "negation_rate": 0.0168
+    },
+    "phi3:medium|FLOW": {
+      "generator": "phi3:medium",
+      "state": "FLOW",
+      "top_discriminative_tokens": [
+        {
+          "token": "store",
+          "log_odds": 2.957
+        },
+        {
+          "token": "confounding",
+          "log_odds": 2.734
+        },
+        {
+          "token": "learning",
+          "log_odds": 2.446
+        },
+        {
+          "token": "legislative",
+          "log_odds": 2.446
+        },
+        {
+          "token": "easily",
+          "log_odds": 2.446
+        },
+        {
+          "token": "yep",
+          "log_odds": 2.446
+        },
+        {
+          "token": "executive",
+          "log_odds": 2.446
+        },
+        {
+          "token": "keeps",
+          "log_odds": 2.446
+        },
+        {
+          "token": "losing",
+          "log_odds": 2.446
+        },
+        {
+          "token": "zone",
+          "log_odds": 2.446
+        },
+        {
+          "token": "checks",
+          "log_odds": 2.446
+        },
+        {
+          "token": "'they",
+          "log_odds": 2.264
+        },
+        {
+          "token": "nice",
+          "log_odds": 2.264
+        },
+        {
+          "token": "are'",
+          "log_odds": 2.04
+        },
+        {
+          "token": "track",
+          "log_odds": 1.907
+        },
+        {
+          "token": "triangles",
+          "log_odds": 1.753
+        },
+        {
+          "token": "picture",
+          "log_odds": 1.753
+        },
+        {
+          "token": "basic",
+          "log_odds": 1.753
+        },
+        {
+          "token": "ninety",
+          "log_odds": 1.753
+        },
+        {
+          "token": "possession",
+          "log_odds": 1.753
+        }
+      ],
+      "n_samples": 25,
+      "mean_sentence_length": 7.8,
+      "filler_rate": 0.0528,
+      "question_rate": 0.1407,
+      "negation_rate": 0.0198
+    },
+    "phi3:medium|CONFUSED": {
+      "generator": "phi3:medium",
+      "state": "CONFUSED",
+      "top_discriminative_tokens": [
+        {
+          "token": "metal",
+          "log_odds": 2.66
+        },
+        {
+          "token": "chlorine",
+          "log_odds": 2.66
+        },
+        {
+          "token": "straight",
+          "log_odds": 2.66
+        },
+        {
+          "token": "webs",
+          "log_odds": 2.372
+        },
+        {
+          "token": "atom",
+          "log_odds": 2.372
+        },
+        {
+          "token": "energy",
+          "log_odds": 2.372
+        },
+        {
+          "token": "laws",
+          "log_odds": 2.372
+        },
+        {
+          "token": "table",
+          "log_odds": 2.372
+        },
+        {
+          "token": "growth",
+          "log_odds": 2.372
+        },
+        {
+          "token": "economically",
+          "log_odds": 2.372
+        },
+        {
+          "token": "hotter",
+          "log_odds": 2.372
+        },
+        {
+          "token": "'forced",
+          "log_odds": 2.372
+        },
+        {
+          "token": "operation",
+          "log_odds": 2.372
+        },
+        {
+          "token": "rich",
+          "log_odds": 2.372
+        },
+        {
+          "token": "sodium",
+          "log_odds": 2.372
+        },
+        {
+          "token": "listed",
+          "log_odds": 2.372
+        },
+        {
+          "token": "exclusive",
+          "log_odds": 2.372
+        },
+        {
+          "token": "adds",
+          "log_odds": 2.372
+        },
+        {
+          "token": "ranges",
+          "log_odds": 2.372
+        },
+        {
+          "token": "atoms",
+          "log_odds": 2.19
+        }
+      ],
+      "n_samples": 25,
+      "mean_sentence_length": 8.1,
+      "filler_rate": 0.0537,
+      "question_rate": 0.2698,
+      "negation_rate": 0.0186
+    },
+    "phi3:medium|RUSHING": {
+      "generator": "phi3:medium",
+      "state": "RUSHING",
+      "top_discriminative_tokens": [
+        {
+          "token": "quick",
+          "log_odds": 2.988
+        },
+        {
+          "token": "measurements",
+          "log_odds": 2.765
+        },
+        {
+          "token": "discount",
+          "log_odds": 2.765
+        },
+        {
+          "token": "probably",
+          "log_odds": 2.595
+        },
+        {
+          "token": "formulas",
+          "log_odds": 2.477
+        },
+        {
+          "token": "mol",
+          "log_odds": 2.477
+        },
+        {
+          "token": "realized",
+          "log_odds": 2.477
+        },
+        {
+          "token": "feet",
+          "log_odds": 2.477
+        },
+        {
+          "token": "diameter",
+          "log_odds": 2.477
+        },
+        {
+          "token": "initial",
+          "log_odds": 2.477
+        },
+        {
+          "token": "thoughts",
+          "log_odds": 2.477
+        },
+        {
+          "token": "quickly",
+          "log_odds": 2.477
+        },
+        {
+          "token": "cut",
+          "log_odds": 2.477
+        },
+        {
+          "token": "equal'",
+          "log_odds": 2.477
+        },
+        {
+          "token": "rushing",
+          "log_odds": 2.477
+        },
+        {
+          "token": "checked",
+          "log_odds": 2.477
+        },
+        {
+          "token": "separating",
+          "log_odds": 2.477
+        },
+        {
+          "token": "price",
+          "log_odds": 2.477
+        },
+        {
+          "token": "'separate",
+          "log_odds": 2.477
+        },
+        {
+          "token": "segregation",
+          "log_odds": 2.071
+        }
+      ],
+      "n_samples": 25,
+      "mean_sentence_length": 7.61,
+      "filler_rate": 0.0505,
+      "question_rate": 0.2317,
+      "negation_rate": 0.0223
+    },
+    "phi3:medium|FRUSTRATED": {
+      "generator": "phi3:medium",
+      "state": "FRUSTRATED",
+      "top_discriminative_tokens": [
+        {
+          "token": "history",
+          "log_odds": 2.766
+        },
+        {
+          "token": "frustrating",
+          "log_odds": 2.478
+        },
+        {
+          "token": "oxygens",
+          "log_odds": 2.478
+        },
+        {
+          "token": "volume",
+          "log_odds": 2.478
+        },
+        {
+          "token": "worse",
+          "log_odds": 2.478
+        },
+        {
+          "token": "seriously",
+          "log_odds": 2.478
+        },
+        {
+          "token": "shot",
+          "log_odds": 2.478
+        },
+        {
+          "token": "sitting",
+          "log_odds": 2.478
+        },
+        {
+          "token": "'nobody",
+          "log_odds": 2.478
+        },
+        {
+          "token": "mix",
+          "log_odds": 2.478
+        },
+        {
+          "token": "'ugh",
+          "log_odds": 2.478
+        },
+        {
+          "token": "isolation",
+          "log_odds": 2.478
+        },
+        {
+          "token": "annoying",
+          "log_odds": 2.296
+        },
+        {
+          "token": "mass",
+          "log_odds": 2.073
+        },
+        {
+          "token": "responsible",
+          "log_odds": 1.785
+        },
+        {
+          "token": "come",
+          "log_odds": 1.785
+        },
+        {
+          "token": "molar",
+          "log_odds": 1.785
+        },
+        {
+          "token": "figured",
+          "log_odds": 1.785
+        },
+        {
+          "token": "cube",
+          "log_odds": 1.785
+        },
+        {
+          "token": "'each",
+          "log_odds": 1.785
+        }
+      ],
+      "n_samples": 25,
+      "mean_sentence_length": 7.43,
+      "filler_rate": 0.0396,
+      "question_rate": 0.2539,
+      "negation_rate": 0.0266
+    },
+    "phi3:medium|STUCK": {
+      "generator": "phi3:medium",
+      "state": "STUCK",
+      "top_discriminative_tokens": [
+        {
+          "token": "pause",
+          "log_odds": 3.782
+        },
+        {
+          "token": "pauses",
+          "log_odds": 3.132
+        },
+        {
+          "token": "anyone",
+          "log_odds": 2.949
+        },
+        {
+          "token": "doubling",
+          "log_odds": 2.726
+        },
+        {
+          "token": "circles",
+          "log_odds": 2.726
+        },
+        {
+          "token": "cubed",
+          "log_odds": 2.439
+        },
+        {
+          "token": "chain",
+          "log_odds": 2.439
+        },
+        {
+          "token": "lunchtime",
+          "log_odds": 2.439
+        },
+        {
+          "token": "government",
+          "log_odds": 2.439
+        },
+        {
+          "token": "acid",
+          "log_odds": 2.439
+        },
+        {
+          "token": "bye",
+          "log_odds": 2.439
+        },
+        {
+          "token": "during",
+          "log_odds": 2.439
+        },
+        {
+          "token": "level",
+          "log_odds": 2.439
+        },
+        {
+          "token": "decisions",
+          "log_odds": 2.439
+        },
+        {
+          "token": "thinking",
+          "log_odds": 2.439
+        },
+        {
+          "token": "week",
+          "log_odds": 2.439
+        },
+        {
+          "token": "algae",
+          "log_odds": 2.439
+        },
+        {
+          "token": "web",
+          "log_odds": 2.256
+        },
+        {
+          "token": "producers",
+          "log_odds": 2.187
+        },
+        {
+          "token": "detail",
+          "log_odds": 2.033
+        }
+      ],
+      "n_samples": 25,
+      "mean_sentence_length": 7.73,
+      "filler_rate": 0.0531,
+      "question_rate": 0.2562,
+      "negation_rate": 0.0263
+    },
+    "phi3:medium|INSIGHT": {
+      "generator": "phi3:medium",
+      "state": "INSIGHT",
+      "top_discriminative_tokens": [
+        {
+          "token": "ohhhh",
+          "log_odds": 4.309
+        },
+        {
+          "token": "'wait",
+          "log_odds": 2.804
+        },
+        {
+          "token": "cold",
+          "log_odds": 2.804
+        },
+        {
+          "token": "'wait'",
+          "log_odds": 2.804
+        },
+        {
+          "token": "basics",
+          "log_odds": 2.517
+        },
+        {
+          "token": "semicolon",
+          "log_odds": 2.517
+        },
+        {
+          "token": "years",
+          "log_odds": 2.517
+        },
+        {
+          "token": "'she",
+          "log_odds": 2.334
+        },
+        {
+          "token": "gauntlet",
+          "log_odds": 2.111
+        },
+        {
+          "token": "'oh",
+          "log_odds": 2.111
+        },
+        {
+          "token": "three",
+          "log_odds": 1.978
+        },
+        {
+          "token": "forced",
+          "log_odds": 1.929
+        },
+        {
+          "token": "spot",
+          "log_odds": 1.929
+        },
+        {
+          "token": "returned",
+          "log_odds": 1.929
+        },
+        {
+          "token": "finding",
+          "log_odds": 1.824
+        },
+        {
+          "token": "'gauntlet'",
+          "log_odds": 1.824
+        },
+        {
+          "token": "h's",
+          "log_odds": 1.824
+        },
+        {
+          "token": "counting",
+          "log_odds": 1.824
+        },
+        {
+          "token": "population",
+          "log_odds": 1.824
+        },
+        {
+          "token": "'wept",
+          "log_odds": 1.824
+        }
+      ],
+      "n_samples": 24,
+      "mean_sentence_length": 7.53,
+      "filler_rate": 0.049,
+      "question_rate": 0.1941,
+      "negation_rate": 0.0156
+    }
+  },
+  "per_state_top20_jaccard_overlap": {
+    "PLANNING": {
+      "generators_present": [
+        "gemma2:9b",
+        "llama3.1:8b",
+        "mistral:7b",
+        "phi3:medium"
+      ],
+      "pairwise_jaccard": {
+        "gemma2:9b vs llama3.1:8b": 0.0,
+        "gemma2:9b vs mistral:7b": 0.0,
+        "gemma2:9b vs phi3:medium": 0.026,
+        "llama3.1:8b vs mistral:7b": 0.0,
+        "llama3.1:8b vs phi3:medium": 0.0,
+        "mistral:7b vs phi3:medium": 0.0
+      },
+      "mean_jaccard_overlap": 0.004
+    },
+    "FLOW": {
+      "generators_present": [
+        "gemma2:9b",
+        "llama3.1:8b",
+        "mistral:7b",
+        "phi3:medium"
+      ],
+      "pairwise_jaccard": {
+        "gemma2:9b vs llama3.1:8b": 0.026,
+        "gemma2:9b vs mistral:7b": 0.053,
+        "gemma2:9b vs phi3:medium": 0.053,
+        "llama3.1:8b vs mistral:7b": 0.026,
+        "llama3.1:8b vs phi3:medium": 0.026,
+        "mistral:7b vs phi3:medium": 0.053
+      },
+      "mean_jaccard_overlap": 0.04
+    },
+    "CONFUSED": {
+      "generators_present": [
+        "gemma2:9b",
+        "llama3.1:8b",
+        "mistral:7b",
+        "phi3:medium"
+      ],
+      "pairwise_jaccard": {
+        "gemma2:9b vs llama3.1:8b": 0.053,
+        "gemma2:9b vs mistral:7b": 0.053,
+        "gemma2:9b vs phi3:medium": 0.026,
+        "llama3.1:8b vs mistral:7b": 0.081,
+        "llama3.1:8b vs phi3:medium": 0.0,
+        "mistral:7b vs phi3:medium": 0.053
+      },
+      "mean_jaccard_overlap": 0.044
+    },
+    "RUSHING": {
+      "generators_present": [
+        "gemma2:9b",
+        "llama3.1:8b",
+        "mistral:7b",
+        "phi3:medium"
+      ],
+      "pairwise_jaccard": {
+        "gemma2:9b vs llama3.1:8b": 0.026,
+        "gemma2:9b vs mistral:7b": 0.176,
+        "gemma2:9b vs phi3:medium": 0.081,
+        "llama3.1:8b vs mistral:7b": 0.081,
+        "llama3.1:8b vs phi3:medium": 0.053,
+        "mistral:7b vs phi3:medium": 0.143
+      },
+      "mean_jaccard_overlap": 0.093
+    },
+    "FRUSTRATED": {
+      "generators_present": [
+        "gemma2:9b",
+        "llama3.1:8b",
+        "mistral:7b",
+        "phi3:medium"
+      ],
+      "pairwise_jaccard": {
+        "gemma2:9b vs llama3.1:8b": 0.026,
+        "gemma2:9b vs mistral:7b": 0.026,
+        "gemma2:9b vs phi3:medium": 0.081,
+        "llama3.1:8b vs mistral:7b": 0.026,
+        "llama3.1:8b vs phi3:medium": 0.0,
+        "mistral:7b vs phi3:medium": 0.053
+      },
+      "mean_jaccard_overlap": 0.035
+    },
+    "STUCK": {
+      "generators_present": [
+        "gemma2:9b",
+        "llama3.1:8b",
+        "mistral:7b",
+        "phi3:medium"
+      ],
+      "pairwise_jaccard": {
+        "gemma2:9b vs llama3.1:8b": 0.026,
+        "gemma2:9b vs mistral:7b": 0.053,
+        "gemma2:9b vs phi3:medium": 0.053,
+        "llama3.1:8b vs mistral:7b": 0.053,
+        "llama3.1:8b vs phi3:medium": 0.026,
+        "mistral:7b vs phi3:medium": 0.053
+      },
+      "mean_jaccard_overlap": 0.044
+    },
+    "INSIGHT": {
+      "generators_present": [
+        "gemma2:9b",
+        "llama3.1:8b",
+        "mistral:7b",
+        "phi3:medium"
+      ],
+      "pairwise_jaccard": {
+        "gemma2:9b vs llama3.1:8b": 0.053,
+        "gemma2:9b vs mistral:7b": 0.053,
+        "gemma2:9b vs phi3:medium": 0.026,
+        "llama3.1:8b vs mistral:7b": 0.026,
+        "llama3.1:8b vs phi3:medium": 0.026,
+        "mistral:7b vs phi3:medium": 0.081
+      },
+      "mean_jaccard_overlap": 0.044
+    }
+  },
+  "overall_mean_jaccard_overlap": 0.043,
+  "interpretation": "Lower Jaccard overlap of top-20 discriminative tokens across generators = more linguistic diversity in the mixed corpus, which is what justifies multi-generator training."
+}

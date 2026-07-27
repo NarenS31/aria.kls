@@ -241,176 +241,176 @@
         ]
       },
       "CONFUSED": {
-        "mean_appropriateness": 1.5,
+        "mean_appropriateness": 2.0,
         "n_rated": 10,
         "ratings": [
           2,
           2,
-          1,
-          1,
-          1,
           2,
           2,
-          1,
           2,
-          1
+          2,
+          2,
+          2,
+          2,
+          2
         ],
         "scored_samples": [
-          {
-            "intervention": "You mentioned the quadratic formula. Can you point to the exact step that loses you?",
-            "rating": 2
-          },
           {
             "intervention": "You mentioned the quadratic formula. Which part feels unclear right now?",
             "rating": 2
           },
           {
-            "intervention": "You mentioned the quadratic formula. What do you understand so far, even a little?",
-            "rating": 1
+            "intervention": "You mentioned the quadratic formula. What's the one piece you'd want cleared up first?",
+            "rating": 2
           },
           {
-            "intervention": "Where does the quadratic formula stop making sense to you?",
-            "rating": 1
+            "intervention": "You mentioned the quadratic formula. Where exactly does it start to feel fuzzy?",
+            "rating": 2
           },
           {
-            "intervention": "Which part of the quadratic formula would be most useful to clarify first?",
-            "rating": 1
+            "intervention": "You mentioned the quadratic formula. Can you point to the exact step that loses you?",
+            "rating": 2
+          },
+          {
+            "intervention": "You mentioned the quadratic formula. Which specific part is tripping you up?",
+            "rating": 2
           },
           {
             "intervention": "You mentioned the quadratic formula. What do you already know about that specifically?",
             "rating": 2
           },
           {
-            "intervention": "You mentioned the quadratic formula. Can you point to the exact step that loses you?",
+            "intervention": "You mentioned the quadratic formula. Where exactly does it start to feel fuzzy?",
             "rating": 2
-          },
-          {
-            "intervention": "Where does the quadratic formula stop making sense to you?",
-            "rating": 1
           },
           {
             "intervention": "You mentioned the quadratic formula. Which part feels unclear right now?",
             "rating": 2
           },
           {
-            "intervention": "You mentioned the quadratic formula. What do you understand so far, even a little?",
-            "rating": 1
+            "intervention": "You mentioned the quadratic formula. What's the one piece you'd want cleared up first?",
+            "rating": 2
+          },
+          {
+            "intervention": "You mentioned the quadratic formula. Which specific part is tripping you up?",
+            "rating": 2
           }
         ]
       },
       "RUSHING": {
-        "mean_appropriateness": 0.5,
+        "mean_appropriateness": 1.5,
         "n_rated": 10,
         "ratings": [
-          0,
+          1,
+          2,
+          2,
+          2,
           1,
           1,
-          0,
-          0,
+          2,
           1,
           1,
-          0,
-          1,
-          0
+          2
         ],
         "scored_samples": [
           {
-            "intervention": "Walk me through your reasoning step by step.",
-            "rating": 0
-          },
-          {
-            "intervention": "What did the problem actually ask for?",
+            "intervention": "What would you check first if you were wrong?",
             "rating": 1
           },
           {
-            "intervention": "Stop. What's your plan before going further?",
+            "intervention": "Before you move on — how could you double-check it?",
+            "rating": 2
+          },
+          {
+            "intervention": "If you had to bet on that answer, how sure are you?",
+            "rating": 2
+          },
+          {
+            "intervention": "Before you check — how sure are you, 1 to 5?",
+            "rating": 2
+          },
+          {
+            "intervention": "You moved fast there — walk me through it?",
             "rating": 1
           },
           {
-            "intervention": "Read the question out loud again.",
-            "rating": 0
-          },
-          {
-            "intervention": "Walk me through your reasoning step by step.",
-            "rating": 0
-          },
-          {
-            "intervention": "What did the problem actually ask for?",
+            "intervention": "What made you pick that approach?",
             "rating": 1
           },
           {
-            "intervention": "Stop. What's your plan before going further?",
+            "intervention": "Before you check — how sure are you, 1 to 5?",
+            "rating": 2
+          },
+          {
+            "intervention": "What made you pick that approach?",
             "rating": 1
           },
           {
-            "intervention": "Read the question out loud again.",
-            "rating": 0
-          },
-          {
-            "intervention": "What did the problem actually ask for?",
+            "intervention": "What would you check first if you were wrong?",
             "rating": 1
           },
           {
-            "intervention": "Walk me through your reasoning step by step.",
-            "rating": 0
+            "intervention": "If you had to bet on that answer, how sure are you?",
+            "rating": 2
           }
         ]
       },
       "FRUSTRATED": {
-        "mean_appropriateness": 0.3,
+        "mean_appropriateness": 2.0,
         "n_rated": 10,
         "ratings": [
-          0,
-          1,
-          0,
-          1,
-          0,
-          0,
-          1,
-          0,
-          0,
-          0
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
         ],
         "scored_samples": [
           {
-            "intervention": "That's genuinely hard. What's the one part you DO understand?",
-            "rating": 0
+            "intervention": "Totally reasonable to be frustrated here. Where should we point our attention first?",
+            "rating": 2
           },
           {
-            "intervention": "You're not missing something obvious — what have you tried?",
-            "rating": 1
+            "intervention": "Makes sense you're annoyed. What's the smallest part you'd be willing to look at with me?",
+            "rating": 2
           },
           {
-            "intervention": "Take 30 seconds. Then tell me just the first thing you'd try.",
-            "rating": 0
+            "intervention": "Okay. Stop working. What part made you want to quit?",
+            "rating": 2
           },
           {
-            "intervention": "You're not missing something obvious — what have you tried?",
-            "rating": 1
+            "intervention": "That's a fair thing to be annoyed by. What's making it feel impossible right now?",
+            "rating": 2
           },
           {
-            "intervention": "Take 30 seconds. Then tell me just the first thing you'd try.",
-            "rating": 0
+            "intervention": "This one's genuinely tough — no shame in being annoyed. What's the piece that's bugging you most?",
+            "rating": 2
           },
           {
-            "intervention": "That's genuinely hard. What's the one part you DO understand?",
-            "rating": 0
+            "intervention": "I hear you — this is hard. What made you want to give up just now?",
+            "rating": 2
           },
           {
-            "intervention": "You're not missing something obvious — what have you tried?",
-            "rating": 1
+            "intervention": "This one's genuinely tough — no shame in being annoyed. What's the piece that's bugging you most?",
+            "rating": 2
           },
           {
-            "intervention": "Take 30 seconds. Then tell me just the first thing you'd try.",
-            "rating": 0
+            "intervention": "Totally reasonable to be frustrated here. Where should we point our attention first?",
+            "rating": 2
           },
           {
-            "intervention": "That's genuinely hard. What's the one part you DO understand?",
-            "rating": 0
+            "intervention": "That's a fair thing to be annoyed by. What's making it feel impossible right now?",
+            "rating": 2
           },
           {
-            "intervention": "Take 30 seconds. Then tell me just the first thing you'd try.",
-            "rating": 0
+            "intervention": "Makes sense you're annoyed. What's the smallest part you'd be willing to look at with me?",
+            "rating": 2
           }
         ]
       },
@@ -420,23 +420,31 @@
         "ratings": [
           1,
           2,
+          1,
+          1,
           2,
           1,
           1,
           1,
           2,
-          1,
-          1,
           1
         ],
         "scored_samples": [
           {
-            "intervention": "What is one useful action you can take in the next ten seconds?",
+            "intervention": "Without solving it, what is one detail you can write down?",
             "rating": 1
           },
           {
             "intervention": "What is the smallest action you can take without solving the whole problem?",
             "rating": 2
+          },
+          {
+            "intervention": "What is the question asking you to find, in your own words?",
+            "rating": 1
+          },
+          {
+            "intervention": "What is one useful action you can take in the next ten seconds?",
+            "rating": 1
           },
           {
             "intervention": "What is one tiny first step you can take without finding the answer?",
@@ -451,7 +459,7 @@
             "rating": 1
           },
           {
-            "intervention": "Without solving it, what is one detail you can write down?",
+            "intervention": "You're stuck, so let's make this tiny: what is one thing you know for certain?",
             "rating": 1
           },
           {
@@ -460,14 +468,6 @@
           },
           {
             "intervention": "What is one useful action you can take in the next ten seconds?",
-            "rating": 1
-          },
-          {
-            "intervention": "What is the question asking you to find, in your own words?",
-            "rating": 1
-          },
-          {
-            "intervention": "Without solving it, what is one detail you can write down?",
             "rating": 1
           }
         ]
@@ -489,11 +489,15 @@
         ],
         "scored_samples": [
           {
-            "intervention": "How is this insight different from what you thought before?",
+            "intervention": "How would you explain what just clicked to another student?",
             "rating": 2
           },
           {
-            "intervention": "How would you explain what just clicked to another student?",
+            "intervention": "Where else could you apply what you just realized?",
+            "rating": 2
+          },
+          {
+            "intervention": "What made it click for you just now?",
             "rating": 2
           },
           {
@@ -505,15 +509,11 @@
             "rating": 2
           },
           {
-            "intervention": "What made it click for you just now?",
-            "rating": 2
-          },
-          {
-            "intervention": "Where else could you apply what you just realized?",
-            "rating": 2
-          },
-          {
             "intervention": "How is this insight different from what you thought before?",
+            "rating": 2
+          },
+          {
+            "intervention": "What made it click for you just now?",
             "rating": 2
           },
           {
@@ -521,17 +521,17 @@
             "rating": 2
           },
           {
-            "intervention": "What made it click for you just now?",
+            "intervention": "Where else could you apply what you just realized?",
             "rating": 2
           },
           {
-            "intervention": "Where else could you apply what you just realized?",
+            "intervention": "What changed in your thinking when it clicked?",
             "rating": 2
           }
         ]
       }
     },
-    "overall_mean": 1.286,
+    "overall_mean": 1.743,
     "judge_model": "llama3.1:8b"
   },
   "transition_effectiveness": {
@@ -541,70 +541,70 @@
         "trials": 3,
         "transitions": [
           {
-            "intervention": "Good — what's your overall strategy?",
-            "reply": "\"Hmm, um, I think I need to, like, read the question again... and then maybe make a list of all the steps we do in this ",
-            "new_state": "PLANNING",
-            "improved": false
-          },
-          {
             "intervention": "What do you already know that applies here?",
-            "reply": "\"Um, let me see... I think I read somewhere that if something is being pulled or forced, there's gotta be some kind of t",
+            "reply": "Um, I think... um, there's something about energy and stuff, like how it can't be created or destroyed just, you know, r",
             "new_state": "PLANNING",
             "improved": false
           },
           {
             "intervention": "Before you start, what do you predict will be hardest?",
-            "reply": "Uh, I don't know... is it that part with all the formulas? I'm having trouble remembering which ones go where... *pauses",
+            "reply": "Uh, umm... I think it's gonna be hard... finding a common factor between the two equations... I don't know how to even s",
             "new_state": "STUCK",
+            "improved": false
+          },
+          {
+            "intervention": "Good — what's your overall strategy?",
+            "reply": "Um, I think... um... *pauses* wait, how do I even start with this one? Should I try to break it down into smaller parts ",
+            "new_state": "CONFUSED",
             "improved": false
           }
         ]
       },
       "FLOW": {
-        "improvement_rate": 0.333,
+        "improvement_rate": 0.0,
         "trials": 3,
         "transitions": [
           {
             "intervention": "Can you explain why that step works, not just what you did?",
-            "reply": "\"Hmm, okay... I think it has something to do with how I rearranged the terms and like, isolated the variable correctly? ",
-            "new_state": "INSIGHT",
-            "improved": true
+            "reply": "Hmmm, I'm trying to figure out... it's like, the step is working because... um, I was thinking about how the equation ha",
+            "new_state": "PLANNING",
+            "improved": false
           },
           {
             "intervention": "What would happen if you changed one part of your approach?",
-            "reply": "\"Hmm, so like... if I change one part of my approach, that means I'd be changing just one variable, and it could totally",
+            "reply": "\"Wait, so like... I've been trying to divide the equation by factoring, but maybe if I changed that one part of my appro",
             "new_state": "CONFUSED",
             "improved": false
           },
           {
             "intervention": "Would this same approach work on a different problem?",
-            "reply": "Huh? Wait, I mean... um, I think so? Yeah, maybe? If it works for this problem, then maybe I can adapt it... (pauses) Bu",
+            "reply": "Hmm, wait, does that even make sense? I mean, we just figured this out and it totally applied to this one problem... how",
             "new_state": "CONFUSED",
             "improved": false
           }
         ]
       },
       "CONFUSED": {
-        "improvement_rate": 0.333,
+        "improvement_rate": 0.0,
         "trials": 3,
         "transitions": [
           {
+            "intervention": "You mentioned the problem. What do you already know about that specifically?",
+            "reply": "\"Uh, I think it's like... we need to find the x-intercept? Or is it the y-intercept? Wait, which one is that again?\"",
+            "new_state": "CONFUSED",
+            "improved": false
+          },
+          {
             "intervention": "You mentioned the problem. Can you point to the exact step that loses you?",
-            "reply": "\"Uh, I'm not really sure... I feel like it's after we multiplied by 4 and before we added the squared values or somethin",
+            "reply": "\"Hmm, I'm not really sure... I was trying to apply the formula or something, and then I got stuck on how to simplify it ",
             "new_state": "CONFUSED",
             "improved": false
           },
           {
-            "intervention": "You mentioned the problem. Which part feels unclear right now?",
-            "reply": "\"Uh, I don't know... it's just that when you said 'find the x-intercept', I'm not sure if we're supposed to be looking f",
+            "intervention": "Here's one tiny nudge: focus on just the numbers or key terms first. Now — you mentioned the problem. which part feels unclear right now?",
+            "reply": "\"Um, I think... I'm getting stuck on like, where do we even start? The problem has a lot of numbers and stuff, so I don'",
             "new_state": "CONFUSED",
             "improved": false
-          },
-          {
-            "intervention": "Here's one tiny nudge: focus on just the numbers or key terms first. Now — you mentioned the problem. what do you understand so far, even a little?",
-            "reply": "Uh, I think we gotta multiply... um, whatever it is that's being multiplied by... and then there's this other part with ",
-            "new_state": "RUSHING",
-            "improved": true
           }
         ]
       },
@@ -613,46 +613,46 @@
         "trials": 3,
         "transitions": [
           {
-            "intervention": "Read the question out loud again.",
-            "reply": "\"Okay, okay... 'What is the value of x if 2x + 5 = 11?' Umm... I just need to do this...\" *pauses* \"Wait, can we go back",
-            "new_state": "CONFUSED",
-            "improved": false
+            "intervention": "What made you pick that approach?",
+            "reply": "\"Uh, I guess... um, I saw that it could be simplified and like, more direct or something, so I thought, yeah, that's got",
+            "new_state": "PLANNING",
+            "improved": true
           },
           {
-            "intervention": "What did the problem actually ask for?",
-            "reply": "Um, I don't know... it said something about finding a limit or a maximum value, right? But I'm not sure how to apply it,",
+            "intervention": "Before you check — how sure are you, 1 to 5?",
+            "reply": "Uh, I don't know... like three? Is that right? Do I need to be more sure than that?",
             "new_state": "STUCK",
             "improved": false
           },
           {
-            "intervention": "Stop. What's your plan before going further?",
-            "reply": "Okay, so I need to break it down... um, just look at the question again and try to identify the key variables that are c",
-            "new_state": "PLANNING",
-            "improved": true
+            "intervention": "What would you check first if you were wrong?",
+            "reply": "\"Uh, um, what was the question again? Oh yeah, checking if I got the values right... so maybe I should plug in some numb",
+            "new_state": "CONFUSED",
+            "improved": false
           }
         ]
       },
       "FRUSTRATED": {
-        "improvement_rate": 0.667,
+        "improvement_rate": 0.333,
         "trials": 3,
         "transitions": [
           {
-            "intervention": "That's genuinely hard. What's the one part you DO understand?",
-            "reply": "\"Um, I think it's just that we gotta find the x-intercept... yeah, and plug it into one of the equations to solve for y.",
-            "new_state": "PLANNING",
-            "improved": true
+            "intervention": "I hear you — this is hard. What made you want to give up just now?",
+            "reply": "I don't know... I just can't seem to figure out how to get x+y when it's supposed to be some simple algebra question and",
+            "new_state": "STUCK",
+            "improved": false
           },
           {
-            "intervention": "Take 30 seconds. Then tell me just the first thing you'd try.",
-            "reply": "Okay, so like... um... I need to think about this equation and how it relates to slope, right? Okay, now I just have to ",
-            "new_state": "PLANNING",
-            "improved": true
+            "intervention": "This one's genuinely tough — no shame in being annoyed. What's the piece that's bugging you most?",
+            "reply": "\"Ugh, I don't know...I'm just stuck on this part where it says we have to find the derivative of x^2x and then use it in",
+            "new_state": "FRUSTRATED",
+            "improved": false
           },
           {
             "intervention": "Take a real break. Come back in 5 minutes.",
-            "reply": "Ugh, do I have to take a break? Can't I just... wait, no, maybe that's not stupid...\"",
-            "new_state": "FRUSTRATED",
-            "improved": false
+            "reply": "\"Wait, really? Like, can't I just... umm... try to figure it out for a bit longer?\"",
+            "new_state": "PLANNING",
+            "improved": true
           }
         ]
       },
@@ -661,20 +661,20 @@
         "trials": 3,
         "transitions": [
           {
-            "intervention": "What is the question asking you to find, in your own words?",
-            "reply": "Uh, I think it's like... trying to figure out why the graph is, um, curving and stuff? Is that right?",
-            "new_state": "PLANNING",
-            "improved": true
-          },
-          {
-            "intervention": "Without solving it, what is one detail you can write down?",
-            "reply": "\"Uh, I don't know... something about the fractions? Like, maybe we need to find a common denominator or something?\"",
+            "intervention": "You're stuck, so let's make this tiny: what is one thing you know for certain?",
+            "reply": "Uh, okay... I think it's that the formula involves like, some kind of ratio or something? But I don't know if that's eve",
             "new_state": "STUCK",
             "improved": false
           },
           {
+            "intervention": "What is the smallest action you can take without solving the whole problem?",
+            "reply": "\"Hmm, um, I'm not sure... I feel like I should start breaking it down into smaller pieces or something, but then that so",
+            "new_state": "CONFUSED",
+            "improved": true
+          },
+          {
             "intervention": "Let's do the very first step together: read the problem and write down the one thing it's asking for. What's the next step after that?",
-            "reply": "\"Okay, I've read it... um, what's it asking for again? Wait, let me go back and look at it... *rereads problem*... is it",
+            "reply": "\"Hmm, okay... so we just read the whole thing and now it's asking for... um, what's the one thing it wants me to find? I",
             "new_state": "CONFUSED",
             "improved": true
           }
@@ -685,27 +685,27 @@
         "trials": 3,
         "transitions": [
           {
-            "intervention": "How would you explain what just clicked to another student?",
-            "reply": "\"Wait, I think it is... like, we were looking at the formula and trying to figure out how to make it simpler... and then",
+            "intervention": "What clue could help you recognize this pattern next time?",
+            "reply": "\"Umm... I think it's like, when there's a lot of numbers and stuff, and they're all lined up in rows... (pauses) Wait, t",
+            "new_state": "PLANNING",
+            "improved": false
+          },
+          {
+            "intervention": "How is this insight different from what you thought before?",
+            "reply": "Wait, I don't know... it feels like it's just more obvious now that I've seen the problem from different angles, you kno",
             "new_state": "INSIGHT",
             "improved": false
           },
           {
-            "intervention": "What changed in your thinking when it clicked?",
-            "reply": "\"Uh, I think... I realized that I was trying to force the dates of the historical events to fit with the cause and effec",
-            "new_state": "CONFUSED",
-            "improved": false
-          },
-          {
-            "intervention": "What clue could help you recognize this pattern next time?",
-            "reply": "\"Um, I think... it might be, like, if there's a repeated word or phrase? Like, last time we had that problem with 'repea",
+            "intervention": "Where else could you apply what you just realized?",
+            "reply": "Hmmm... I think it could be like when we're trying to solve a math problem and there are different ways to do it? So if ",
             "new_state": "PLANNING",
             "improved": false
           }
         ]
       }
     },
-    "negative_state_mean_improvement": 0.5
+    "negative_state_mean_improvement": 0.333
   },
   "transfer_detection": {
     "n": 100,
