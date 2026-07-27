@@ -28,6 +28,12 @@ from .analyzer import (
     compute_classification_metrics,
     print_confusion_matrix,
 )
+from .behavioral import (
+    BehavioralFeatureExtractor,
+    BEHAVIORAL_SIGNALS,
+    SIGNAL_TO_STATE,
+    dominant_signal,
+)
 from .interventions import (
     MetacognitiveInterventionGenerator,
     INTERVENTION_BANK,
@@ -87,6 +93,10 @@ __all__ = [
     "evaluate",
     "compute_classification_metrics",
     "print_confusion_matrix",
+    "BehavioralFeatureExtractor",
+    "BEHAVIORAL_SIGNALS",
+    "SIGNAL_TO_STATE",
+    "dominant_signal",
     "MetacognitiveInterventionGenerator",
     "INTERVENTION_BANK",
     "INTERVENTION_CITATIONS",

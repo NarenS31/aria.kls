@@ -1,0 +1,51 @@
+{
+  "data_source": "synthetic_fallback",
+  "n": 1200,
+  "method1_source": "adapter",
+  "labeled_rows": 479,
+  "unlabeled_rows": 721,
+  "timing_percentiles_ms": {
+    "p10": 921.9,
+    "p25": 2876.5,
+    "p75": 12439.5,
+    "p90": 25085.8
+  },
+  "agreement_rate": 0.5616,
+  "agreements": 269,
+  "timing_dimension_agreement_rate": 0.7535,
+  "timing_dimension_n": 357,
+  "method1_reference_label_distribution": {
+    "RUSHING": 82,
+    "STUCK": 260,
+    "CONFUSED": 85,
+    "PLANNING": 15,
+    "FLOW": 37
+  },
+  "method2_aria_extractor_label_distribution": {
+    "RUSHING": 485,
+    "STUCK": 384,
+    "PLANNING": 331
+  },
+  "confusion_reference_vs_aria": {
+    "RUSHING": {
+      "RUSHING": 82
+    },
+    "STUCK": {
+      "STUCK": 187,
+      "PLANNING": 51,
+      "RUSHING": 22
+    },
+    "CONFUSED": {
+      "PLANNING": 46,
+      "RUSHING": 22,
+      "STUCK": 17
+    },
+    "PLANNING": {
+      "STUCK": 15
+    },
+    "FLOW": {
+      "RUSHING": 37
+    }
+  },
+  "note": "ASSISTments has no keystroke/text stream; ARIA's extractor can only express timing-driven states (RUSHING/PLANNING/STUCK) from time-to-first-response. Method 1 is the canonical proxy mapping from datasets/adapters/assistments.py when importable (else the inline score functions). `agreement_rate` is over labeled rows across all states; `timing_dimension_agreement_rate` restricts to rows Method 1 labels as a timing-driven state, for a fair threshold comparison."
+}

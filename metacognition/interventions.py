@@ -66,20 +66,33 @@ INTERVENTION_BANK: dict[str, list[str]] = {
         "You mentioned {concept}. What do you already know about that specifically?",
         "You mentioned {concept}. Which part feels unclear right now?",
         "You mentioned {concept}. Can you point to the exact step that loses you?",
-        "Where does {concept} stop making sense to you?",
-        "Which part of {concept} would be most useful to clarify first?",
-        "You mentioned {concept}. What do you understand so far, even a little?",
+        "You mentioned {concept}. Where exactly does it start to feel fuzzy?",
+        "You mentioned {concept}. Which specific part is tripping you up?",
+        "You mentioned {concept}. What's the one piece you'd want cleared up first?",
     ],
+    # RUSHING — curious, not corrective. A rushing student isn't dysregulated,
+    # so a gentle question that invites them to slow down and check their own
+    # confidence works better than a command ("Stop.", "Read it again.").
     "RUSHING": [
-        "Stop. What's your plan before going further?",
-        "Walk me through your reasoning step by step.",
-        "What did the problem actually ask for?",
-        "Read the question out loud again.",
+        "Before you check — how sure are you, 1 to 5?",
+        "If you had to bet on that answer, how sure are you?",
+        "Before you move on — how could you double-check it?",
+        "What made you pick that approach?",
+        "You moved fast there — walk me through it?",
+        "What would you check first if you were wrong?",
     ],
+    # FRUSTRATED — acknowledge first, action second. A frustrated student is
+    # dysregulated and cannot answer a demand to DO work ("what have you tried?",
+    # "the first thing you'd try"). Every line here validates the feeling FIRST,
+    # then asks ONE low-demand question aimed at the feeling or the smallest
+    # possible piece — never at solving or recounting work.
     "FRUSTRATED": [
-        "That's genuinely hard. What's the one part you DO understand?",
-        "Take 30 seconds. Then tell me just the first thing you'd try.",
-        "You're not missing something obvious — what have you tried?",
+        "Okay. Stop working. What part made you want to quit?",
+        "Totally reasonable to be frustrated here. Where should we point our attention first?",
+        "That's a fair thing to be annoyed by. What's making it feel impossible right now?",
+        "I hear you — this is hard. What made you want to give up just now?",
+        "This one's genuinely tough — no shame in being annoyed. What's the piece that's bugging you most?",
+        "Makes sense you're annoyed. What's the smallest part you'd be willing to look at with me?",
     ],
     "STUCK": [
         "What is the smallest action you can take without solving the whole problem?",

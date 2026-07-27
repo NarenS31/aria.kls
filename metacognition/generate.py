@@ -52,9 +52,65 @@ FAILURE_LOG_PATH = os.path.join(OUT_DIR, "failures.log")
 CHECKPOINT_PATH = os.path.join(OUT_DIR, "checkpoint.json")
 
 DEFAULT_MODEL = os.environ.get("ARIA_GEN_MODEL", "llama3.1:8b")
-BATCH_SIZE = 10
+# Concurrency + robustness. BATCH_SIZE and the per-request timeout are env-tunable
+# so a run can be made a politer GPU citizen when another job shares the machine.
+# The timeout is CRITICAL: without it a saturated/stuck Ollama makes ollama.chat
+# block forever, hanging the whole run (observed: a 10-hour zero-progress hang
+# while a second process held the single-slot GPU). With it, a stalled request
+# fails, is retried MAX_RETRIES times, then skipped and logged.
+BATCH_SIZE = int(os.environ.get("ARIA_GEN_BATCH", "10"))
 MAX_RETRIES = 3
 CHECKPOINT_EVERY = 50
+GEN_TIMEOUT = float(os.environ.get("ARIA_GEN_TIMEOUT", "300"))
+
+_client: "ollama.Client | None" = None
+_client_lock = threading.Lock()
+
+
+def _gen_client() -> "ollama.Client":
+    """A shared Ollama client with a finite request timeout (thread-safe)."""
+    global _client
+    if _client is None:
+        with _client_lock:
+            if _client is None:
+                _client = ollama.Client(timeout=GEN_TIMEOUT)
+    return _client
+
+# ------------------------------------------------------------------
+# Multi-generator augmentation (reduce single-generator bias)
+# ------------------------------------------------------------------
+# The alternative generators used to diversify the corpus, and a short filesystem
+# tag for each (used in output filenames + as an id suffix so merged records stay
+# unique across generators).
+GENERATOR_TAGS = {
+    "llama3.1:8b": "llama",
+    "mistral:7b": "mistral",
+    "gemma2:9b": "gemma2",
+    "phi3:medium": "phi3",
+}
+AUGMENT_MODELS = ["mistral:7b", "gemma2:9b", "phi3:medium"]
+# All four generators participate in the FLOW-specific augmentation (Part 5).
+FLOW_AUGMENT_MODELS = ["llama3.1:8b", "mistral:7b", "gemma2:9b", "phi3:medium"]
+
+# The FLOW hard-negative decoy states: think-alouds written to look like FLOW but
+# truly PLANNING (deliberate setup) or INSIGHT (sudden realization).
+FLOW_DECOY_STATES = ["PLANNING", "INSIGHT"]
+
+
+def _tag(model: str) -> str:
+    return GENERATOR_TAGS.get(model, re.sub(r"[^a-z0-9]+", "-", model.lower()))
+
+
+def augment_path(model: str) -> str:
+    return os.path.join(OUT_DIR, f"augment_{_tag(model)}.jsonl")
+
+
+MIXED_DATASET_PATH = os.path.join(OUT_DIR, "dataset_mixed.jsonl")
+MIXED_TRAIN_PATH = os.path.join(OUT_DIR, "mixed_train.jsonl")
+MIXED_VAL_PATH = os.path.join(OUT_DIR, "mixed_val.jsonl")
+MIXED_TEST_PATH = os.path.join(OUT_DIR, "mixed_test.jsonl")
+FLOW_HARD_NEG_PATH = os.path.join(OUT_DIR, "flow_hard_negatives.jsonl")
+MIXED_FEWSHOT_PATH = os.path.join(REPO_ROOT, "data", "eval", "mixed_fewshot_examples.json")
 
 COGNITIVE_STATES = [
     "PLANNING", "FLOW", "CONFUSED", "RUSHING",
@@ -213,6 +269,8 @@ def ensure_meta_fields(record: dict[str, Any]) -> dict[str, Any]:
     conf = record.get("student_profile", {}).get("subject_confidence", 0.5)
     correct = record.get("correct_answer", record.get("correct", False))
     record.update(metacognition_labels(state, conf, correct))
+    # Backfill the generator provenance on older samples (pre-multi-generator).
+    record.setdefault("generator_model", DEFAULT_MODEL)
     return record
 
 
@@ -330,6 +388,46 @@ Output JSON only, with exactly these keys and no extra text:
 }}"""
 
 
+def build_hard_negative_prompt(spec: SampleSpec, decoy_state: str) -> str:
+    """Prompt for a FLOW hard negative: reads like FLOW but is truly PLANNING/INSIGHT.
+
+    Uses the same three-part think-aloud contract as build_prompt so the samples
+    are schema-identical to the rest of the corpus."""
+    confidence_pct = int(round(spec.subject_confidence * 100))
+    behavior = {
+        "PLANNING": "deliberate setup before starting — laying out a plan, listing "
+                    "what they need, or choosing an approach — rather than smooth "
+                    "continuous progress",
+        "INSIGHT": "a sudden realization after confusion — a click moment where it "
+                   "finally makes sense — rather than smooth continuous progress",
+    }[decoy_state]
+    return f"""Generate a realistic think-aloud response from a grade {spec.grade} \
+student with ADHD-{spec.adhd_type} who is {confidence_pct}% confident in \
+{spec.subject}, attempting this {spec.difficulty} problem:
+
+{spec.problem_text}
+
+Generate a student think-aloud that could be MISTAKEN for FLOW (engaged, \
+progressing) but is actually {decoy_state}. The student should show {behavior}. \
+Keep the surface engaged and forward-moving (so it superficially resembles flow), \
+but the true underlying cognitive state is {decoy_state}. Label: {decoy_state}.
+
+Generate three parts:
+1. PRE_ATTEMPT: what they say/think before starting (1-3 sentences, authentic ADHD voice)
+2. DURING_ATTEMPT: their reasoning while solving (2-5 sentences)
+3. POST_ATTEMPT: their reflection after (1-2 sentences)
+
+Make it sound like a real student, not a textbook.
+
+Output JSON only, with exactly these keys and no extra text:
+{{
+  "pre_attempt": "...",
+  "during_attempt": "...",
+  "post_attempt": "...",
+  "correct": true
+}}"""
+
+
 _JSON_OBJ_RE = re.compile(r"\{.*\}", re.DOTALL)
 
 
@@ -349,14 +447,18 @@ def _extract_json(text: str) -> dict[str, Any]:
     return json.loads(m.group(0))
 
 
-def generate_one(spec: SampleSpec, model: str) -> dict[str, Any]:
-    """Generate a single sample dict. Raises on unrecoverable failure."""
-    prompt = build_prompt(spec)
+def generate_one(spec: SampleSpec, model: str, *, prompt: str | None = None,
+                 labelled_state: str | None = None) -> dict[str, Any]:
+    """Generate a single sample dict. Raises on unrecoverable failure.
+
+    `prompt` overrides the default per-state prompt (used for hard negatives);
+    `labelled_state` overrides the ground-truth state written into the record."""
+    prompt = prompt if prompt is not None else build_prompt(spec)
     last_err: Exception | None = None
 
     for attempt in range(MAX_RETRIES):
         try:
-            result = ollama.chat(
+            result = _gen_client().chat(
                 model=model,
                 messages=[
                     {"role": "system", "content": "You are simulating a real grade-11 student's inner voice while they work a problem. Respond with JSON only."},
@@ -381,7 +483,8 @@ def generate_one(spec: SampleSpec, model: str) -> dict[str, Any]:
                 # If the model omitted it, infer plausibly from state.
                 correct = spec.cognitive_state in ("FLOW", "INSIGHT", "PLANNING")
 
-            return _assemble(spec, pre, during, post, correct)
+            return _assemble(spec, pre, during, post, correct, model,
+                             labelled_state=labelled_state)
         except Exception as e:  # noqa: BLE001 — retry any generation error
             last_err = e
             continue
@@ -389,7 +492,17 @@ def generate_one(spec: SampleSpec, model: str) -> dict[str, Any]:
     raise RuntimeError(f"generation failed after {MAX_RETRIES} attempts: {last_err}")
 
 
-def _assemble(spec: SampleSpec, pre: str, during: str, post: str, correct: bool) -> dict[str, Any]:
+def _assemble(spec: SampleSpec, pre: str, during: str, post: str, correct: bool,
+              model: str = DEFAULT_MODEL, *, labelled_state: str | None = None) -> dict[str, Any]:
+    """Assemble a dataset record.
+
+    `labelled_state` overrides the ground-truth cognitive_state independently of
+    the state whose *voice* the prompt asked for — used for FLOW hard negatives,
+    where the think-aloud is written to look like FLOW but is truly PLANNING or
+    INSIGHT. When omitted the labelled state equals spec.cognitive_state.
+    `model` is recorded as `generator_model` for generator-bias analysis.
+    """
+    state = labelled_state or spec.cognitive_state
     record = {
         "id": spec.key,
         "student_profile": {
@@ -408,12 +521,13 @@ def _assemble(spec: SampleSpec, pre: str, during: str, post: str, correct: bool)
             "during_attempt": during,
             "post_attempt": post,
         },
-        "cognitive_state": spec.cognitive_state,
-        "ground_truth": dict(STATE_GROUND_TRUTH[spec.cognitive_state]),
+        "cognitive_state": state,
+        "ground_truth": dict(STATE_GROUND_TRUTH[state]),
         "correct_answer": bool(correct),
+        "generator_model": model,
     }
     # Metacognition ground-truth fields for the three measurement systems (§7).
-    record.update(metacognition_labels(spec.cognitive_state, spec.subject_confidence, correct))
+    record.update(metacognition_labels(state, spec.subject_confidence, correct))
     return record
 
 
@@ -644,6 +758,304 @@ def finalize(model: str) -> None:
 
 
 # ------------------------------------------------------------------
+# Multi-generator augmentation orchestration
+# ------------------------------------------------------------------
+
+def _atomic_write_jsonl(path: str, records: list[dict[str, Any]]) -> None:
+    """Write JSONL via temp + rename so concurrent readers never see a partial file."""
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as fh:
+        for r in records:
+            fh.write(json.dumps(r, ensure_ascii=False) + "\n")
+        fh.flush()
+        os.fsync(fh.fileno())
+    os.replace(tmp, path)
+
+
+def _generate_jobs(jobs: list[tuple[str, Any]], out_path: str, desc: str) -> int:
+    """Run (final_id, callable()->record) jobs in parallel batches, appending to
+    out_path. Skips ids already present in out_path (resume-safe). The callable's
+    returned record has its id overwritten with final_id. Returns new count."""
+    existing = load_existing_keys(out_path)
+    todo = [(fid, fn) for (fid, fn) in jobs if fid not in existing]
+    if not todo:
+        print(f"{desc}: nothing to do ({len(existing)} already present in "
+              f"{os.path.basename(out_path)}).")
+        return 0
+
+    writer = IncrementalWriter(out_path)
+    generated = 0
+    failed = 0
+    try:
+        with tqdm(total=len(todo), desc=desc, unit="sample") as bar:
+            for start in range(0, len(todo), BATCH_SIZE):
+                batch = todo[start:start + BATCH_SIZE]
+                with ThreadPoolExecutor(max_workers=BATCH_SIZE) as pool:
+                    futures = {pool.submit(fn): fid for (fid, fn) in batch}
+                    for fut in as_completed(futures):
+                        fid = futures[fut]
+                        try:
+                            record = fut.result()
+                            record["id"] = fid
+                            writer.write(record)
+                            generated += 1
+                        except Exception as e:  # noqa: BLE001
+                            failed += 1
+                            with open(FAILURE_LOG_PATH, "a", encoding="utf-8") as fh:
+                                fh.write(f"{fid}\t{type(e).__name__}: {e}\n")
+                        finally:
+                            bar.update(1)
+                            bar.set_postfix(ok=generated, fail=failed)
+    finally:
+        writer.close()
+    if failed:
+        print(f"\n{failed} generation(s) failed and were skipped "
+              f"(logged to {FAILURE_LOG_PATH}).")
+    return generated
+
+
+def run_augmentation(model: str, samples_per_state: int, seed: int = 1234) -> int:
+    """Generate `samples_per_state` per cognitive state with `model`, appended to
+    that model's augment file. Uses the EXACT same per-state prompts as the base
+    corpus; only the generator changes. Resume-safe."""
+    out_path = augment_path(model)
+    tag = _tag(model)
+    check_model(model)
+    specs = build_specs(samples_per_state, seed=seed)  # same grid → controlled comparison
+    jobs = [(f"{s.key}|{tag}", (lambda sp=s: generate_one(sp, model))) for s in specs]
+    print(f"\n=== Augmenting with {model} "
+          f"({samples_per_state}/state x {len(COGNITIVE_STATES)} states "
+          f"= {len(jobs)} target) -> {os.path.basename(out_path)} ===")
+    done = _generate_jobs(jobs, out_path, desc=f"augment:{tag}")
+    total = len(load_existing_keys(out_path))
+    print(f"{model}: +{done} this run, {total} total in {os.path.basename(out_path)}")
+    return done
+
+
+def _flow_specs(n: int, seed: int) -> list[SampleSpec]:
+    """n distinct FLOW specs (problems/profiles), for FLOW-targeted augmentation."""
+    return [s for s in build_specs(n, seed=seed) if s.cognitive_state == "FLOW"][:n]
+
+
+def run_flow_augmentation(model: str, n_flow: int = 500, seed: int = 4242) -> int:
+    """Part 5 — generate n_flow FLOW-targeted samples for `model`, HALF of them
+    hard negatives (look like FLOW but are truly PLANNING or INSIGHT). All appended
+    to flow_hard_negatives.jsonl. Resume-safe."""
+    tag = _tag(model)
+    check_model(model)
+    pool = _flow_specs(n_flow, seed)
+    half = n_flow // 2
+    genuine = pool[:half]
+    decoys = pool[half:n_flow]
+
+    def genuine_job(sp):
+        def run():
+            rec = generate_one(sp, model)
+            rec["flow_augment"] = True
+            rec["flow_hard_negative"] = False
+            return rec
+        return run
+
+    def decoy_job(sp, decoy):
+        def run():
+            rec = generate_one(sp, model,
+                               prompt=build_hard_negative_prompt(sp, decoy),
+                               labelled_state=decoy)
+            rec["flow_augment"] = True
+            rec["flow_hard_negative"] = True
+            return rec
+        return run
+
+    jobs: list[tuple[str, Any]] = []
+    for s in genuine:
+        jobs.append((f"{s.key}|{tag}|flow", genuine_job(s)))
+    for i, s in enumerate(decoys):
+        decoy = FLOW_DECOY_STATES[i % len(FLOW_DECOY_STATES)]
+        jobs.append((f"{s.key}|{tag}|hn-{decoy.lower()}", decoy_job(s, decoy)))
+
+    print(f"\n=== FLOW augmentation with {model} "
+          f"({len(genuine)} genuine FLOW + {len(decoys)} hard negatives) "
+          f"-> {os.path.basename(FLOW_HARD_NEG_PATH)} ===")
+    done = _generate_jobs(jobs, FLOW_HARD_NEG_PATH, desc=f"flow-aug:{tag}")
+    print(f"{model}: +{done} FLOW-aug samples this run")
+    return done
+
+
+# ------------------------------------------------------------------
+# Mixed-corpus merge, split, stats, few-shot extraction
+# ------------------------------------------------------------------
+
+def stratified_split_by_pair(
+    records: list[dict[str, Any]], seed: int = 7
+) -> tuple[list, list, list]:
+    """80/10/10 split stratified by BOTH cognitive_state AND generator_model, so
+    every (state, generator) cell appears in train/val/test when it has >= 3."""
+    rng = random.Random(seed)
+    buckets: dict[tuple, list] = defaultdict(list)
+    for r in records:
+        key = (r.get("cognitive_state", ""), r.get("generator_model", DEFAULT_MODEL))
+        buckets[key].append(r)
+
+    train, val, test = [], [], []
+    for _key, items in buckets.items():
+        items = list(items)
+        rng.shuffle(items)
+        n = len(items)
+        n_train = int(round(n * 0.8))
+        n_val = int(round(n * 0.1))
+        if n >= 3:
+            n_val = max(1, n_val)
+            n_test = max(1, n - n_train - n_val)
+            n_train = n - n_val - n_test
+        else:
+            n_test = n - n_train - n_val
+        train.extend(items[:n_train])
+        val.extend(items[n_train:n_train + n_val])
+        test.extend(items[n_train + n_val:])
+
+    rng.shuffle(train)
+    rng.shuffle(val)
+    rng.shuffle(test)
+    return train, val, test
+
+
+def build_mixed_corpus() -> dict[str, Any]:
+    """Merge base + all augment files into dataset_mixed.jsonl, resplit stratified
+    by state x generator, refresh stats with by_generator, and fold the FLOW
+    augmentation into the training split. Returns a summary dict.
+
+    dataset_mixed.jsonl = base(llama) + the three general augment files (Part 2).
+    flow_hard_negatives.jsonl is kept separate (Part 5) and appended to the
+    TRAINING split only, so mixed_test measures the held-out general distribution.
+    """
+    # Base corpus: backfill generator_model + metacognition fields, persist atomically.
+    base = [ensure_meta_fields(r) for r in load_all(DATASET_PATH)]
+    if base:
+        _atomic_write_jsonl(DATASET_PATH, base)
+
+    mixed = list(base)
+    for model in AUGMENT_MODELS:
+        recs = [ensure_meta_fields(r) for r in load_all(augment_path(model))]
+        mixed.extend(recs)
+
+    write_jsonl(MIXED_DATASET_PATH, mixed)
+
+    train, val, test = stratified_split_by_pair(mixed)
+
+    # Fold FLOW augmentation into TRAINING only (Part 5: "include for final training").
+    flow_aug = [ensure_meta_fields(r) for r in load_all(FLOW_HARD_NEG_PATH)]
+    if flow_aug:
+        rng = random.Random(11)
+        rng.shuffle(flow_aug)
+        train = train + flow_aug
+        random.Random(13).shuffle(train)
+
+    write_jsonl(MIXED_TRAIN_PATH, train)
+    write_jsonl(MIXED_VAL_PATH, val)
+    write_jsonl(MIXED_TEST_PATH, test)
+
+    by_generator = dict(sorted(
+        Counter(r.get("generator_model", DEFAULT_MODEL) for r in mixed).items()))
+
+    stats = compute_stats(mixed)
+    stats["source"] = os.path.basename(MIXED_DATASET_PATH)
+    stats["by_generator"] = by_generator
+    stats["flow_augmentation"] = {
+        "file": os.path.basename(FLOW_HARD_NEG_PATH),
+        "total": len(flow_aug),
+        "hard_negatives": sum(1 for r in flow_aug if r.get("flow_hard_negative")),
+        "genuine_flow": sum(1 for r in flow_aug if not r.get("flow_hard_negative")),
+        "folded_into": "mixed_train.jsonl",
+    }
+    stats["splits"] = {
+        "mixed_train": len(train),
+        "mixed_val": len(val),
+        "mixed_test": len(test),
+    }
+    with open(STATS_PATH, "w", encoding="utf-8") as fh:
+        json.dump(stats, fh, indent=2, ensure_ascii=False)
+
+    print(f"\nMixed corpus built:")
+    print(f"  dataset_mixed -> {MIXED_DATASET_PATH} ({len(mixed)})")
+    print(f"  by_generator  : {by_generator}")
+    print(f"  mixed_train   -> {MIXED_TRAIN_PATH} ({len(train)}  incl. {len(flow_aug)} FLOW-aug)")
+    print(f"  mixed_val     -> {MIXED_VAL_PATH} ({len(val)})")
+    print(f"  mixed_test    -> {MIXED_TEST_PATH} ({len(test)})")
+    # Every generator must appear in each split (stratification guarantee).
+    for name, split in (("train", train), ("val", val), ("test", test)):
+        gens = dict(sorted(Counter(r.get("generator_model", DEFAULT_MODEL)
+                                   for r in split).items()))
+        print(f"    {name} by generator: {gens}")
+    return {"total": len(mixed), "by_generator": by_generator,
+            "train": len(train), "val": len(val), "test": len(test)}
+
+
+def build_fewshot_examples(per_generator: int = 2) -> dict[str, Any]:
+    """Part 3 — pull `per_generator` highest-confidence examples per (state,
+    generator) from mixed_train.jsonl, giving a multi-generator few-shot set
+    (e.g. 2/generator x 4 generators = 8 per state). Saved to
+    data/eval/mixed_fewshot_examples.json for versioning/citation.
+
+    NOTE: wiring these into the analyzer's LLM prompt would edit
+    metacognition/analyzer.py, which is off-limits (concurrent process). The JSON
+    is produced and ready to load; the wiring is intentionally deferred.
+    """
+    records = load_all(MIXED_TRAIN_PATH)
+    if not records:
+        raise FileNotFoundError(
+            f"{MIXED_TRAIN_PATH} not found — run --merge first.")
+
+    # group by (state, generator), sort by confidence_before desc (highest first).
+    grouped: dict[tuple, list] = defaultdict(list)
+    for r in records:
+        st = r.get("cognitive_state", "")
+        gen = r.get("generator_model", DEFAULT_MODEL)
+        grouped[(st, gen)].append(r)
+
+    examples: dict[str, list] = {s: [] for s in COGNITIVE_STATES}
+    generators_seen: set[str] = set()
+    for state in COGNITIVE_STATES:
+        for gen in GENERATOR_TAGS:  # deterministic generator order
+            items = grouped.get((state, gen), [])
+            items.sort(key=lambda r: (r.get("confidence_before", 0),
+                                      r.get("id", "")), reverse=True)
+            for r in items[:per_generator]:
+                generators_seen.add(gen)
+                ta = r["think_aloud"]
+                examples[state].append({
+                    "generator_model": gen,
+                    "confidence_before": r.get("confidence_before"),
+                    "subject": r.get("problem", {}).get("subject"),
+                    "think_aloud": (f"{ta.get('pre_attempt','')} "
+                                    f"{ta.get('during_attempt','')} "
+                                    f"{ta.get('post_attempt','')}").strip(),
+                    "cognitive_state": state,
+                    "source_id": r.get("id"),
+                })
+
+    payload = {
+        "description": "Multi-generator few-shot examples for the LLM-as-classifier "
+                       "(Part 3). Highest-confidence examples per (state, generator).",
+        "per_generator": per_generator,
+        "generators": sorted(generators_seen),
+        "n_states": len(COGNITIVE_STATES),
+        "counts_per_state": {s: len(examples[s]) for s in COGNITIVE_STATES},
+        "wiring_note": ("Not yet wired into metacognition/analyzer.py (off-limits: "
+                        "concurrent process). Load this JSON into the LLM few-shot "
+                        "prompt to apply."),
+        "examples": examples,
+    }
+    os.makedirs(os.path.dirname(MIXED_FEWSHOT_PATH), exist_ok=True)
+    with open(MIXED_FEWSHOT_PATH, "w", encoding="utf-8") as fh:
+        json.dump(payload, fh, indent=2, ensure_ascii=False)
+    print(f"\nFew-shot examples -> {MIXED_FEWSHOT_PATH}")
+    print(f"  generators: {sorted(generators_seen)}")
+    print(f"  per state : {payload['counts_per_state']}")
+    return payload
+
+
+# ------------------------------------------------------------------
 # Orchestration
 # ------------------------------------------------------------------
 
@@ -753,6 +1165,25 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     p.add_argument("--backfill", action="store_true",
                    help="Add metacognition fields to the existing dataset and "
                         "rewrite stats + splits — no new generation.")
+    # Multi-generator augmentation (Parts 1, 2, 3, 5).
+    p.add_argument("--augment", type=str, metavar="MODEL",
+                   help="Augment with one model (writes augment_<tag>.jsonl); "
+                        "uses --samples per state.")
+    p.add_argument("--augment-all", action="store_true",
+                   help=f"Augment with every alternative generator "
+                        f"({', '.join(AUGMENT_MODELS)}); uses --samples per state.")
+    p.add_argument("--flow-augment", type=str, metavar="MODEL",
+                   help="FLOW-targeted augmentation for one model (Part 5).")
+    p.add_argument("--flow-augment-all", action="store_true",
+                   help=f"FLOW-targeted augmentation for every generator "
+                        f"({', '.join(FLOW_AUGMENT_MODELS)}).")
+    p.add_argument("--flow-samples", type=int, default=500,
+                   help="FLOW-targeted samples per generator (half hard negatives).")
+    p.add_argument("--merge", action="store_true",
+                   help="Merge base + augment files into dataset_mixed.jsonl and "
+                        "resplit stratified by state x generator.")
+    p.add_argument("--fewshot", action="store_true",
+                   help="Build data/eval/mixed_fewshot_examples.json from mixed_train.")
     return p.parse_args(argv)
 
 
@@ -780,6 +1211,27 @@ def main(argv: list[str] | None = None) -> int:
         print("Backfill mode: adding metacognition fields to the existing dataset.")
         finalize(args.model)
         print_state_samples()
+        return 0
+
+    # --- Multi-generator augmentation modes (no default generation) ---
+    if args.augment or args.augment_all:
+        models = AUGMENT_MODELS if args.augment_all else [args.augment]
+        for m in models:
+            run_augmentation(m, args.samples, seed=args.seed)
+        return 0
+
+    if args.flow_augment or args.flow_augment_all:
+        models = FLOW_AUGMENT_MODELS if args.flow_augment_all else [args.flow_augment]
+        for m in models:
+            run_flow_augmentation(m, n_flow=args.flow_samples, seed=args.seed)
+        return 0
+
+    if args.merge:
+        build_mixed_corpus()
+        return 0
+
+    if args.fewshot:
+        build_fewshot_examples()
         return 0
 
     check_model(args.model)

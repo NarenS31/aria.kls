@@ -90,6 +90,72 @@
       "doi": "10.3102/003465430298487",
       "url": "https://doi.org/10.3102/003465430298487",
       "relevance": "Framework for feedback focused on task, process, and self-regulation."
+    },
+    "feng_2009": {
+      "type": "dataset_source",
+      "title": "Addressing the Assessment Challenge with an Online System That Tutors as It Assesses",
+      "authors": ["Mingyu Feng", "Neil T. Heffernan", "Kenneth R. Koedinger"],
+      "year": 2009,
+      "journal": "User Modeling and User-Adapted Interaction",
+      "volume": "19(3)",
+      "pages": "243-266",
+      "doi": "10.1007/s11257-009-9063-7",
+      "url": "https://sites.google.com/site/assistmentsdata/home/assistment-2009-2010-data",
+      "relevance": "Source publication for the ASSISTments 2009-2010 Skill Builder behavioral log dataset (external validation, behavioral proxies)."
+    },
+    "xu_2024_eduagent": {
+      "type": "dataset_source",
+      "title": "EduAgent: Generative Student Agents in Learning",
+      "authors": ["Songlin Xu", "Xinyu Zhang"],
+      "year": 2024,
+      "venue": "arXiv preprint",
+      "arxiv": "2404.07963",
+      "url": "https://arxiv.org/abs/2404.07963",
+      "code_url": "https://github.com/EduAgent/EduAgent",
+      "relevance": "Source for EduAgent310 (310 real students with inferred cognitive states, gaze/motor) and EduAgent705 (synthetic companion). Highest-value external cognitive-label validation.",
+      "note": "Metadata from arXiv 2404.07963; author list may be incomplete."
+    },
+    "demszky_2023": {
+      "type": "dataset_source",
+      "title": "The NCTE Transcripts: A Dataset of Elementary Math Classroom Transcripts",
+      "authors": ["Dorottya Demszky", "Heather Hill"],
+      "year": 2023,
+      "venue": "Proceedings of the 18th Workshop on Innovative Use of NLP for Building Educational Applications (BEA)",
+      "arxiv": "2211.11772",
+      "url": "https://aclanthology.org/2023.bea-1.44/",
+      "code_url": "https://github.com/ddemszky/classroom-transcript-analysis",
+      "relevance": "Real 4th/5th-grade math classroom transcripts with turn-level discourse-move annotations; best available non-LLM text robustness test."
+    },
+    "wang_2020": {
+      "type": "dataset_source",
+      "title": "Instructions and Guide for Diagnostic Questions: The NeurIPS 2020 Education Challenge",
+      "authors": ["Zichao Wang", "Angus Lamb", "Evgeny Saveliev", "Pashmina Cameron", "Yordan Zaykov", "José Miguel Hernández-Lobato", "Richard E. Turner", "Richard G. Baraniuk", "Craig Barton", "Simon Peyton Jones", "Simon Woodhead", "Cheng Zhang"],
+      "year": 2020,
+      "venue": "arXiv preprint (NeurIPS 2020 Education Challenge / Eedi)",
+      "arxiv": "2007.12061",
+      "url": "https://arxiv.org/abs/2007.12061",
+      "license": "CC BY-NC-ND 4.0",
+      "relevance": "Eedi / NeurIPS 2020 answer-record dataset (17M responses, ages 7-18). NON-COMMERCIAL license — must be flagged wherever used."
+    },
+    "yu_2023": {
+      "type": "dataset_source",
+      "title": "MoocRadar: A Fine-grained and Multi-aspect Knowledge Repository for Improving Cognitive Student Modeling in MOOCs",
+      "authors": ["Jifan Yu", "Mengqi Zhu", "Yifan Wang"],
+      "year": 2023,
+      "venue": "Proceedings of the 46th International ACM SIGIR Conference on Research and Development in Information Retrieval",
+      "url": "https://github.com/THU-KEG/MOOC-Radar",
+      "relevance": "Exercise + concept + behavioral MOOC records for cognitive student modeling.",
+      "note": "Metadata from SIGIR 2023 / THU-KEG repository; author list may be incomplete."
+    },
+    "liu_2023": {
+      "type": "dataset_source",
+      "title": "XES3G5M: A Knowledge Tracing Benchmark Dataset with Auxiliary Information",
+      "authors": ["Zitao Liu", "Qiongqiong Liu", "Teng Guo", "Jiahao Chen", "Shuyan Huang", "Xiangyu Zhao", "Jiliang Tang", "Weiqi Luo", "Jian Weng"],
+      "year": 2023,
+      "venue": "Advances in Neural Information Processing Systems 36 (Datasets and Benchmarks Track)",
+      "url": "https://github.com/ai4ed/XES3G5M",
+      "license": "MIT",
+      "relevance": "Large K-12 knowledge-tracing benchmark (5M+ interactions, ~18k students) with question text; second behavioral+text source."
     }
   }
 }

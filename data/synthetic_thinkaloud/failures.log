@@ -1,0 +1,128 @@
+RUSHING|Python Programming|medium|inattentive|functions|0.57|mistral	RuntimeError: generation failed after 3 attempts: no JSON object found in model output
+INSIGHT|ACT Reading|easy|inattentive|main idea|0.75|phi3	RuntimeError: generation failed after 3 attempts: timed out
+STUCK|ACT Science|medium|combined|experimental design|0.31|phi3	RuntimeError: generation failed after 3 attempts: timed out
+STUCK|Chemistry|easy|hyperactive|balancing equations|0.76|phi3	RuntimeError: generation failed after 3 attempts: timed out
+FRUSTRATED|ACT Math|hard|inattentive|exponents|0.25|phi3	RuntimeError: generation failed after 3 attempts: timed out
+PLANNING|Python Programming|hard|inattentive|conditionals|0.24|phi3	RuntimeError: generation failed after 3 attempts: timed out
+STUCK|ACT Math|hard|combined|linear systems|0.27|phi3	RuntimeError: generation failed after 3 attempts: timed out
+CONFUSED|Chemistry|medium|combined|stoichiometry|0.57|phi3	RuntimeError: generation failed after 3 attempts: timed out
+PLANNING|Geometry|easy|combined|area|0.70|phi3	RuntimeError: generation failed after 3 attempts: timed out
+RUSHING|US History|medium|hyperactive|causes of the revolution|0.48|phi3	RuntimeError: generation failed after 3 attempts: timed out
+INSIGHT|ACT Reading|easy|hyperactive|author's tone|0.53|phi3	RuntimeError: generation failed after 3 attempts: timed out
+RUSHING|ACT Science|medium|inattentive|experimental design|0.54|phi3	RuntimeError: generation failed after 3 attempts: timed out
+INSIGHT|Algebra|easy|inattentive|solving for x|0.80|phi3	RuntimeError: generation failed after 3 attempts: timed out
+PLANNING|Geometry|medium|combined|triangles|0.45|phi3	RuntimeError: generation failed after 3 attempts: timed out
+PLANNING|Geometry|easy|combined|angles|0.74|phi3	RuntimeError: generation failed after 3 attempts: timed out
+CONFUSED|Geometry|medium|hyperactive|pythagorean theorem|0.42|phi3	RuntimeError: generation failed after 3 attempts: timed out
+STUCK|Biology|easy|combined|ecosystems|0.71|phi3	RuntimeError: generation failed after 3 attempts: timed out
+STUCK|Biology|easy|inattentive|evolution|0.70|phi3	RuntimeError: generation failed after 3 attempts: timed out
+INSIGHT|Algebra|medium|inattentive|factoring|0.40|phi3	RuntimeError: generation failed after 3 attempts: timed out
+CONFUSED|ACT Math|hard|inattentive|linear systems|0.39|phi3	RuntimeError: generation failed after 3 attempts: timed out
+INSIGHT|Geometry|easy|combined|triangles|0.79|phi3	RuntimeError: generation failed after 3 attempts: timed out
+STUCK|ACT Reading|medium|combined|supporting detail|0.49|phi3	RuntimeError: generation failed after 3 attempts: timed out
+CONFUSED|ACT Math|easy|combined|quadratic equations|0.76|phi3	RuntimeError: generation failed after 3 attempts: timed out
+RUSHING|Chemistry|easy|hyperactive|molar mass|0.61|phi3	RuntimeError: generation failed after 3 attempts: timed out
+INSIGHT|Geometry|hard|combined|triangles|0.40|phi3	RuntimeError: generation failed after 3 attempts: timed out
+INSIGHT|US History|hard|hyperactive|causes of the revolution|0.28|phi3	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT English|medium|combined|word choice|0.43|phi3	RuntimeError: generation failed after 3 attempts: timed out
+STUCK|Python Programming|easy|hyperactive|strings|0.78|phi3	RuntimeError: generation failed after 3 attempts: timed out
+STUCK|ACT English|easy|combined|subject-verb agreement|0.51|phi3	RuntimeError: generation failed after 3 attempts: timed out
+CONFUSED|US History|easy|hyperactive|industrialization|0.65|phi3	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Math|medium|hyperactive|exponents|0.49|phi3	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Geometry|hard|inattentive|triangles|0.33|mistral|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT English|easy|inattentive|redundancy|0.70|mistral|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Math|medium|hyperactive|percentages|0.31|mistral|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|US History|medium|hyperactive|industrialization|0.40|mistral|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|US History|medium|inattentive|causes of the revolution|0.37|mistral|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|US History|easy|combined|the constitution|0.75|mistral|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT English|easy|hyperactive|word choice|0.51|mistral|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT English|easy|combined|subject-verb agreement|0.72|mistral|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT English|medium|combined|word choice|0.43|mistral|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Geometry|medium|hyperactive|area|0.41|mistral|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Math|medium|hyperactive|exponents|0.49|mistral|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Reading|easy|hyperactive|main idea|0.75|mistral|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Python Programming|easy|combined|functions|0.60|mistral|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Geometry|hard|combined|angles|0.17|mistral|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Math|medium|hyperactive|quadratic equations|0.41|mistral|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Math|hard|combined|geometry basics|0.23|mistral|flow	RuntimeError: generation failed after 3 attempts: no JSON object found in model output
+FLOW|ACT Science|hard|inattentive|experimental design|0.31|gemma2|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Algebra|easy|inattentive|functions|0.52|gemma2|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Geometry|hard|hyperactive|pythagorean theorem|0.21|gemma2|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Math|medium|hyperactive|percentages|0.31|gemma2|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT English|easy|inattentive|redundancy|0.70|gemma2|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Geometry|hard|inattentive|triangles|0.33|gemma2|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|US History|medium|hyperactive|industrialization|0.40|gemma2|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|US History|medium|inattentive|causes of the revolution|0.37|gemma2|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|US History|easy|combined|the constitution|0.75|gemma2|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT English|easy|hyperactive|word choice|0.51|gemma2|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT English|medium|combined|word choice|0.43|gemma2|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT English|easy|combined|subject-verb agreement|0.72|gemma2|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Math|medium|hyperactive|exponents|0.49|gemma2|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Reading|easy|hyperactive|main idea|0.75|gemma2|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Geometry|medium|hyperactive|area|0.41|gemma2|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Python Programming|easy|combined|functions|0.60|gemma2|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Geometry|hard|combined|angles|0.17|gemma2|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Math|medium|hyperactive|quadratic equations|0.41|gemma2|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Math|easy|combined|linear systems|0.52|gemma2|hn-planning	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|US History|easy|inattentive|civil rights movement|0.78|gemma2|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Math|hard|combined|geometry basics|0.23|gemma2|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Biology|medium|combined|genetics|0.36|gemma2|hn-insight	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Python Programming|easy|combined|lists|0.68|gemma2|hn-insight	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Reading|easy|combined|main idea|0.60|gemma2|hn-planning	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Biology|hard|hyperactive|cell structure|0.34|gemma2|hn-planning	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Algebra|easy|combined|slope|0.57|gemma2|hn-planning	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Geometry|medium|inattentive|triangles|0.42|gemma2|hn-insight	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|US History|easy|combined|industrialization|0.76|gemma2|hn-insight	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|US History|easy|combined|civil rights movement|0.69|gemma2|hn-insight	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Reading|medium|combined|inference|0.45|gemma2|hn-planning	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Geometry|easy|hyperactive|triangles|0.56|gemma2|hn-planning	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Science|medium|inattentive|scientific reasoning|0.50|gemma2|hn-insight	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Math|medium|inattentive|linear systems|0.40|gemma2|hn-planning	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Science|medium|inattentive|reading tables|0.53|gemma2|hn-insight	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|US History|easy|hyperactive|industrialization|0.78|gemma2|hn-planning	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Science|easy|inattentive|scientific reasoning|0.66|gemma2|hn-insight	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Geometry|easy|hyperactive|angles|0.55|gemma2|hn-insight	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Python Programming|easy|inattentive|functions|0.56|gemma2|hn-planning	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Science|easy|combined|experimental design|0.76|gemma2|hn-planning	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Algebra|hard|combined|inequalities|0.22|gemma2|hn-insight	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Geometry|hard|hyperactive|pythagorean theorem|0.21|phi3|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Science|hard|inattentive|experimental design|0.31|phi3|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Algebra|easy|inattentive|functions|0.52|phi3|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Math|medium|hyperactive|percentages|0.31|phi3|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Geometry|hard|inattentive|triangles|0.33|phi3|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT English|easy|inattentive|redundancy|0.70|phi3|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|US History|medium|hyperactive|industrialization|0.40|phi3|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|US History|medium|inattentive|causes of the revolution|0.37|phi3|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|US History|easy|combined|the constitution|0.75|phi3|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT English|easy|hyperactive|word choice|0.51|phi3|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT English|medium|combined|word choice|0.43|phi3|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT English|easy|combined|subject-verb agreement|0.72|phi3|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Reading|easy|hyperactive|main idea|0.75|phi3|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Math|medium|hyperactive|exponents|0.49|phi3|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Geometry|medium|hyperactive|area|0.41|phi3|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Python Programming|easy|combined|functions|0.60|phi3|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Geometry|hard|combined|angles|0.17|phi3|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Math|medium|hyperactive|quadratic equations|0.41|phi3|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Math|easy|combined|linear systems|0.52|phi3|hn-planning	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Math|hard|combined|geometry basics|0.23|phi3|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|US History|easy|inattentive|civil rights movement|0.78|phi3|flow	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Python Programming|easy|combined|lists|0.68|phi3|hn-insight	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Biology|medium|combined|genetics|0.36|phi3|hn-insight	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Reading|easy|combined|main idea|0.60|phi3|hn-planning	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Biology|hard|hyperactive|cell structure|0.34|phi3|hn-planning	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Algebra|easy|combined|slope|0.57|phi3|hn-planning	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Geometry|medium|inattentive|triangles|0.42|phi3|hn-insight	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Reading|medium|combined|inference|0.45|phi3|hn-planning	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|US History|easy|combined|civil rights movement|0.69|phi3|hn-insight	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|US History|easy|combined|industrialization|0.76|phi3|hn-insight	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|Geometry|easy|hyperactive|triangles|0.56|phi3|hn-planning	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Science|medium|inattentive|scientific reasoning|0.50|phi3|hn-insight	RuntimeError: generation failed after 3 attempts: timed out
+FLOW|ACT Math|medium|inattentive|linear systems|0.40|phi3|hn-planning	RuntimeError: generation failed after 3 attempts: timed out
+INSIGHT|Geometry|hard|combined|triangles|0.40|phi3	RuntimeError: generation failed after 3 attempts: missing one or more think-aloud parts
+INSIGHT|Python Programming|medium|combined|functions|0.51|mistral	RuntimeError: generation failed after 3 attempts: no JSON object found in model output
+STUCK|ACT Science|hard|inattentive|reading tables|0.29|mistral	RuntimeError: generation failed after 3 attempts: llama-server process no longer running: unknown  (status code: 500)
+RUSHING|Algebra|easy|inattentive|inequalities|0.79|mistral	RuntimeError: generation failed after 3 attempts: no JSON object found in model output
+INSIGHT|Biology|hard|inattentive|evolution|0.23|mistral	RuntimeError: generation failed after 3 attempts: no JSON object found in model output
+RUSHING|ACT English|medium|hyperactive|subject-verb agreement|0.60|phi3	RuntimeError: generation failed after 3 attempts: no JSON object found in model output
+CONFUSED|ACT Reading|medium|combined|vocabulary in context|0.44|phi3	RuntimeError: generation failed after 3 attempts: missing one or more think-aloud parts
+CONFUSED|ACT English|hard|combined|sentence structure|0.31|phi3	RuntimeError: generation failed after 3 attempts: missing one or more think-aloud parts
