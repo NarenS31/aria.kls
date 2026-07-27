@@ -189,30 +189,60 @@ def generate_holdout(
 # Step 2 — classification
 # ==================================================================
 
-def classify_file(path: str, analyzer: CognitiveStateAnalyzer, limit: int = 0) -> dict:
+def classify_file(path: str, analyzer: CognitiveStateAnalyzer, limit: int = 0,
+                  workers: int = 4) -> dict:
     """Run the classifier over a labelled jsonl file.
 
     Returns metrics + parallel arrays (y_true, y_pred, confidence, text).
+    Classification is parallelised across `workers` threads: only the ambiguous
+    minority actually calls the (slow) LLM, and the shared Ollama client is
+    thread-safe, so a small pool cuts wall-clock without changing any verdict.
+    Results are re-ordered to match the input, so metrics are deterministic.
     """
     records = _load_jsonl(path)
     if limit:
         records = records[:limit]
 
-    y_true, y_pred, confs, texts = [], [], [], []
-    for i, rec in enumerate(records, 1):
-        text = _join_think_aloud(rec.get("think_aloud", ""))
-        res = analyzer.analyze(text)
-        y_true.append(rec.get("cognitive_state", ""))
+    texts = [_join_think_aloud(rec.get("think_aloud", "")) for rec in records]
+    y_true = [rec.get("cognitive_state", "") for rec in records]
+    results: list[dict] = [None] * len(records)  # type: ignore[list-item]
+
+    def _one(i_text):
+        i, text = i_text
+        return i, analyzer.analyze(text)
+
+    done = 0
+    with ThreadPoolExecutor(max_workers=max(1, workers)) as ex:
+        for i, res in ex.map(_one, enumerate(texts)):
+            results[i] = res
+            done += 1
+            if done % 50 == 0:
+                print(f"    ...classified {done}/{len(records)}")
+
+    y_pred, confs = [], []
+    n_heuristic = 0  # predictions decided by the keyword heuristic
+    n_llm = 0        # predictions that reached the multi-generator LLM
+    for res in results:
         y_pred.append(res["state"])
         confs.append(float(res.get("confidence", 0.0)))
-        texts.append(text)
-        if i % 50 == 0:
-            print(f"    ...classified {i}/{len(records)}")
+        # method is "heuristic"/"llm" (+ optional "+audio"); route split is on
+        # which stage decided the state.
+        if str(res.get("method", "")).startswith("llm"):
+            n_llm += 1
+        else:
+            n_heuristic += 1
 
     metrics = compute_classification_metrics(y_true, y_pred, COGNITIVE_STATES)
     macro_f1 = sum(metrics["per_state"][s]["f1"] for s in COGNITIVE_STATES) / len(COGNITIVE_STATES)
     metrics["macro_f1"] = round(macro_f1, 4)
     metrics["mean_confidence"] = round(sum(confs) / len(confs), 4) if confs else None
+    decided = n_heuristic + n_llm
+    metrics["route"] = {
+        "heuristic": n_heuristic,
+        "llm": n_llm,
+        "pct_heuristic": round(100.0 * n_heuristic / decided, 1) if decided else None,
+        "pct_llm": round(100.0 * n_llm / decided, 1) if decided else None,
+    }
     metrics["_arrays"] = {"y_true": y_true, "y_pred": y_pred,
                           "confidence": confs, "text": texts}
     return metrics
@@ -350,8 +380,10 @@ def run_eval(models: dict, use_llm: bool, limit: int) -> dict:
     print(f"\n[{LLAMA_TAG}] baseline (original test split): {TEST_PATH}")
     llama_metrics = classify_file(TEST_PATH, analyzer, limit=limit)
     print_confusion_matrix(llama_metrics["confusion_matrix"], COGNITIVE_STATES)
+    _r = llama_metrics["route"]
     print(f"  accuracy={llama_metrics['accuracy']:.3f}  "
-          f"macro-F1={llama_metrics['macro_f1']:.3f}  n={llama_metrics['n']}")
+          f"macro-F1={llama_metrics['macro_f1']:.3f}  n={llama_metrics['n']}  "
+          f"route: heuristic={_r['pct_heuristic']}%  llm={_r['pct_llm']}%")
     llama_acc = llama_metrics["accuracy"]
 
     per_generator: dict[str, dict] = {}
@@ -369,8 +401,10 @@ def run_eval(models: dict, use_llm: bool, limit: int) -> dict:
         m = classify_file(path, analyzer, limit=limit)
         print_confusion_matrix(m["confusion_matrix"], COGNITIVE_STATES)
         gap = round((llama_acc - m["accuracy"]) * 100, 2)
+        _r = m["route"]
         print(f"  accuracy={m['accuracy']:.3f}  macro-F1={m['macro_f1']:.3f}  "
-              f"n={m['n']}  gap={gap:+.2f} pts")
+              f"n={m['n']}  gap={gap:+.2f} pts  "
+              f"route: heuristic={_r['pct_heuristic']}%  llm={_r['pct_llm']}%")
         records_by_tag[tag] = _load_jsonl(path)[: (limit or None)]
         # strip the bulky arrays before storing
         arrays = m.pop("_arrays")
@@ -434,6 +468,7 @@ def run_eval(models: dict, use_llm: bool, limit: int) -> dict:
             "macro_f1": llama_metrics["macro_f1"],
             "mean_confidence": llama_metrics["mean_confidence"],
             "n": llama_metrics["n"],
+            "route": llama_metrics["route"],
             "per_state": llama_metrics["per_state"],
             "confusion_matrix": llama_metrics["confusion_matrix"],
         },
@@ -463,17 +498,21 @@ def print_summary(results: dict, output_path: str = RESULTS_PATH) -> None:
     print("CROSS-GENERATOR VALIDATION — SUMMARY")
     print("=" * 70)
     base = results["baseline_llama"]
+    _br = base.get("route", {})
     print(f"\nBaseline (llama3.1 test): accuracy={base['accuracy']:.3f}  "
-          f"macro-F1={base['macro_f1']:.3f}  conf={base['mean_confidence']}")
+          f"macro-F1={base['macro_f1']:.3f}  conf={base['mean_confidence']}  "
+          f"(heuristic={_br.get('pct_heuristic')}%  llm={_br.get('pct_llm')}%)")
     print(f"\n{'generator':10s}{'acc':>8s}{'macroF1':>9s}{'conf':>8s}"
-          f"{'gap(pts)':>10s}")
+          f"{'gap(pts)':>10s}{'%heur':>8s}{'%llm':>7s}")
     for tag, m in results["per_generator"].items():
         if not isinstance(m, dict) or "accuracy" not in m:
             print(f"{tag:10s}   (missing / skipped)")
             continue
+        _r = m.get("route", {})
         print(f"{tag:10s}{m['accuracy']:>8.3f}{m['macro_f1']:>9.3f}"
               f"{str(m.get('mean_confidence')):>8s}"
-              f"{m['generalization_gap_points']:>+10.2f}")
+              f"{m['generalization_gap_points']:>+10.2f}"
+              f"{str(_r.get('pct_heuristic')):>8s}{str(_r.get('pct_llm')):>7s}")
     gg = results["generalization_gap"]
     print(f"\nMean generalization gap: "
           f"{gg['mean_points']} pts" if gg["mean_points"] is not None else

@@ -151,77 +151,112 @@ def _rx(*patterns: str) -> list[re.Pattern]:
     return [re.compile(p, re.IGNORECASE) for p in patterns]
 
 
+# Every marker below was audited for cross-generator firing rate on
+# augment_{mistral,gemma2,phi3}.jsonl + the llama train split (see
+# eval/mine_signals.py, re-runnable when a new generator is added). Markers
+# that fired almost exclusively on llama
+# (e.g. "i'll just", "no idea", "i'm stuck", "i hate this", "now i") or that
+# were effectively dead everywhere (e.g. "the problem is asking", "therefore",
+# "idk", "of course") were removed. Their replacements are signals that rank in
+# the top discriminative tokens for the state across THREE OR MORE generators —
+# especially ones that fire on phi3, whose formal style previously starved the
+# heuristic (planning "figure out"/"need to"/"to remember"; frustrated "why";
+# insight "makes sense"/"click"; flow "nailed it"/"straightforward").
 _MARKERS: dict[str, list[tuple[re.Pattern, float]]] = {
     "PLANNING": [
         (re.compile(r"\bfirst,?\s+i\s+(need|have|want|should|will|gotta)\b", re.I), 3.0),
-        (re.compile(r"\bthe\s+problem\s+is\s+asking\b", re.I), 3.0),
+        (re.compile(r"\blet\s+me\s+(think|see|start|figure|break|plan|work)\b", re.I), 2.0),
         (re.compile(r"\b(okay|ok|alright|right),?\s+so\b", re.I), 1.5),
-        (re.compile(r"\blet\s+me\s+(think|see|start|figure|break|plan)\b", re.I), 2.0),
-        (re.compile(r"\bi\s+(know|remember)\s+that\b", re.I), 1.5),
-        (re.compile(r"\bmy\s+(plan|strategy|approach)\b", re.I), 2.5),
-        (re.compile(r"\bstep\s+(one|1|by\s+step)\b", re.I), 1.5),
-        (re.compile(r"\bwhat\s+i\s+need\s+to\s+do\b", re.I), 2.0),
+        (re.compile(r"\bfigure\s+(out|this)\b", re.I), 2.0),
+        (re.compile(r"\bneed\s+to\b", re.I), 1.2),
+        (re.compile(r"\bto\s+remember\b", re.I), 1.5),
+        (re.compile(r"\bremember\s+(what|how|which|the)\b", re.I), 1.5),
+        (re.compile(r"\bthink\s+about\b", re.I), 1.0),
     ],
     "FLOW": [
-        (re.compile(r"\bso\s+that\s+means\b", re.I), 2.5),
-        (re.compile(r"\btherefore\b", re.I), 2.5),
-        (re.compile(r"\bbecause\b", re.I), 1.2),
-        (re.compile(r"\b(then|next),?\b", re.I), 1.0),
-        (re.compile(r"\bwhich\s+(gives|means|equals|is)\b", re.I), 1.5),
-        (re.compile(r"\bnow\s+i\b", re.I), 1.0),
-        (re.compile(r"\bafter\s+that\b", re.I), 1.2),
+        # FLOW here = confident, smooth solving. The discriminative signals are
+        # ease/confidence expressions, NOT bare connectives (because/then/so
+        # fire in every state, so they were dropped to stop verbose text of
+        # other states from being mislabelled FLOW).
+        (re.compile(r"\beasy\s+peasy\b", re.I), 2.5),
+        (re.compile(r"\bnailed\s+it\b", re.I), 2.5),
+        (re.compile(r"\b(pretty|really)\s+(easy|straightforward|simple|good)\b", re.I), 1.8),
+        (re.compile(r"\bstraightforward\b", re.I), 1.8),
+        (re.compile(r"\bfeels?\s+good\b", re.I), 1.5),
+        (re.compile(r"\bsmooth\b", re.I), 1.5),
+        (re.compile(r"\blet'?s\s+(do|go|see)\b", re.I), 1.5),
+        (re.compile(r"\bboom\b", re.I), 1.5),
+        (re.compile(r"\bgot\s+this\b", re.I), 1.5),
+        (re.compile(r"\b(yep|yup)\b", re.I), 1.2),
+        (re.compile(r"\bso\s+that\s+means\b", re.I), 1.5),
+        (re.compile(r"\bwhich\s+(gives|means|equals|is)\b", re.I), 1.2),
     ],
     "CONFUSED": [
-        (re.compile(r"\bi\s+don'?t\s+get\s+it\b", re.I), 3.0),
-        (re.compile(r"\bi\s+don'?t\s+understand\b", re.I), 3.0),
         (re.compile(r"\bhuh+\b", re.I), 2.5),
+        (re.compile(r"\bdon'?t\s+get\s+it\b", re.I), 3.0),
         (re.compile(r"\bconfus(ed|ing)\b", re.I), 2.5),
+        (re.compile(r"\bis\s+confusing\b", re.I), 2.5),
         (re.compile(r"\bwait,?\s+what\b", re.I), 2.0),
         (re.compile(r"\bwhat\s+(is|does|do|even)\b", re.I), 1.2),
-        (re.compile(r"\bi'?m\s+lost\b", re.I), 2.5),
+        (re.compile(r"\bsecond[\s-]?guessing\b", re.I), 1.8),
+        (re.compile(r"\bcircular(\s+reasoning)?\b", re.I), 1.5),
+        (re.compile(r"\bguessing\b", re.I), 1.0),
         (re.compile(r"\bhow\s+(do|does|is)\b.*\?", re.I), 1.0),
-        (re.compile(r"\bthis\s+is\s+confusing\b", re.I), 3.0),
     ],
     "RUSHING": [
         (re.compile(r"\bwhatever\b", re.I), 2.5),
-        (re.compile(r"\bi'?ll\s+just\b", re.I), 2.5),
         (re.compile(r"\bprobably\b", re.I), 1.5),
-        (re.compile(r"\bdone[.!]?\s*$", re.I), 2.0),
-        (re.compile(r"\bjust\s+(use|do|write|pick|go)\b", re.I), 1.5),
+        (re.compile(r"\bgotta\b", re.I), 1.2),
+        (re.compile(r"\b(quick|hurry|fast|rush)\b", re.I), 1.5),
+        (re.compile(r"\bmove\s+on\b", re.I), 1.3),
+        (re.compile(r"\bhope(fully)?\b", re.I), 1.2),
+        (re.compile(r"\bjust\s+(use|do|write|pick|go|say)\b", re.I), 1.5),
         (re.compile(r"\bthat'?s?\s+(it|good enough)\b", re.I), 1.5),
+        (re.compile(r"\bget\s+this\s+(done|over)\b", re.I), 1.5),
+        (re.compile(r"\bdone[.!]?\s*$", re.I), 1.5),
         (re.compile(r"\btoo\s+easy\b", re.I), 1.5),
-        (re.compile(r"\beh,?\b", re.I), 1.0),
     ],
     "FRUSTRATED": [
         (re.compile(r"\bugh+\b", re.I), 3.0),
-        (re.compile(r"\bthis\s+makes\s+no\s+sense\b", re.I), 3.0),
-        (re.compile(r"\bi\s+hate\s+(this|it)\b", re.I), 3.0),
+        (re.compile(r"\bmakes?\s+no\s+sense\b", re.I), 3.0),
         (re.compile(r"\bso\s+(annoying|frustrating)\b", re.I), 2.5),
         (re.compile(r"\bargh+\b", re.I), 2.5),
-        (re.compile(r"\bwhy\s+(won'?t|doesn'?t|can'?t)\b", re.I), 1.5),
+        (re.compile(r"\bwhy\s+(do|is|are|does|can'?t|won'?t|doesn'?t|would)\b", re.I), 1.5),
+        (re.compile(r"\bfinally\b", re.I), 1.5),
+        (re.compile(r"\balways\b", re.I), 1.2),
+        (re.compile(r"\b(so\s+)?hard\b", re.I), 1.2),
         (re.compile(r"\bstupid\b", re.I), 1.5),
-        (re.compile(r"!{2,}", re.I), 1.2),
+        (re.compile(r"\bhate\b", re.I), 1.5),
     ],
     "STUCK": [
+        # Bracketed stage-directions are ~90-100% STUCK across all generators,
+        # but each generator writes the family differently ([pause], [pauses],
+        # [long pause], [thinking], [sigh], [stunned silence] ...). Match the
+        # whole family, not just the literal llama-style "[pause]".
+        # Weighted above "ugh"/"why" etc.: a bracketed pause is a near-
+        # deterministic STUCK marker (~90-100% of the time across generators),
+        # so it must win over incidental frustration/confusion words that
+        # co-occur in the same verbose, phi3-style utterance.
+        (re.compile(r"\[[^\]]{0,30}(paus|silen|stunned|sigh|think|stammer|mumbl|trail|blank|stuck|star(?:e|ing))[^\]]{0,15}\]", re.I), 3.5),
         (re.compile(r"\bi\s+(really\s+)?don'?t\s+know\b", re.I), 1.8),
-        (re.compile(r"\[pause\]", re.I), 2.5),
-        (re.compile(r"\bidk\b", re.I), 1.5),
-        (re.compile(r"\bi\s+give\s+up\b", re.I), 2.0),
-        (re.compile(r"\bi\s+can'?t\s+(do|figure)\b", re.I), 2.0),
-        (re.compile(r"\bno\s+idea\b", re.I), 2.5),
-        (re.compile(r"\bi'?m\s+stuck\b", re.I), 3.0),
+        (re.compile(r"\bstuck\b", re.I), 2.0),
+        (re.compile(r"\bdon'?t\s+even\s+know\b", re.I), 1.8),
+        (re.compile(r"\b(mental\s+)?breakdown\b", re.I), 1.5),
+        (re.compile(r"\b(even\s+start|where\s+(do|to)\s+(i|start))\b", re.I), 1.5),
+        (re.compile(r"\bno\s+(idea|clue)\b", re.I), 1.5),
         (re.compile(r"\bblank\b", re.I), 1.5),
     ],
     "INSIGHT": [
         (re.compile(r"\boh+!*\b", re.I), 1.5),
         (re.compile(r"\bohh+\b", re.I), 3.0),
-        (re.compile(r"\bi\s+(see|get\s+it)\b", re.I), 2.5),
+        (re.compile(r"\bi\s+see\b", re.I), 2.0),
+        (re.compile(r"\bi\s+get\s+it\b", re.I), 2.5),
         (re.compile(r"\bgot\s+it\b", re.I), 2.5),
-        (re.compile(r"\bthat\s+means\b", re.I), 1.8),
-        (re.compile(r"\bit\s+click(ed|s)\b", re.I), 3.0),
-        (re.compile(r"\bof\s+course\b", re.I), 2.0),
+        (re.compile(r"\bit\s+click(ed|s)?\b", re.I), 2.5),
+        (re.compile(r"\bclick(ed|s)\b", re.I), 2.0),
+        (re.compile(r"(?<!no )(?<!n't )(?<!not )\bmakes?\s+sense\b", re.I), 1.5),
+        (re.compile(r"\bthat\s+means\b", re.I), 1.5),
         (re.compile(r"\bthat'?s\s+(it|the answer)\b", re.I), 2.0),
-        (re.compile(r"\bnow\s+i\s+(get|see|understand)\b", re.I), 2.5),
     ],
 }
 
@@ -322,7 +357,12 @@ class AnalysisResult:
 class CognitiveStateAnalyzer:
     """Detect a student's cognitive state from a think-aloud utterance."""
 
-    HEURISTIC_TRUST = 0.8  # heuristic wins at or above this confidence
+    # Heuristic wins at or above this confidence; below it the multi-generator
+    # LLM is consulted. Lowered 0.8 -> 0.65 so that borderline cases — together
+    # with utterances the ambiguity penalty in `_heuristic` deliberately caps
+    # (verbose, multi-signal text from non-llama generators) — are routed to the
+    # LLM's cross-generator few-shot examples rather than to llama-tuned keywords.
+    HEURISTIC_TRUST = 0.65  # heuristic wins at or above this confidence
 
     def __init__(self, model: str = LLM_MODEL, use_llm: bool = True):
         self.model = model
@@ -566,7 +606,21 @@ class CognitiveStateAnalyzer:
         confidence = 0.45 + 0.09 * top_score + 0.12 * margin
         confidence = max(0.0, min(0.97, confidence))
 
+        # Ambiguity penalty (generator-agnostic). Verbose think-alouds — the
+        # signature of more formal generators like phi3 — trip markers for many
+        # states at once, and a bag-of-markers argmax then picks a confidently
+        # WRONG winner. When SEVERAL states carry SUBSTANTIAL evidence AND the
+        # win is narrow, the heuristic is unreliable, so cap its confidence
+        # below HEURISTIC_TRUST to defer the case to the LLM fallback. The bar is
+        # deliberately high — strong (>=2.0) competing states, not incidental
+        # weak markers — so clean, single-signal utterances keep their verdict.
+        strong_states = sum(1 for sc in scores.values() if sc >= 2.0)
+        if strong_states >= 3 and margin < 1.5:
+            confidence = min(confidence, 0.6)
+
         evidence = f"markers: {', '.join(hit_terms[top_state][:4])}"
+        if strong_states >= 3 and margin < 1.5:
+            evidence += f" ({strong_states} competing strong states, margin {margin:.1f})"
         return top_state, confidence, evidence, scores
 
     @staticmethod
