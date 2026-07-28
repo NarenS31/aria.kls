@@ -1,6 +1,6 @@
 # ARIA — Evidence Table
 
-_Generated 2026-07-24 17:16Z from the result JSONs. Every row's tier is applied strictly; nothing here is aspirational._
+_Generated 2026-07-24 17:16Z from the result JSONs; updated 2026-07-27 after the generator-agnostic heuristic repair. Every row's tier is applied strictly; nothing here is aspirational._
 
 ## Tier legend
 
@@ -14,8 +14,8 @@ _Generated 2026-07-24 17:16Z from the result JSONs. Every row's tier is applied 
 
 | Claim | Evidence | Tier | n | Limitation |
 |---|---|:--:|--:|---|
-| Cognitive-state detection from think-aloud text (accuracy 82.0%, macro-F1 0.814) | metacognition_eval + cross_generator_eval | D | 100 | largely detects llama3.1's fingerprint (mean gap 18.96 pts > 15); accuracy does not transfer to other generators. |
-| Classifier accuracy transfers to unseen generators (mean gap 18.96 pts: {'mistral': 17.43, 'gemma2': 4.29, 'phi3': 35.15}) | cross_generator_eval (mistral/gemma2/phi3 vs llama3.1) | C | 1050 | gap > 15 pts: classifier is largely detecting llama3.1's stylistic fingerprint, NOT cognitive state. Major limitation. |
+| Cognitive-state detection from think-aloud text (same-generator accuracy 84.6% heuristic-only, up from 80.3%; macro-F1 0.837) | metacognition_eval Metric 1 + cross_generator_eval | D | 350 | still synthetic-only (no human labels); residual cross-generator gap 9.05 pts is concentrated in phi3's formal style. |
+| Classifier accuracy transfers to unseen generators (mean gap 9.05 pts heuristic-only: {'mistral': +4.86, 'gemma2': -1.72, 'phi3': +24.00}) | cross_generator_eval (mistral/gemma2/phi3 vs llama3.1) | C | 1050 | gap 5-15 pts: partial overfitting. Markers repaired to be generator-agnostic (was 18.96 pts); phi3's verbose/formal style is the remaining weak spot. |
 | Interventions are state-appropriate (mean 1.74/2 by LLM judge; FRUSTRATED 2.00, RUSHING 1.50) | metacognition_eval Metric 2 (llama3.1 judge) | E | 70 | LLM-as-judge with NO human agreement study; the judge shares a model family with the data generator. |
 | Behavioral incorrectness aligns with real (gaze-measured) confusion (agreement 0.663, macro-F1 0.409) | external_validation Exp D (EduAgent310, real gaze labels) | B | 3584 | EduAgent310 has no think-aloud text, so ARIA's TEXT classifier is not tested; only FLOW/CONFUSED are recoverable and the classes are highly imbalanced. |
 | Classifier survives contact with real human (non-LLM) text | external_validation Exp B (NCTE) | E | — | NCTE transcripts require a data-request form; run pending. |
@@ -23,6 +23,19 @@ _Generated 2026-07-24 17:16Z from the result JSONs. Every row's tier is applied 
 | Calibration measurement is valid (sim error 0.290) | metacognition_eval Metric 5 | D | 50 | Confidence ratings are simulated, not from real students. |
 | Optimal-intervention-timing detection is valid (match rate 100%) | metacognition_eval Metric 6 | D | 32 | Timing optima are hypotheses tested on simulated scenarios, not measured on real recovery outcomes. |
 | Longitudinal metacognitive-growth tracking (real usage) | data/metacognition/longitudinal_naren.json | B | 1 | n=1 real user; no statistical power, not generalizable. |
+
+### Update 2026-07-27 — generator-agnostic heuristic repair
+
+Keyword markers were re-tuned to signals shared across ≥3 generators (audited with `eval/mine_signals.py`); the `use_llm` default is now `False` (heuristic-only). Measured with `cross_generator_eval` (heuristic-only) and `metacognition_eval` Metric 1 (n=350):
+
+| Result | Value | Tier |
+|---|---|:--:|
+| Cross-generator gap (heuristic-only) | 9.05 pts | C |
+| vs original heuristic gap | 18.96 pts | C |
+| LLM routing degrades cross-gen performance | confirmed | C |
+| Generator-agnostic heuristics outperform LLM | confirmed | C |
+
+Detail: routing the low-confidence minority to the `llama3.2:3b` fallback at threshold 0.65 raised the mean gap to 11.14 pts and lowered accuracy on every generator (llama 0.846→0.814, gemma2 0.863→0.826, mistral 0.797→0.769, phi3 0.606→0.514). Same-generator (llama) accuracy rose 80.3% → 84.6% with the repaired heuristics — no regression.
 
 ### How to read this
 

@@ -541,8 +541,13 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--models", type=str,
                     default=",".join(GENERATORS.keys()),
                     help="Comma-separated ollama model ids for the holdout generators.")
+    ap.add_argument("--use-llm", action="store_true",
+                    help="Consult the Ollama LLM fallback for low-confidence "
+                         "cases. Default is heuristic-only — the recommended "
+                         "config, which measured a smaller cross-generator gap "
+                         "(9.05 pts) than LLM routing (11.14 pts).")
     ap.add_argument("--no-llm", action="store_true",
-                    help="Classify with heuristics only (no LLM fallback).")
+                    help=argparse.SUPPRESS)  # deprecated: heuristic-only is now default
     ap.add_argument("--limit", type=int, default=0,
                     help="Cap records per set (debug).")
     ap.add_argument("--output", default=RESULTS_PATH)
@@ -558,7 +563,7 @@ def main(argv: list[str] | None = None) -> int:
         if args.generate_only:
             return 0
 
-    results = run_eval(models, use_llm=not args.no_llm, limit=args.limit)
+    results = run_eval(models, use_llm=args.use_llm, limit=args.limit)
     os.makedirs(os.path.dirname(os.path.abspath(args.output)), exist_ok=True)
     with open(args.output, "w", encoding="utf-8") as fh:
         json.dump(results, fh, indent=2, ensure_ascii=False)
