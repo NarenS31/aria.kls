@@ -636,8 +636,12 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--generator", default=None,
                     help="Evaluate only records from this generator_model "
                          "(e.g. 'mistral:7b').")
+    ap.add_argument("--use-llm", action="store_true",
+                    help="Metric 1/3: enable the analyzer's Ollama LLM fallback. "
+                         "Default is heuristic-only (the recommended config; the "
+                         "LLM fallback measured worse cross-generator).")
     ap.add_argument("--no-llm", action="store_true",
-                    help="Metric 1: heuristics only (skip analyzer LLM fallback).")
+                    help=argparse.SUPPRESS)  # deprecated: heuristic-only is now default
     ap.add_argument("--limit", type=int, default=0, help="Cap test records (metric 1).")
     ap.add_argument("--sample-n", type=int, default=10,
                     help="Interventions sampled per state (metric 2).")
@@ -671,7 +675,7 @@ def main(argv: list[str] | None = None) -> int:
     results["dataset"] = args.test
     results["generator_filter"] = args.generator
     results["state_detection"] = metric_state_detection(
-        args.test, use_llm=not args.no_llm, limit=args.limit,
+        args.test, use_llm=args.use_llm, limit=args.limit,
         generator_filter=args.generator)
 
     if not args.skip_judge:
@@ -679,7 +683,7 @@ def main(argv: list[str] | None = None) -> int:
             sample_n=args.sample_n)
     if not args.skip_sim:
         results["transition_effectiveness"] = metric_transition_effectiveness(
-            trials_per_state=args.trials, use_llm=not args.no_llm)
+            trials_per_state=args.trials, use_llm=args.use_llm)
 
     # Metacognitive-development metrics (fast, no LLM) — always run.
     results["transfer_detection"] = metric_transfer_detection(args.test, limit=args.limit)

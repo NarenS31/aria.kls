@@ -9,11 +9,17 @@ whisper-transcribed audio) into one of seven cognitive states:
 Detection is a three-step cascade:
 
   1. Keyword heuristics (fast, runs first). Distinctive markers per state are
-     matched with weights; a confidence is derived from the winning margin.
-  2. LLM classification (ollama llama3.2:3b) — only consulted when the
-     heuristics are not confident (< 0.8).
-  3. Combine — heuristic wins when confident, otherwise the LLM is trusted
-     (it is more context-aware, so it also breaks disagreements).
+     matched with weights; a confidence is derived from the winning margin. The
+     markers are generator-agnostic (audited with eval/mine_signals.py), so the
+     heuristic generalizes across LLM writing styles on its own.
+  2. LLM classification (ollama llama3.2:3b) — OPT-IN. Only consulted when the
+     heuristics are not confident (< 0.65) AND use_llm is enabled. It is OFF by
+     default: cross-generator evaluation showed the llama3.2:3b fallback is
+     weaker than the repaired heuristics on every generator, so routing to it
+     widens (not narrows) the generalization gap.
+  3. Combine — heuristic wins when confident; otherwise, if use_llm is on, the
+     LLM is trusted (it also breaks disagreements). With use_llm off (default)
+     the heuristic verdict always stands.
 
 Alongside the state, four boolean metacognitive flags are extracted directly
 from the text:
@@ -357,14 +363,19 @@ class AnalysisResult:
 class CognitiveStateAnalyzer:
     """Detect a student's cognitive state from a think-aloud utterance."""
 
-    # Heuristic wins at or above this confidence; below it the multi-generator
-    # LLM is consulted. Lowered 0.8 -> 0.65 so that borderline cases — together
-    # with utterances the ambiguity penalty in `_heuristic` deliberately caps
-    # (verbose, multi-signal text from non-llama generators) — are routed to the
-    # LLM's cross-generator few-shot examples rather than to llama-tuned keywords.
+    # Heuristic wins at or above this confidence; below it, IF use_llm is on,
+    # the LLM is consulted. Lowered 0.8 -> 0.65 for the borderline band. Note
+    # use_llm now defaults to False (heuristic-only) because the LLM fallback
+    # measured worse cross-generator; when it is enabled this threshold governs
+    # the routing.
     HEURISTIC_TRUST = 0.65  # heuristic wins at or above this confidence
 
-    def __init__(self, model: str = LLM_MODEL, use_llm: bool = True):
+    # Heuristic-only by default. The keyword banks are generator-agnostic and,
+    # in cross-generator evaluation, beat the llama3.2:3b LLM fallback on every
+    # generator (mean gap 9.05 heuristic-only vs 11.14 with LLM routing). Callers
+    # that specifically want the Ollama fallback (e.g. the live app checkbox)
+    # opt in with use_llm=True.
+    def __init__(self, model: str = LLM_MODEL, use_llm: bool = False):
         self.model = model
         self.use_llm = use_llm
         # Behavioral (keystroke/timing) layer. Lazily populated so the text

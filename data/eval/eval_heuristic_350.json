@@ -1,0 +1,180 @@
+{
+  "dataset": "/Users/narensara/aria/eval/data/synthetic_thinkaloud/test.jsonl",
+  "generator_filter": null,
+  "state_detection": {
+    "accuracy": 0.8457,
+    "n": 350,
+    "per_state": {
+      "PLANNING": {
+        "precision": 0.793,
+        "recall": 0.92,
+        "f1": 0.852,
+        "support": 50
+      },
+      "FLOW": {
+        "precision": 0.852,
+        "recall": 0.46,
+        "f1": 0.597,
+        "support": 50
+      },
+      "CONFUSED": {
+        "precision": 0.84,
+        "recall": 0.84,
+        "f1": 0.84,
+        "support": 50
+      },
+      "RUSHING": {
+        "precision": 0.922,
+        "recall": 0.94,
+        "f1": 0.931,
+        "support": 50
+      },
+      "FRUSTRATED": {
+        "precision": 0.769,
+        "recall": 1.0,
+        "f1": 0.87,
+        "support": 50
+      },
+      "STUCK": {
+        "precision": 1.0,
+        "recall": 0.82,
+        "f1": 0.901,
+        "support": 50
+      },
+      "INSIGHT": {
+        "precision": 0.81,
+        "recall": 0.94,
+        "f1": 0.87,
+        "support": 50
+      }
+    },
+    "confusion_matrix": [
+      [
+        46,
+        2,
+        1,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        9,
+        23,
+        4,
+        4,
+        0,
+        0,
+        10
+      ],
+      [
+        1,
+        0,
+        42,
+        0,
+        7,
+        0,
+        0
+      ],
+      [
+        1,
+        2,
+        0,
+        47,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        50,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        2,
+        0,
+        6,
+        41,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        0,
+        2,
+        0,
+        47
+      ]
+    ],
+    "labels": [
+      "PLANNING",
+      "FLOW",
+      "CONFUSED",
+      "RUSHING",
+      "FRUSTRATED",
+      "STUCK",
+      "INSIGHT"
+    ],
+    "macro_f1": 0.837,
+    "per_generator": {}
+  },
+  "transfer_detection": {
+    "n": 350,
+    "precision": 0.715,
+    "recall": 0.98,
+    "f1": 0.827,
+    "accuracy": 0.883,
+    "confusion": {
+      "tp": 98,
+      "fp": 39,
+      "fn": 2,
+      "tn": 211
+    },
+    "metacognitive_type_accuracy": 0.97
+  },
+  "calibration_validity": {
+    "n": 50,
+    "mean_calibration_error": 0.29,
+    "reference_error": 0.29,
+    "overconfidence_rate": 0.06,
+    "underconfidence_rate": 0.08,
+    "matches_reference": true,
+    "perfect_calibration_error": 0.0,
+    "anti_calibration_error": 1.0,
+    "valid": true
+  },
+  "timing_validity": {
+    "n_scenarios": 32,
+    "per_state": {
+      "CONFUSED": {
+        "ground_truth": 2,
+        "detected": 2,
+        "match": true
+      },
+      "RUSHING": {
+        "ground_truth": 1,
+        "detected": 1,
+        "match": true
+      },
+      "FRUSTRATED": {
+        "ground_truth": 1,
+        "detected": 1,
+        "match": true
+      },
+      "STUCK": {
+        "ground_truth": 3,
+        "detected": 3,
+        "match": true
+      }
+    },
+    "match_rate": 1.0,
+    "valid": true
+  }
+}
