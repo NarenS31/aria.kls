@@ -1,0 +1,1215 @@
+{
+  "meta": {
+    "baseline_generator": "llama3.1",
+    "baseline_path": "eval/data/synthetic_thinkaloud/test.jsonl",
+    "classifier_use_llm": false,
+    "classifier_llm_model": "llama3.2:3b",
+    "n_per_generator": {
+      "mistral": 350,
+      "gemma2": 350,
+      "phi3": 350
+    },
+    "limit": 0
+  },
+  "baseline_llama": {
+    "accuracy": 0.8457,
+    "macro_f1": 0.8373,
+    "mean_confidence": 0.8677,
+    "n": 350,
+    "route": {
+      "heuristic": 350,
+      "llm": 0,
+      "pct_heuristic": 100.0,
+      "pct_llm": 0.0
+    },
+    "per_state": {
+      "PLANNING": {
+        "precision": 0.793,
+        "recall": 0.92,
+        "f1": 0.852,
+        "support": 50
+      },
+      "FLOW": {
+        "precision": 0.852,
+        "recall": 0.46,
+        "f1": 0.597,
+        "support": 50
+      },
+      "CONFUSED": {
+        "precision": 0.84,
+        "recall": 0.84,
+        "f1": 0.84,
+        "support": 50
+      },
+      "RUSHING": {
+        "precision": 0.922,
+        "recall": 0.94,
+        "f1": 0.931,
+        "support": 50
+      },
+      "FRUSTRATED": {
+        "precision": 0.769,
+        "recall": 1.0,
+        "f1": 0.87,
+        "support": 50
+      },
+      "STUCK": {
+        "precision": 1.0,
+        "recall": 0.82,
+        "f1": 0.901,
+        "support": 50
+      },
+      "INSIGHT": {
+        "precision": 0.81,
+        "recall": 0.94,
+        "f1": 0.87,
+        "support": 50
+      }
+    },
+    "confusion_matrix": [
+      [
+        46,
+        2,
+        1,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        9,
+        23,
+        4,
+        4,
+        0,
+        0,
+        10
+      ],
+      [
+        1,
+        0,
+        42,
+        0,
+        7,
+        0,
+        0
+      ],
+      [
+        1,
+        2,
+        0,
+        47,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        50,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        2,
+        0,
+        6,
+        41,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        0,
+        2,
+        0,
+        47
+      ]
+    ]
+  },
+  "per_generator": {
+    "mistral": {
+      "accuracy": 0.7971,
+      "n": 350,
+      "per_state": {
+        "PLANNING": {
+          "precision": 0.877,
+          "recall": 1.0,
+          "f1": 0.935,
+          "support": 50
+        },
+        "FLOW": {
+          "precision": 0.743,
+          "recall": 0.52,
+          "f1": 0.612,
+          "support": 50
+        },
+        "CONFUSED": {
+          "precision": 0.649,
+          "recall": 0.96,
+          "f1": 0.774,
+          "support": 50
+        },
+        "RUSHING": {
+          "precision": 0.976,
+          "recall": 0.82,
+          "f1": 0.891,
+          "support": 50
+        },
+        "FRUSTRATED": {
+          "precision": 0.907,
+          "recall": 0.78,
+          "f1": 0.839,
+          "support": 50
+        },
+        "STUCK": {
+          "precision": 0.938,
+          "recall": 0.6,
+          "f1": 0.732,
+          "support": 50
+        },
+        "INSIGHT": {
+          "precision": 0.672,
+          "recall": 0.9,
+          "f1": 0.769,
+          "support": 50
+        }
+      },
+      "confusion_matrix": [
+        [
+          50,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          4,
+          26,
+          8,
+          0,
+          0,
+          2,
+          10
+        ],
+        [
+          0,
+          0,
+          48,
+          0,
+          0,
+          0,
+          2
+        ],
+        [
+          1,
+          2,
+          3,
+          41,
+          0,
+          0,
+          3
+        ],
+        [
+          1,
+          3,
+          5,
+          0,
+          39,
+          0,
+          2
+        ],
+        [
+          1,
+          2,
+          9,
+          0,
+          3,
+          30,
+          5
+        ],
+        [
+          0,
+          2,
+          1,
+          1,
+          1,
+          0,
+          45
+        ]
+      ],
+      "labels": [
+        "PLANNING",
+        "FLOW",
+        "CONFUSED",
+        "RUSHING",
+        "FRUSTRATED",
+        "STUCK",
+        "INSIGHT"
+      ],
+      "macro_f1": 0.7931,
+      "mean_confidence": 0.8646,
+      "route": {
+        "heuristic": 350,
+        "llm": 0,
+        "pct_heuristic": 100.0,
+        "pct_llm": 0.0
+      },
+      "generalization_gap_points": 4.86,
+      "gap_interpretation": "gap < 5 pts: classifier learned real cognitive signals; it generalizes across generators.",
+      "model": "mistral:7b"
+    },
+    "gemma2": {
+      "accuracy": 0.8629,
+      "n": 350,
+      "per_state": {
+        "PLANNING": {
+          "precision": 0.941,
+          "recall": 0.96,
+          "f1": 0.95,
+          "support": 50
+        },
+        "FLOW": {
+          "precision": 0.871,
+          "recall": 0.54,
+          "f1": 0.667,
+          "support": 50
+        },
+        "CONFUSED": {
+          "precision": 0.808,
+          "recall": 0.84,
+          "f1": 0.824,
+          "support": 50
+        },
+        "RUSHING": {
+          "precision": 0.941,
+          "recall": 0.96,
+          "f1": 0.95,
+          "support": 50
+        },
+        "FRUSTRATED": {
+          "precision": 0.814,
+          "recall": 0.96,
+          "f1": 0.881,
+          "support": 50
+        },
+        "STUCK": {
+          "precision": 1.0,
+          "recall": 0.92,
+          "f1": 0.958,
+          "support": 50
+        },
+        "INSIGHT": {
+          "precision": 0.717,
+          "recall": 0.86,
+          "f1": 0.782,
+          "support": 50
+        }
+      },
+      "confusion_matrix": [
+        [
+          48,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          27,
+          3,
+          3,
+          3,
+          0,
+          14
+        ],
+        [
+          1,
+          0,
+          42,
+          0,
+          6,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          48,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          2,
+          0,
+          48,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          2,
+          0,
+          1,
+          46,
+          0
+        ],
+        [
+          1,
+          4,
+          1,
+          0,
+          1,
+          0,
+          43
+        ]
+      ],
+      "labels": [
+        "PLANNING",
+        "FLOW",
+        "CONFUSED",
+        "RUSHING",
+        "FRUSTRATED",
+        "STUCK",
+        "INSIGHT"
+      ],
+      "macro_f1": 0.8589,
+      "mean_confidence": 0.9141,
+      "route": {
+        "heuristic": 350,
+        "llm": 0,
+        "pct_heuristic": 100.0,
+        "pct_llm": 0.0
+      },
+      "generalization_gap_points": -1.72,
+      "gap_interpretation": "gap < 5 pts: classifier learned real cognitive signals; it generalizes across generators.",
+      "model": "gemma2:9b"
+    },
+    "phi3": {
+      "accuracy": 0.6057,
+      "n": 350,
+      "per_state": {
+        "PLANNING": {
+          "precision": 0.661,
+          "recall": 0.82,
+          "f1": 0.732,
+          "support": 50
+        },
+        "FLOW": {
+          "precision": 0.536,
+          "recall": 0.3,
+          "f1": 0.385,
+          "support": 50
+        },
+        "CONFUSED": {
+          "precision": 0.371,
+          "recall": 0.52,
+          "f1": 0.433,
+          "support": 50
+        },
+        "RUSHING": {
+          "precision": 0.846,
+          "recall": 0.66,
+          "f1": 0.742,
+          "support": 50
+        },
+        "FRUSTRATED": {
+          "precision": 0.59,
+          "recall": 0.72,
+          "f1": 0.649,
+          "support": 50
+        },
+        "STUCK": {
+          "precision": 0.864,
+          "recall": 0.38,
+          "f1": 0.528,
+          "support": 50
+        },
+        "INSIGHT": {
+          "precision": 0.618,
+          "recall": 0.84,
+          "f1": 0.712,
+          "support": 50
+        }
+      },
+      "confusion_matrix": [
+        [
+          41,
+          1,
+          4,
+          1,
+          0,
+          0,
+          3
+        ],
+        [
+          4,
+          15,
+          10,
+          3,
+          6,
+          0,
+          12
+        ],
+        [
+          6,
+          4,
+          26,
+          0,
+          7,
+          1,
+          6
+        ],
+        [
+          2,
+          2,
+          5,
+          33,
+          5,
+          1,
+          2
+        ],
+        [
+          1,
+          1,
+          9,
+          1,
+          36,
+          1,
+          1
+        ],
+        [
+          7,
+          4,
+          11,
+          1,
+          6,
+          19,
+          2
+        ],
+        [
+          1,
+          1,
+          5,
+          0,
+          1,
+          0,
+          42
+        ]
+      ],
+      "labels": [
+        "PLANNING",
+        "FLOW",
+        "CONFUSED",
+        "RUSHING",
+        "FRUSTRATED",
+        "STUCK",
+        "INSIGHT"
+      ],
+      "macro_f1": 0.5973,
+      "mean_confidence": 0.8105,
+      "route": {
+        "heuristic": 350,
+        "llm": 0,
+        "pct_heuristic": 100.0,
+        "pct_llm": 0.0
+      },
+      "generalization_gap_points": 24.0,
+      "gap_interpretation": "gap > 15 pts: classifier is largely detecting llama3.1's stylistic fingerprint, NOT cognitive state. Major limitation.",
+      "model": "phi3:medium"
+    }
+  },
+  "generalization_gap": {
+    "per_generator_points": {
+      "mistral": 4.86,
+      "gemma2": -1.72,
+      "phi3": 24.0
+    },
+    "mean_points": 9.05,
+    "interpretation": "gap 5-15 pts: partial generator overfitting; some signal is genuine, some is generator-specific."
+  },
+  "lexical_overlap": {
+    "per_state": {
+      "PLANNING": {
+        "jaccard_across_generators": 0.214,
+        "jaccard_including_llama": 0.179,
+        "note": "moderate overlap: partly shared, partly generator-specific",
+        "top20_by_generator": {
+          "llama3.1": [
+            "first",
+            "let",
+            "need",
+            "me",
+            "think",
+            "figure",
+            "180",
+            "railroads",
+            "75",
+            "sec",
+            "kinda",
+            "cause",
+            "economy",
+            "affected",
+            "group",
+            "chlorine",
+            "40",
+            "understand",
+            "step",
+            "arguing"
+          ],
+          "mistral": [
+            "first",
+            "need",
+            "to",
+            "pauses",
+            "think",
+            "let",
+            "carbon",
+            "mass",
+            "sighs",
+            "paper",
+            "me",
+            "molar",
+            "co2",
+            "reactants",
+            "products",
+            "mol",
+            "sigh",
+            "remember",
+            "table",
+            "leg"
+          ],
+          "gemma2": [
+            "first",
+            "let",
+            "me",
+            "need",
+            "figure",
+            "out",
+            "think",
+            "remember",
+            "to",
+            "hopefully",
+            "hmm",
+            "air",
+            "take",
+            "words",
+            "isolate",
+            "what",
+            "string",
+            "carbon",
+            "co2",
+            "sunlight"
+          ],
+          "phi3": [
+            "need",
+            "first",
+            "carbon",
+            "figure",
+            "around",
+            "let",
+            "dioxide",
+            "sunlight",
+            "h2o",
+            "twice",
+            "reactants",
+            "products",
+            "80",
+            "set",
+            "h2",
+            "o2",
+            "glucose",
+            "transportation",
+            "method",
+            "increase"
+          ]
+        }
+      },
+      "FLOW": {
+        "jaccard_across_generators": 0.072,
+        "jaccard_including_llama": 0.079,
+        "note": "low overlap: this state's markers are generator-specific, not semantic",
+        "top20_by_generator": {
+          "llama3.1": [
+            "alright",
+            "easy",
+            "felt",
+            "one's",
+            "peasy",
+            "he",
+            "pretty",
+            "changing",
+            "yep",
+            "detail",
+            "light",
+            "isolated",
+            "sweet",
+            "traits",
+            "re",
+            "good",
+            "variables",
+            "passage",
+            "alone",
+            "offspring"
+          ],
+          "mistral": [
+            "good",
+            "35",
+            "excited",
+            "awesome",
+            "729",
+            "factory",
+            "could",
+            "nailed",
+            "triangle",
+            "flow",
+            "parent",
+            "75",
+            "finding",
+            "third",
+            "own",
+            "dive",
+            "railroads",
+            "180",
+            "gene",
+            "input"
+          ],
+          "gemma2": [
+            "yep",
+            "peasy",
+            "pretty",
+            "good",
+            "easy",
+            "alright",
+            "eighty",
+            "bb",
+            "one",
+            "boom",
+            "three",
+            "gotta",
+            "businesses",
+            "divided",
+            "nailed",
+            "totally",
+            "job",
+            "changed",
+            "by",
+            "straightforward"
+          ],
+          "phi3": [
+            "nice",
+            "step",
+            "job",
+            "25",
+            "good",
+            "let's",
+            "angle",
+            "focused",
+            "stay",
+            "oops",
+            "once",
+            "degrees",
+            "180",
+            "divided",
+            "focus",
+            "supreme",
+            "pretty",
+            "10",
+            "angles",
+            "cool"
+          ]
+        }
+      },
+      "CONFUSED": {
+        "jaccard_across_generators": 0.091,
+        "jaccard_including_llama": 0.081,
+        "note": "low overlap: this state's markers are generator-specific, not semantic",
+        "top20_by_generator": {
+          "llama3.1": [
+            "huh",
+            "function",
+            "even",
+            "confused",
+            "circular",
+            "reasoning",
+            "number",
+            "but",
+            "supposed",
+            "problem",
+            "max",
+            "character",
+            "exponents",
+            "90",
+            "35",
+            "num",
+            "stupid",
+            "do",
+            "math",
+            "why"
+          ],
+          "mistral": [
+            "huh",
+            "don't",
+            "second",
+            "guessing",
+            "confusing",
+            "numbers",
+            "i'm",
+            "circular",
+            "reasoning",
+            "myself",
+            "students",
+            "loop",
+            "responsible'",
+            "get",
+            "ladder",
+            "odd",
+            "student",
+            "sure",
+            "man",
+            "sec"
+          ],
+          "gemma2": [
+            "huh",
+            "but",
+            "numbers",
+            "print",
+            "confusing",
+            "around",
+            "how",
+            "make",
+            "away",
+            "maybe",
+            "wait",
+            "dunno",
+            "harder",
+            "way",
+            "um",
+            "factories",
+            "kinda",
+            "does",
+            "even",
+            "overthinking"
+          ],
+          "phi3": [
+            "huh",
+            "there's",
+            "range",
+            "second",
+            "rates",
+            "even",
+            "balancing",
+            "since",
+            "print",
+            "either",
+            "i'm",
+            "some",
+            "asking",
+            "grew",
+            "looks",
+            "building",
+            "waters",
+            "fuzzy",
+            "test",
+            "man"
+          ]
+        }
+      },
+      "RUSHING": {
+        "jaccard_across_generators": 0.167,
+        "jaccard_including_llama": 0.179,
+        "note": "low overlap: this state's markers are generator-specific, not semantic",
+        "top20_by_generator": {
+          "llama3.1": [
+            "probably",
+            "whatever",
+            "gotta",
+            "hope",
+            "done",
+            "meh",
+            "fast",
+            "time",
+            "matter",
+            "yeah",
+            "pi",
+            "difference",
+            "moving",
+            "squares",
+            "factor",
+            "print",
+            "go",
+            "move",
+            "quickly",
+            "sky"
+          ],
+          "mistral": [
+            "probably",
+            "whatever",
+            "quick",
+            "fast",
+            "gotta",
+            "move",
+            "'phew",
+            "forgot",
+            "over",
+            "co",
+            "aw",
+            "rushing",
+            "quickly",
+            "hopefully",
+            "much",
+            "reactions",
+            "64",
+            "speaking",
+            "desegregation",
+            "hope"
+          ],
+          "gemma2": [
+            "whatever",
+            "probably",
+            "gotta",
+            "fast",
+            "done",
+            "focus",
+            "hopefully",
+            "enough",
+            "hope",
+            "rushed",
+            "14",
+            "rain",
+            "yeah",
+            "moving",
+            "quick",
+            "25",
+            "money",
+            "phew",
+            "thirty",
+            "next"
+          ],
+          "phi3": [
+            "probably",
+            "whatever",
+            "fast",
+            "having",
+            "guess",
+            "rain",
+            "uh",
+            "'cause",
+            "different",
+            "num",
+            "sky",
+            "enough",
+            "quick",
+            "ones",
+            "weep",
+            "methods",
+            "cry",
+            "rush",
+            "gov",
+            "eat"
+          ]
+        }
+      },
+      "FRUSTRATED": {
+        "jaccard_across_generators": 0.113,
+        "jaccard_including_llama": 0.135,
+        "note": "low overlap: this state's markers are generator-specific, not semantic",
+        "top20_by_generator": {
+          "llama3.1": [
+            "forget",
+            "no",
+            "makes",
+            "sense",
+            "why",
+            "ugh",
+            "come",
+            "fine",
+            "cube",
+            "64",
+            "length",
+            "this",
+            "volume",
+            "moles",
+            "finally",
+            "guess",
+            "rate",
+            "higher",
+            "where",
+            "problems"
+          ],
+          "mistral": [
+            "another",
+            "'ugh",
+            "forget",
+            "makes",
+            "sense",
+            "why",
+            "problem",
+            "gonna",
+            "frustrating",
+            "always",
+            "volume",
+            "well",
+            "side",
+            "look",
+            "reading",
+            "does",
+            "'feeling",
+            "frustrated",
+            "'this",
+            "guess"
+          ],
+          "gemma2": [
+            "no",
+            "this",
+            "ugh",
+            "stupid",
+            "makes",
+            "forget",
+            "sense",
+            "anymore",
+            "even",
+            "gonna",
+            "basic",
+            "be",
+            "seriously",
+            "volume",
+            "pain",
+            "anyway",
+            "just",
+            "obvious",
+            "wrong",
+            "another"
+          ],
+          "phi3": [
+            "ugh",
+            "why",
+            "annoying",
+            "can't",
+            "finally",
+            "solution",
+            "supposed",
+            "neutral",
+            "problem",
+            "'after",
+            "chemistry",
+            "another",
+            "'odd'",
+            "longer",
+            "home",
+            "science",
+            "what's",
+            "even",
+            "states",
+            "'okay"
+          ]
+        }
+      },
+      "STUCK": {
+        "jaccard_across_generators": 0.143,
+        "jaccard_including_llama": 0.108,
+        "note": "low overlap: this state's markers are generator-specific, not semantic",
+        "top20_by_generator": {
+          "llama3.1": [
+            "know",
+            "don't",
+            "pause",
+            "sigh",
+            "stuck",
+            "can't",
+            "ugh",
+            "stares",
+            "frustrating",
+            "idea",
+            "remember",
+            "why",
+            "look",
+            "how",
+            "stammering",
+            "mass",
+            "trails",
+            "mr",
+            "thinking",
+            "balanced"
+          ],
+          "mistral": [
+            "pause",
+            "week",
+            "start",
+            "know",
+            "cm",
+            "doubles",
+            "don't",
+            "bb",
+            "where",
+            "every",
+            "man",
+            "after",
+            "concentration",
+            "stuck",
+            "them",
+            "mitochondria",
+            "even",
+            "chlorine",
+            "ahh",
+            "protons"
+          ],
+          "gemma2": [
+            "know",
+            "don't",
+            "week",
+            "pause",
+            "doubles",
+            "should",
+            "multiplying",
+            "harder",
+            "hard",
+            "breakdown",
+            "rise",
+            "mental",
+            "only",
+            "maybe",
+            "doesn't",
+            "mitochondria",
+            "google",
+            "tough",
+            "progress",
+            "track"
+          ],
+          "phi3": [
+            "week",
+            "pause",
+            "bb",
+            "rise",
+            "sodium",
+            "room",
+            "slope",
+            "cm",
+            "doubling",
+            "weeks",
+            "each",
+            "doubles",
+            "looping",
+            "values",
+            "branches",
+            "ions",
+            "punnett",
+            "year",
+            "string",
+            "largest"
+          ]
+        }
+      },
+      "INSIGHT": {
+        "jaccard_across_generators": 0.083,
+        "jaccard_including_llama": 0.114,
+        "note": "low overlap: this state's markers are generator-specific, not semantic",
+        "top20_by_generator": {
+          "llama3.1": [
+            "oh",
+            "now",
+            "ohhhh",
+            "ohhhhh",
+            "12",
+            "bb",
+            "run",
+            "yay",
+            "'and'",
+            "comma",
+            "stayed",
+            "chance",
+            "yeah",
+            "forced",
+            "inside",
+            "punctuation",
+            "'it",
+            "negative",
+            "3x",
+            "tone"
+          ],
+          "mistral": [
+            "oh",
+            "ohhhh",
+            "reunion",
+            "'it",
+            "tricky",
+            "where's",
+            "inside",
+            "focus",
+            "'yeah",
+            "gauntlet",
+            "stayed",
+            "variables",
+            "tone",
+            "knew",
+            "factors",
+            "ft",
+            "easy",
+            "light",
+            "once",
+            "run"
+          ],
+          "gemma2": [
+            "ohhhh",
+            "plus",
+            "forced",
+            "ohhh",
+            "2x",
+            "yeah",
+            "squared",
+            "means",
+            "smiles",
+            "sarcastic",
+            "equals",
+            "difference",
+            "makes",
+            "now",
+            "os",
+            "angry",
+            "values",
+            "'gauntlet",
+            "tell",
+            "sentences"
+          ],
+          "phi3": [
+            "ohhhh",
+            "ladder",
+            "clicked",
+            "'oh",
+            "feet",
+            "'wait",
+            "sarcastic",
+            "tone",
+            "'wait'",
+            "product",
+            "'oh'",
+            "changing",
+            "'okay",
+            "variables",
+            "stayed",
+            "'it",
+            "wall",
+            "sarcasm",
+            "ohhh",
+            "sentence"
+          ]
+        }
+      }
+    },
+    "mean_jaccard_across_generators": 0.126
+  }
+}

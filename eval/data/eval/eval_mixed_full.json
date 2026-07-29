@@ -1,0 +1,387 @@
+{
+  "dataset": "eval/data/synthetic_thinkaloud/mixed_test.jsonl",
+  "generator_filter": null,
+  "state_detection": {
+    "accuracy": 0.7918,
+    "n": 413,
+    "per_state": {
+      "PLANNING": {
+        "precision": 0.926,
+        "recall": 0.847,
+        "f1": 0.885,
+        "support": 59
+      },
+      "FLOW": {
+        "precision": 0.644,
+        "recall": 0.492,
+        "f1": 0.558,
+        "support": 59
+      },
+      "CONFUSED": {
+        "precision": 0.662,
+        "recall": 0.797,
+        "f1": 0.723,
+        "support": 59
+      },
+      "RUSHING": {
+        "precision": 0.906,
+        "recall": 0.814,
+        "f1": 0.857,
+        "support": 59
+      },
+      "FRUSTRATED": {
+        "precision": 0.806,
+        "recall": 0.915,
+        "f1": 0.857,
+        "support": 59
+      },
+      "STUCK": {
+        "precision": 1.0,
+        "recall": 0.712,
+        "f1": 0.832,
+        "support": 59
+      },
+      "INSIGHT": {
+        "precision": 0.704,
+        "recall": 0.966,
+        "f1": 0.814,
+        "support": 59
+      }
+    },
+    "confusion_matrix": [
+      [
+        50,
+        5,
+        2,
+        0,
+        0,
+        0,
+        2
+      ],
+      [
+        3,
+        29,
+        6,
+        5,
+        1,
+        0,
+        15
+      ],
+      [
+        0,
+        7,
+        47,
+        0,
+        4,
+        0,
+        1
+      ],
+      [
+        0,
+        2,
+        6,
+        48,
+        0,
+        0,
+        3
+      ],
+      [
+        0,
+        0,
+        3,
+        0,
+        54,
+        0,
+        2
+      ],
+      [
+        1,
+        1,
+        6,
+        0,
+        8,
+        42,
+        1
+      ],
+      [
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        57
+      ]
+    ],
+    "labels": [
+      "PLANNING",
+      "FLOW",
+      "CONFUSED",
+      "RUSHING",
+      "FRUSTRATED",
+      "STUCK",
+      "INSIGHT"
+    ],
+    "macro_f1": 0.789,
+    "per_generator": {
+      "gemma2:9b": {
+        "n": 21,
+        "accuracy": 0.8095,
+        "macro_f1": 0.767,
+        "per_state": {
+          "PLANNING": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 3
+          },
+          "FLOW": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 3
+          },
+          "CONFUSED": {
+            "precision": 0.75,
+            "recall": 1.0,
+            "f1": 0.857,
+            "support": 3
+          },
+          "RUSHING": {
+            "precision": 0.75,
+            "recall": 1.0,
+            "f1": 0.857,
+            "support": 3
+          },
+          "FRUSTRATED": {
+            "precision": 0.75,
+            "recall": 1.0,
+            "f1": 0.857,
+            "support": 3
+          },
+          "STUCK": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 3
+          },
+          "INSIGHT": {
+            "precision": 1.0,
+            "recall": 0.667,
+            "f1": 0.8,
+            "support": 3
+          }
+        }
+      },
+      "llama3.1:8b": {
+        "n": 350,
+        "accuracy": 0.8143,
+        "macro_f1": 0.812,
+        "per_state": {
+          "PLANNING": {
+            "precision": 0.933,
+            "recall": 0.84,
+            "f1": 0.884,
+            "support": 50
+          },
+          "FLOW": {
+            "precision": 0.718,
+            "recall": 0.56,
+            "f1": 0.629,
+            "support": 50
+          },
+          "CONFUSED": {
+            "precision": 0.672,
+            "recall": 0.78,
+            "f1": 0.722,
+            "support": 50
+          },
+          "RUSHING": {
+            "precision": 0.913,
+            "recall": 0.84,
+            "f1": 0.875,
+            "support": 50
+          },
+          "FRUSTRATED": {
+            "precision": 0.814,
+            "recall": 0.96,
+            "f1": 0.881,
+            "support": 50
+          },
+          "STUCK": {
+            "precision": 1.0,
+            "recall": 0.74,
+            "f1": 0.851,
+            "support": 50
+          },
+          "INSIGHT": {
+            "precision": 0.742,
+            "recall": 0.98,
+            "f1": 0.845,
+            "support": 50
+          }
+        }
+      },
+      "mistral:7b": {
+        "n": 21,
+        "accuracy": 0.619,
+        "macro_f1": 0.58,
+        "per_state": {
+          "PLANNING": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "support": 3
+          },
+          "FLOW": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support": 3
+          },
+          "CONFUSED": {
+            "precision": 0.75,
+            "recall": 1.0,
+            "f1": 0.857,
+            "support": 3
+          },
+          "RUSHING": {
+            "precision": 1.0,
+            "recall": 0.667,
+            "f1": 0.8,
+            "support": 3
+          },
+          "FRUSTRATED": {
+            "precision": 0.5,
+            "recall": 0.333,
+            "f1": 0.4,
+            "support": 3
+          },
+          "STUCK": {
+            "precision": 1.0,
+            "recall": 0.333,
+            "f1": 0.5,
+            "support": 3
+          },
+          "INSIGHT": {
+            "precision": 0.333,
+            "recall": 1.0,
+            "f1": 0.5,
+            "support": 3
+          }
+        }
+      },
+      "phi3:medium": {
+        "n": 21,
+        "accuracy": 0.5714,
+        "macro_f1": 0.582,
+        "per_state": {
+          "PLANNING": {
+            "precision": 0.667,
+            "recall": 0.667,
+            "f1": 0.667,
+            "support": 3
+          },
+          "FLOW": {
+            "precision": 0.2,
+            "recall": 0.333,
+            "f1": 0.25,
+            "support": 3
+          },
+          "CONFUSED": {
+            "precision": 0.4,
+            "recall": 0.667,
+            "f1": 0.5,
+            "support": 3
+          },
+          "RUSHING": {
+            "precision": 1.0,
+            "recall": 0.333,
+            "f1": 0.5,
+            "support": 3
+          },
+          "FRUSTRATED": {
+            "precision": 1.0,
+            "recall": 0.667,
+            "f1": 0.8,
+            "support": 3
+          },
+          "STUCK": {
+            "precision": 1.0,
+            "recall": 0.333,
+            "f1": 0.5,
+            "support": 3
+          },
+          "INSIGHT": {
+            "precision": 0.75,
+            "recall": 1.0,
+            "f1": 0.857,
+            "support": 3
+          }
+        }
+      },
+      "_consistency": {
+        "flow_f1_by_generator": {
+          "gemma2:9b": 0.0,
+          "llama3.1:8b": 0.629,
+          "mistral:7b": 0.0,
+          "phi3:medium": 0.25
+        },
+        "flow_f1_spread": 0.629,
+        "macro_f1_spread": 0.232
+      }
+    }
+  },
+  "transfer_detection": {
+    "n": 413,
+    "precision": 0.73,
+    "recall": 0.983,
+    "f1": 0.838,
+    "accuracy": 0.891,
+    "confusion": {
+      "tp": 116,
+      "fp": 43,
+      "fn": 2,
+      "tn": 252
+    },
+    "metacognitive_type_accuracy": 0.966
+  },
+  "calibration_validity": {
+    "n": 50,
+    "mean_calibration_error": 0.29,
+    "reference_error": 0.29,
+    "overconfidence_rate": 0.06,
+    "underconfidence_rate": 0.08,
+    "matches_reference": true,
+    "perfect_calibration_error": 0.0,
+    "anti_calibration_error": 1.0,
+    "valid": true
+  },
+  "timing_validity": {
+    "n_scenarios": 32,
+    "per_state": {
+      "CONFUSED": {
+        "ground_truth": 2,
+        "detected": 2,
+        "match": true
+      },
+      "RUSHING": {
+        "ground_truth": 1,
+        "detected": 1,
+        "match": true
+      },
+      "FRUSTRATED": {
+        "ground_truth": 1,
+        "detected": 1,
+        "match": true
+      },
+      "STUCK": {
+        "ground_truth": 3,
+        "detected": 3,
+        "match": true
+      }
+    },
+    "match_rate": 1.0,
+    "valid": true
+  }
+}
