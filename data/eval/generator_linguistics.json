@@ -1,0 +1,59 @@
+{
+  "gaps": {
+    "llama": 0.0,
+    "mistral": 17.4,
+    "gemma2": 4.3,
+    "phi3": 33.4
+  },
+  "per_generator": {
+    "llama": {
+      "n_records": 2807,
+      "total_words": 316309,
+      "unique_words_per_100w": 72.23,
+      "mean_sentence_length_words": 7.09,
+      "filler_rate_per_100w": 3.2,
+      "first_person_rate_per_100w": 6.17,
+      "question_rate_per_100w": 3.14,
+      "negation_rate_per_100w": 1.47,
+      "hedging_rate_per_100w": 1.13,
+      "signal_word_density_per_100w": 8.63
+    },
+    "mistral": {
+      "n_records": 1396,
+      "total_words": 124588,
+      "unique_words_per_100w": 72.79,
+      "mean_sentence_length_words": 6.42,
+      "filler_rate_per_100w": 2.1,
+      "first_person_rate_per_100w": 5.62,
+      "question_rate_per_100w": 2.55,
+      "negation_rate_per_100w": 1.39,
+      "hedging_rate_per_100w": 1.17,
+      "signal_word_density_per_100w": 8.39
+    },
+    "gemma2": {
+      "n_records": 1400,
+      "total_words": 95606,
+      "unique_words_per_100w": 72.07,
+      "mean_sentence_length_words": 5.55,
+      "filler_rate_per_100w": 3.62,
+      "first_person_rate_per_100w": 4.46,
+      "question_rate_per_100w": 4.83,
+      "negation_rate_per_100w": 0.95,
+      "hedging_rate_per_100w": 1.82,
+      "signal_word_density_per_100w": 9.78
+    },
+    "phi3": {
+      "n_records": 1397,
+      "total_words": 143250,
+      "unique_words_per_100w": 77.78,
+      "mean_sentence_length_words": 7.71,
+      "filler_rate_per_100w": 2.98,
+      "first_person_rate_per_100w": 3.87,
+      "question_rate_per_100w": 3.0,
+      "negation_rate_per_100w": 0.81,
+      "hedging_rate_per_100w": 1.19,
+      "signal_word_density_per_100w": 6.06
+    }
+  },
+  "note": "Rate features are counts per 100 words. unique_words_per_100w = mean distinct types in a 100-token window (MATTR-style). mean_sentence_length is in words. signal_word_density = total _MARKERS regex matches per 100 words."
+}
