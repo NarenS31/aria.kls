@@ -1,16 +1,35 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+
 __pycache__/
 *.py[cod]
 *.pid
-.claude/settings.local.json
-.env
-.DS_Store
-
-# Keep local environments and generated session data off Git.
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
 .venv/
-data/logs/
-data/metacognition/interventions_demo_*.json
-data/metacognition/interventions_eval_judge.json
+venv/
 
-# External datasets: never commit raw data (Part 2)
-data/external/
-!data/external/**/LICENSE.txt
+# Local student data and on-device memory. Never commit these files.
+/data/*
+!/data/Modelfile_ARIA_distilled
+!/data/teacher/
+/data/teacher/*
+!/data/teacher/teacher_config.json
+!/data/teacher/learning_objectives.json
+
+# Generated model adapters, training examples, and figures.
+/lora/adapters/
+/lora/data/
+/lora/figures/
+
+# Generated reports and exports.
+/reports/output/
+/data/reports/output/
+
+# Local application and editor state.
+/.claude/
+/.codex/
