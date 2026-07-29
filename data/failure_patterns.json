@@ -1,0 +1,134 @@
+{
+  "TC": {
+    "failure_patterns": [
+      {
+        "pattern": "Tutors that fail on Task Chunking (TC) dimension for students with ADHD often rely too heavily on providing breaks and refocusing strategies, rather than actively addressing the underlying task chunking issues. Specifically, they frequently respond to student disruptions or lack of focus by suggesting a break or redirecting the conversation, rather than attempting to re-engage the student in the original task or breaking it down into smaller, more manageable chunks. This approach can inadvertently reinforce the student's difficulties with sustained attention and task completion.",
+        "profile": "all",
+        "n": 26
+      },
+      {
+        "pattern": "Tutors that fail on TC (Task Chunking) for students with ADHD often provide overly simplistic or incomplete explanations, breaking down complex concepts into too few or vague \"chunks\" without sufficient detail or context. This can lead to students becoming confused and struggling to understand the material. Specifically, these tutors failed to break down the task into smaller, manageable steps that align with the student's existing knowledge and understanding of the subject matter.",
+        "profile": "alex_chen",
+        "n": 5
+      },
+      {
+        "pattern": "Tutors that fail on Task Chunking (TC) for students with ADHD often struggle to break down complex tasks into manageable, bite-sized chunks, leading to overwhelming and disengagement from the learning process. Specifically, these tutors tend to provide too much information at once, attempting to simplify concepts or explain multiple ideas simultaneously, which can exacerbate difficulties in attention and working memory. This approach neglects the need for clear, sequential instructions that allow students with ADHD to focus on one task at a time.",
+        "profile": "jordan_rivera",
+        "n": 18
+      }
+    ],
+    "success_patterns": [
+      {
+        "pattern": "Tutors that succeed on TC dimension for students with ADHD often use a combination of clear explanations, visual aids, and validation of the student's confusion to facilitate understanding. Specifically, they break down complex information into smaller, manageable chunks, using analogies and relatable examples to connect abstract concepts to the student's existing knowledge or experiences. By acknowledging and addressing the student's frustration or uncertainty, tutors create a safe and supportive learning environment that promotes active engagement and comprehension.",
+        "profile": "all",
+        "n": 436
+      }
+    ],
+    "most_failed_profile": "jordan_rivera",
+    "most_failed_persona": "scattered",
+    "failure_rate_by_model": {
+      "aria_distilled": 0.064,
+      "gemma2:9b": 0.025,
+      "llama3.1:8b": 0.037,
+      "mistral:7b": 0.1009
+    },
+    "chi_square": {
+      "stat": 7.1933,
+      "p_value": 0.065985,
+      "significant": false
+    },
+    "fisher_exact": {
+      "aria_distilled_vs_gemma2:9b": 0.21697,
+      "aria_distilled_vs_llama3.1:8b": 0.390998,
+      "gemma2:9b_vs_llama3.1:8b": 0.710386,
+      "gemma2:9b_vs_mistral:7b": 0.024622,
+      "llama3.1:8b_vs_mistral:7b": 0.10575
+    },
+    "n_failures": 26,
+    "n_successes": 436
+  },
+  "SC": {
+    "failure_patterns": [
+      {
+        "pattern": "Tutors that fail on Session Consistency (SC) often rely too heavily on providing explicit explanations and step-by-step guidance, rather than encouraging students to take ownership of their learning and problem-solving process. Specifically, these tutors frequently interrupt or redirect the student's initial attempts at solving a problem, failing to allow them to explore and discover solutions on their own. This can be seen in Traces 1-5, where tutors jump into providing explanations or step-by-step instructions without allowing students to fully articulate their thoughts or struggles.",
+        "profile": "all",
+        "n": 131
+      },
+      {
+        "pattern": "Tutors that fail on Session Consistency (SC) often struggle to maintain a clear and consistent line of questioning, leading to confusion for students with ADHD. Specifically, these tutors tend to provide overly simplistic or generic responses that don't directly address the student's specific question or misconception, instead opting for a more general explanation or example. This failure to consistently build on the student's previous thoughts can lead to disengagement and further confusion.",
+        "profile": "alex_chen",
+        "n": 68
+      },
+      {
+        "pattern": "Tutors that fail on Session Consistency (SC) often struggle to maintain a consistent and coherent approach throughout the tutoring session, particularly when working with students who have ADHD. Specifically, in these failed traces, tutors frequently deviated from their planned approach, instead relying on generic analogies or vague explanations that did not effectively address the student's specific concerns or misconceptions. This inconsistency can lead to confusion for the student and undermine the effectiveness of the tutoring session.",
+        "profile": "sam_okonkwo",
+        "n": 10
+      }
+    ],
+    "success_patterns": [
+      {
+        "pattern": "Tutors that succeed on SC (Session Consistency) with students with ADHD consistently demonstrate flexibility and adaptability in their responses, often deviating from their planned scripts to address the student's immediate concerns and needs. Specifically, they use phrases like \"That's totally okay\" or \"Let's go back to our original...\" to acknowledge and redirect the student's attention, while also keeping their language concise and focused on the specific issue at hand. This flexibility allows them to maintain a sense of continuity and flow in the session, even when the conversation veers off course.",
+        "profile": "all",
+        "n": 331
+      }
+    ],
+    "most_failed_profile": "alex_chen",
+    "most_failed_persona": "scattered",
+    "failure_rate_by_model": {
+      "aria_distilled": 0.296,
+      "gemma2:9b": 0.2333,
+      "llama3.1:8b": 0.2685,
+      "mistral:7b": 0.3394
+    },
+    "chi_square": {
+      "stat": 3.3817,
+      "p_value": 0.336438,
+      "significant": false
+    },
+    "fisher_exact": {},
+    "n_failures": 131,
+    "n_successes": 331
+  },
+  "FA": {
+    "failure_patterns": [
+      {
+        "pattern": "Tutors that fail on FA (Frustration Adaptation) for students with ADHD often provide overly complex or abstract explanations, failing to break down concepts into smaller, more manageable steps that cater to their working memory and processing needs. Specifically, these tutors tend to rely heavily on verbal explanations, visual aids, or analogies without adequately considering the student's individual learning style, pace, and capacity for cognitive load management. As a result, they inadvertently create frustration by overwhelming the students with too much information at once.",
+        "profile": "all",
+        "n": 80
+      },
+      {
+        "pattern": "Tutors that fail on FA (Frustration Adaptation) for students with ADHD often struggle to acknowledge and validate their students' emotions, leading to a lack of emotional regulation support. Specifically, in these failed traces, tutors either dismiss or minimize the student's frustration (\"You're really digging deep into nested iteration now!\") or neglect to provide regular checks for understanding and emotional validation (\"Let's break down the cell cycle...\"). This failure to adapt to the student's emotional state can exacerbate feelings of frustration, leading to decreased motivation and engagement.",
+        "profile": "alex_chen",
+        "n": 41
+      },
+      {
+        "pattern": "Tutors that fail on FA (Frustration Adaptation) for students with ADHD often provide explanations that are too abstract or complex, failing to acknowledge and address the student's confusion or frustration directly. Specifically, they tend to rely heavily on analogies and metaphors without adequately breaking down the underlying mathematical concepts, leaving the student feeling lost and uncertain. This approach neglects to provide sufficient scaffolding and support for students with ADHD who require more concrete and step-by-step guidance to build their understanding.",
+        "profile": "sam_okonkwo",
+        "n": 6
+      }
+    ],
+    "success_patterns": [
+      {
+        "pattern": "Tutors that succeed on FA (Frustration Adaptation) for students with ADHD use a combination of empathetic validation and clear, concise explanations to address student frustration and misconceptions. Specifically, they acknowledge the student's confusion or misunderstanding, provide a gentle correction or clarification, and break down complex concepts into manageable steps using simple language. This approach helps to reduce feelings of overwhelm and increase student engagement and understanding.",
+        "profile": "all",
+        "n": 382
+      }
+    ],
+    "most_failed_profile": "alex_chen",
+    "most_failed_persona": "hyperfocus",
+    "failure_rate_by_model": {
+      "aria_distilled": 0.192,
+      "gemma2:9b": 0.1833,
+      "llama3.1:8b": 0.1852,
+      "mistral:7b": 0.1284
+    },
+    "chi_square": {
+      "stat": 2.0282,
+      "p_value": 0.566575,
+      "significant": false
+    },
+    "fisher_exact": {},
+    "n_failures": 80,
+    "n_successes": 382
+  }
+}

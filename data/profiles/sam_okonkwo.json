@@ -1,0 +1,84 @@
+{
+  "name": "Sam Okonkwo",
+  "profile_id": "sam_okonkwo",
+  "age": 17,
+  "grade": 12,
+  "diagnosis": "ADHD-Combined + Dyslexia",
+  "learning_style": "analogy",
+  "subjects": [
+    "statistics",
+    "physics",
+    "java"
+  ],
+  "baseline_confidence": {
+    "statistics": 0.4,
+    "physics": 0.45,
+    "java": 0.55
+  },
+  "peak_focus_hours": [
+    20,
+    21
+  ],
+  "attention_dropoff_minutes": 25,
+  "frustration_threshold": 0.3,
+  "frustration_triggers": {
+    "statistics": [
+      "hypothesis testing",
+      "p-values"
+    ],
+    "physics": [
+      "vector components",
+      "torque"
+    ],
+    "java": [
+      "inheritance",
+      "interfaces"
+    ]
+  },
+  "preferred_styles": {
+    "statistics": "analogy",
+    "physics": "analogy",
+    "java": "step_by_step"
+  },
+  "misconceptions": {
+    "statistics": [
+      "confuses correlation with causation",
+      "misinterprets p-value as probability that H0 is true"
+    ],
+    "physics": [
+      "thinks heavier objects fall faster (pre-Galilean intuition)",
+      "confuses speed (scalar) and velocity (vector)"
+    ],
+    "java": [
+      "thinks overriding a method changes the parent class",
+      "confuses abstract class and interface purposes"
+    ]
+  },
+  "response_patterns": {
+    "confused": [
+      "i dont understand any of this",
+      "can you use an example",
+      "what does that even mean"
+    ],
+    "frustrated": [
+      "forget it",
+      "this is stupid",
+      "im not smart enough for this"
+    ],
+    "successful": [
+      "OH thats like",
+      "wait so its basically",
+      "that actually makes sense now"
+    ]
+  },
+  "theoretical_basis": "ADHD-Combined with comorbid dyslexia and anxiety, emotional dysregulation (Shaw 2014), benefits from analogical reasoning (Sweller 1988)",
+  "support_people": [
+    "tutor Sam",
+    "older sister"
+  ],
+  "goals": [
+    "AP stats exam",
+    "physics college prep",
+    "java OOP project"
+  ]
+}

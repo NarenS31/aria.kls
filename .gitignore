@@ -20,6 +20,24 @@ venv/
 /data/teacher/*
 !/data/teacher/teacher_config.json
 !/data/teacher/learning_objectives.json
+!/data/profiles/
+!/data/profiles/*.json
+!/data/synthetic_profile.json
+!/data/synthetic_history.jsonl
+!/data/real_sessions.jsonl
+!/data/checkpoints/
+!/data/checkpoints/*.json
+!/data/emotion_logs/
+!/data/emotion_logs/*.jsonl
+!/data/initiation_triggers.jsonl
+!/data/srs_state.json
+!/data/experiment_results_full.json
+!/data/failure_patterns.json
+!/data/figures/
+!/data/figures/*.png
+!/data/reports/
+!/data/reports/output/
+!/data/reports/output/.gitkeep
 
 # Generated model adapters, training examples, and figures.
 /lora/adapters/
@@ -28,7 +46,8 @@ venv/
 
 # Generated reports and exports.
 /reports/output/
-/data/reports/output/
+/data/reports/output/*
+!/data/reports/output/.gitkeep
 
 # Local application and editor state.
 /.claude/

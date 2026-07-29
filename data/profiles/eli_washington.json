@@ -1,0 +1,85 @@
+{
+  "name": "Eli Washington",
+  "profile_id": "eli_washington",
+  "age": 16,
+  "grade": 11,
+  "diagnosis": "ADHD-Combined + Autism Spectrum",
+  "learning_style": "step_by_step",
+  "subjects": [
+    "calculus",
+    "cs theory",
+    "physics"
+  ],
+  "baseline_confidence": {
+    "calculus": 0.7,
+    "cs theory": 0.75,
+    "physics": 0.6
+  },
+  "peak_focus_hours": [
+    21,
+    22,
+    23
+  ],
+  "attention_dropoff_minutes": 45,
+  "frustration_threshold": 0.2,
+  "frustration_triggers": {
+    "calculus": [
+      "epsilon-delta proofs",
+      "implicit differentiation"
+    ],
+    "cs theory": [
+      "NP-completeness",
+      "undecidability"
+    ],
+    "physics": [
+      "quantum uncertainty",
+      "wave-particle duality"
+    ]
+  },
+  "preferred_styles": {
+    "calculus": "step_by_step",
+    "cs theory": "step_by_step",
+    "physics": "analogy"
+  },
+  "misconceptions": {
+    "calculus": [
+      "thinks derivative is just slope of secant line (not limit of secant)",
+      "confuses limit of f at point vs value of f at point"
+    ],
+    "cs theory": [
+      "thinks P=NP is obviously false because of practical experience",
+      "confuses decidable (yes/no answer) and tractable (efficient answer)"
+    ],
+    "physics": [
+      "thinks particles have definite position at all times (pre-quantum)",
+      "confuses rest mass and relativistic mass"
+    ]
+  },
+  "response_patterns": {
+    "confused": [
+      "that contradicts what you said before",
+      "thats not what the textbook says",
+      "i need the exact definition"
+    ],
+    "frustrated": [
+      "this is inconsistent",
+      "you keep changing the explanation",
+      "i need a precise answer"
+    ],
+    "successful": [
+      "ok that is logically consistent",
+      "i understand the formal definition now",
+      "that follows from what you said"
+    ]
+  },
+  "theoretical_basis": "ADHD-Combined with ASD, rigid thinking patterns (APA DSM-5), hyperfocus capability (attention_dropoff=45 min), requires logical consistency and precision",
+  "support_people": [
+    "school counselor",
+    "math club advisor"
+  ],
+  "goals": [
+    "AP Calculus BC",
+    "cs theory olympiad",
+    "physics research project"
+  ]
+}

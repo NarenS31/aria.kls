@@ -1,0 +1,94 @@
+{
+  "name": "Alex Chen",
+  "age": 16,
+  "grade": 11,
+  "diagnosis": "ADHD-Combined",
+  "learning_style": "step_by_step",
+  "subjects": [
+    "algebra",
+    "biology",
+    "python programming"
+  ],
+  "baseline_confidence": {
+    "algebra": 0.35,
+    "biology": 0.5,
+    "python programming": 0.45
+  },
+  "peak_focus_hours": [
+    22,
+    23,
+    0
+  ],
+  "attention_dropoff_minutes": 20,
+  "frustration_threshold": 0.4,
+  "frustration_triggers": {
+    "algebra": [
+      "fractions",
+      "negative numbers",
+      "word problems"
+    ],
+    "biology": [
+      "meiosis",
+      "protein synthesis"
+    ],
+    "python programming": [
+      "recursion",
+      "scope"
+    ]
+  },
+  "preferred_styles": {
+    "algebra": "analogy",
+    "biology": "visual",
+    "python programming": "step_by_step"
+  },
+  "misconceptions": {
+    "algebra": [
+      "distributes addition before multiplication (treats 2(x+3) as 2x+3 instead of 2x+6)",
+      "drops negative signs when moving terms across the equals sign"
+    ],
+    "biology": [
+      "confuses mitosis products (2 identical) with meiosis products (4 unique cells)",
+      "thinks all cells divide at the same rate regardless of cell type"
+    ],
+    "python programming": [
+      "off-by-one indexing in range() \u2014 uses range(1, n) when range(n) needed",
+      "confuses local and global scope \u2014 modifies global variable inside function without global keyword"
+    ]
+  },
+  "response_patterns": {
+    "when_confused": [
+      "wait what",
+      "i dont get it",
+      "can you repeat that",
+      "huh"
+    ],
+    "when_frustrated": [
+      "idk",
+      "this makes no sense",
+      "forget it",
+      "ugh",
+      "why doesnt this work"
+    ],
+    "when_successful": [
+      "oh ok",
+      "that makes sense",
+      "wait so then",
+      "ohhhh"
+    ]
+  },
+  "support_people": [
+    "Mom",
+    "tutor Sam"
+  ],
+  "goals": [
+    "pass algebra final",
+    "understand cell division for bio test",
+    "finish python project"
+  ],
+  "study_hours": [
+    21,
+    22,
+    23,
+    0
+  ]
+}

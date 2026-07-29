@@ -1,0 +1,79 @@
+{
+  "name": "Jordan Rivera",
+  "profile_id": "jordan_rivera",
+  "age": 15,
+  "grade": 10,
+  "diagnosis": "ADHD-Inattentive",
+  "learning_style": "visual",
+  "subjects": [
+    "geometry",
+    "chemistry",
+    "javascript"
+  ],
+  "baseline_confidence": {
+    "geometry": 0.6,
+    "chemistry": 0.3,
+    "javascript": 0.4
+  },
+  "peak_focus_hours": [
+    15,
+    16
+  ],
+  "attention_dropoff_minutes": 15,
+  "frustration_threshold": 0.6,
+  "frustration_triggers": {
+    "chemistry": [
+      "stoichiometry",
+      "balancing equations"
+    ],
+    "geometry": [
+      "proofs"
+    ],
+    "javascript": [
+      "callbacks",
+      "async"
+    ]
+  },
+  "preferred_styles": {
+    "geometry": "visual",
+    "chemistry": "step_by_step",
+    "javascript": "analogy"
+  },
+  "misconceptions": {
+    "chemistry": [
+      "confuses moles with molecules",
+      "adds coefficients instead of balancing by trial"
+    ],
+    "geometry": [
+      "assumes all quadrilaterals are parallelograms"
+    ],
+    "javascript": [
+      "thinks var is block-scoped like let",
+      "confuses == and === (coercion vs strict equality)"
+    ]
+  },
+  "response_patterns": {
+    "confused": [
+      "wait so",
+      "can you explain again",
+      "i thought you said"
+    ],
+    "frustrated": [
+      "this is taking forever",
+      "i give up",
+      "whatever"
+    ],
+    "successful": [
+      "got it",
+      "ok so basically",
+      "wait thats actually easy"
+    ]
+  },
+  "theoretical_basis": "ADHD-Inattentive with sluggish cognitive tempo (Barkley 2015) and visual-spatial strength",
+  "support_people": [],
+  "goals": [
+    "pass geometry",
+    "understand chemistry for SAT",
+    "build a website"
+  ]
+}
