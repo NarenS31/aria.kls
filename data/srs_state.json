@@ -1,0 +1,30 @@
+{
+  "cards": {
+    "Algebra::Quadratic Formula": {
+      "card_id": "Algebra::Quadratic Formula",
+      "topic": "Algebra",
+      "concept": "Quadratic Formula",
+      "ease_factor": 2.18,
+      "interval": 1,
+      "repetitions": 0,
+      "next_review_date": "2026-06-25",
+      "last_emotion_state": "FRUSTRATED",
+      "last_score": 2,
+      "last_reviewed": "2026-06-24T17:49:57.329531",
+      "created_at": "2026-06-24T17:49:57.329305"
+    },
+    "Algebra::Algebra": {
+      "card_id": "Algebra::Algebra",
+      "topic": "Algebra",
+      "concept": "Algebra",
+      "ease_factor": 2.5,
+      "interval": 1,
+      "repetitions": 0,
+      "next_review_date": "2026-07-12",
+      "last_emotion_state": "FLOW",
+      "last_score": null,
+      "last_reviewed": null,
+      "created_at": "2026-07-12T22:09:59.197455"
+    }
+  }
+}

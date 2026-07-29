@@ -1,0 +1,80 @@
+{
+  "name": "Maya Patel",
+  "profile_id": "maya_patel",
+  "age": 14,
+  "grade": 9,
+  "diagnosis": "ADHD-Hyperactive",
+  "learning_style": "kinesthetic",
+  "subjects": [
+    "algebra",
+    "earth science",
+    "python basics"
+  ],
+  "baseline_confidence": {
+    "algebra": 0.55,
+    "earth science": 0.65,
+    "python basics": 0.5
+  },
+  "peak_focus_hours": [
+    19,
+    20
+  ],
+  "attention_dropoff_minutes": 10,
+  "frustration_threshold": 0.5,
+  "frustration_triggers": {
+    "algebra": [
+      "multi-step equations",
+      "inequalities"
+    ],
+    "earth science": [
+      "rock cycle sequences"
+    ],
+    "python basics": [
+      "functions",
+      "parameters"
+    ]
+  },
+  "preferred_styles": {
+    "algebra": "kinesthetic",
+    "earth science": "visual",
+    "python basics": "step_by_step"
+  },
+  "misconceptions": {
+    "algebra": [
+      "thinks you can add unlike terms (2x + 3 = 5x)",
+      "confuses expression and equation"
+    ],
+    "earth science": [
+      "thinks continents stopped moving",
+      "confuses weather (short-term) and climate (long-term)"
+    ],
+    "python basics": [
+      "thinks print() saves a value to a variable",
+      "confuses parameter (definition) and argument (call)"
+    ]
+  },
+  "response_patterns": {
+    "confused": [
+      "huh",
+      "what",
+      "i dont get it"
+    ],
+    "frustrated": [
+      "this is boring",
+      "can we do something else",
+      "idk idc"
+    ],
+    "successful": [
+      "oh cool",
+      "wait thats actually fun",
+      "can i try"
+    ]
+  },
+  "theoretical_basis": "ADHD-Hyperactive with shortest attention_dropoff (10 min), requires frequent reorientation (Barkley 2015), kinesthetic engagement (Sweller 1988)",
+  "support_people": [],
+  "goals": [
+    "pass algebra",
+    "understand earth science",
+    "make a simple game"
+  ]
+}
