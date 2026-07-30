@@ -43,6 +43,7 @@ venv/
 /eval/data/external/eedi_dialogues/raw/
 /eval/data/annotation/*_private_key.json
 /eval/data/metacognition/transfer_naren.jsonl
+/research/packets/private/
 
 # Generated model adapters, training examples, and figures.
 /lora/adapters/

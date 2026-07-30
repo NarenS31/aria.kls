@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aria-research.local/schemas/task_model.schema.json",
+  "title": "ARIA educator-reviewable task model",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "subject",
+    "topic",
+    "difficulty",
+    "prompt",
+    "learning_objective",
+    "acceptable_answers",
+    "solution_paths",
+    "misconceptions",
+    "hint_ladder",
+    "scoring",
+    "provenance",
+    "educator_validation"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "id": {"type": "string", "minLength": 3},
+    "subject": {"type": "string", "minLength": 2},
+    "topic": {"type": "string", "minLength": 2},
+    "difficulty": {"enum": ["easy", "medium", "hard"]},
+    "prompt": {"type": "string", "minLength": 5},
+    "learning_objective": {"type": "string", "minLength": 5},
+    "acceptable_answers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "solution_paths": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path_id", "steps"],
+        "properties": {
+          "path_id": {"type": "string"},
+          "steps": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["step_id", "description", "target_idea"],
+              "properties": {
+                "step_id": {"type": "string"},
+                "description": {"type": "string", "minLength": 3},
+                "target_idea": {"type": "string", "minLength": 2}
+              }
+            }
+          }
+        }
+      }
+    },
+    "misconceptions": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "misconception_id",
+          "description",
+          "observable_evidence",
+          "repair_goal"
+        ],
+        "properties": {
+          "misconception_id": {"type": "string"},
+          "description": {"type": "string", "minLength": 3},
+          "observable_evidence": {"type": "string", "minLength": 3},
+          "repair_goal": {"type": "string", "minLength": 3}
+        }
+      }
+    },
+    "hint_ladder": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["level", "purpose", "text", "answer_revealing"],
+        "properties": {
+          "level": {"type": "integer", "minimum": 1},
+          "purpose": {"type": "string"},
+          "text": {"type": "string", "minLength": 3},
+          "answer_revealing": {"type": "boolean"}
+        }
+      }
+    },
+    "scoring": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["final_answer_points", "reasoning_points", "criteria"],
+      "properties": {
+        "final_answer_points": {"type": "number", "minimum": 0},
+        "reasoning_points": {"type": "number", "minimum": 0},
+        "criteria": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 3}
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authoring_method", "source", "license"],
+      "properties": {
+        "authoring_method": {"type": "string"},
+        "source": {"type": "string"},
+        "license": {"type": "string"}
+      }
+    },
+    "educator_validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "reviewer_count", "approved_at", "notes"],
+      "properties": {
+        "status": {"enum": ["pending", "revise", "approved", "rejected"]},
+        "reviewer_count": {"type": "integer", "minimum": 0},
+        "approved_at": {"type": ["string", "null"]},
+        "notes": {"type": "string"}
+      }
+    }
+  }
+}

@@ -1,8 +1,10 @@
 # ARIA
 
-ARIA is an on-device metacognitive learning assistant. It pays attention to how
-a student reasons through a problem, estimates a likely thinking state, and asks
-one useful question without revealing the answer.
+ARIA is an on-device metacognitive learning assistant. It uses observable
+evidence in a student's reasoning, a keyed problem model, learner context, and
+recent history to ask one useful question without revealing the answer.
+Friendly “thinking pattern” labels in the interface are uncertain hypotheses,
+not research ground truth or diagnoses.
 
 The repository contains both the student product and the evaluation system.
 
@@ -16,6 +18,8 @@ The repository contains both the student product and the evaluation system.
 - `lora/`: optional local model adaptation tools
 - `papers/` and `reports/`: research and educator reporting code
 - `eval/`: the ARIA evaluation system and its existing Git history
+- `research/`: evidence map, annotation taxonomy, preregistration drafts, task
+  validation, ethics, privacy, and study materials
 
 ## Run ARIA
 
@@ -45,4 +49,6 @@ python3.11 eval/metacognition_eval.py
 ```
 
 See `eval/README.md` and `eval/EVIDENCE.md` for evaluation details and current
-limitations.
+limitations. See `research/README.md` for the prospective evidence program.
+No educator validation, IRB approval, or student efficacy result is implied by
+the presence of those protocols.

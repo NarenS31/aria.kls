@@ -1,8 +1,8 @@
 {
-  "version": 2,
+  "version": 3,
   "status": "metadata_verified",
   "note": "These sources provide design rationale, not clinical validation of ARIA or proof that any exact JITAI threshold is optimal.",
-  "verified_on": "2026-07-23",
+  "verified_on": "2026-07-29",
   "citations": {
     "zimmerman_2002": {
       "title": "Becoming a Self-Regulated Learner: An Overview",
@@ -156,6 +156,125 @@
       "url": "https://github.com/ai4ed/XES3G5M",
       "license": "MIT",
       "relevance": "Large K-12 knowledge-tracing benchmark (5M+ interactions, ~18k students) with question text; second behavioral+text source."
+    },
+    "fan_2021_thinkaloud": {
+      "title": "Temporal Assessment of Self-Regulated Learning by Mining Students' Think-Aloud Protocols",
+      "authors": ["Yizhou Fan", "Jingzheng Xu", "Sonsoles López-Pernas", "Mohammed Saqr"],
+      "year": 2021,
+      "journal": "Frontiers in Psychology",
+      "doi": "10.3389/fpsyg.2021.749749",
+      "url": "https://doi.org/10.3389/fpsyg.2021.749749",
+      "relevance": "Human think-aloud coding precedent for observable task analysis, monitoring, evaluation, and cognitive activities."
+    },
+    "fan_2022_trace_validity": {
+      "title": "Towards investigating the validity of measurement of self-regulated learning based on trace data",
+      "authors": ["Yizhou Fan", "Jingzheng Xu", "Dragan Gašević"],
+      "year": 2022,
+      "journal": "Metacognition and Learning",
+      "doi": "10.1007/s11409-022-09291-1",
+      "url": "https://doi.org/10.1007/s11409-022-09291-1",
+      "relevance": "Supports explicit theory-to-observation mapping and empirical validation of trace interpretations."
+    },
+    "suresh_2022_talkmoves": {
+      "title": "The TalkMoves Dataset: K-12 Mathematics Lesson Transcripts Annotated for Teacher and Student Discursive Moves",
+      "authors": ["Abhijit Suresh", "Jennifer Jacobs", "Charis Harty", "Margaret Perkoff", "James H. Martin", "Tamara Sumner"],
+      "year": 2022,
+      "venue": "LREC 2022",
+      "url": "https://aclanthology.org/2022.lrec-1.497/",
+      "license": "CC BY-NC 4.0",
+      "relevance": "Real human-annotated K-12 classroom discourse benchmark."
+    },
+    "suresh_2022_context": {
+      "title": "Fine-tuning Transformers with Additional Context to Classify Discursive Moves in Mathematics Classrooms",
+      "authors": ["Abhijit Suresh", "Jennifer Jacobs", "Margaret Perkoff", "James H. Martin", "Tamara Sumner"],
+      "year": 2022,
+      "venue": "BEA 2022",
+      "doi": "10.18653/v1/2022.bea-1.11",
+      "url": "https://aclanthology.org/2022.bea-1.11/",
+      "relevance": "Evidence that dialogue context improves real classroom move classification."
+    },
+    "macina_2023_mathdial": {
+      "title": "MathDial: A Dialogue Tutoring Dataset with Rich Pedagogical Properties Grounded in Math Reasoning Problems",
+      "authors": ["Jakub Macina", "Nico Daheim", "Sankalan Chowdhury", "Tanmay Sinha", "Manu Kapur", "Iryna Gurevych", "Mrinmaya Sachan"],
+      "year": 2023,
+      "venue": "Findings of EMNLP 2023",
+      "doi": "10.18653/v1/2023.findings-emnlp.372",
+      "url": "https://aclanthology.org/2023.findings-emnlp.372/",
+      "relevance": "Grounded tutoring, teacher-authored scaffolding moves, and solution-revelation risk."
+    },
+    "kochmar_2025_bea": {
+      "title": "Findings of the BEA 2025 Shared Task on Pedagogical Ability Assessment of AI-powered Tutors",
+      "authors": ["Ekaterina Kochmar", "Kaushal Kumar Maurya", "Kseniia Petukhova", "KV Aditya Srivatsa", "Anaïs Tack", "Justin Vasselli"],
+      "year": 2025,
+      "venue": "BEA 2025",
+      "doi": "10.18653/v1/2025.bea-1.77",
+      "url": "https://aclanthology.org/2025.bea-1.77/",
+      "relevance": "Human gold-label dimensions for mistake identification, location, guidance, and actionability."
+    },
+    "schuster_2020_transfer": {
+      "title": "Transfer of metacognitive skills in self-regulated learning: an experimental training study",
+      "authors": ["Corinna Schuster", "Ferdinand Stebner", "Detlev Leutner", "Joachim Wirth"],
+      "year": 2020,
+      "journal": "Metacognition and Learning",
+      "doi": "10.1007/s11409-020-09237-5",
+      "url": "https://doi.org/10.1007/s11409-020-09237-5",
+      "relevance": "Experimental evidence for hybrid cognitive-strategy and metacognitive training and explicit transfer measurement."
+    },
+    "engelmann_2021_prompts": {
+      "title": "Do self-created metacognitive prompts promote short- and long-term effects in computer-based learning environments?",
+      "authors": ["Katharina Engelmann", "Maria Bannert", "Nadine Melzner"],
+      "year": 2021,
+      "journal": "Research and Practice in Technology Enhanced Learning",
+      "doi": "10.1186/s41039-021-00148-w",
+      "url": "https://doi.org/10.1186/s41039-021-00148-w",
+      "relevance": "Mixed experimental result showing prompt delivery is not equivalent to improved learning."
+    },
+    "wwc_2026_handbook": {
+      "type": "official_standard",
+      "title": "What Works Clearinghouse Procedures and Standards Handbook, Version 4",
+      "authors": ["Institute of Education Sciences"],
+      "year": 2026,
+      "url": "https://ies.ed.gov/ncee/wwc/Docs/referenceresources/wwc_standards_handbook_v4.pdf",
+      "relevance": "Standards for randomization, attrition, baseline equivalence, confounds, and eligible outcomes."
+    },
+    "hedges_2010_power": {
+      "type": "official_methodological_guidance",
+      "title": "Statistical Power Analysis in Education Research",
+      "authors": ["Larry Hedges", "Christopher Rhoads"],
+      "year": 2010,
+      "publisher": "Institute of Education Sciences",
+      "url": "https://ies.ed.gov/use-work/resource-library/report/research-report/statistical-power-analysis-education-research",
+      "relevance": "Power planning for clustered and multilevel education studies."
+    },
+    "hhs_children": {
+      "type": "official_guidance",
+      "title": "Research with Children FAQs",
+      "authors": ["U.S. Department of Health and Human Services, OHRP"],
+      "url": "https://www.hhs.gov/ohrp/regulations-and-policy/guidance/faq/children-research/index.html",
+      "relevance": "IRB review, parental permission, affirmative assent, and risk requirements for research involving children."
+    },
+    "ferpa_studies": {
+      "type": "official_guidance",
+      "title": "FERPA Studies Exception Guidance",
+      "authors": ["U.S. Department of Education"],
+      "url": "https://studentprivacy.ed.gov/faq/may-educational-agency-or-institution-disclose-personally-identifiable-information-students",
+      "relevance": "Requirements for studies using personally identifiable education records on behalf of schools."
+    },
+    "eef_2025_metacognition": {
+      "type": "evidence_guidance",
+      "title": "Metacognition and Self-Regulated Learning",
+      "authors": ["Education Endowment Foundation"],
+      "year": 2025,
+      "url": "https://educationendowmentfoundation.org.uk/education-evidence/guidance-reports/metacognition",
+      "relevance": "Evidence-informed guidance to explicitly teach and scaffold planning, monitoring, and evaluation in subject instruction."
+    },
+    "cdc_2026_adhd_classroom": {
+      "type": "official_guidance",
+      "title": "ADHD in the Classroom",
+      "authors": ["U.S. Centers for Disease Control and Prevention"],
+      "year": 2026,
+      "url": "https://www.cdc.gov/adhd/treatment/classroom.html",
+      "relevance": "Cautious evidence position on school strategies, organizational training, accommodations, and individualized support."
     }
   }
 }

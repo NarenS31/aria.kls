@@ -284,10 +284,15 @@ class ProductReliabilityTests(unittest.TestCase):
             "subtracting 2x gives 3x + 7 = 25",
         )
 
-    def test_state_detector_distinguishes_seeing_a_number_from_insight(self):
+    def test_situation_model_checks_steps_against_the_task(self):
         agent = object.__new__(ARIAAgent)
         agent._current_problem_ctx = {
-            "problem": "Solve for x: 6x - 4 = 2(x + 8)"
+            "problem": "Solve for x: 6x - 4 = 2(x + 8)",
+            "solution_steps": [
+                "Distribute 2 across x + 8 to get 2x + 16.",
+            ],
+            "key_ideas": ["distribution"],
+            "common_misconceptions": ["Dividing before distributing."],
         }
 
         mistaken = agent._quick_thinking_state(
@@ -297,10 +302,16 @@ class ProductReliabilityTests(unittest.TestCase):
             "Wait, I see I need to distribute the 2 to both terms."
         )
 
-        self.assertEqual(mistaken["state"], "CONFUSED")
-        self.assertEqual(corrected["state"], "INSIGHT")
+        self.assertIs(
+            mistaken["situation_model"]["proposed_step_is_correct"],
+            False,
+        )
+        self.assertIs(
+            corrected["situation_model"]["proposed_step_is_correct"],
+            True,
+        )
 
-    def test_keyed_inverse_operation_conflict_is_not_labeled_flow(self):
+    def test_keyed_inverse_operation_conflict_is_explicit(self):
         agent = object.__new__(ARIAAgent)
         agent._current_problem_ctx = {
             "problem": "Solve for x: 5x + 7 = 2x + 25",
@@ -313,8 +324,11 @@ class ProductReliabilityTests(unittest.TestCase):
             "I should add 2x to both sides to get the x terms together."
         )
 
-        self.assertEqual(result["state"], "CONFUSED")
-        self.assertIn("conflicts", result["evidence"])
+        self.assertIs(
+            result["situation_model"]["proposed_step_is_correct"],
+            False,
+        )
+        self.assertIn("conflicts", result["situation_label"])
 
     def test_inverse_operation_coaching_does_not_state_the_operation(self):
         agent = object.__new__(ARIAAgent)
@@ -376,7 +390,7 @@ class ProductReliabilityTests(unittest.TestCase):
         self.assertNotIn("revisiting", response.lower())
         self.assertNotIn("you wrote", response.lower())
 
-    def test_first_attempt_meta_talk_is_stuck_not_planning(self):
+    def test_first_attempt_meta_talk_is_not_a_named_plan(self):
         agent = object.__new__(ARIAAgent)
         agent._current_problem_ctx = {
             "problem": "Solve for x: 6x - 4 = 2(x + 8)",
@@ -385,8 +399,11 @@ class ProductReliabilityTests(unittest.TestCase):
 
         result = agent._quick_thinking_state("this is my first attemot")
 
-        self.assertEqual(result["state"], "STUCK")
         self.assertEqual(result["intent"], "ATTEMPT_META")
+        self.assertFalse(
+            result["situation_model"]["student_has_named_next_step"]
+        )
+        self.assertLess(result["situation_model"]["aria_confidence"], 0.5)
 
     def test_interface_does_not_call_an_unstarted_student_stuck(self):
         original = list(app._think_states)

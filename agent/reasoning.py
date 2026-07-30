@@ -1,13 +1,13 @@
 """
 LangGraph ReAct-style reasoning loop for ARIA.
 
-Flow per turn:
-  retrieve_context → detect_state → generate_response → update_stores
+Learning-tool flow per turn:
+  observe_moves → build_task_grounded_situation → choose_or_abstain → log
 
 Before every response the agent:
   1. Queries ChromaDB for semantically similar past exchanges
   2. Pulls topic data from the learning graph
-  3. Detects frustration (smart multi-signal detection)
+  3. Keeps task-grounded interpretation separate from observable language
   4. Normalises topics via LLM before storing
   5. Checks whether current topic connects to a stated goal
   6. Enforces ADHD-friendly formatting rules
@@ -19,6 +19,7 @@ import random
 import re
 import uuid
 from collections import deque
+from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import TypedDict, Annotated, List, Optional
@@ -65,7 +66,7 @@ def _load_metacognition():
             InterventionTimer)
 
 
-# Subtle UI indicator per cognitive state.
+# Legacy experiment indicators. The learning-tool UI does not display these.
 STATE_INDICATOR = {
     "FLOW": "🟢", "PLANNING": "🟢",
     "CONFUSED": "🟡", "RUSHING": "🟡",
@@ -91,6 +92,28 @@ class ARIAState(TypedDict):
     user_profile: dict
     goal_connection: str            # one-sentence goal reminder or ""
     session_goal_reminded: bool     # only remind once per session
+
+
+@dataclass(frozen=True)
+class SituationModel:
+    """A task-grounded, auditable interpretation of the current turn.
+
+    These fields describe the relationship between the student's observable
+    words and the answer-keyed task model. They are not a diagnosis of an
+    internal cognitive state.
+    """
+
+    student_has_named_next_step: bool
+    proposed_step_is_correct: Optional[bool]
+    same_strategy_repeated: bool
+    moves_detected: list[str]
+    uncertainty_expressed: bool
+    task_step_index: Optional[int]
+    aria_confidence: float
+    alternative_interpretation: Optional[str]
+
+    def to_dict(self) -> dict:
+        return asdict(self)
 
 
 # ------------------------------------------------------------------
@@ -521,6 +544,7 @@ class ARIAAgent:
             _INTERVENTION_OUTCOMES
         )
         self._latest_intervention_outcome: Optional[dict] = None
+        self._last_situation_model: Optional[SituationModel] = None
         if think_aloud_mode:
             self._init_metacognition()
 
@@ -965,7 +989,7 @@ class ARIAAgent:
             f"Student: {profile.get('name', 'this student')}\n"
             f"Grade: {profile.get('grade', 'unknown')}\n"
             f"Current subject: {subject or topic or 'unknown'}\n"
-            f"Detected thinking state: {state}\n"
+            f"Task-grounded situation hypothesis: {state}\n"
             f"Preferred explanation style: {preferred_style}\n"
             f"Response length preference: {profile.get('response_length', profile.get('answer_style', 'brief'))}\n"
             f"Attention span: {profile.get('attention_span_minutes', profile.get('attention_dropoff_minutes', 'unknown'))} minutes\n"
@@ -1000,6 +1024,14 @@ class ARIAAgent:
     def _matched_problem_misconception(self, student_input: str) -> str:
         ctx = getattr(self, "_current_problem_ctx", {}) or {}
         student_terms = set(re.findall(r"[a-z0-9]+", student_input.lower()))
+        operation_stems = {
+            term[:5]
+            for term in student_terms
+            if term.startswith((
+                "add", "subtr", "multi", "divid", "distr", "facto",
+                "subst", "combi", "isola", "compar", "revis",
+            ))
+        }
         best = ""
         best_overlap = 0
         for misconception in ctx.get("common_misconceptions", []):
@@ -1008,6 +1040,16 @@ class ARIAAgent:
                 if len(term) >= 4
             }
             overlap = len(student_terms & terms)
+            misconception_stems = {
+                term[:5]
+                for term in terms
+                if term.startswith((
+                    "add", "subtr", "multi", "divid", "distr", "facto",
+                    "subst", "combi", "isola", "compar", "revis",
+                ))
+            }
+            if operation_stems & misconception_stems:
+                overlap += 1
             if overlap > best_overlap:
                 best = str(misconception)
                 best_overlap = overlap
@@ -1084,6 +1126,249 @@ class ARIAAgent:
         return matched
 
     @staticmethod
+    def _content_tokens(text: str) -> set[str]:
+        stop = {
+            "the", "and", "that", "this", "with", "from", "then", "into",
+            "what", "which", "would", "should", "could", "first", "next",
+            "both", "each", "have", "has", "for", "while", "before", "after",
+            "student", "problem", "answer", "step", "get", "use",
+        }
+        return {
+            token
+            for token in re.findall(r"[a-z]+|\d+(?:\.\d+)?", (text or "").lower())
+            if token not in stop and (len(token) >= 2 or token.isdigit())
+        }
+
+    def _task_content_referenced(self, student_input: str) -> bool:
+        """Whether the turn visibly refers to this task rather than generic process."""
+        ctx = getattr(self, "_current_problem_ctx", {}) or {}
+        student_tokens = self._content_tokens(student_input)
+        task_text = " ".join([
+            str(ctx.get("problem", "")),
+            " ".join(ctx.get("key_ideas", [])),
+            " ".join(ctx.get("solution_steps", [])),
+        ])
+        task_tokens = self._content_tokens(task_text)
+        overlap = student_tokens & task_tokens
+        operation = re.search(
+            r"\b(add|subtract|multiply|divide|distribute|factor|substitute|"
+            r"combine|isolate|compare|quote|claim|evidence|revise|rewrite|"
+            r"calculate|graph|solve|check)\w*\b",
+            student_input or "",
+            re.IGNORECASE,
+        )
+        symbolic = re.search(r"(?:[a-z]\s*=|\d+\s*[+\-*/=]\s*[\da-z(])", student_input or "", re.I)
+        return bool(overlap or (operation and (overlap or symbolic)) or symbolic)
+
+    @staticmethod
+    def _strategy_signature(student_input: str) -> str:
+        """A deliberately narrow signature used only to detect literal repeats."""
+        operations = re.findall(
+            r"\b(add|subtract|multiply|divide|distribute|factor|substitute|"
+            r"combine|isolate|compare|quote|claim|evidence|revise|rewrite|"
+            r"calculate|graph|solve|check)\w*\b",
+            student_input or "",
+            re.IGNORECASE,
+        )
+        symbols = re.findall(r"(?:[a-z]|\d+(?:\.\d+)?)", (student_input or "").lower())
+        return "|".join([*(op.lower() for op in operations[:2]), *symbols[:4]])
+
+    def _build_situation_model(self, student_input: str, understanding) -> SituationModel:
+        """Build Layer 2 from moves, task evidence, answer key, and history."""
+        moves = list(understanding.observable_moves)
+        named_step = bool({"PLAN", "STRATEGY_STEP"} & set(moves))
+        uncertainty = "UNCERTAINTY" in moves
+        justification = "JUSTIFICATION" in moves
+        task_grounded = self._task_content_referenced(student_input)
+        progress = self._matched_solution_progress(student_input)
+        conflict = self._expected_step_conflict(student_input)
+        misconception = self._matched_problem_misconception(student_input)
+        ctx = getattr(self, "_current_problem_ctx", {}) or {}
+
+        step_index: Optional[int] = progress["step_index"] if progress else None
+        correctness: Optional[bool] = True if progress else None
+        if conflict:
+            correctness = False
+
+        # A proposed operation that visibly matches an answer-keyed step is
+        # positive evidence. Lack of a match remains unknown, never "wrong."
+        if named_step and correctness is None:
+            student_tokens = self._content_tokens(student_input)
+            best_overlap = 0
+            best_index = None
+            for index, expected_step in enumerate(ctx.get("solution_steps", [])):
+                expected_tokens = self._content_tokens(str(expected_step))
+                overlap = len(student_tokens & expected_tokens)
+                if overlap > best_overlap:
+                    best_overlap = overlap
+                    best_index = index
+            if best_overlap >= 2:
+                correctness = True
+                step_index = best_index
+        if named_step and correctness is None and misconception:
+            correctness = False
+
+        answer = re.sub(r"\s+", "", str(ctx.get("answer", "")).lower())
+        normalized_input = re.sub(r"\s+", "", (student_input or "").lower())
+        if answer and answer in normalized_input:
+            correctness = True
+            step_index = max(0, len(ctx.get("solution_steps", [])) - 1)
+
+        signature = self._strategy_signature(student_input)
+        repeated = bool(
+            signature
+            and any(
+                turn.get("strategy_signature") == signature
+                for turn in getattr(self, "_coaching_trace", [])
+            )
+        )
+
+        if not moves or moves == ["OFF_TASK"] or "TASK_META" in moves:
+            confidence = 0.28
+        elif named_step:
+            confidence = 0.48
+            if task_grounded:
+                confidence += 0.17
+            if correctness is not None:
+                confidence += 0.18
+            if repeated:
+                confidence += 0.08
+            if justification:
+                confidence += 0.05
+        elif uncertainty or "HELP_SEEKING" in moves:
+            confidence = 0.62 if task_grounded else 0.52
+        else:
+            confidence = 0.38
+        confidence = round(min(0.95, max(0.0, confidence)), 2)
+
+        if uncertainty and not named_step:
+            alternative = "The student may be checking a valid plan that they have not stated yet."
+        elif uncertainty and named_step:
+            alternative = "The uncertainty may be a healthy check of a valid proposed step."
+        elif repeated:
+            alternative = "Similar wording may refer to a revised strategy that is not explicit yet."
+        elif correctness is None and named_step:
+            alternative = "The student may be describing an intermediate step not represented in the answer key."
+        elif confidence < 0.5:
+            alternative = "The message may be conversational rather than a problem-solving move."
+        else:
+            alternative = None
+
+        situation = SituationModel(
+            student_has_named_next_step=named_step,
+            proposed_step_is_correct=correctness,
+            same_strategy_repeated=repeated,
+            moves_detected=moves,
+            uncertainty_expressed=uncertainty,
+            task_step_index=step_index,
+            aria_confidence=confidence,
+            alternative_interpretation=alternative,
+        )
+        self._last_situation_model = situation
+        return situation
+
+    @staticmethod
+    def _situation_label(situation: SituationModel, justification_present: bool) -> str:
+        if situation.aria_confidence < 0.5:
+            return "insufficient task-grounded evidence"
+        if not situation.student_has_named_next_step and situation.uncertainty_expressed:
+            return "uncertainty without a clear next step"
+        if situation.same_strategy_repeated and situation.proposed_step_is_correct is False:
+            return "a repeated step conflicts with the task model"
+        if situation.student_has_named_next_step and situation.proposed_step_is_correct is False:
+            return "a proposed step conflicts with the task model"
+        if situation.student_has_named_next_step and situation.proposed_step_is_correct is True:
+            return "a supported next step"
+        if situation.student_has_named_next_step and not justification_present:
+            return "a proposed step without a stated reason"
+        if situation.student_has_named_next_step:
+            return "a justified step ready to be checked"
+        return "not enough task evidence yet"
+
+    def _situation_policy_response(
+        self,
+        student_input: str,
+        situation: SituationModel,
+        *,
+        justification_present: bool,
+    ) -> tuple[str, str, bool]:
+        """Map the auditable situation to one intervention action."""
+        ctx = getattr(self, "_current_problem_ctx", {}) or {}
+        steps = list(ctx.get("solution_steps", []))
+        anchor = self._student_quote_anchor(student_input)
+
+        if situation.aria_confidence < 0.5:
+            return (
+                "observe",
+                "Keep going. I do not have enough task-grounded evidence to interrupt yet.",
+                False,
+            )
+        if not situation.student_has_named_next_step and situation.uncertainty_expressed:
+            focus = str((ctx.get("key_ideas") or [ctx.get("topic", "the task")])[0])
+            return (
+                "ask_for_plan",
+                f'You wrote “{anchor}.” What is one next step you could try using {focus}?',
+                True,
+            )
+        if (
+            situation.same_strategy_repeated
+            and situation.proposed_step_is_correct is False
+        ):
+            conflict = self._expected_step_conflict(student_input)
+            misconception = self._matched_problem_misconception(student_input)
+            issue = (
+                conflict.get("evidence")
+                if conflict
+                else misconception or "that step conflicts with the keyed solution path"
+            )
+            return (
+                "localize_error",
+                f'You returned to “{anchor}.” The specific point to inspect is {issue}. '
+                "Which part of that step would you change?",
+                True,
+            )
+        if (
+            situation.proposed_step_is_correct is True
+            and situation.student_has_named_next_step
+        ):
+            next_index = (situation.task_step_index or 0) + 1
+            if next_index >= len(steps):
+                next_question = "How can you check that result against the original task?"
+            elif self._is_writing_task(ctx):
+                next_question = (
+                    "What revision should come next to move the draft toward the rubric target?"
+                )
+            else:
+                next_question = (
+                    "What operation should come next on the equation you now have?"
+                )
+            return (
+                "advance",
+                f'Your step in “{anchor}” matches the task model. '
+                f"{next_question}",
+                True,
+            )
+        if situation.student_has_named_next_step and not justification_present:
+            return (
+                "ask_for_justification",
+                f'You proposed “{anchor}.” Why does that step preserve what the task is asking for?',
+                True,
+            )
+        if situation.student_has_named_next_step and justification_present:
+            return (
+                "ask_for_verification",
+                f'You connected “{anchor}” to a reason. How could you verify it against the original task?',
+                True,
+            )
+
+        first_step = str((steps or ["identify one concrete first move"])[0])
+        return (
+            "orient",
+            f"Start with the task itself: {first_step} What would that look like here?",
+            True,
+        )
+
+    @staticmethod
     def _response_passes_grounding(response: str, student_input: str) -> bool:
         """Reject polished-sounding drafts that are not tied to this turn."""
         response = (response or "").strip()
@@ -1126,6 +1411,7 @@ class ARIAAgent:
         force_anchor: bool = False,
         repeat_blocked_override: bool = False,
         selection_meta: Optional[dict] = None,
+        situation_model: Optional[SituationModel] = None,
     ) -> str:
         """Guarantee a turn-grounded response and prevent exact reuse."""
         recent = list(getattr(self, "_recent_coaching_responses", []))
@@ -1166,6 +1452,10 @@ class ARIAAgent:
             "student": student_input.strip(),
             "state": state,
             "aria": final,
+            "strategy_signature": self._strategy_signature(student_input),
+            "situation_model": (
+                situation_model.to_dict() if situation_model is not None else None
+            ),
         })
         self._coaching_turn_index = getattr(self, "_coaching_turn_index", 0) + 1
         self._last_coaching_meta = {
@@ -1740,8 +2030,8 @@ class ARIAAgent:
     _NEGATIVE_STATES = {"CONFUSED", "RUSHING", "FRUSTRATED", "STUCK"}
 
     def _quick_thinking_state(self, student_input: str) -> dict:
+        """Compatibility entry point for the task-grounded situation model."""
         text = (student_input or "").strip()
-        lower = text.lower()
         ctx = getattr(self, "_current_problem_ctx", {}) or {}
         understanding = understand_student_turn(
             text,
@@ -1755,90 +2045,39 @@ class ARIAAgent:
         )
         self._current_student_understanding = understanding
         self._current_student_understanding_text = student_input
+        situation = self._build_situation_model(student_input, understanding)
+        justification_present = "JUSTIFICATION" in understanding.observable_moves
+        situation_label = self._situation_label(
+            situation,
+            justification_present=justification_present,
+        )
         intent_label = understanding.intent
-        problem = str(
-            (getattr(self, "_current_problem_ctx", {}) or {}).get("problem", "")
-        )
-        grouped_expression = re.search(
-            r"([+-]?\d+(?:\.\d+)?)\s*\(([^)]+)\)",
-            problem,
-        )
-        skipped_grouping = (
-            grouped_expression is not None
-            and any(word in lower for word in ("subtract", "add ", "divide", "move"))
-            and "distribut" not in lower
-        )
-        self_correction = any(
-            phrase in lower
-            for phrase in (
-                "wait, i see",
-                "wait i see",
-                "oh, i see",
-                "oh i see",
-                "now i see",
-                "actually",
-                "that means",
-            )
-        )
-        step_conflict = self._expected_step_conflict(student_input)
-        if intent_label == "HELP_REQUEST":
-            state = "STUCK"
-            evidence = "the student asked for help or a starting point"
-        elif intent_label == "ATTEMPT_META":
-            state = "STUCK"
-            evidence = "the student described beginning, not a solution step"
-        elif intent_label == "FRUSTRATION":
-            state = "FRUSTRATED"
-            evidence = "the student expressed frustration with the task"
-        elif intent_label == "UNCERTAINTY":
-            state = "CONFUSED"
-            evidence = "the student proposed an idea while expressing uncertainty"
-        elif intent_label == "SELF_CORRECTION":
-            state = "INSIGHT"
-            evidence = "the student revised part of their reasoning"
-        elif intent_label in {
-            "SOCIAL", "OTHER", "CONTROL_REQUEST", "CLARIFICATION_REQUEST",
-            "CONFIRMATION_REQUEST", "SHORT_ANSWER",
-        } and not understanding.contains_reasoning:
-            state = "UNKNOWN"
-            evidence = "there is not enough problem reasoning in this turn to estimate a thinking pattern"
-        elif any(w in lower for w in ("stuck", "lost", "idk", "don't know", "dont know", "confused")):
-            state = "STUCK"
-            evidence = "the student said they were stuck or unsure"
-        elif self_correction:
-            state = "INSIGHT"
-            evidence = "the student revised or connected their reasoning"
-        elif skipped_grouping:
-            state = "CONFUSED"
-            evidence = "the proposed move skips a grouped expression"
-        elif step_conflict:
-            state = "CONFUSED"
-            evidence = step_conflict["evidence"]
-        elif any(w in lower for w in ("wait", "not sure", "can't tell", "cannot tell", "wrong")):
-            state = "CONFUSED"
-            evidence = "the student flagged uncertainty in the next step"
-        elif any(w in lower for w in ("first", "plan", "start", "then", "next")):
-            state = "PLANNING"
-            evidence = "the student described a planned step"
-        elif any(w in lower for w in ("makes sense", "got it")):
-            state = "INSIGHT"
-            evidence = "the student noticed a connection"
-        else:
-            state = "FLOW"
-            evidence = "the student is continuing their reasoning"
+        evidence_spans = [
+            item.get("evidence", "")
+            for item in understanding.move_evidence
+            if item.get("evidence")
+        ]
+        moves = set(understanding.observable_moves)
         return {
-            "state": state,
-            "confidence": 0.7,
-            "evidence": evidence,
-            "method": "fast_problem_loop",
+            "state": situation_label,
+            "confidence": situation.aria_confidence,
+            "evidence": evidence_spans,
+            "method": "task_grounded_situation_model",
             "intent": intent_label,
             "intent_confidence": understanding.confidence,
             "understanding_source": understanding.source,
+            "observable_moves": list(understanding.observable_moves),
+            "move_evidence": list(understanding.move_evidence),
+            "situation_model": situation.to_dict(),
+            "situation_label": situation_label,
+            "situation_evidence": evidence_spans,
+            "task_content_referenced": self._task_content_referenced(student_input),
+            "justification_present": justification_present,
             "flags": {
-                "planning_detected": state == "PLANNING",
-                "self_correction": "wait" in lower,
-                "insight_moment": state == "INSIGHT",
-                "gave_up": state == "STUCK",
+                "planning_detected": "PLAN" in moves,
+                "self_correction": "SELF_CORRECTION" in moves,
+                "insight_moment": False,
+                "gave_up": "AFFECT" in moves and "HELP_SEEKING" in moves,
             },
         }
 
@@ -1847,18 +2086,16 @@ class ARIAAgent:
         student_input: str,
         audio_features: Optional[dict] = None,
     ) -> dict:
-        """Process one think-aloud utterance WITHOUT answering the problem.
+        """Process one think-aloud utterance without answering the problem.
 
-        The turn runs the full measurement pipeline (spec §5):
-          1. TransferDetector — did the student self-initiate metacognition?
-          2. CognitiveStateAnalyzer — detect the cognitive state.
-          3. InterventionTimer — is now the right moment to intervene?
-          4. Generate an intervention ONLY if the timer says yes (or acknowledge
-             self-initiation instead of overriding a habit they already showed).
-          5. Log everything to the tracker + all three measurement systems.
+        The product path observes exact reasoning moves, builds a task-grounded
+        situation model, applies the auditable intervention policy (including
+        abstention), and updates prospective transfer tracking.
         """
         if not getattr(self, "profile", {}).get("full_research_metacognition", False):
+            prev_prompt = self._meta_last_prompt
             analysis = self._quick_thinking_state(student_input)
+            situation = SituationModel(**analysis["situation_model"])
             progress = self._matched_solution_progress(student_input)
             ctx = getattr(self, "_current_problem_ctx", {}) or {}
             answer = str(ctx.get("answer", "")).lower().strip()
@@ -1883,34 +2120,82 @@ class ARIAAgent:
                     ),
                 )
             )
-            question = self._problem_aware_coaching_response(
+            action, policy_response, intervened = self._situation_policy_response(
                 student_input,
-                analysis["state"],
-                "What is the smallest next step you can check against the problem?",
+                situation,
+                justification_present=bool(analysis["justification_present"]),
             )
+            question = self._remember_coaching_response(
+                student_input,
+                analysis["situation_label"],
+                policy_response,
+                policy_response,
+                selection_meta={
+                    "policy_action": action,
+                    "task_grounded": True,
+                    "situation_model": situation.to_dict(),
+                },
+                situation_model=situation,
+            )
+            transfer_rec = {}
+            if self._meta_transfer is not None:
+                session_id = (
+                    getattr(self._meta_tracker.current, "session_id", "")
+                    if self._meta_tracker is not None and self._meta_tracker.current
+                    else ""
+                )
+                transfer_rec = self._meta_transfer.detect(
+                    student_input,
+                    aria_previous_prompt=prev_prompt,
+                    turn=self._coaching_turn_index,
+                    session=session_id,
+                    student_profile=self._adhd_profile_tag(),
+                    subject=str(ctx.get("subject") or ctx.get("topic", "")),
+                    task_id=str(ctx.get("task_id") or ctx.get("problem_id", "")),
+                    moves_detected=analysis["observable_moves"],
+                    task_content_referenced=analysis["task_content_referenced"],
+                    strategy_executed=bool(
+                        progress
+                        or answer_observed
+                        or "STRATEGY_STEP" in analysis["observable_moves"]
+                    ),
+                )
+            self._meta_last_prompt = question if intervened else ""
             return {
-                "state": analysis["state"],
+                "state": analysis["situation_label"],
                 "confidence": analysis["confidence"],
-                "evidence": analysis["evidence"],
+                "evidence": analysis["situation_evidence"],
                 "question": question,
-                "indicator": STATE_INDICATOR.get(analysis["state"], "🟡"),
+                "indicator": "",
                 "escalated": False,
                 "escalation_kind": None,
-                "intervention_state": analysis["state"],
-                "intervened": True,
+                "intervention_state": action,
+                "intervened": intervened,
                 "acknowledged": False,
                 "self_initiated_metacognition": False,
                 "metacognitive_type": "",
-                "prompted_by_aria": bool(self._meta_last_prompt),
+                "prompted_by_aria": bool(prev_prompt),
+                "transfer_candidate": transfer_rec.get("transfer_candidate", False),
+                "transfer_confirmed": transfer_rec.get("transfer_confirmed", False),
+                "prompted_planning": transfer_rec.get("prompted_planning", False),
                 "turns_in_state": 1,
                 "recommended_wait": 0,
                 "flags": analysis["flags"],
                 "method": analysis["method"],
                 "intent": analysis.get("intent", "OTHER"),
                 "intent_confidence": analysis.get("intent_confidence", 0.0),
+                "observable_moves": analysis.get("observable_moves", []),
+                "move_evidence": analysis.get("move_evidence", []),
+                "situation_model": analysis["situation_model"],
+                "situation_label": analysis["situation_label"],
+                "situation_evidence": analysis["situation_evidence"],
+                "policy_action": action,
+                "task_content_referenced": analysis["task_content_referenced"],
                 "personalization": dict(getattr(self, "_last_coaching_meta", {})),
             }
 
+        # Historical experiment compatibility only. The product path above does
+        # not expose or depend on this legacy cognitive-state evaluator.
         if not self._init_metacognition():
             return {
                 "state": "UNKNOWN",
