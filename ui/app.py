@@ -21,6 +21,7 @@ import shutil
 import subprocess
 import threading
 import zipfile
+import html
 from datetime import datetime
 from pathlib import Path
 from typing import Generator, List, Optional
@@ -86,10 +87,12 @@ def _get_emotion_tracker():
     return _emotion_tracker
 
 
-def respond_stream(user_message: str, history: List[dict]) -> Generator[tuple, None, None]:
+def respond_stream(user_message: str, history: Optional[List[dict]]) -> Generator[tuple, None, None]:
     """Streaming, emotion-aware chat used by the Learn → Chat mode."""
     global _session_message_count
-    if not user_message.strip():
+    user_message = (user_message or "").strip()
+    history = list(history or [])
+    if not user_message:
         yield "", history
         return
 
@@ -116,6 +119,8 @@ def respond_stream(user_message: str, history: List[dict]) -> Generator[tuple, N
 
     accumulated = ""
     try:
+        if _aria_agent is None:
+            raise RuntimeError("ARIA is still starting. Try again in a moment.")
         for token in _aria_agent.chat_stream(user_message):
             accumulated += token
             history[-1]["content"] = accumulated + "▌"
@@ -157,10 +162,14 @@ def respond_stream(user_message: str, history: List[dict]) -> Generator[tuple, N
     yield "", history
 
 
-def respond(user_message: str, history: List[dict]) -> tuple:
-    if not user_message.strip():
+def respond(user_message: str, history: Optional[List[dict]]) -> tuple:
+    user_message = (user_message or "").strip()
+    history = list(history or [])
+    if not user_message:
         return "", history
     try:
+        if _aria_agent is None:
+            raise RuntimeError("ARIA is still starting. Try again in a moment.")
         response = _aria_agent.chat(user_message)
     except Exception as e:
         response = f"(ARIA hit an error: {e})"
@@ -323,40 +332,70 @@ _INTERVENTION_LABEL = {
 }
 
 
-def new_think_problem():
+def new_think_problem(topic: Optional[str] = None):
     """Generate a fresh practice problem and reset the think-aloud panels."""
     global _current_problem, _think_states
     if _aria_agent is None:
         return "_Loading…_", "", _state_panel_html(), ""
-    _current_problem = _aria_agent.generate_think_aloud_problem()
+    try:
+        if topic:
+            _current_problem = _aria_agent.generate_think_aloud_problem(
+                topic_override=topic
+            )
+        else:
+            _current_problem = _aria_agent.generate_think_aloud_problem()
+    except Exception:
+        _current_problem = {
+            "problem": "Solve for x: 3(x - 4) = 2x + 5",
+            "topic": "Algebra",
+        }
     _think_states = []
+    topic = html.escape(str(_current_problem.get("topic", "Practice")))
+    problem = html.escape(str(_current_problem.get("problem", "")))
     prob_md = (
-        f"<div class='aria-problem-label'>Practice problem · {_current_problem['topic']}</div>"
-        f"<div class='aria-problem-card'>{_current_problem['problem']}</div>"
+        f"<div class='aria-problem-label'>Practice problem · {topic}</div>"
+        f"<div class='aria-problem-card'>{problem}</div>"
         f"<p class='aria-problem-prompt'>{_aria_agent.THINK_ALOUD_PROMPT}</p>"
     )
-    return prob_md, "", _state_panel_html(), ""
+    return prob_md, "", _state_panel_html(), "_Start when you're ready._"
+
+
+def start_topic_practice(topic):
+    """Open a topic-specific practice problem in the Learn tab."""
+    problem, text, state, response = new_think_problem(topic)
+    return problem, text, state, response, gr.Tabs(selected="tab_learn")
 
 
 def _state_panel_html() -> str:
     if not _think_states:
         return (
             "<div class='aria-state-empty'>"
-            "<strong>Waiting for your reasoning</strong>"
-            "<span>Submit a think-aloud and ARIA will form a cautious state estimate.</span></div>"
+            "<strong>ARIA is listening</strong>"
+            "<span>Work through the problem in your own words.</span></div>"
         )
+    def display_label(turn: dict) -> str:
+        intent = turn.get("intent")
+        if intent == "HELP_REQUEST":
+            return "Needs a starting point"
+        if intent == "ATTEMPT_META":
+            return "Getting started"
+        if turn["state"] == "UNKNOWN":
+            return "Not enough evidence"
+        return turn["state"].title()
+
     latest = _think_states[-1]
+    state_label = display_label(latest)
     big = (
         f"<div class='aria-state-result'>"
-        f"<span>Likely thinking state</span>"
-        f"<strong>{latest['state'].title()}</strong>"
+        f"<span>Thinking pattern</span>"
+        f"<strong>{state_label}</strong>"
         f"<p>ARIA noticed {latest.get('evidence') or 'signals in your wording'}.</p>"
         f"</div>"
     )
     hist = "<div class='aria-state-history'><b>This session</b><div>"
     for s in _think_states[-5:][::-1]:
         hist += (
-            f"<span>{s['state'].title()}</span>"
+            f"<span>{display_label(s)}</span>"
         )
     hist += "</div></div>"
     return big + hist
@@ -370,7 +409,14 @@ def submit_think_aloud(text: str):
     if not text or not text.strip():
         return _state_panel_html(), "_Type (or record) your reasoning first, then submit._", ""
 
-    result = _aria_agent.think_aloud_turn(text.strip())
+    try:
+        result = _aria_agent.think_aloud_turn(text.strip())
+    except Exception:
+        return (
+            _state_panel_html(),
+            "_ARIA could not analyze that turn. Your text is still here, so you can try again._",
+            text,
+        )
     _think_states.append(result)
 
     if result.get("acknowledged"):
@@ -389,8 +435,8 @@ def submit_think_aloud(text: str):
 
     response_md = (
         f"<div class='aria-response-card'>"
-        f"<div class='aria-response-label'>{banner}</div>"
-        f"<div class='aria-response-question'>{result['question']}</div>"
+        f"<div class='aria-response-label'>{html.escape(str(banner))}</div>"
+        f"<div class='aria-response-question'>{html.escape(str(result['question']))}</div>"
         f"<div class='aria-response-note'>One question. No answer revealed.</div></div>"
     )
     return _state_panel_html(), response_md, ""
@@ -1105,6 +1151,57 @@ def get_leaderboard() -> str:
         return f"_Could not read results: {e}_"
 
 
+def get_personalization_audit() -> str:
+    """Explain the most recent intervention decision for research review."""
+    if _aria_agent is None:
+        return "_ARIA is still loading._"
+    meta = getattr(_aria_agent, "_last_coaching_meta", {}) or {}
+    if not meta:
+        return "_Complete one learning turn to see the decision audit._"
+    signature = meta.get("signature", {}) or {}
+    learner = meta.get("learner_model", {}) or {}
+    mastery_mean = learner.get("mastery_mean")
+    skill_states = learner.get("skills", {}) or {}
+    skill_lines = []
+    for skill, state in list(skill_states.items())[:3]:
+        interval = state.get("ci_95", ["?", "?"])
+        skill_lines.append(
+            f"{skill}: {state.get('mean', 0):.0%} "
+            f"(95% interval {interval[0]}–{interval[1]}, "
+            f"{state.get('observations', 0)} observations)"
+        )
+    selected_evidence = {}
+    for candidate in meta.get("ranked_candidates", []) or []:
+        if (
+            candidate.get("strategy") == meta.get("selected_strategy")
+            and candidate.get("source") == meta.get("selected_source")
+            and candidate.get("valid")
+        ):
+            selected_evidence = candidate.get("policy_evidence", {}) or {}
+            break
+    return (
+        f"**Selected strategy:** {meta.get('selected_strategy') or 'verified fallback'}  \n"
+        f"**Response source:** {meta.get('selected_source') or 'verified'}  \n"
+        f"**Valid candidates:** {meta.get('valid_candidate_count', 0)} "
+        f"of {meta.get('candidate_count', 0)}  \n"
+        f"**Semantic repeats blocked:** {meta.get('semantic_repeats_blocked', 0)}  \n"
+        f"**Student-history turns used:** {meta.get('history_turns_used', 0)}  \n"
+        f"**Previous intervention outcome:** {meta.get('prior_outcome', 'none')}  \n"
+        f"**Student intent:** {meta.get('student_intent', 'not classified')} "
+        f"({meta.get('intent_confidence', 0):.0%}; "
+        f"{meta.get('intent_model', 'fallback')})  \n"
+        f"**Estimated skill mastery:** "
+        f"{f'{mastery_mean:.0%}' if isinstance(mastery_mean, (int, float)) else 'not enough evidence'} "
+        f"({learner.get('mastery_band', 'unknown')}; uncertainty retained)  \n"
+        f"**Skill evidence:** {'; '.join(skill_lines) if skill_lines else 'no observations yet'}  \n"
+        f"**Policy evidence:** {selected_evidence.get('observations', 0)} comparable outcomes; "
+        f"posterior mean {selected_evidence.get('posterior_mean', 0.5):.0%}; "
+        f"95% interval {selected_evidence.get('ci_95', [0.06, 0.94])}  \n"
+        f"**State status:** hypothesis, not a diagnosis  \n"
+        f"**Decision fingerprint:** `{signature.get('fingerprint', 'not recorded')}`"
+    )
+
+
 def get_figures():
     if not FIGURES_DIR.exists():
         return []
@@ -1440,6 +1537,11 @@ body, .gradio-container {
 }
 
 .gradio-container {
+  --body-text-color: var(--aria-ink);
+  --body-text-color-subdued: var(--aria-ink-2);
+  --block-info-text-color: var(--aria-ink-2);
+  --block-label-text-color: var(--aria-ink);
+  --input-placeholder-color: #52657b;
   max-width: none !important;
   min-height: 100vh;
   padding: 0 0 64px !important;
@@ -1456,11 +1558,10 @@ body, .gradio-container {
 
 .aria-product-header {
   display: flex;
-  min-height: 78px;
+  min-height: 64px;
   align-items: center;
-  justify-content: space-between;
   gap: 24px;
-  margin: 0 0 24px;
+  margin: 0 0 16px;
   padding: 0 4px;
   border-bottom: 1px solid var(--aria-rule);
 }
@@ -1493,19 +1594,6 @@ body, .gradio-container {
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.aria-privacy-chip {
-  padding: 9px 14px;
-  color: #205e55;
-  background: var(--aria-mint);
-  border: 1px solid #a9d6c9;
-  border-radius: 999px;
-  font-family: "SFMono-Regular", Consolas, ui-monospace, monospace;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
@@ -1548,38 +1636,6 @@ body, .gradio-container {
   border-radius: 0 0 999px 999px;
 }
 
-.aria-workspace-heading {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.55fr);
-  gap: 32px;
-  margin: 8px 0 24px;
-  padding: 28px 30px;
-  color: var(--aria-paper);
-  background: var(--aria-ink);
-  border-radius: 24px;
-}
-
-.aria-workspace-heading h1 {
-  max-width: 18ch;
-  margin: 6px 0 0 !important;
-  color: var(--aria-paper) !important;
-  font-size: clamp(2rem, 4vw, 3.4rem) !important;
-  letter-spacing: -0.05em;
-  line-height: 1.05;
-}
-
-.aria-workspace-heading p {
-  align-self: end;
-  max-width: 50ch;
-  margin: 0;
-  color: #c9d4e1;
-  line-height: 1.6;
-}
-
-.aria-workspace-heading .aria-eyebrow {
-  color: var(--aria-yellow);
-}
-
 #main-navigation {
   background: transparent !important;
   border: 0 !important;
@@ -1609,19 +1665,38 @@ body, .gradio-container {
   box-shadow: 0 2px 8px rgba(16, 33, 59, 0.08);
 }
 
-#learn-mode {
-  margin-bottom: 16px;
+.gradio-container fieldset label {
+  color: var(--aria-ink) !important;
+  background: var(--aria-paper) !important;
+  border-color: var(--aria-rule) !important;
 }
 
-#learn-mode label {
-  min-height: 42px;
-  border-radius: 999px !important;
+.gradio-container fieldset label:has(input:checked) {
+  background: var(--aria-yellow) !important;
+  border-color: var(--aria-ink) !important;
 }
 
 .gradio-container .block,
 .gradio-container .form,
 .gradio-container .panel {
   border-color: var(--aria-rule) !important;
+  color: var(--aria-ink) !important;
+}
+
+.gradio-container .form {
+  background: transparent !important;
+}
+
+.gradio-container label,
+.gradio-container span[data-testid="block-info"] {
+  color: var(--aria-ink-2) !important;
+  opacity: 1 !important;
+}
+
+.gradio-container textarea::placeholder,
+.gradio-container input::placeholder {
+  color: #52657b !important;
+  opacity: 1 !important;
 }
 
 .gradio-container .group,
@@ -1630,12 +1705,38 @@ body, .gradio-container {
   border: 0 !important;
 }
 
+.aria-surface > .styler {
+  color: var(--aria-ink) !important;
+  background: transparent !important;
+}
+
 .aria-panel {
   padding: 20px !important;
   background: var(--aria-paper) !important;
   border: 1px solid var(--aria-rule) !important;
   border-radius: 20px !important;
   box-shadow: var(--aria-shadow);
+}
+
+.aria-learning-column {
+  gap: 12px !important;
+}
+
+.aria-secondary-action {
+  align-self: flex-start;
+  width: auto !important;
+  min-width: 0 !important;
+}
+
+.aria-secondary-action button,
+button.aria-secondary-action {
+  min-height: 36px !important;
+  padding-inline: 14px !important;
+  font-size: 0.8rem !important;
+}
+
+#think-submit {
+  margin-top: 2px;
 }
 
 #learn-chatbot {
@@ -1666,6 +1767,18 @@ body, .gradio-container {
   background: #ffffff !important;
   border-color: #b9c8d8 !important;
   border-radius: 14px !important;
+  caret-color: var(--aria-ink) !important;
+  cursor: text !important;
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 2;
+}
+
+.gradio-container textarea:focus,
+.gradio-container input:focus {
+  border-color: #2f78bd !important;
+  box-shadow: 0 0 0 3px rgba(47, 120, 189, 0.18) !important;
+  outline: none !important;
 }
 
 .gradio-container button {
@@ -1776,9 +1889,9 @@ body, .gradio-container {
 
 .aria-state-empty {
   display: grid;
-  min-height: 150px;
+  min-height: 72px;
   place-content: center;
-  gap: 8px;
+  gap: 5px;
   color: var(--aria-muted);
   text-align: center;
 }
@@ -1946,8 +2059,6 @@ footer { display:none !important; }
 @media (max-width: 760px) {
   .gradio-container { padding-inline: 12px !important; }
   .aria-product-header { min-height: 68px; }
-  .aria-privacy-chip { display: none; }
-  .aria-workspace-heading { grid-template-columns: 1fr; padding: 22px; }
   #main-navigation > .tab-nav { overflow-x: auto; }
 }
 """
@@ -1958,7 +2069,7 @@ footer { display:none !important; }
 # ==================================================================
 
 def build_ui() -> gr.Blocks:
-    start_in_think_aloud = bool(_profile().get("think_aloud_default", True))
+    initial_problem, initial_text, initial_state, initial_response = new_think_problem()
 
     with gr.Blocks(title="ARIA — Metacognitive Learning") as demo:
         gr.HTML(
@@ -1970,10 +2081,9 @@ def build_ui() -> gr.Blocks:
                 </div>
                 <div class="aria-product-brand-copy">
                   <strong>ARIA</strong>
-                  <span>Metacognitive learning</span>
+                  <span>Learning tool</span>
                 </div>
               </div>
-              <div class="aria-privacy-chip">On-device by design</div>
             </header>
             """
         )
@@ -1984,107 +2094,66 @@ def build_ui() -> gr.Blocks:
             # TAB 1 — LEARN
             # ========================================================
             with gr.Tab("Learn", id="tab_learn"):
-                gr.HTML(
-                    """
-                    <section class="aria-workspace-heading">
-                      <div>
-                        <span class="aria-eyebrow">Student workspace</span>
-                        <h1>Think through the problem. Keep ownership of the answer.</h1>
-                      </div>
-                      <p>ARIA pays attention to your reasoning, then asks one useful question to help you plan, recover, or check your work.</p>
-                    </section>
-                    """
-                )
-                mode = gr.Radio(
-                    ["Chat", "Think aloud"],
-                    value="Think aloud" if start_in_think_aloud else "Chat",
-                    show_label=False,
-                    container=False,
-                    elem_id="learn-mode",
-                )
-
-                # ---- MODE A: CHAT ----
                 with gr.Group(
-                    visible=not start_in_think_aloud,
                     elem_classes=["aria-surface"],
-                ) as chat_group:
+                ):
                     with gr.Row():
-                        with gr.Column(scale=7, elem_classes=["aria-panel"]):
-                            nudge_banner = gr.Markdown("", elem_id="nudge-banner")
-                            chatbot = gr.Chatbot(label="ARIA", elem_id="learn-chatbot")
+                        with gr.Column(scale=6, elem_classes=["aria-learning-column"]):
                             with gr.Row():
-                                msg_box = gr.Textbox(
-                                    placeholder="Ask a question or explain where your thinking stopped.",
-                                    show_label=False, scale=5, lines=2,
+                                practice_subject = gr.Dropdown(
+                                    choices=["Math", "English"],
+                                    value="Math",
+                                    label="Subject",
+                                    scale=2,
+                                    allow_custom_value=False,
                                 )
-                                send_btn = gr.Button("Send", variant="primary", scale=1)
-                            with gr.Row():
-                                stuck_btn = gr.Button("I'm stuck", elem_classes=["quick-btn"])
-                                example_btn = gr.Button("Give me an example", elem_classes=["quick-btn"])
-                                quiz_btn = gr.Button("Quiz me", elem_classes=["quick-btn"])
-                            clear_btn = gr.Button("Clear chat", size="sm")
-
-                        with gr.Column(scale=3, elem_classes=["aria-panel"]):
-                            context_panel = gr.Markdown("_Loading…_")
-                            gr.Markdown("### Review queue")
-                            srs_panel = gr.Markdown("_Loading…_")
-                            review_btn = gr.Button("Review now", size="sm", variant="primary")
-                            gr.Markdown("### Focus timer")
-                            focus_display = gr.HTML(_focus_html("No active session", False))
-                            with gr.Row():
-                                focus_start_btn = gr.Button("Start", size="sm", variant="secondary")
-                                focus_stop_btn = gr.Button("Stop", size="sm")
-
-                # ---- MODE B: THINK ALOUD ----
-                with gr.Group(
-                    visible=start_in_think_aloud,
-                    elem_classes=["aria-surface"],
-                ) as think_group:
-                    with gr.Row():
-                        with gr.Column(scale=6):
+                                new_problem_btn = gr.Button(
+                                    "Try another problem",
+                                    size="sm",
+                                    variant="secondary",
+                                    scale=1,
+                                    elem_classes=["aria-secondary-action"],
+                                )
                             think_problem = gr.Markdown(
-                                "_Choose **New problem** when you are ready to begin._",
+                                initial_problem,
                                 elem_id="think-problem",
                             )
-                            new_problem_btn = gr.Button("New problem", variant="secondary")
-                            with gr.Row():
-                                think_confidence = gr.Radio(
-                                    [1, 2, 3, 4, 5],
-                                    label="Before you try, how confident? 1 means unsure and 5 means ready.",
-                                    scale=4,
-                                )
-                                conf_set_btn = gr.Button("Set confidence", size="sm", scale=1)
-                            conf_status = gr.Markdown("")
                             think_input = gr.Textbox(
-                                label="Think through this out loud before answering",
-                                placeholder="Start with what you know. Write your plan, uncertainty, or next step.",
-                                lines=5,
+                                label="Work it out here",
+                                value=initial_text,
+                                placeholder="What would you try first?",
+                                lines=6,
                                 elem_id="think-input",
+                                interactive=True,
+                                autofocus=True,
+                                html_attributes={
+                                    "autocomplete": "off",
+                                    "spellcheck": "true",
+                                },
                             )
-                            think_audio = gr.Audio(sources=["microphone"], type="filepath",
-                                                   label="Or record your thinking")
-                            think_submit = gr.Button("Submit my thinking", variant="primary")
-                            with gr.Row():
-                                gr.Markdown("**Done? How did it go?**")
-                                got_it_btn = gr.Button("✓ Got it", size="sm")
-                                missed_btn = gr.Button("✗ Missed it", size="sm")
-                            calib_status = gr.Markdown("")
+                            think_submit = gr.Button(
+                                "Continue",
+                                variant="primary",
+                                elem_id="think-submit",
+                            )
                         with gr.Column(scale=4):
-                            gr.Markdown("### Thinking-state estimate")
-                            think_state = gr.HTML(_state_panel_html(), elem_id="thinking-state-card")
                             gr.HTML(
                                 """
                                 <div class="aria-response-heading">
                                   <div class="aria-face" aria-hidden="true">
                                     <span class="aria-face__shape"><i class="aria-face__smile"></i></span>
                                   </div>
-                                  <div><strong>ARIA asks</strong><span>One metacognitive question</span></div>
+                                  <div><strong>ARIA</strong><span>Your next move</span></div>
                                 </div>
                                 """
                             )
                             think_response = gr.Markdown(
-                                "_ARIA responds with a question, never the answer._",
+                                initial_response,
                                 elem_id="aria-response-panel",
+                            )
+                            think_state = gr.HTML(
+                                initial_state,
+                                elem_id="thinking-state-card",
                             )
 
             # ========================================================
@@ -2128,15 +2197,33 @@ def build_ui() -> gr.Blocks:
             # TAB 3 — RESEARCH
             # ========================================================
             with gr.Tab("Research", id="tab_research"):
-                gr.Markdown("## Experiment controls\n_Runs the real pipeline as a subprocess — output streams below._")
+                gr.Markdown(
+                    "## Research tools\n"
+                    "These controls evaluate ARIA itself. Students do not need them while learning.\n\n"
+                    "- **Quick experiment:** checks a small sample for obvious failures.\n"
+                    "- **Full experiment:** runs the complete comparison used in the study.\n"
+                    "- **Learning curve:** tests how performance changes as training data grows.\n"
+                    "- **LoRA training:** fine-tunes the research model on ARIA examples.\n"
+                    "- **Paper draft:** turns the latest saved results into a draft report."
+                )
                 with gr.Row():
                     quick_btn = gr.Button("Quick experiment (20)")
                     full_btn = gr.Button("Full experiment (270)")
                     lc_btn = gr.Button("Learning-curve sweep")
                     lora_btn = gr.Button("LoRA training")
                     paper_btn = gr.Button("Generate paper draft", variant="primary")
-                research_log = gr.Textbox(label="Live output", lines=14, elem_id="research-log",
+                research_log = gr.Textbox(label="Experiment output", lines=14, elem_id="research-log",
                                           interactive=False)
+
+                gr.Markdown("## Personalization audit")
+                gr.Markdown(
+                    "Shows why ARIA selected its most recent intervention. "
+                    "This is for research review, not part of the student lesson."
+                )
+                personalization_audit = gr.Markdown(
+                    "_Complete one learning turn to see the decision audit._"
+                )
+                refresh_audit_btn = gr.Button("Refresh decision audit", size="sm")
 
                 gr.Markdown("## Current results")
                 leaderboard = gr.Markdown("_Loading…_")
@@ -2199,39 +2286,27 @@ def build_ui() -> gr.Blocks:
             # EVENT WIRING
             # ========================================================
 
-            # --- mode toggle ---
-            def _switch_mode(m):
-                is_chat = m == "Chat"
-                return gr.update(visible=is_chat), gr.update(visible=not is_chat)
-            mode.change(_switch_mode, mode, [chat_group, think_group])
-
-            # --- chat ---
-            msg_box.submit(respond_stream, [msg_box, chatbot], [msg_box, chatbot])
-            send_btn.click(respond_stream, [msg_box, chatbot], [msg_box, chatbot])
-            stuck_btn.click(inject_stuck, [chatbot], [msg_box, chatbot])
-            example_btn.click(inject_example, [chatbot], [msg_box, chatbot])
-            quiz_btn.click(inject_quiz, [chatbot], [msg_box, chatbot])
-            review_btn.click(start_srs_quiz, [chatbot], [msg_box, chatbot])
-            clear_btn.click(lambda: ([], ""), outputs=[chatbot, msg_box])
-            for ev in (send_btn.click, msg_box.submit, review_btn.click):
-                ev(get_context_panel, outputs=context_panel)
-                ev(get_srs_status, outputs=srs_panel)
-
-            # --- focus timer ---
-            focus_start_btn.click(start_focus_session, outputs=focus_display)
-            focus_stop_btn.click(stop_focus_session, outputs=focus_display)
+            focus_visible_input_js = """
+            () => {
+              window.setTimeout(() => {
+                const visible = document.querySelector('#think-input textarea');
+                if (visible) visible.focus();
+              }, 80);
+            }
+            """
 
             # --- think aloud ---
-            new_problem_btn.click(new_think_problem,
-                                  outputs=[think_problem, think_input, think_state, think_response])
-            new_problem_btn.click(reset_confidence_ui,
-                                  outputs=[think_confidence, conf_status, calib_status])
-            conf_set_btn.click(submit_confidence, [think_confidence], [conf_status])
-            think_submit.click(submit_think_aloud, [think_input],
-                               [think_state, think_response, think_input])
-            think_audio.change(transcribe_audio, [think_audio], [think_input])
-            got_it_btn.click(lambda: resolve_correctness(True), outputs=calib_status)
-            missed_btn.click(lambda: resolve_correctness(False), outputs=calib_status)
+            new_problem_btn.click(
+                new_think_problem,
+                inputs=[practice_subject],
+                outputs=[think_problem, think_input, think_state, think_response],
+            ).then(None, js=focus_visible_input_js)
+            think_submit.click(
+                submit_think_aloud,
+                [think_input],
+                [think_state, think_response, think_input],
+                show_progress="minimal",
+            ).then(None, js=focus_visible_input_js)
 
             # --- progress ---
             def _refresh_progress():
@@ -2254,8 +2329,9 @@ def build_ui() -> gr.Blocks:
 
             gen_insights_btn.click(get_insights, outputs=insights_md)
             focus_topic_btn.click(
-                start_focused_session, [topic_dropdown, chatbot],
-                [chatbot, main_tabs, mode, chat_group, think_group],
+                start_topic_practice,
+                [topic_dropdown],
+                [think_problem, think_input, think_state, think_response, main_tabs],
             )
 
             # --- research ---
@@ -2272,6 +2348,10 @@ def build_ui() -> gr.Blocks:
             def _reload_results():
                 return get_leaderboard(), get_figures()
             refresh_results_btn.click(_reload_results, outputs=[leaderboard, figures_gallery])
+            refresh_audit_btn.click(
+                get_personalization_audit,
+                outputs=personalization_audit,
+            )
             regen_paper_btn.click(get_paper_status, outputs=paper_status)
 
             # --- settings ---
@@ -2286,20 +2366,12 @@ def build_ui() -> gr.Blocks:
             graph_btn.click(get_graph_stats, outputs=graph_stats)
             reset_btn.click(reset_everything, [reset_confirm], reset_status)
 
-            # --- global timers ---
-            timer = gr.Timer(value=5)
-            timer.tick(poll_nudge, outputs=nudge_banner)
-            timer.tick(get_focus_status, outputs=focus_display)
-
-            # --- initial load ---
-            demo.load(get_context_panel, outputs=context_panel)
-            demo.load(get_srs_status, outputs=srs_panel)
-            demo.load(_refresh_progress,
-                      outputs=[week_cards, img_planning, img_states, img_frustration,
-                               img_recovery, topic_map, topic_dropdown])
+            # --- initial focus ---
+            demo.load(None, js=focus_visible_input_js)
             demo.load(_refresh_dev,
                       outputs=[dev_cards, img_transfer, img_calibration, img_timing])
             demo.load(get_leaderboard, outputs=leaderboard)
+            demo.load(get_personalization_audit, outputs=personalization_audit)
             demo.load(get_figures, outputs=figures_gallery)
             demo.load(get_metacog_eval, outputs=metacog_results)
             demo.load(get_paper_status, outputs=paper_status)

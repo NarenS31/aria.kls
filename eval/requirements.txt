@@ -7,3 +7,4 @@ numpy
 ollama
 openai
 tqdm
+scikit-learn>=1.5,<2

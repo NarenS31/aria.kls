@@ -23,6 +23,8 @@ _Generated 2026-07-24 17:16Z from the result JSONs; updated 2026-07-27 after the
 | Calibration measurement is valid (sim error 0.290) | metacognition_eval Metric 5 | D | 50 | Confidence ratings are simulated, not from real students. |
 | Optimal-intervention-timing detection is valid (match rate 100%) | metacognition_eval Metric 6 | D | 32 | Timing optima are hypotheses tested on simulated scenarios, not measured on real recovery outcomes. |
 | Longitudinal metacognitive-growth tracking (real usage) | data/metacognition/longitudinal_naren.json | B | 1 | n=1 real user; no statistical power, not generalizable. |
+| Closed-loop selector enforces lexical grounding, question, length, and answer-leakage invariants | stratified `closed_loop_benchmark`, 20 episodes × 5 conditions across 10 topics | D | 100 responses/model | Full selector reached the automated ceiling for both models because verified fallbacks are constructed to satisfy these checks; requires blinded human ratings. |
+| Current distilled checkpoint improves intervention quality | paired full-pipeline comparison against llama3.2:3b | E | 20 paired episodes | No automated quality difference; both hit the selector ceiling. Descriptive latency was 9.8s vs 4.7s. Existing saved tutoring score also does not favor the distilled model. |
 
 ### Update 2026-07-27 — generator-agnostic heuristic repair
 

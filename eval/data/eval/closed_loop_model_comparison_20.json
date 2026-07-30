@@ -1,0 +1,192 @@
+{
+  "evidence_tier": "SIMULATED_PROXY",
+  "base_model": "llama3.2:3b",
+  "treatment_model": "aria_distilled:latest",
+  "n_paired_episodes": 20,
+  "within_model_condition_means": {
+    "llama3.2:3b": {
+      "generic": {
+        "student_grounding": 0.05,
+        "problem_grounding": 0.15,
+        "question_contract": 1.0,
+        "no_answer_leakage": 1.0,
+        "misconception_targeting": 0.05,
+        "conciseness": 1.0,
+        "composite": 0.5417,
+        "latency_seconds": 0.0
+      },
+      "problem_only": {
+        "student_grounding": 0.35,
+        "problem_grounding": 0.65,
+        "question_contract": 1.0,
+        "no_answer_leakage": 1.0,
+        "misconception_targeting": 0.3,
+        "conciseness": 1.0,
+        "composite": 0.7167,
+        "latency_seconds": 4.5846
+      },
+      "turn_grounded": {
+        "student_grounding": 0.7,
+        "problem_grounding": 0.65,
+        "question_contract": 1.0,
+        "no_answer_leakage": 0.95,
+        "misconception_targeting": 0.7,
+        "conciseness": 1.0,
+        "composite": 0.8333,
+        "latency_seconds": 5.054
+      },
+      "profile_history": {
+        "student_grounding": 0.6,
+        "problem_grounding": 0.6,
+        "question_contract": 1.0,
+        "no_answer_leakage": 0.95,
+        "misconception_targeting": 0.5,
+        "conciseness": 1.0,
+        "composite": 0.775,
+        "latency_seconds": 3.8267
+      },
+      "full_closed_loop": {
+        "student_grounding": 1.0,
+        "problem_grounding": 1.0,
+        "question_contract": 1.0,
+        "no_answer_leakage": 1.0,
+        "misconception_targeting": 1.0,
+        "conciseness": 1.0,
+        "composite": 1.0,
+        "latency_seconds": 4.6885
+      }
+    },
+    "aria_distilled:latest": {
+      "generic": {
+        "student_grounding": 0.05,
+        "problem_grounding": 0.15,
+        "question_contract": 1.0,
+        "no_answer_leakage": 1.0,
+        "misconception_targeting": 0.05,
+        "conciseness": 1.0,
+        "composite": 0.5417,
+        "latency_seconds": 0.0
+      },
+      "problem_only": {
+        "student_grounding": 0.3,
+        "problem_grounding": 0.6,
+        "question_contract": 1.0,
+        "no_answer_leakage": 0.95,
+        "misconception_targeting": 0.25,
+        "conciseness": 1.0,
+        "composite": 0.6833,
+        "latency_seconds": 3.6043
+      },
+      "turn_grounded": {
+        "student_grounding": 0.25,
+        "problem_grounding": 0.7,
+        "question_contract": 0.95,
+        "no_answer_leakage": 1.0,
+        "misconception_targeting": 0.2,
+        "conciseness": 1.0,
+        "composite": 0.6833,
+        "latency_seconds": 2.2065
+      },
+      "profile_history": {
+        "student_grounding": 0.9,
+        "problem_grounding": 0.65,
+        "question_contract": 0.9,
+        "no_answer_leakage": 1.0,
+        "misconception_targeting": 0.8,
+        "conciseness": 1.0,
+        "composite": 0.875,
+        "latency_seconds": 2.588
+      },
+      "full_closed_loop": {
+        "student_grounding": 1.0,
+        "problem_grounding": 1.0,
+        "question_contract": 1.0,
+        "no_answer_leakage": 1.0,
+        "misconception_targeting": 1.0,
+        "conciseness": 1.0,
+        "composite": 1.0,
+        "latency_seconds": 9.776
+      }
+    }
+  },
+  "full_pipeline_treatment_minus_base": {
+    "student_grounding": {
+      "n_paired_episodes": 20,
+      "mean_difference": 0.0,
+      "ci_95": [
+        0.0,
+        0.0
+      ],
+      "cohens_dz": 0.0,
+      "p_randomization": 1.0,
+      "p_holm": 1.0
+    },
+    "problem_grounding": {
+      "n_paired_episodes": 20,
+      "mean_difference": 0.0,
+      "ci_95": [
+        0.0,
+        0.0
+      ],
+      "cohens_dz": 0.0,
+      "p_randomization": 1.0,
+      "p_holm": 1.0
+    },
+    "question_contract": {
+      "n_paired_episodes": 20,
+      "mean_difference": 0.0,
+      "ci_95": [
+        0.0,
+        0.0
+      ],
+      "cohens_dz": 0.0,
+      "p_randomization": 1.0,
+      "p_holm": 1.0
+    },
+    "no_answer_leakage": {
+      "n_paired_episodes": 20,
+      "mean_difference": 0.0,
+      "ci_95": [
+        0.0,
+        0.0
+      ],
+      "cohens_dz": 0.0,
+      "p_randomization": 1.0,
+      "p_holm": 1.0
+    },
+    "misconception_targeting": {
+      "n_paired_episodes": 20,
+      "mean_difference": 0.0,
+      "ci_95": [
+        0.0,
+        0.0
+      ],
+      "cohens_dz": 0.0,
+      "p_randomization": 1.0,
+      "p_holm": 1.0
+    },
+    "conciseness": {
+      "n_paired_episodes": 20,
+      "mean_difference": 0.0,
+      "ci_95": [
+        0.0,
+        0.0
+      ],
+      "cohens_dz": 0.0,
+      "p_randomization": 1.0,
+      "p_holm": 1.0
+    },
+    "composite": {
+      "n_paired_episodes": 20,
+      "mean_difference": 0.0,
+      "ci_95": [
+        0.0,
+        0.0
+      ],
+      "cohens_dz": 0.0,
+      "p_randomization": 1.0,
+      "p_holm": 1.0
+    }
+  },
+  "latency_note": "Runs were executed sequentially, but latency still depends on local model loading and is descriptive rather than a hardware-independent benchmark."
+}
