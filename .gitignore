@@ -39,6 +39,11 @@ venv/
 !/data/reports/output/
 !/data/reports/output/.gitkeep
 
+# Licensed external research data stays local; derived metadata may be committed.
+/eval/data/external/eedi_dialogues/raw/
+/eval/data/annotation/*_private_key.json
+/eval/data/metacognition/transfer_naren.jsonl
+
 # Generated model adapters, training examples, and figures.
 /lora/adapters/
 /lora/data/

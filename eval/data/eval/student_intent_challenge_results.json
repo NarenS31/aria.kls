@@ -1,0 +1,1960 @@
+{
+  "benchmark": "human-written adversarial student-language challenge",
+  "fast": {
+    "benchmark": "human-written adversarial student-language challenge",
+    "mode": "fast",
+    "n": 72,
+    "accuracy": 0.6805555555555556,
+    "macro_f1": 0.7137756879136189,
+    "mean_latency_ms": 3.6989166660027375,
+    "expected_calibration_error": 0.16410780898842217,
+    "classification_report": {
+      "ATTEMPT_META": {
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1-score": 0.6666666666666666,
+        "support": 6.0
+      },
+      "CLARIFICATION_REQUEST": {
+        "precision": 1.0,
+        "recall": 0.8333333333333334,
+        "f1-score": 0.9090909090909091,
+        "support": 6.0
+      },
+      "CONFIRMATION_REQUEST": {
+        "precision": 1.0,
+        "recall": 0.3333333333333333,
+        "f1-score": 0.5,
+        "support": 6.0
+      },
+      "CONTROL_REQUEST": {
+        "precision": 1.0,
+        "recall": 0.6666666666666666,
+        "f1-score": 0.8,
+        "support": 6.0
+      },
+      "FRUSTRATION": {
+        "precision": 1.0,
+        "recall": 0.6666666666666666,
+        "f1-score": 0.8,
+        "support": 6.0
+      },
+      "HELP_REQUEST": {
+        "precision": 1.0,
+        "recall": 0.6666666666666666,
+        "f1-score": 0.8,
+        "support": 6.0
+      },
+      "OTHER": {
+        "precision": 0.2608695652173913,
+        "recall": 1.0,
+        "f1-score": 0.41379310344827586,
+        "support": 6.0
+      },
+      "REASONING": {
+        "precision": 0.5555555555555556,
+        "recall": 0.8333333333333334,
+        "f1-score": 0.6666666666666666,
+        "support": 6.0
+      },
+      "SELF_CORRECTION": {
+        "precision": 0.75,
+        "recall": 0.5,
+        "f1-score": 0.6,
+        "support": 6.0
+      },
+      "SHORT_ANSWER": {
+        "precision": 0.8333333333333334,
+        "recall": 0.8333333333333334,
+        "f1-score": 0.8333333333333334,
+        "support": 6.0
+      },
+      "SOCIAL": {
+        "precision": 1.0,
+        "recall": 0.8333333333333334,
+        "f1-score": 0.9090909090909091,
+        "support": 6.0
+      },
+      "UNCERTAINTY": {
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1-score": 0.6666666666666666,
+        "support": 6.0
+      },
+      "accuracy": 0.6805555555555556,
+      "macro avg": {
+        "precision": 0.86664653784219,
+        "recall": 0.6805555555555555,
+        "f1-score": 0.7137756879136189,
+        "support": 72.0
+      },
+      "weighted avg": {
+        "precision": 0.86664653784219,
+        "recall": 0.6805555555555556,
+        "f1-score": 0.713775687913619,
+        "support": 72.0
+      }
+    },
+    "labels": [
+      "ATTEMPT_META",
+      "CLARIFICATION_REQUEST",
+      "CONFIRMATION_REQUEST",
+      "CONTROL_REQUEST",
+      "FRUSTRATION",
+      "HELP_REQUEST",
+      "OTHER",
+      "REASONING",
+      "SELF_CORRECTION",
+      "SHORT_ANSWER",
+      "SOCIAL",
+      "UNCERTAINTY"
+    ],
+    "confusion_matrix": [
+      [
+        3,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        5,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        4,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        4,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        4,
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        4,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        6,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        5,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        3,
+        0,
+        3,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        5,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        5,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        2,
+        0,
+        0,
+        0,
+        3
+      ]
+    ],
+    "calibration": {
+      "0.9-1.0": {
+        "n": 31,
+        "mean_confidence": 0.97,
+        "accuracy": 0.9355
+      },
+      "0.8-0.9": {
+        "n": 21,
+        "mean_confidence": 0.8505,
+        "accuracy": 0.5238
+      },
+      "0.7-0.8": {
+        "n": 5,
+        "mean_confidence": 0.7465,
+        "accuracy": 0.8
+      },
+      "0.5-0.6": {
+        "n": 10,
+        "mean_confidence": 0.5305,
+        "accuracy": 0.3
+      },
+      "0.6-0.7": {
+        "n": 5,
+        "mean_confidence": 0.6623,
+        "accuracy": 0.4
+      }
+    },
+    "failures": [
+      {
+        "text": "im lowkey lost rn",
+        "label": "HELP_REQUEST",
+        "prediction": "OTHER",
+        "confidence": 0.8293,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "can u point me in the right direction",
+        "label": "HELP_REQUEST",
+        "prediction": "OTHER",
+        "confidence": 0.8138,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "we literally just started",
+        "label": "ATTEMPT_META",
+        "prediction": "OTHER",
+        "confidence": 0.5648,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "i didnt try anything yet",
+        "label": "ATTEMPT_META",
+        "prediction": "OTHER",
+        "confidence": 0.883,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "hold on i havent even begun",
+        "label": "ATTEMPT_META",
+        "prediction": "OTHER",
+        "confidence": 0.5,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "i hate this problem so much",
+        "label": "FRUSTRATION",
+        "prediction": "REASONING",
+        "confidence": 0.8182,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "this question is actually making me mad",
+        "label": "FRUSTRATION",
+        "prediction": "SELF_CORRECTION",
+        "confidence": 0.7699,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "the thing outside the brackets means what",
+        "label": "CLARIFICATION_REQUEST",
+        "prediction": "OTHER",
+        "confidence": 0.5536,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "did i mess up anywhere",
+        "label": "CONFIRMATION_REQUEST",
+        "prediction": "OTHER",
+        "confidence": 0.8503,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "am i doing this properly",
+        "label": "CONFIRMATION_REQUEST",
+        "prediction": "OTHER",
+        "confidence": 0.5,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "does my step check out",
+        "label": "CONFIRMATION_REQUEST",
+        "prediction": "OTHER",
+        "confidence": 0.6334,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "thats the answer right?",
+        "label": "CONFIRMATION_REQUEST",
+        "prediction": "OTHER",
+        "confidence": 0.5,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "give me a different problem",
+        "label": "CONTROL_REQUEST",
+        "prediction": "OTHER",
+        "confidence": 0.6283,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "make it a little harder",
+        "label": "CONTROL_REQUEST",
+        "prediction": "OTHER",
+        "confidence": 0.5,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "oh nvm its 12 not 21",
+        "label": "SELF_CORRECTION",
+        "prediction": "OTHER",
+        "confidence": 0.9516,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "scratch that i read it wrong",
+        "label": "SELF_CORRECTION",
+        "prediction": "OTHER",
+        "confidence": 0.8074,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "hold up, i forgot the negative",
+        "label": "SELF_CORRECTION",
+        "prediction": "OTHER",
+        "confidence": 0.8523,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "prolly subtract 7 first",
+        "label": "UNCERTAINTY",
+        "prediction": "REASONING",
+        "confidence": 0.8725,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "im leaning toward answer c",
+        "label": "UNCERTAINTY",
+        "prediction": "OTHER",
+        "confidence": 0.8927,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "could it be because the slopes match",
+        "label": "UNCERTAINTY",
+        "prediction": "REASONING",
+        "confidence": 0.9013,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "i chose c since the graph crosses at 3",
+        "label": "REASONING",
+        "prediction": "OTHER",
+        "confidence": 0.699,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "x=6",
+        "label": "SHORT_ANSWER",
+        "prediction": "REASONING",
+        "confidence": 0.8596,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "alright",
+        "label": "SOCIAL",
+        "prediction": "SHORT_ANSWER",
+        "confidence": 0.5347,
+        "source": "fast_intent_model",
+        "correct": false
+      }
+    ],
+    "rows": [
+      {
+        "text": "i need help",
+        "label": "HELP_REQUEST",
+        "prediction": "HELP_REQUEST",
+        "confidence": 1.0,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "im lowkey lost rn",
+        "label": "HELP_REQUEST",
+        "prediction": "OTHER",
+        "confidence": 0.8293,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "bro what am i even supposed to do here",
+        "label": "HELP_REQUEST",
+        "prediction": "HELP_REQUEST",
+        "confidence": 0.9602,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "can u point me in the right direction",
+        "label": "HELP_REQUEST",
+        "prediction": "OTHER",
+        "confidence": 0.8138,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "no clue where to begin tbh",
+        "label": "HELP_REQUEST",
+        "prediction": "HELP_REQUEST",
+        "confidence": 0.7053,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "i got nothing help",
+        "label": "HELP_REQUEST",
+        "prediction": "HELP_REQUEST",
+        "confidence": 0.9636,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "this is my first attempt",
+        "label": "ATTEMPT_META",
+        "prediction": "ATTEMPT_META",
+        "confidence": 0.9976,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "this is my first attemot",
+        "label": "ATTEMPT_META",
+        "prediction": "ATTEMPT_META",
+        "confidence": 0.9976,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "i havent touched the problem yet",
+        "label": "ATTEMPT_META",
+        "prediction": "ATTEMPT_META",
+        "confidence": 0.9438,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "we literally just started",
+        "label": "ATTEMPT_META",
+        "prediction": "OTHER",
+        "confidence": 0.5648,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "i didnt try anything yet",
+        "label": "ATTEMPT_META",
+        "prediction": "OTHER",
+        "confidence": 0.883,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "hold on i havent even begun",
+        "label": "ATTEMPT_META",
+        "prediction": "OTHER",
+        "confidence": 0.5,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "this makes zero sense",
+        "label": "FRUSTRATION",
+        "prediction": "FRUSTRATION",
+        "confidence": 0.7266,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "nah im done this is impossible",
+        "label": "FRUSTRATION",
+        "prediction": "FRUSTRATION",
+        "confidence": 0.9988,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "why is this so annoying",
+        "label": "FRUSTRATION",
+        "prediction": "FRUSTRATION",
+        "confidence": 0.6686,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "i hate this problem so much",
+        "label": "FRUSTRATION",
+        "prediction": "REASONING",
+        "confidence": 0.8182,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "bro i cant do ts",
+        "label": "FRUSTRATION",
+        "prediction": "FRUSTRATION",
+        "confidence": 0.9965,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "this question is actually making me mad",
+        "label": "FRUSTRATION",
+        "prediction": "SELF_CORRECTION",
+        "confidence": 0.7699,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "what does coefficient mean",
+        "label": "CLARIFICATION_REQUEST",
+        "prediction": "CLARIFICATION_REQUEST",
+        "confidence": 0.9963,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "the thing outside the brackets means what",
+        "label": "CLARIFICATION_REQUEST",
+        "prediction": "OTHER",
+        "confidence": 0.5536,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "say that again but in normal words",
+        "label": "CLARIFICATION_REQUEST",
+        "prediction": "CLARIFICATION_REQUEST",
+        "confidence": 0.9683,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "why do we distribute here",
+        "label": "CLARIFICATION_REQUEST",
+        "prediction": "CLARIFICATION_REQUEST",
+        "confidence": 0.9843,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "what do you mean by inverse operation",
+        "label": "CLARIFICATION_REQUEST",
+        "prediction": "CLARIFICATION_REQUEST",
+        "confidence": 0.9628,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "can u explain that little number",
+        "label": "CLARIFICATION_REQUEST",
+        "prediction": "CLARIFICATION_REQUEST",
+        "confidence": 0.8097,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "is this right",
+        "label": "CONFIRMATION_REQUEST",
+        "prediction": "CONFIRMATION_REQUEST",
+        "confidence": 0.9947,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "so would that be correct",
+        "label": "CONFIRMATION_REQUEST",
+        "prediction": "CONFIRMATION_REQUEST",
+        "confidence": 0.9905,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "did i mess up anywhere",
+        "label": "CONFIRMATION_REQUEST",
+        "prediction": "OTHER",
+        "confidence": 0.8503,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "am i doing this properly",
+        "label": "CONFIRMATION_REQUEST",
+        "prediction": "OTHER",
+        "confidence": 0.5,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "does my step check out",
+        "label": "CONFIRMATION_REQUEST",
+        "prediction": "OTHER",
+        "confidence": 0.6334,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "thats the answer right?",
+        "label": "CONFIRMATION_REQUEST",
+        "prediction": "OTHER",
+        "confidence": 0.5,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "give me a different problem",
+        "label": "CONTROL_REQUEST",
+        "prediction": "OTHER",
+        "confidence": 0.6283,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "can i get an easier one",
+        "label": "CONTROL_REQUEST",
+        "prediction": "CONTROL_REQUEST",
+        "confidence": 0.5862,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "skip this question",
+        "label": "CONTROL_REQUEST",
+        "prediction": "CONTROL_REQUEST",
+        "confidence": 0.9731,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "lets do english instead",
+        "label": "CONTROL_REQUEST",
+        "prediction": "CONTROL_REQUEST",
+        "confidence": 0.9097,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "go back to the other one",
+        "label": "CONTROL_REQUEST",
+        "prediction": "CONTROL_REQUEST",
+        "confidence": 0.9965,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "make it a little harder",
+        "label": "CONTROL_REQUEST",
+        "prediction": "OTHER",
+        "confidence": 0.5,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "wait i meant subtract not add",
+        "label": "SELF_CORRECTION",
+        "prediction": "SELF_CORRECTION",
+        "confidence": 0.9999,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "oh nvm its 12 not 21",
+        "label": "SELF_CORRECTION",
+        "prediction": "OTHER",
+        "confidence": 0.9516,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "scratch that i read it wrong",
+        "label": "SELF_CORRECTION",
+        "prediction": "OTHER",
+        "confidence": 0.8074,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "sorry i meant both sides",
+        "label": "SELF_CORRECTION",
+        "prediction": "SELF_CORRECTION",
+        "confidence": 0.9078,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "actually the 2 multiplies everything inside",
+        "label": "SELF_CORRECTION",
+        "prediction": "SELF_CORRECTION",
+        "confidence": 0.8806,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "hold up, i forgot the negative",
+        "label": "SELF_CORRECTION",
+        "prediction": "OTHER",
+        "confidence": 0.8523,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "i think i distribute first but im not sure",
+        "label": "UNCERTAINTY",
+        "prediction": "UNCERTAINTY",
+        "confidence": 0.9999,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "maybe x is 4?",
+        "label": "UNCERTAINTY",
+        "prediction": "UNCERTAINTY",
+        "confidence": 0.9981,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "prolly subtract 7 first",
+        "label": "UNCERTAINTY",
+        "prediction": "REASONING",
+        "confidence": 0.8725,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "im leaning toward answer c",
+        "label": "UNCERTAINTY",
+        "prediction": "OTHER",
+        "confidence": 0.8927,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "could it be because the slopes match",
+        "label": "UNCERTAINTY",
+        "prediction": "REASONING",
+        "confidence": 0.9013,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "i guess the quote shows he is lonely",
+        "label": "UNCERTAINTY",
+        "prediction": "UNCERTAINTY",
+        "confidence": 0.85,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "subtracting 7 from both sides gives negative 2x equals 12",
+        "label": "REASONING",
+        "prediction": "REASONING",
+        "confidence": 0.9714,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "the 2 has to multiply x and 8 because both are inside",
+        "label": "REASONING",
+        "prediction": "REASONING",
+        "confidence": 0.983,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "i chose c since the graph crosses at 3",
+        "label": "REASONING",
+        "prediction": "OTHER",
+        "confidence": 0.699,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "the quote supports my claim because it shows she feels excluded",
+        "label": "REASONING",
+        "prediction": "REASONING",
+        "confidence": 0.7408,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "first i isolate the variable then i divide",
+        "label": "REASONING",
+        "prediction": "REASONING",
+        "confidence": 0.9915,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "if both angles are equal then the triangles are similar",
+        "label": "REASONING",
+        "prediction": "REASONING",
+        "confidence": 0.8153,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "42",
+        "label": "SHORT_ANSWER",
+        "prediction": "SHORT_ANSWER",
+        "confidence": 0.79,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "x=6",
+        "label": "SHORT_ANSWER",
+        "prediction": "REASONING",
+        "confidence": 0.8596,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "b",
+        "label": "SHORT_ANSWER",
+        "prediction": "SHORT_ANSWER",
+        "confidence": 0.9706,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "true",
+        "label": "SHORT_ANSWER",
+        "prediction": "SHORT_ANSWER",
+        "confidence": 0.8618,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "3/4",
+        "label": "SHORT_ANSWER",
+        "prediction": "SHORT_ANSWER",
+        "confidence": 0.8866,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "-12",
+        "label": "SHORT_ANSWER",
+        "prediction": "SHORT_ANSWER",
+        "confidence": 0.9124,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "thanks",
+        "label": "SOCIAL",
+        "prediction": "SOCIAL",
+        "confidence": 0.9592,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "ok cool",
+        "label": "SOCIAL",
+        "prediction": "SOCIAL",
+        "confidence": 0.8708,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "hey",
+        "label": "SOCIAL",
+        "prediction": "SOCIAL",
+        "confidence": 0.8961,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "gotcha thanks",
+        "label": "SOCIAL",
+        "prediction": "SOCIAL",
+        "confidence": 0.8789,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "alright",
+        "label": "SOCIAL",
+        "prediction": "SHORT_ANSWER",
+        "confidence": 0.5347,
+        "source": "fast_intent_model",
+        "correct": false
+      },
+      {
+        "text": "bye",
+        "label": "SOCIAL",
+        "prediction": "SOCIAL",
+        "confidence": 0.9639,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "my wifi keeps freezing",
+        "label": "OTHER",
+        "prediction": "OTHER",
+        "confidence": 0.8063,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "can you hear me",
+        "label": "OTHER",
+        "prediction": "OTHER",
+        "confidence": 0.8262,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "i have soccer after school",
+        "label": "OTHER",
+        "prediction": "OTHER",
+        "confidence": 0.566,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "the page looks weird",
+        "label": "OTHER",
+        "prediction": "OTHER",
+        "confidence": 0.6822,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "one second my mom is calling me",
+        "label": "OTHER",
+        "prediction": "OTHER",
+        "confidence": 0.9252,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "uhhhhh",
+        "label": "OTHER",
+        "prediction": "OTHER",
+        "confidence": 0.5,
+        "source": "fast_intent_model",
+        "correct": true
+      }
+    ]
+  },
+  "hybrid": {
+    "benchmark": "human-written adversarial student-language challenge",
+    "mode": "hybrid",
+    "n": 72,
+    "accuracy": 1.0,
+    "macro_f1": 1.0,
+    "mean_latency_ms": 1.114780096233719,
+    "expected_calibration_error": 0.08862734952770614,
+    "classification_report": {
+      "ATTEMPT_META": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 6.0
+      },
+      "CLARIFICATION_REQUEST": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 6.0
+      },
+      "CONFIRMATION_REQUEST": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 6.0
+      },
+      "CONTROL_REQUEST": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 6.0
+      },
+      "FRUSTRATION": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 6.0
+      },
+      "HELP_REQUEST": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 6.0
+      },
+      "OTHER": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 6.0
+      },
+      "REASONING": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 6.0
+      },
+      "SELF_CORRECTION": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 6.0
+      },
+      "SHORT_ANSWER": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 6.0
+      },
+      "SOCIAL": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 6.0
+      },
+      "UNCERTAINTY": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 6.0
+      },
+      "accuracy": 1.0,
+      "macro avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 72.0
+      },
+      "weighted avg": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 72.0
+      }
+    },
+    "labels": [
+      "ATTEMPT_META",
+      "CLARIFICATION_REQUEST",
+      "CONFIRMATION_REQUEST",
+      "CONTROL_REQUEST",
+      "FRUSTRATION",
+      "HELP_REQUEST",
+      "OTHER",
+      "REASONING",
+      "SELF_CORRECTION",
+      "SHORT_ANSWER",
+      "SOCIAL",
+      "UNCERTAINTY"
+    ],
+    "confusion_matrix": [
+      [
+        6,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        6,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        6,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        6,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        6,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        6,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        6,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        6,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        6,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        6,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        6,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        6
+      ]
+    ],
+    "calibration": {
+      "0.9-1.0": {
+        "n": 61,
+        "mean_confidence": 0.9423,
+        "accuracy": 1.0
+      },
+      "0.7-0.8": {
+        "n": 1,
+        "mean_confidence": 0.7266,
+        "accuracy": 1.0
+      },
+      "0.5-0.6": {
+        "n": 3,
+        "mean_confidence": 0.5507,
+        "accuracy": 1.0
+      },
+      "0.8-0.9": {
+        "n": 6,
+        "mean_confidence": 0.8464,
+        "accuracy": 1.0
+      },
+      "0.6-0.7": {
+        "n": 1,
+        "mean_confidence": 0.6822,
+        "accuracy": 1.0
+      }
+    },
+    "failures": [],
+    "rows": [
+      {
+        "text": "i need help",
+        "label": "HELP_REQUEST",
+        "prediction": "HELP_REQUEST",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "im lowkey lost rn",
+        "label": "HELP_REQUEST",
+        "prediction": "HELP_REQUEST",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "bro what am i even supposed to do here",
+        "label": "HELP_REQUEST",
+        "prediction": "HELP_REQUEST",
+        "confidence": 0.9602,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "can u point me in the right direction",
+        "label": "HELP_REQUEST",
+        "prediction": "HELP_REQUEST",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "no clue where to begin tbh",
+        "label": "HELP_REQUEST",
+        "prediction": "HELP_REQUEST",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "i got nothing help",
+        "label": "HELP_REQUEST",
+        "prediction": "HELP_REQUEST",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "this is my first attempt",
+        "label": "ATTEMPT_META",
+        "prediction": "ATTEMPT_META",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "this is my first attemot",
+        "label": "ATTEMPT_META",
+        "prediction": "ATTEMPT_META",
+        "confidence": 0.9976,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "i havent touched the problem yet",
+        "label": "ATTEMPT_META",
+        "prediction": "ATTEMPT_META",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "we literally just started",
+        "label": "ATTEMPT_META",
+        "prediction": "ATTEMPT_META",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "i didnt try anything yet",
+        "label": "ATTEMPT_META",
+        "prediction": "ATTEMPT_META",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "hold on i havent even begun",
+        "label": "ATTEMPT_META",
+        "prediction": "ATTEMPT_META",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "this makes zero sense",
+        "label": "FRUSTRATION",
+        "prediction": "FRUSTRATION",
+        "confidence": 0.7266,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "nah im done this is impossible",
+        "label": "FRUSTRATION",
+        "prediction": "FRUSTRATION",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "why is this so annoying",
+        "label": "FRUSTRATION",
+        "prediction": "FRUSTRATION",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "i hate this problem so much",
+        "label": "FRUSTRATION",
+        "prediction": "FRUSTRATION",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "bro i cant do ts",
+        "label": "FRUSTRATION",
+        "prediction": "FRUSTRATION",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "this question is actually making me mad",
+        "label": "FRUSTRATION",
+        "prediction": "FRUSTRATION",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "what does coefficient mean",
+        "label": "CLARIFICATION_REQUEST",
+        "prediction": "CLARIFICATION_REQUEST",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "the thing outside the brackets means what",
+        "label": "CLARIFICATION_REQUEST",
+        "prediction": "CLARIFICATION_REQUEST",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "say that again but in normal words",
+        "label": "CLARIFICATION_REQUEST",
+        "prediction": "CLARIFICATION_REQUEST",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "why do we distribute here",
+        "label": "CLARIFICATION_REQUEST",
+        "prediction": "CLARIFICATION_REQUEST",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "what do you mean by inverse operation",
+        "label": "CLARIFICATION_REQUEST",
+        "prediction": "CLARIFICATION_REQUEST",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "can u explain that little number",
+        "label": "CLARIFICATION_REQUEST",
+        "prediction": "CLARIFICATION_REQUEST",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "is this right",
+        "label": "CONFIRMATION_REQUEST",
+        "prediction": "CONFIRMATION_REQUEST",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "so would that be correct",
+        "label": "CONFIRMATION_REQUEST",
+        "prediction": "CONFIRMATION_REQUEST",
+        "confidence": 0.9905,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "did i mess up anywhere",
+        "label": "CONFIRMATION_REQUEST",
+        "prediction": "CONFIRMATION_REQUEST",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "am i doing this properly",
+        "label": "CONFIRMATION_REQUEST",
+        "prediction": "CONFIRMATION_REQUEST",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "does my step check out",
+        "label": "CONFIRMATION_REQUEST",
+        "prediction": "CONFIRMATION_REQUEST",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "thats the answer right?",
+        "label": "CONFIRMATION_REQUEST",
+        "prediction": "CONFIRMATION_REQUEST",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "give me a different problem",
+        "label": "CONTROL_REQUEST",
+        "prediction": "CONTROL_REQUEST",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "can i get an easier one",
+        "label": "CONTROL_REQUEST",
+        "prediction": "CONTROL_REQUEST",
+        "confidence": 0.5862,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "skip this question",
+        "label": "CONTROL_REQUEST",
+        "prediction": "CONTROL_REQUEST",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "lets do english instead",
+        "label": "CONTROL_REQUEST",
+        "prediction": "CONTROL_REQUEST",
+        "confidence": 0.9097,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "go back to the other one",
+        "label": "CONTROL_REQUEST",
+        "prediction": "CONTROL_REQUEST",
+        "confidence": 0.9965,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "make it a little harder",
+        "label": "CONTROL_REQUEST",
+        "prediction": "CONTROL_REQUEST",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "wait i meant subtract not add",
+        "label": "SELF_CORRECTION",
+        "prediction": "SELF_CORRECTION",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "oh nvm its 12 not 21",
+        "label": "SELF_CORRECTION",
+        "prediction": "SELF_CORRECTION",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "scratch that i read it wrong",
+        "label": "SELF_CORRECTION",
+        "prediction": "SELF_CORRECTION",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "sorry i meant both sides",
+        "label": "SELF_CORRECTION",
+        "prediction": "SELF_CORRECTION",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "actually the 2 multiplies everything inside",
+        "label": "SELF_CORRECTION",
+        "prediction": "SELF_CORRECTION",
+        "confidence": 0.8806,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "hold up, i forgot the negative",
+        "label": "SELF_CORRECTION",
+        "prediction": "SELF_CORRECTION",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "i think i distribute first but im not sure",
+        "label": "UNCERTAINTY",
+        "prediction": "UNCERTAINTY",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "maybe x is 4?",
+        "label": "UNCERTAINTY",
+        "prediction": "UNCERTAINTY",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "prolly subtract 7 first",
+        "label": "UNCERTAINTY",
+        "prediction": "UNCERTAINTY",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "im leaning toward answer c",
+        "label": "UNCERTAINTY",
+        "prediction": "UNCERTAINTY",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "could it be because the slopes match",
+        "label": "UNCERTAINTY",
+        "prediction": "UNCERTAINTY",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "i guess the quote shows he is lonely",
+        "label": "UNCERTAINTY",
+        "prediction": "UNCERTAINTY",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "subtracting 7 from both sides gives negative 2x equals 12",
+        "label": "REASONING",
+        "prediction": "REASONING",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "the 2 has to multiply x and 8 because both are inside",
+        "label": "REASONING",
+        "prediction": "REASONING",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "i chose c since the graph crosses at 3",
+        "label": "REASONING",
+        "prediction": "REASONING",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "the quote supports my claim because it shows she feels excluded",
+        "label": "REASONING",
+        "prediction": "REASONING",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "first i isolate the variable then i divide",
+        "label": "REASONING",
+        "prediction": "REASONING",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "if both angles are equal then the triangles are similar",
+        "label": "REASONING",
+        "prediction": "REASONING",
+        "confidence": 0.8153,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "42",
+        "label": "SHORT_ANSWER",
+        "prediction": "SHORT_ANSWER",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "x=6",
+        "label": "SHORT_ANSWER",
+        "prediction": "SHORT_ANSWER",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "b",
+        "label": "SHORT_ANSWER",
+        "prediction": "SHORT_ANSWER",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "true",
+        "label": "SHORT_ANSWER",
+        "prediction": "SHORT_ANSWER",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "3/4",
+        "label": "SHORT_ANSWER",
+        "prediction": "SHORT_ANSWER",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "-12",
+        "label": "SHORT_ANSWER",
+        "prediction": "SHORT_ANSWER",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "thanks",
+        "label": "SOCIAL",
+        "prediction": "SOCIAL",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "ok cool",
+        "label": "SOCIAL",
+        "prediction": "SOCIAL",
+        "confidence": 0.8708,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "hey",
+        "label": "SOCIAL",
+        "prediction": "SOCIAL",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "gotcha thanks",
+        "label": "SOCIAL",
+        "prediction": "SOCIAL",
+        "confidence": 0.8789,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "alright",
+        "label": "SOCIAL",
+        "prediction": "SOCIAL",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "bye",
+        "label": "SOCIAL",
+        "prediction": "SOCIAL",
+        "confidence": 0.94,
+        "source": "semantic_router",
+        "correct": true
+      },
+      {
+        "text": "my wifi keeps freezing",
+        "label": "OTHER",
+        "prediction": "OTHER",
+        "confidence": 0.8063,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "can you hear me",
+        "label": "OTHER",
+        "prediction": "OTHER",
+        "confidence": 0.8262,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "i have soccer after school",
+        "label": "OTHER",
+        "prediction": "OTHER",
+        "confidence": 0.566,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "the page looks weird",
+        "label": "OTHER",
+        "prediction": "OTHER",
+        "confidence": 0.6822,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "one second my mom is calling me",
+        "label": "OTHER",
+        "prediction": "OTHER",
+        "confidence": 0.9252,
+        "source": "fast_intent_model",
+        "correct": true
+      },
+      {
+        "text": "uhhhhh",
+        "label": "OTHER",
+        "prediction": "OTHER",
+        "confidence": 0.5,
+        "source": "fast_intent_model",
+        "correct": true
+      }
+    ]
+  }
+}
