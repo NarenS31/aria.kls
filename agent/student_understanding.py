@@ -16,6 +16,7 @@ from typing import Any, Iterable
 import ollama
 
 from agent.student_intent import StudentIntent, classify_student_intent
+from agent.reasoning_moves import observe_reasoning_moves
 
 
 INTENT_LABELS = (
@@ -188,6 +189,8 @@ class StudentUnderstanding:
     source: str
     fast_intent: str
     fast_confidence: float
+    observable_moves: tuple[str, ...] = ()
+    move_evidence: tuple[dict, ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -311,6 +314,9 @@ def understand_student_turn(
 ) -> StudentUnderstanding:
     """Parse a turn using a fast path plus a contextual local-model fallback."""
     fast = classify_student_intent(text)
+    move_evidence = observe_reasoning_moves(text)
+    observable_moves = tuple(move.code for move in move_evidence)
+    serialized_moves = tuple(move.to_dict() for move in move_evidence)
     semantic_label = _semantic_override(text)
     if semantic_label is not None:
         contains_reasoning = fast.contains_reasoning or (
@@ -334,6 +340,8 @@ def understand_student_turn(
             source="semantic_router",
             fast_intent=fast.label,
             fast_confidence=fast.confidence,
+            observable_moves=observable_moves,
+            move_evidence=serialized_moves,
         )
     parsed = (
         _deep_parse(text, problem, recent_turns, model)
@@ -354,6 +362,8 @@ def understand_student_turn(
             source="contextual_local_model",
             fast_intent=fast.label,
             fast_confidence=fast.confidence,
+            observable_moves=observable_moves,
+            move_evidence=serialized_moves,
         )
     return StudentUnderstanding(
         intent=fast.label,
@@ -367,4 +377,6 @@ def understand_student_turn(
         source="fast_intent_model",
         fast_intent=fast.label,
         fast_confidence=fast.confidence,
+        observable_moves=observable_moves,
+        move_evidence=serialized_moves,
     )

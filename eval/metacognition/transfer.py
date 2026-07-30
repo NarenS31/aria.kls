@@ -8,18 +8,10 @@ the actual learning outcome. When a student begins planning, checking, and
 reflecting on their own, ARIA's scaffolding has been internalised. That is
 transfer.
 
-For every think-aloud turn we look at what the student said BEFORE ARIA's next
-intervention and decide three things:
-
-  * did the utterance contain metacognitive language at all, and of what kind
-    (planning / monitoring / reflection)?
-  * was ARIA's *previous* message a metacognitive question (i.e. is any
-    metacognition here merely a prompted response)?
-  * therefore: was this metacognition self-initiated?
-
-Self-Initiation Rate = self_initiated_turns / total_turns, tracked per session
-over time. If it rises across sessions — especially while ARIA intervenes less
-— the student is internalising the habit.
+Transfer is intentionally stricter than detecting planning language. A transfer
+event is confirmed only when an unprompted PLAN or MONITORING move appears on a
+different task, refers to that task's content, and is subsequently executed.
+Prompted planning is logged separately and never counted as transfer.
 
 Per-turn records are appended to
     data/metacognition/transfer_{student}.jsonl
@@ -255,6 +247,16 @@ class TransferTurn:
     evidence: str
     student_profile: str = ""
     subject: str = ""
+    task_id: str = ""
+    moves_detected: list[str] | None = None
+    no_aria_prompt_previous_turn: bool = False
+    new_or_different_task: bool = False
+    task_content_referenced: bool = False
+    strategy_executed: bool = False
+    transfer_candidate: bool = False
+    transfer_confirmed: bool = False
+    prompted_planning: bool = False
+    confirms_candidate_turn: Optional[int] = None
     timestamp: str = ""
 
     def to_dict(self) -> dict:
@@ -272,6 +274,8 @@ class TransferDetector:
     def __init__(self, student_name: str = "default"):
         self.student_name = student_name
         self.path = os.path.join(META_DIR, f"transfer_{_slug(student_name)}.jsonl")
+        self._last_task_id = ""
+        self._pending_candidate: Optional[dict] = None
 
     # -- detection + logging ----------------------------------------
 
@@ -284,10 +288,51 @@ class TransferDetector:
         session: str = "",
         student_profile: str = "",
         subject: str = "",
+        task_id: str = "",
+        moves_detected: Optional[list[str]] = None,
+        task_content_referenced: bool = False,
+        strategy_executed: bool = False,
         persist: bool = True,
     ) -> dict:
-        """Run detection for one turn and (optionally) append it to disk."""
+        """Run strict, prospective transfer measurement for one turn.
+
+        A qualifying plan becomes a candidate on the task's first relevant
+        turn. It is confirmed only by a later execution turn on that same task.
+        """
         core = detect_self_initiation(student_input, aria_previous_prompt)
+        moves = list(moves_detected or [])
+        no_previous_prompt = not bool((aria_previous_prompt or "").strip())
+        different_task = bool(
+            task_id and self._last_task_id and task_id != self._last_task_id
+        )
+        plan_or_monitoring = bool({"PLAN", "MONITORING"} & set(moves))
+        prompted_planning = plan_or_monitoring and not no_previous_prompt
+
+        confirms_turn = None
+        transfer_confirmed = False
+        if self._pending_candidate is not None:
+            pending = self._pending_candidate
+            if (
+                pending["task_id"] == task_id
+                and turn != pending["turn"]
+                and strategy_executed
+                and task_content_referenced
+            ):
+                transfer_confirmed = True
+                confirms_turn = pending["turn"]
+                self._pending_candidate = None
+            elif task_id and pending["task_id"] != task_id:
+                self._pending_candidate = None
+
+        transfer_candidate = all((
+            no_previous_prompt,
+            different_task,
+            plan_or_monitoring,
+            task_content_referenced,
+        ))
+        if transfer_candidate:
+            self._pending_candidate = {"task_id": task_id, "turn": turn}
+
         rec = TransferTurn(
             turn=turn,
             session=session,
@@ -299,8 +344,20 @@ class TransferDetector:
             evidence=core["evidence"],
             student_profile=student_profile,
             subject=subject,
+            task_id=task_id,
+            moves_detected=moves,
+            no_aria_prompt_previous_turn=no_previous_prompt,
+            new_or_different_task=different_task,
+            task_content_referenced=bool(task_content_referenced),
+            strategy_executed=bool(strategy_executed),
+            transfer_candidate=transfer_candidate,
+            transfer_confirmed=transfer_confirmed,
+            prompted_planning=prompted_planning,
+            confirms_candidate_turn=confirms_turn,
             timestamp=_now_iso(),
         ).to_dict()
+        if task_id:
+            self._last_task_id = task_id
         if persist:
             self._append(rec)
         return rec
@@ -347,6 +404,17 @@ class TransferDetector:
             return None
         si = sum(1 for r in records if r.get("self_initiated_metacognition"))
         return round(si / len(records), 3)
+
+    def task_grounded_transfer_rate(
+        self, records: Optional[list[dict]] = None
+    ) -> Optional[float]:
+        """Confirmed transfers divided by eligible cross-task candidates."""
+        records = self.load() if records is None else records
+        candidates = sum(1 for row in records if row.get("transfer_candidate"))
+        if not candidates:
+            return None
+        confirmed = sum(1 for row in records if row.get("transfer_confirmed"))
+        return round(confirmed / candidates, 3)
 
     def rate_by_session(self, records: Optional[list[dict]] = None) -> list[dict]:
         """Per-session self-initiation rate, in chronological order.
@@ -460,6 +528,13 @@ class TransferDetector:
             "total_turns": len(records),
             "total_sessions": len(per),
             "self_initiation_rate": overall,
+            "task_grounded_transfer_rate": self.task_grounded_transfer_rate(records),
+            "confirmed_transfer_events": sum(
+                1 for row in records if row.get("transfer_confirmed")
+            ),
+            "prompted_planning_turns": sum(
+                1 for row in records if row.get("prompted_planning")
+            ),
             "transferred": (overall or 0) > self.TRANSFER_THRESHOLD,
             "transfer_threshold": self.TRANSFER_THRESHOLD,
             "phases": phases,

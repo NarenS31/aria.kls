@@ -1,0 +1,37 @@
+{
+  "machine_readiness": "pass",
+  "checks": {
+    "exists:README.md": true,
+    "exists:EVIDENCE_MAP.md": true,
+    "exists:OBSERVABLE_REASONING_TAXONOMY.md": true,
+    "exists:TASK_VALIDATION_PROTOCOL.md": true,
+    "exists:SYSTEM_EVALUATION_PREREGISTRATION.md": true,
+    "exists:LANGUAGE_VALIDATION_PROTOCOL.md": true,
+    "exists:FEASIBILITY_PROTOCOL.md": true,
+    "exists:STUDENT_STUDY_PREREGISTRATION.md": true,
+    "exists:OUTCOME_MEASUREMENT_PLAN.md": true,
+    "exists:ETHICS_AND_PRIVACY.md": true,
+    "exists:DATA_MANAGEMENT_PLAN.md": true,
+    "exists:ADHD_POSITION.md": true,
+    "exists:MODEL_CARD.md": true,
+    "exists:DATA_CARD.md": true,
+    "exists:EXTERNAL_ACTIONS.md": true,
+    "exists:templates/PARENT_PERMISSION_DRAFT.md": true,
+    "exists:templates/STUDENT_ASSENT_DRAFT.md": true,
+    "exists:templates/EDUCATOR_REVIEWER_CONSENT_DRAFT.md": true,
+    "task_count_is_100": true,
+    "task_schema_valid": true,
+    "all_tasks_explicitly_pending": true,
+    "no_private_language_packet_tracked": true
+  },
+  "schema_errors": [],
+  "external_gates": {
+    "institutional_determination": "pending",
+    "educator_task_reviews": "pending",
+    "blinded_intervention_ratings": "pending",
+    "independent_real_language_labels": "pending",
+    "student_feasibility_data": "pending",
+    "controlled_learning_outcomes": "pending"
+  },
+  "warning": "Machine readiness means files are present and internally valid. It is not IRB approval, educator validation, or evidence of effect."
+}

@@ -117,12 +117,7 @@ def _load_metacog_eval() -> dict:
 
 
 def _format_metacognition_section(metacog: dict) -> str:
-    """Build the Metacognitive-Development-Measurement section from real numbers.
-
-    Covers the three systems that measure whether students develop metacognition
-    independently (not just respond to prompts): transfer detection, calibration,
-    and intervention-timing optimisation.
-    """
+    """Describe the auditable three-layer architecture and its measurements."""
     m4 = metacog.get("transfer_detection", {})
     m5 = metacog.get("calibration_validity", {})
     m6 = metacog.get("timing_validity", {})
@@ -163,38 +158,42 @@ def _format_metacognition_section(metacog: dict) -> str:
         timing_detail = "\n".join(lines)
 
     f1_str = _f(m4.get("f1")) if (m4 and not m4.get("error")) else "n/a"
-    return f"""Beyond scoring tutor *outputs*, ARIA measures whether *students* develop
-metacognition independently over time — the actual learning outcome, not mere
-prompt-following. Three measurement systems back this claim, each validated on
-the synthetic think-aloud corpus or on controlled simulations.
+    return f"""ARIA uses three layers whose claims map to visible evidence.
 
-**Metric 4 — Transfer Detection.** The `TransferDetector` scans each think-aloud
-turn *before* ARIA intervenes and decides whether the student self-initiated
-metacognition (planning / monitoring / reflection) versus merely responding to a
-prior ARIA prompt. Evaluated against per-sample ground-truth labels on the
-held-out set, self-initiation detection reaches an F1 of {f1_str} with near-
-perfect metacognitive-type classification. The Self-Initiation Rate
-(self-initiated turns / total turns), tracked across sessions, operationalises
-metacognitive *transfer*: a rising rate — even as ARIA intervenes less — is
-direct evidence the student has internalised the habit. Planning is the most
-linguistically separable (and, per the developmental literature, the earliest)
-form to transfer.
+**Layer 1 — Observable moves.** A multi-label extractor records what the student
+actually said, including PLAN, STRATEGY_STEP, JUSTIFICATION, MONITORING,
+UNCERTAINTY, and HELP_SEEKING. Every code retains its exact supporting span.
+These codes describe language; they are not hidden-state or clinical labels.
 
-**Metric 5 — Calibration.** ARIA elicits a 1–5 confidence rating before each
-attempt and resolves correctness afterwards, then computes a calibration error
-(mean |confidence − accuracy| on a common 0–1 scale), plus over- and
-under-confidence rates, sliced by topic and by cognitive state. The computation
-is verified against an independent reference and two analytic extremes (a
-perfectly calibrated set scores 0.0; a perfectly anti-calibrated set scores 1.0).
-This targets a well-documented ADHD deficit: knowing what one knows.
+**Layer 2 — Task-grounded situation model.** ARIA combines current moves with the
+active task's expected steps and misconceptions, answer-key checks where
+possible, and same-task history. It represents whether a next step was named,
+whether that step is supported, whether a strategy was repeated, the likely
+task-step index, confidence, and an alternative interpretation. The policy acts
+on those fields. Below 0.5 confidence it abstains and observes another turn. The
+interface reports a “possible situation,” exact evidence, confidence, and an
+alternative rather than a definitive label such as “confused.”
 
-**Metric 6 — Intervention-Timing Optimisation.** The `InterventionTimer` records,
-per negative-state episode, how many turns the student was in the state before
-ARIA intervened and whether (and how fast) they recovered. Grouping by
-intervention turn yields the optimal moment to intervene per state — validated in
-simulation by recovering planted ground-truth optima — and, after enough
-sessions, an adaptive per-student timing policy that ARIA's reasoning loop reads
-to delay or accelerate its interventions.
+**Layer 3 — Longitudinal transfer.** Planning language alone is not transfer.
+ARIA confirms transfer only when the prior turn contained no ARIA prompt, the
+task is new or different, the student produces PLAN or MONITORING, that move
+refers to the active task, and a later turn shows the plan being executed.
+Prompted planning is logged separately.
+
+**Legacy development metric — language-only self-initiation.** Earlier synthetic
+evaluation tested whether planning, monitoring, or reflection language followed
+a detected metacognitive prompt. Its F1 is {f1_str}. That result validates a
+development classifier only; it is not evidence of transfer under the stricter
+prospective definition.
+
+**Calibration.** ARIA can elicit a 1–5 confidence rating before an attempt and
+resolve correctness afterward. The current calibration results validate the
+calculation on simulations; they do not establish a student effect.
+
+**Intervention timing.** ARIA records how many turns elapsed before an
+intervention and whether observable recovery followed. Existing timing results
+are controlled simulations and validate software behavior, not student
+outcomes.
 
 {table}
 {timing_detail}
@@ -643,8 +642,8 @@ This approach achieves distillation without gradient updates, relying instead on
 
 ## 8. Metacognitive Development Measurement
 
-*What makes ARIA genuinely novel is not that it detects metacognition, but that
-it measures whether students develop it independently over time.*
+*ARIA separates observable language, task-grounded interpretation, and
+prospective longitudinal transfer so each claim remains auditable.*
 
 {metacog_section_md}
 
@@ -671,7 +670,8 @@ strongest validation tier each can support.*
 
 ## 11. External Validation
 
-ARIA's state model is tested against real education data. Each experiment is
+ARIA's observable-move and situation-model components are tested against
+authorized education data where the available labels are compatible. Each experiment is
 tagged by the strength of evidence it can produce.
 
 {extval_section_md}

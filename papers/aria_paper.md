@@ -20,10 +20,11 @@ examples; the only locally available external validation uses behavioral and
 gaze-derived signals that do not test the text classifier directly. Existing
 tutoring scores are also produced by an LLM judge without a human agreement
 study. The current contribution is therefore a testable closed-loop systems
-design and reproducible evaluation protocol, not evidence that ARIA improves
-learning or is effective for students with ADHD. We specify the human
-annotation, real think-aloud validation, and prospective student study required
-to test those claims.
+design, an observable reasoning-move measurement proposal, and reproducible
+prospective protocols, not evidence that ARIA improves learning or is effective
+for students with ADHD. Task review, human annotation, feasibility, ethics,
+power, and controlled-study materials are prepared, while every independent
+human result remains pending.
 
 ## 1. Motivation and research question
 
@@ -52,14 +53,37 @@ For each turn, ARIA constructs an intervention signature containing:
 - topic and expected problem step;
 - a short anchor from the student's current words;
 - a candidate misconception;
-- a fallible cognitive-state estimate;
+- exact spans supporting observable reasoning-move hypotheses;
+- a task-grounded situation model with confidence and an alternative;
 - learner response preferences; and
 - the outcome of the prior intervention.
 
 A hash of this representation supports auditability without serving as an
 evaluation label.
 
-### 2.2 Candidate generation and selection
+### 2.2 Three-layer reasoning architecture
+
+ARIA separates three different claims:
+
+1. **Layer 1: observable moves.** The extractor records visible moves such as
+   PLAN, STRATEGY_STEP, JUSTIFICATION, MONITORING, UNCERTAINTY, and HELP_SEEKING
+   with the exact student words supporting every code.
+2. **Layer 2: task-grounded situation model.** The system combines those moves
+   with expected task steps, known misconceptions, answer-key checks where
+   possible, and same-task history. It records whether the student named a next
+   step, whether that step is supported, whether a strategy was repeated, the
+   likely task-step index, confidence, and an alternative interpretation. Below
+   0.5 confidence, ARIA abstains and observes another turn.
+3. **Layer 3: longitudinal transfer.** Transfer is confirmed prospectively only
+   when an unprompted PLAN or MONITORING move occurs on a different task,
+   references that task, and is subsequently executed. Prompted planning is
+   tracked separately.
+
+The interface therefore shows a *possible situation*, confidence, exact
+evidence, and an alternative. It does not present “confused” or another hidden
+state as a definitive student label.
+
+### 2.3 Candidate generation and selection
 
 One language-model call requests several interventions using different
 strategies. Verified fallback candidates are added so model failure does not
@@ -70,7 +94,7 @@ stop the learning session. A deterministic selector then evaluates:
 - semantic similarity to recent interventions;
 - answer leakage;
 - one-question and length constraints;
-- state-strategy fit; and
+- situation-policy fit; and
 - smoothed historical effectiveness by student, topic, and strategy.
 
 The selector records the chosen strategy, candidate source, rejection reasons,
@@ -78,9 +102,10 @@ and closest prior-response similarity.
 
 ### 2.3 Outcome update
 
-On the next turn, ARIA records observable indicators such as a self-correction
-phrase or a transition out of an estimated negative state. These are weak
-online proxies, not proof of learning. Strategy-effectiveness estimates use
+On the next turn, ARIA records observable indicators such as a plan,
+justification, monitoring question, or self-correction, each with a text span.
+It may also record a transition out of an estimated negative state. These are
+weak online proxies, not proof of learning. Strategy-effectiveness estimates use
 Beta smoothing so a single early event cannot dominate later selection.
 
 ## 3. Evaluation protocol
@@ -94,8 +119,11 @@ The local task bank contains 100 answer-keyed tasks:
 - 20 science and coding-reasoning tasks.
 
 Every task includes a solution or rubric target, expected reasoning steps, key
-ideas, and multiple anticipated misconceptions. The bank is researcher-created
-and is not a standardized achievement test.
+ideas, and multiple anticipated misconceptions. A strict research schema and a
+100-item educator review packet now add solution paths, misconception evidence,
+graded hints, scoring criteria, and provenance. Every task remains marked
+`pending`; the bank is researcher-created, not educator validated, and not a
+standardized achievement test.
 
 ### 3.2 Progressive-conditioning ablations
 
@@ -142,7 +170,14 @@ audits are retained.
 
 ## 4. Current evidence
 
-### 4.1 Cognitive-state estimation
+### 4.1 Language measurement and legacy cognitive-state estimation
+
+ARIA now separates observable utterance codes from latent state hypotheses.
+The proposed multi-label codes cover task orientation, planning, a concrete
+strategy step, justification, monitoring, evaluation, self-correction,
+uncertainty, help-seeking, answer-only, affect, and off-task language. The
+transparent extractor supports logging and annotation tooling but has not been
+validated against independent human labels.
 
 Same-generator synthetic think-aloud evaluation reports 84.6% accuracy and
 0.837 macro-F1 for the heuristic classifier. Cross-generator results are lower
@@ -153,7 +188,10 @@ EduAgent310 provides real gaze-derived cognitive labels, but it contains no
 think-aloud text. A correctness-based behavioral proxy agreed with its
 two-state labels at 0.663 accuracy and 0.409 macro-F1. This result illustrates
 that observable incorrectness is a weak proxy for confusion; it does not
-validate ARIA's text classifier.
+validate ARIA's text classifier. Real Eedi tutoring dialogue is available
+locally under noncommercial terms, but ARIA's labels for it are weak
+supervision rather than human ground truth. A private, prediction-blind
+annotation export is prepared for independent coders.
 
 ### 4.2 Intervention quality
 
@@ -189,16 +227,24 @@ measurements are simulations or limited traces. They validate software behavior
 and generate hypotheses. They do not establish that ARIA changes student
 learning, metacognitive skill, or classroom outcomes.
 
+The prospective transfer measure requires all six conditions: no ARIA prompt in
+the previous turn; a new or different task; a PLAN or MONITORING move; explicit
+reference to active task content; later execution of the plan; and separate
+logging from prompted planning. Earlier language-only self-initiation scores are
+retained as legacy development metrics, not transfer evidence.
+
 ## 5. Limitations
 
-1. No real human think-aloud corpus with compatible labels is locally available.
+1. No independently human-labeled real student corpus with compatible
+   observable-move labels is available.
 2. Synthetic cases can share the language patterns of their generators.
 3. Automated grounding measures reward lexical overlap and can miss semantic
    quality or reward superficial quotation.
 4. LLM judges are not substitutes for educator ratings.
-5. Cognitive states are uncertain hypotheses and are not diagnoses.
-6. There is no prospective student comparison, power analysis, or causal
-   learning outcome.
+5. Situation-model outputs are evidence-bounded interpretations, not diagnoses;
+   correctness can remain unknown and alternative interpretations must be shown.
+6. A power tool and prospective student comparison protocol now exist, but
+   there is no approved or completed causal learning study.
 7. There is no basis for generalizing effectiveness to students with ADHD or
    any other neurodivergent population.
 8. Some external datasets are noncommercial or access controlled and cannot be
@@ -208,10 +254,10 @@ learning, metacognitive skill, or classroom outcomes.
 
 The following steps are required before a strong archival submission:
 
-1. Obtain authorized real think-aloud data with human self-regulated-learning
-   labels and freeze a held-out test split.
-2. Complete blinded educator annotation with inter-rater reliability.
-3. Evaluate independent model families and generators, including adversarial
+1. Complete and adjudicate independent observable-move labels on authorized
+   real dialogue, then freeze a student/session-disjoint test split.
+2. Complete blinded task and intervention review with inter-rater reliability.
+3. Evaluate independent model families and sources, including adversarial
    paraphrases and out-of-domain writing.
 4. Preregister a powered prospective study with participant protections.
 5. Compare against a strong adaptive tutoring baseline and a problem-aware
@@ -238,6 +284,11 @@ or classroom effectiveness remain open research questions.
 - Executable benchmark: `eval/closed_loop_benchmark.py`
 - Evidence table: `eval/data/eval/EVIDENCE.md`
 - Limitations: `eval/data/eval/LIMITATIONS.md`
+- Evidence and study program: `research/README.md`
+- Observable taxonomy: `research/OBSERVABLE_REASONING_TAXONOMY.md`
+- Task validation: `research/TASK_VALIDATION_PROTOCOL.md`
+- Controlled student study: `research/STUDENT_STUDY_PREREGISTRATION.md`
+- Ethics and privacy: `research/ETHICS_AND_PRIVACY.md`
 
 ## Research benchmark references
 

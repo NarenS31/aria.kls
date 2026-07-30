@@ -374,22 +374,51 @@ def _state_panel_html() -> str:
             "<span>Work through the problem in your own words.</span></div>"
         )
     def display_label(turn: dict) -> str:
-        intent = turn.get("intent")
-        if intent == "HELP_REQUEST":
-            return "Needs a starting point"
-        if intent == "ATTEMPT_META":
-            return "Getting started"
-        if turn["state"] == "UNKNOWN":
-            return "Not enough evidence"
-        return turn["state"].title()
+        if (
+            turn.get("intent") == "ATTEMPT_META"
+            or "TASK_META" in turn.get("observable_moves", [])
+        ):
+            return "Getting started without a named task step"
+        return str(
+            turn.get("situation_label")
+            or "not enough task-grounded evidence"
+        ).capitalize()
+
+    def confidence_word(value) -> str:
+        try:
+            score = float(value)
+        except (TypeError, ValueError):
+            return "low"
+        if score >= 0.75:
+            return "high"
+        if score >= 0.5:
+            return "moderate"
+        return "low"
 
     latest = _think_states[-1]
     state_label = display_label(latest)
+    situation = latest.get("situation_model") or {}
+    evidence = [
+        str(item.get("evidence", "")).strip()
+        for item in latest.get("move_evidence", [])
+        if isinstance(item, dict) and str(item.get("evidence", "")).strip()
+    ]
+    evidence_html = " · ".join(
+        f"“{html.escape(fragment)}”" for fragment in evidence[:3]
+    ) or "No exact task-reasoning phrase yet"
+    alternative = situation.get("alternative_interpretation")
+    alternative_html = (
+        f"<p><b>Alternative:</b> {html.escape(str(alternative))}</p>"
+        if alternative else ""
+    )
     big = (
         f"<div class='aria-state-result'>"
-        f"<span>Thinking pattern</span>"
+        f"<span>Possible situation</span>"
         f"<strong>{state_label}</strong>"
-        f"<p>ARIA noticed {latest.get('evidence') or 'signals in your wording'}.</p>"
+        f"<p><b>Confidence:</b> {confidence_word(situation.get('aria_confidence'))}</p>"
+        f"<p><b>Evidence:</b> {evidence_html}</p>"
+        f"{alternative_html}"
+        f"<p>This is a task-grounded interpretation, not a diagnosis or definitive label.</p>"
         f"</div>"
     )
     hist = "<div class='aria-state-history'><b>This session</b><div>"
@@ -425,19 +454,37 @@ def submit_think_aloud(text: str):
         mtype = result.get("metacognitive_type", "metacognition")
         banner = f"SELF-INITIATED {mtype.upper()} · NICE"
     elif not result.get("intervened", True):
-        # Timer says it's not the moment yet — a light, non-prompting nudge.
-        banner = "GIVING YOU A MOMENT"
+        banner = "OBSERVING THIS TURN"
     else:
-        label = _INTERVENTION_LABEL.get(result.get("intervention_state", result["state"]), "Reflect")
+        situation_actions = {
+            "ask_for_plan": "Build a plan",
+            "advance": "Advance",
+            "localize_error": "Inspect one step",
+            "ask_for_justification": "Explain why",
+            "ask_for_verification": "Verify",
+            "orient": "Find a starting point",
+        }
+        label = situation_actions.get(
+            result.get("policy_action"),
+            _INTERVENTION_LABEL.get(
+                result.get("intervention_state", result["state"]),
+                "Reflect",
+            ),
+        )
         if result.get("escalated"):
             label += f" · escalated ({result.get('escalation_kind', 'help')})"
         banner = f"INTERVENTION · {label.upper()}"
 
+    response_note = (
+        "One question. No answer revealed."
+        if result.get("intervened", True)
+        else "No intervention. ARIA will use the next turn as additional evidence."
+    )
     response_md = (
         f"<div class='aria-response-card'>"
         f"<div class='aria-response-label'>{html.escape(str(banner))}</div>"
         f"<div class='aria-response-question'>{html.escape(str(result['question']))}</div>"
-        f"<div class='aria-response-note'>One question. No answer revealed.</div></div>"
+        f"<div class='aria-response-note'>{html.escape(response_note)}</div></div>"
     )
     return _state_panel_html(), response_md, ""
 
@@ -1908,13 +1955,17 @@ button.aria-secondary-action {
 }
 
 .aria-state-result strong {
-  font-size: 2.4rem;
-  letter-spacing: -0.05em;
+  max-width: 34ch;
+  font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+  line-height: 1.12;
+  letter-spacing: -0.025em;
 }
 
 .aria-state-result p {
   margin: 0;
   color: var(--aria-ink-2);
+  font-size: 0.88rem;
+  line-height: 1.5;
 }
 
 .aria-state-history {

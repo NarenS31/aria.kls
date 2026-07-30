@@ -1,0 +1,124 @@
+task_id,subject,topic,prompt,reviewer_id,relevant_subject_expertise_yes_no,prompt_clear_1_5,answers_correct_complete_1_5,solution_steps_correct_complete_1_5,missing_valid_strategy_yes_no,misconceptions_plausible_observable_1_5,hints_scaffold_without_leakage_1_5,scoring_criteria_valid_1_5,age_appropriate_1_5,accessibility_or_bias_concern_yes_no,blocking_error_yes_no,disposition_approve_revise_reject,reviewer_notes
+math-algebra-01,Math,Algebra,Solve for x: 3(x - 4) = 2x + 5,,,,,,,,,,,,,,
+math-algebra-02,Math,Algebra,Solve for x: 5x + 7 = 2x + 25,,,,,,,,,,,,,,
+math-algebra-03,Math,Algebra,Solve for x: 4(x + 2) = 3x + 15,,,,,,,,,,,,,,
+math-algebra-04,Math,Algebra,Solve for x: 7 - 2x = 19,,,,,,,,,,,,,,
+math-algebra-05,Math,Algebra,Solve for x: (x / 3) + 5 = 11,,,,,,,,,,,,,,
+math-algebra-06,Math,Algebra,Solve for x: 6x - 4 = 2(x + 8),,,,,,,,,,,,,,
+math-algebra-07,Math,Algebra,Solve for x: 9 - 3(x - 1) = 0,,,,,,,,,,,,,,
+math-algebra-08,Math,Algebra,Solve for x: 0.5x + 3 = 8,,,,,,,,,,,,,,
+math-algebra-09,Math,Algebra,Solve for x: 2(x + 5) - 3 = 15,,,,,,,,,,,,,,
+math-algebra-10,Math,Algebra,Solve for x: 4 - (x - 6) = 12,,,,,,,,,,,,,,
+math-functions-01,Math,Functions and Systems,"If f(x) = 2x^2 - 3, find f(4).",,,,,,,,,,,,,,
+math-functions-02,Math,Functions and Systems,"A line passes through (2, 3) and (6, 11). Find its slope.",,,,,,,,,,,,,,
+math-functions-03,Math,Functions and Systems,"Write the equation of a line with slope 3 through (2, 5).",,,,,,,,,,,,,,
+math-functions-04,Math,Functions and Systems,Solve the system: x + y = 9 and x - y = 3.,,,,,,,,,,,,,,
+math-functions-05,Math,Functions and Systems,Solve the system: 2x + y = 7 and x - y = 2.,,,,,,,,,,,,,,
+math-functions-06,Math,Functions and Systems,"For g(x) = |x - 4|, find g(-2).",,,,,,,,,,,,,,
+math-functions-07,Math,Functions and Systems,"The table has points (0, 5), (1, 8), and (2, 11). Write its linear rule.",,,,,,,,,,,,,,
+math-functions-08,Math,Functions and Systems,Find the inverse of f(x) = 2x + 6.,,,,,,,,,,,,,,
+math-functions-09,Math,Functions and Systems,What is the vertex of y = (x - 3)^2 + 4?,,,,,,,,,,,,,,
+math-functions-10,Math,Functions and Systems,"An arithmetic sequence begins 7, 11, 15, 19. Write a formula for a_n.",,,,,,,,,,,,,,
+math-geometry-01,Math,Geometry,A right triangle has legs 6 and 8. Find the hypotenuse.,,,,,,,,,,,,,,
+math-geometry-02,Math,Geometry,A circle has radius 5. Find its area in terms of pi.,,,,,,,,,,,,,,
+math-geometry-03,Math,Geometry,A rectangle is 12 by 7. A 3 by 2 rectangle is cut from one corner. Find the remaining area.,,,,,,,,,,,,,,
+math-geometry-04,Math,Geometry,Two angles form a linear pair. One is 68 degrees. Find the other.,,,,,,,,,,,,,,
+math-geometry-05,Math,Geometry,A triangle has angles 45 and 72 degrees. Find the third angle.,,,,,,,,,,,,,,
+math-geometry-06,Math,Geometry,A cylinder has radius 3 and height 8. Find its volume in terms of pi.,,,,,,,,,,,,,,
+math-geometry-07,Math,Geometry,Similar triangles have scale factor 3 from small to large. A small side is 5. Find the matching large side.,,,,,,,,,,,,,,
+math-geometry-08,Math,Geometry,"The endpoints of a segment are (-2, 4) and (6, 10). Find the midpoint.",,,,,,,,,,,,,,
+math-geometry-09,Math,Geometry,"Find the distance between (1, 2) and (4, 6).",,,,,,,,,,,,,,
+math-geometry-10,Math,Geometry,A regular hexagon has side length 4. Find its perimeter.,,,,,,,,,,,,,,
+math-statistics-01,Math,Statistics and Probability,"Find the median of 4, 8, 15, 16, 23, 42.",,,,,,,,,,,,,,
+math-statistics-02,Math,Statistics and Probability,"Find the mean of 6, 8, 9, 12, 15.",,,,,,,,,,,,,,
+math-statistics-03,Math,Statistics and Probability,"A bag has 3 red, 5 blue, and 2 green marbles. Find P(red).",,,,,,,,,,,,,,
+math-statistics-04,Math,Statistics and Probability,A fair coin is flipped twice. Find the probability of exactly one head.,,,,,,,,,,,,,,
+math-statistics-05,Math,Statistics and Probability,"The scores are 70, 72, 74, 76, and 98. Which measure better describes a typical score: mean or median?",,,,,,,,,,,,,,
+math-statistics-06,Math,Statistics and Probability,A survey samples 100 students by asking only varsity athletes. What is the main problem?,,,,,,,,,,,,,,
+math-statistics-07,Math,Statistics and Probability,"A spinner has four equal sections labeled A, A, B, C. Find P(A or B).",,,,,,,,,,,,,,
+math-statistics-08,Math,Statistics and Probability,"The mean of four numbers is 12. Three numbers are 8, 11, and 15. Find the fourth.",,,,,,,,,,,,,,
+math-statistics-09,Math,Statistics and Probability,A scatterplot rises from left to right with points close to a line. Describe the association.,,,,,,,,,,,,,,
+math-statistics-10,Math,Statistics and Probability,"In a normal distribution, a value has z = -1.5. Is it above or below the mean?",,,,,,,,,,,,,,
+math-advanced-01,Math,Advanced Math,Solve x^2 - 5x + 6 = 0.,,,,,,,,,,,,,,
+math-advanced-02,Math,Advanced Math,Simplify (x^3)(x^5).,,,,,,,,,,,,,,
+math-advanced-03,Math,Advanced Math,Solve 2^x = 32.,,,,,,,,,,,,,,
+math-advanced-04,Math,Advanced Math,Simplify √72.,,,,,,,,,,,,,,
+math-advanced-05,Math,Advanced Math,"In a right triangle, opposite = 6 and hypotenuse = 10. Find sin(theta).",,,,,,,,,,,,,,
+math-advanced-06,Math,Advanced Math,Convert 150 degrees to radians.,,,,,,,,,,,,,,
+math-advanced-07,Math,Advanced Math,Find the derivative of f(x) = 3x^2 - 5x + 2.,,,,,,,,,,,,,,
+math-advanced-08,Math,Advanced Math,Evaluate log base 10 of 1000.,,,,,,,,,,,,,,
+math-advanced-09,Math,Advanced Math,"Find the sum of the first 6 terms of 2, 5, 8, 11, ...",,,,,,,,,,,,,,
+math-advanced-10,Math,Advanced Math,Solve |2x - 1| = 7.,,,,,,,,,,,,,,
+english-reading-01,English,Reading Analysis,"Read: ""Mara stood outside the crowded cafeteria, rereading the menu though she already knew every item.""
+
+How does the detail about rereading the menu reveal Mara's feelings?",,,,,,,,,,,,,,
+english-reading-02,English,Reading Analysis,"Read: ""Jon called the broken watch 'perfectly reliable' as it showed noon for the third hour.""
+
+What effect does the phrase 'perfectly reliable' create?",,,,,,,,,,,,,,
+english-reading-03,English,Reading Analysis,"Read: ""The town planted a single sapling in the empty lot. By spring, neighbors had added a bench, flowers, and a path.""
+
+What central idea develops across these sentences?",,,,,,,,,,,,,,
+english-reading-04,English,Reading Analysis,"Read: ""Rain tapped the windows while Priya packed the last photograph into a box and labeled it HOME.""
+
+How does the setting contribute to the mood?",,,,,,,,,,,,,,
+english-reading-05,English,Reading Analysis,"Read: ""The coach never raised her voice. She simply waited, and the noisy gym slowly became still.""
+
+What does the coach's response show about her leadership?",,,,,,,,,,,,,,
+english-reading-06,English,Reading Analysis,"Read: ""At first, Theo hid his sketches. Later, he pinned one to the classroom wall before anyone arrived.""
+
+What change does Theo demonstrate?",,,,,,,,,,,,,,
+english-reading-07,English,Reading Analysis,"Read: ""The article calls the river both a 'highway' and a 'lifeline' for nearby villages.""
+
+Why does the author use these two metaphors?",,,,,,,,,,,,,,
+english-reading-08,English,Reading Analysis,"Read: ""Lena's apology included every detail of what happened except the choice she had made.""
+
+What does this sentence imply about Lena?",,,,,,,,,,,,,,
+english-reading-09,English,Reading Analysis,"Read: ""Each morning the factory whistle split the silence; on Sunday, its absence seemed louder.""
+
+How does the author use contrast?",,,,,,,,,,,,,,
+english-reading-10,English,Reading Analysis,"Read: ""'Take the map,' Grandfather said, handing Amir a blank sheet of paper.""
+
+What can the blank map symbolize?",,,,,,,,,,,,,,
+english-argument-01,English,Argument Writing,Revise this thesis to be specific and arguable: Social media affects teenagers in many ways.,,,,,,,,,,,,,,
+english-argument-02,English,Argument Writing,Write a focused claim for an essay arguing whether high schools should start later.,,,,,,,,,,,,,,
+english-argument-03,English,Argument Writing,Add analysis after this evidence: 'Students who slept eight hours completed the task more accurately.',,,,,,,,,,,,,,
+english-argument-04,English,Argument Writing,Revise for precision: School uniforms are good because they help things.,,,,,,,,,,,,,,
+english-argument-05,English,Argument Writing,Write a counterclaim to: Schools should replace all printed textbooks with tablets.,,,,,,,,,,,,,,
+english-argument-06,English,Argument Writing,Write a rebuttal to the counterclaim that community service requirements take time away from schoolwork.,,,,,,,,,,,,,,
+english-argument-07,English,Argument Writing,"Choose the strongest evidence for a claim that trees cool cities: A) trees are green, B) shaded blocks measured lower afternoon temperatures, C) many people like parks.",,,,,,,,,,,,,,
+english-argument-08,English,Argument Writing,Turn this topic into a research question: artificial intelligence in classrooms.,,,,,,,,,,,,,,
+english-argument-09,English,Argument Writing,Write a transition between a paragraph about the benefits of public transit and one about its cost.,,,,,,,,,,,,,,
+english-argument-10,English,Argument Writing,Revise this conclusion so it does more than repeat the thesis: Later start times improve student health and learning.,,,,,,,,,,,,,,
+english-revision-01,English,Language and Revision,Combine without a comma splice: The experiment ended. The team checked the results.,,,,,,,,,,,,,,
+english-revision-02,English,Language and Revision,"Fix the misplaced modifier: Running down the hall, the backpack bounced against Maya.",,,,,,,,,,,,,,
+english-revision-03,English,Language and Revision,Revise for active voice: The final decision was made by the committee.,,,,,,,,,,,,,,
+english-revision-04,English,Language and Revision,Choose the correct word: The new schedule had a positive affect/effect on attendance.,,,,,,,,,,,,,,
+english-revision-05,English,Language and Revision,Fix subject-verb agreement: The list of proposed changes are on the desk.,,,,,,,,,,,,,,
+english-revision-06,English,Language and Revision,Add punctuation: After the storm ended we opened the windows.,,,,,,,,,,,,,,
+english-revision-07,English,Language and Revision,Remove redundancy: The final outcome at the end surprised everyone.,,,,,,,,,,,,,,
+english-revision-08,English,Language and Revision,Make the comparison logical: The rainfall in Atlanta is greater than Seattle.,,,,,,,,,,,,,,
+english-revision-09,English,Language and Revision,"Fix the unclear pronoun: When Ava called Mia, she was already leaving.",,,,,,,,,,,,,,
+english-revision-10,English,Language and Revision,"Improve parallel structure: The club values creativity, teamwork, and members who persist.",,,,,,,,,,,,,,
+science-01,Science and Coding,Science Reasoning,A car goes from 0 to 20 m/s in 4 seconds. Find its acceleration.,,,,,,,,,,,,,,
+science-02,Science and Coding,Science Reasoning,A 2 kg object accelerates at 3 m/s^2. Find the net force.,,,,,,,,,,,,,,
+science-03,Science and Coding,Science Reasoning,How many moles are in 36 g of water if its molar mass is 18 g/mol?,,,,,,,,,,,,,,
+science-04,Science and Coding,Science Reasoning,Balance: __ H2 + __ O2 -> __ H2O.,,,,,,,,,,,,,,
+science-05,Science and Coding,Science Reasoning,Two heterozygous parents Aa × Aa have a child. Find P(aa).,,,,,,,,,,,,,,
+science-06,Science and Coding,Science Reasoning,A plant cell is placed in a hypotonic solution. What happens to water movement?,,,,,,,,,,,,,,
+science-07,Science and Coding,Science Reasoning,Why do seasons occur on Earth?,,,,,,,,,,,,,,
+science-08,Science and Coding,Science Reasoning,A population exceeds its carrying capacity. Predict the likely short-term effect.,,,,,,,,,,,,,,
+science-09,Science and Coding,Science Reasoning,"In an experiment, fertilizer amount changes and plant height is measured. Name the independent variable.",,,,,,,,,,,,,,
+science-10,Science and Coding,Science Reasoning,A wave has frequency 5 Hz and wavelength 2 m. Find its speed.,,,,,,,,,,,,,,
+coding-01,Science and Coding,Coding Reasoning,"What does Python print? nums = [2, 4, 6]; print(nums[1])",,,,,,,,,,,,,,
+coding-02,Science and Coding,Coding Reasoning,"What does Python print? total = 0
+for n in [1, 2, 3]:
+    total += n
+print(total)",,,,,,,,,,,,,,
+coding-03,Science and Coding,Coding Reasoning,Fix the boundary bug: for i in range(len(items) + 1): print(items[i]),,,,,,,,,,,,,,
+coding-04,Science and Coding,Coding Reasoning,What does this condition test? if age >= 13 and age <= 19:,,,,,,,,,,,,,,
+coding-05,Science and Coding,Coding Reasoning,A function should return the square of x. Complete: def square(x): return ____,,,,,,,,,,,,,,
+coding-06,Science and Coding,Coding Reasoning,What is the time complexity of binary search on a sorted list?,,,,,,,,,,,,,,
+coding-07,Science and Coding,Coding Reasoning,Why does this loop never end? while x > 0: print(x),,,,,,,,,,,,,,
+coding-08,Science and Coding,Coding Reasoning,"Which structure is best for mapping student IDs to names: list, dictionary, or stack?",,,,,,,,,,,,,,
+coding-09,Science and Coding,Coding Reasoning,What does SQL `SELECT name FROM students WHERE grade >= 90;` return?,,,,,,,,,,,,,,
+coding-10,Science and Coding,Coding Reasoning,"A test expects add(2, 3) == 5 but receives 6. What should you inspect first?",,,,,,,,,,,,,,

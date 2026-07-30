@@ -22,16 +22,14 @@ Every condition receives the same task and is evaluated on the same episode.
 
 ## Primary outcomes
 
-- Student-utterance grounding.
-- Problem grounding.
-- Misconception targeting.
-- Answer leakage.
-- One-question contract.
-- Semantic repetition across a session.
+- Blinded educator-rated student grounding.
+- Blinded educator-rated diagnostic usefulness.
+- Blinded educator-rated actionability.
+- Answer leakage and invented-student-action event rates.
 
-Automated lexical checks are regression tests, not a substitute for human
-ratings. The confirmatory human outcome is a blinded educator rating using the
-annotation protocol.
+Problem grounding, misconception targeting, one-question compliance, and
+semantic repetition remain secondary or regression outcomes. Automated lexical
+checks are not substitutes for human ratings.
 
 ## Statistical analysis
 
@@ -48,8 +46,8 @@ annotation protocol.
 
 ## Required external validation
 
-The synthetic benchmark cannot establish learning effectiveness or accurate
-cognitive-state inference. A publishable study still needs:
+The synthetic benchmark cannot establish learning effectiveness or the validity
+of task-grounded situation interpretations. A publishable study still needs:
 
 1. Real think-aloud transcripts with human self-regulated-learning labels.
 2. Blinded ratings from at least two educators, with adjudication and
@@ -58,6 +56,9 @@ cognitive-state inference. A publishable study still needs:
    against a strong tutoring baseline.
 4. A preregistered analysis plan, power analysis, and participant protections.
 5. Evaluation on models and generators not used to create training data.
+
+Executable and prospective materials for these steps are indexed in
+`research/README.md`. Every external human step remains pending.
 
 ## Claim policy
 
