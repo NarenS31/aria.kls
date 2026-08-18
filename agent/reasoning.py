@@ -910,6 +910,14 @@ class ARIAAgent:
             f"Common mistakes:\n{mistakes}"
         )
 
+    # A connective only marks a clause boundary worth cutting at once the
+    # anchor already carries some of the student's reasoning. Right after the
+    # stripped opener ("Ok but then if there are students with exactly 90...")
+    # the connective *is* the content, and breaking there leaves a one-word
+    # quote that gets read back to the student verbatim.
+    _ANCHOR_BREAK_WORDS = frozenset({"because", "since", "then"})
+    _ANCHOR_MIN_WORDS_BEFORE_BREAK = 4
+
     @staticmethod
     def _student_quote_anchor(student_input: str, max_words: int = 8) -> str:
         """Return a short, safe fragment that grounds feedback in this turn."""
@@ -924,13 +932,22 @@ class ARIAAgent:
             return "what you wrote"
         selected = []
         for word in words:
-            if selected and word.lower().strip(",;:") in {"because", "since", "then"}:
+            if (
+                len(selected) >= ARIAAgent._ANCHOR_MIN_WORDS_BEFORE_BREAK
+                and word.lower().strip(",;:") in ARIAAgent._ANCHOR_BREAK_WORDS
+            ):
                 break
             selected.append(word)
             if len(selected) >= max_words:
                 break
         fragment = " ".join(selected)
-        return fragment.rstrip(".,;:")
+        # The anchor is quoted as a fragment of what the student said, not as a
+        # standalone sentence, so a terminal mark it happened to end on is not
+        # part of the quote. A trailing "?" is the one that matters: the coach's
+        # own question follows the quote, and keeping the student's would put two
+        # question marks in one response. Trailing only — an internal "?" inside
+        # a longer quoted passage is the student's wording and stays.
+        return fragment.rstrip(".,;:!?")
 
     def _learner_context_block(self, student_input: str, state: str) -> str:
         """Build the student-model side of ARIA's dual-grounded response."""
@@ -1307,7 +1324,9 @@ class ARIAAgent:
             focus = str((ctx.get("key_ideas") or [ctx.get("topic", "the task")])[0])
             return (
                 "ask_for_plan",
-                f'You wrote “{anchor}.” What is one next step you could try using {focus}?',
+                f'You are working from “{anchor},” and you stopped at the point '
+                f'where you were no longer sure instead of guessing past it. '
+                f'What is one next step you could try using {focus}?',
                 True,
             )
         if (
@@ -1323,7 +1342,9 @@ class ARIAAgent:
             )
             return (
                 "localize_error",
-                f'You returned to “{anchor}.” The specific point to inspect is {issue}. '
+                f'You returned to “{anchor},” so you are still tracking this '
+                f'yourself rather than dropping it. '
+                f'The specific point to inspect is {issue}. '
                 "Which part of that step would you change?",
                 True,
             )
@@ -1344,27 +1365,35 @@ class ARIAAgent:
                 )
             return (
                 "advance",
-                f'Your step in “{anchor}” matches the task model. '
+                f'Your step in “{anchor}” matches the task model, so the '
+                f'direction you chose is one you can keep building on. '
                 f"{next_question}",
                 True,
             )
         if situation.student_has_named_next_step and not justification_present:
             return (
                 "ask_for_justification",
-                f'You proposed “{anchor}.” Why does that step preserve what the task is asking for?',
+                f'You proposed “{anchor},” which is a concrete move on the task '
+                f'rather than a restatement of it. '
+                f'Why does that step preserve what the task is asking for?',
                 True,
             )
         if situation.student_has_named_next_step and justification_present:
             return (
                 "ask_for_verification",
-                f'You connected “{anchor}” to a reason. How could you verify it against the original task?',
+                f'You connected “{anchor}” to a reason, so the step is carrying '
+                f'a justification instead of standing on its own. '
+                f'How could you verify it against the original task?',
                 True,
             )
 
         first_step = str((steps or ["identify one concrete first move"])[0])
         return (
             "orient",
-            f"Start with the task itself: {first_step} What would that look like here?",
+            f'You have put down “{anchor},” which is something to work from '
+            f'even though the next move is not settled yet. '
+            f"Start with the task itself: {first_step} "
+            "What would that look like here?",
             True,
         )
 
