@@ -1,0 +1,450 @@
+{
+  "_README": "CANONICAL FROZEN STIMULUS SET FOR RQ2 — DO NOT REGENERATE, DO NOT EDIT. This file, not the live pipeline output at data/rq2_pairs.json, is the stimulus set for the study. The rating form is built from these pairs and every rating collected refers to them. Re-running eval/rq2_pipeline.py overwrites data/rq2_pairs.json and leaves this file untouched by design: student attempt text is LLM-generated without a fixed seed, so a rerun produces different stimuli and would silently invalidate ratings already collected against these.",
+  "frozen": true,
+  "frozen_on": "2026-08-18",
+  "canonical_stimulus_set": true,
+  "frozen_from": "data/rq2_pairs.json",
+  "generated_by": "eval/rq2_pipeline.py",
+  "seed": 20260818,
+  "seeded_and_reproducible": [
+    "problem selection",
+    "persona assignment",
+    "condition display order"
+  ],
+  "not_seeded": [
+    "student attempt text (eval/simulator.py, temperature 0.85, no model seed — differs on every run)"
+  ],
+  "n_pairs": 10,
+  "validated_by": "python3.11 eval/rq2_validate.py --file data/rq2_pairs_FROZEN.json",
+  "measured_length_ratio_answer_giving_over_scaffolded": 1.31,
+  "note": "Response length is NOT matched between conditions. The measured ratio for this frozen set is 1.31x (51.7 vs 39.6 mean words); report that number rather than describing the conditions as length-matched.",
+  "pairs": [
+    {
+      "problem_id": "math-geometry-04",
+      "problem_text": "Two angles form a linear pair. One is 68 degrees. Find the other.",
+      "student_input": "Umm... I think the other angle should be 90 degrees 'cause they add up to a straight line?",
+      "display_order": {
+        "shown_as_A": "scaffolded"
+      },
+      "response_scaffolded": "Your step in “Umm... I think the other angle should be” matches the task model, so the direction you chose is one you can keep building on. What operation should come next on the equation you now have?",
+      "response_answer_giving": "Let me walk you through this one. First, linear-pair angles sum to 180 degrees. Then, compute 180 - 68. Next, check that the pair sums to 180. That gives you the answer: 112 degrees. The idea doing the work here is diagram reasoning.",
+      "_hidden": {
+        "shown_as_A": "scaffolded",
+        "shown_as_B": "answer_giving",
+        "seed": 20260818,
+        "subject": "Math",
+        "topic": "Geometry",
+        "difficulty": "medium",
+        "task_type": "answer_key",
+        "persona": "frustrated",
+        "attempt_tries": 2,
+        "weak_stimulus": false,
+        "scaffolded_meta": {
+          "text": "Your step in “Umm... I think the other angle should be” matches the task model, so the direction you chose is one you can keep building on. What operation should come next on the equation you now have?",
+          "situation_label": "a supported next step",
+          "policy_action": "advance",
+          "observable_moves": [
+            "STRATEGY_STEP",
+            "UNCERTAINTY"
+          ],
+          "aria_confidence": 0.83,
+          "intervened": true
+        },
+        "answer_giving_meta": {
+          "text": "Let me walk you through this one. First, linear-pair angles sum to 180 degrees. Then, compute 180 - 68. Next, check that the pair sums to 180. That gives you the answer: 112 degrees. The idea doing the work here is diagram reasoning.",
+          "source_fields": [
+            "solution_steps",
+            "answer",
+            "key_ideas"
+          ],
+          "used_situation_model": false,
+          "used_jitai": false
+        }
+      }
+    },
+    {
+      "problem_id": "math-algebra-09",
+      "problem_text": "Solve for x: 2(x + 5) - 3 = 15",
+      "student_input": "I thought I had to get rid of the minus sign when I combined the numbers... but what about when I distribute the 2 into the parentheses?",
+      "display_order": {
+        "shown_as_A": "answer_giving"
+      },
+      "response_scaffolded": "Your step in “I thought I had to get rid of” matches the task model, so the direction you chose is one you can keep building on. What operation should come next on the equation you now have?",
+      "response_answer_giving": "Let me walk you through this one. First, distribute and combine constants to get 2x + 7 = 15. Then, use inverse operations while keeping both sides balanced. Next, check the result by substituting x = 4 into the original equation. That gives you the answer: x = 4. The idea doing the work here is equivalent equations.",
+      "_hidden": {
+        "shown_as_A": "answer_giving",
+        "shown_as_B": "scaffolded",
+        "seed": 20260818,
+        "subject": "Math",
+        "topic": "Algebra",
+        "difficulty": "medium",
+        "task_type": "answer_key",
+        "persona": "hyperfocus",
+        "attempt_tries": 1,
+        "weak_stimulus": false,
+        "scaffolded_meta": {
+          "text": "Your step in “I thought I had to get rid of” matches the task model, so the direction you chose is one you can keep building on. What operation should come next on the equation you now have?",
+          "situation_label": "a supported next step",
+          "policy_action": "advance",
+          "observable_moves": [
+            "STRATEGY_STEP"
+          ],
+          "aria_confidence": 0.83,
+          "intervened": true
+        },
+        "answer_giving_meta": {
+          "text": "Let me walk you through this one. First, distribute and combine constants to get 2x + 7 = 15. Then, use inverse operations while keeping both sides balanced. Next, check the result by substituting x = 4 into the original equation. That gives you the answer: x = 4. The idea doing the work here is equivalent equations.",
+          "source_fields": [
+            "solution_steps",
+            "answer",
+            "key_ideas"
+          ],
+          "used_situation_model": false,
+          "used_jitai": false
+        }
+      }
+    },
+    {
+      "problem_id": "math-statistics-02",
+      "problem_text": "Find the mean of 6, 8, 9, 12, 15.",
+      "student_input": "I don't know... um, I think maybe we're supposed to divide by the largest number? Like, what if I said 6 was too small or something?",
+      "display_order": {
+        "shown_as_A": "scaffolded"
+      },
+      "response_scaffolded": "Your step in “I don't know... um, I think maybe we're” matches the task model, so the direction you chose is one you can keep building on. What operation should come next on the equation you now have?",
+      "response_answer_giving": "Let me walk you through this one. First, add the five values to get 50. Then, divide by the number of values, 5. Next, check that 10 is near the center. That gives you the answer: 10. The idea doing the work here is data interpretation.",
+      "_hidden": {
+        "shown_as_A": "scaffolded",
+        "shown_as_B": "answer_giving",
+        "seed": 20260818,
+        "subject": "Math",
+        "topic": "Statistics and Probability",
+        "difficulty": "medium",
+        "task_type": "answer_key",
+        "persona": "frustrated",
+        "attempt_tries": 2,
+        "weak_stimulus": false,
+        "scaffolded_meta": {
+          "text": "Your step in “I don't know... um, I think maybe we're” matches the task model, so the direction you chose is one you can keep building on. What operation should come next on the equation you now have?",
+          "situation_label": "a supported next step",
+          "policy_action": "advance",
+          "observable_moves": [
+            "STRATEGY_STEP",
+            "UNCERTAINTY"
+          ],
+          "aria_confidence": 0.83,
+          "intervened": true
+        },
+        "answer_giving_meta": {
+          "text": "Let me walk you through this one. First, add the five values to get 50. Then, divide by the number of values, 5. Next, check that 10 is near the center. That gives you the answer: 10. The idea doing the work here is data interpretation.",
+          "source_fields": [
+            "solution_steps",
+            "answer",
+            "key_ideas"
+          ],
+          "used_situation_model": false,
+          "used_jitai": false
+        }
+      }
+    },
+    {
+      "problem_id": "english-revision-04",
+      "problem_text": "Choose the correct word: The new schedule had a positive affect/effect on attendance.",
+      "student_input": "I think I got it right... we need 'effect' because it sounds like it matches with 'schedule', but then what about when we're talking about how someone feels? Can we use 'affect' to describe that too, maybe?",
+      "display_order": {
+        "shown_as_A": "scaffolded"
+      },
+      "response_scaffolded": "You are working from “I got it right... we need 'effect',” and you stopped at the point where you were no longer sure instead of guessing past it. What is one next step you could try using clarity?",
+      "response_answer_giving": "Let me walk you through this one. First, identify the sentence-level problem. Then, revise only what is needed. Next, read the revision once for clarity and grammar. That gets you to what the task is looking for: effect. The idea doing the work here is clarity.",
+      "_hidden": {
+        "shown_as_A": "scaffolded",
+        "shown_as_B": "answer_giving",
+        "seed": 20260818,
+        "subject": "English",
+        "topic": "Language and Revision",
+        "difficulty": "medium",
+        "task_type": "writing",
+        "persona": "hyperfocus",
+        "attempt_tries": 2,
+        "weak_stimulus": false,
+        "scaffolded_meta": {
+          "text": "You are working from “I got it right... we need 'effect',” and you stopped at the point where you were no longer sure instead of guessing past it. What is one next step you could try using clarity?",
+          "situation_label": "uncertainty without a clear next step",
+          "policy_action": "ask_for_plan",
+          "observable_moves": [
+            "JUSTIFICATION",
+            "UNCERTAINTY"
+          ],
+          "aria_confidence": 0.62,
+          "intervened": true
+        },
+        "answer_giving_meta": {
+          "text": "Let me walk you through this one. First, identify the sentence-level problem. Then, revise only what is needed. Next, read the revision once for clarity and grammar. That gets you to what the task is looking for: effect. The idea doing the work here is clarity.",
+          "source_fields": [
+            "solution_steps",
+            "answer",
+            "key_ideas"
+          ],
+          "used_situation_model": false,
+          "used_jitai": false
+        }
+      }
+    },
+    {
+      "problem_id": "english-argument-01",
+      "problem_text": "Revise this thesis to be specific and arguable: Social media affects teenagers in many ways.",
+      "student_input": "I don't get why I need to explain that social media is bad... isn't it just kinda obvious?",
+      "display_order": {
+        "shown_as_A": "scaffolded"
+      },
+      "response_scaffolded": "You have put down “I don't get why I need to explain,” which is something to work from even though the next move is not settled yet. Start with the task itself: Identify the exact job the sentence must do. What would that look like here?",
+      "response_answer_giving": "Let me walk you through this one. First, identify the exact job the sentence must do. Then, draft one focused sentence that does that job. Next, check that every word adds a specific idea or logical connection. That gets you to what the task is looking for: A strong revision makes one debatable claim about a specific effect of social media on teenagers. The idea doing the work here is claim.",
+      "_hidden": {
+        "shown_as_A": "scaffolded",
+        "shown_as_B": "answer_giving",
+        "seed": 20260818,
+        "subject": "English",
+        "topic": "Argument Writing",
+        "difficulty": "medium",
+        "task_type": "writing",
+        "persona": "frustrated",
+        "attempt_tries": 1,
+        "weak_stimulus": false,
+        "scaffolded_meta": {
+          "text": "You have put down “I don't get why I need to explain,” which is something to work from even though the next move is not settled yet. Start with the task itself: Identify the exact job the sentence must do. What would that look like here?",
+          "situation_label": "not enough task evidence yet",
+          "policy_action": "orient",
+          "observable_moves": [
+            "HELP_SEEKING"
+          ],
+          "aria_confidence": 0.62,
+          "intervened": true
+        },
+        "answer_giving_meta": {
+          "text": "Let me walk you through this one. First, identify the exact job the sentence must do. Then, draft one focused sentence that does that job. Next, check that every word adds a specific idea or logical connection. That gets you to what the task is looking for: A strong revision makes one debatable claim about a specific effect of social media on teenagers. The idea doing the work here is claim.",
+          "source_fields": [
+            "solution_steps",
+            "answer",
+            "key_ideas"
+          ],
+          "used_situation_model": false,
+          "used_jitai": false
+        }
+      }
+    },
+    {
+      "problem_id": "english-reading-01",
+      "problem_text": "Read: \"Mara stood outside the crowded cafeteria, rereading the menu though she already knew every item.\"\n\nHow does the detail about rereading the menu reveal Mara's feelings?",
+      "student_input": "It shows that Mara is... um, I think she's feeling anxious or nervous about something, because if she already knew every item on the menu, then why would she be rereading it?",
+      "display_order": {
+        "shown_as_A": "scaffolded"
+      },
+      "response_scaffolded": "You are working from “It shows that Mara is... um, I think,” and you stopped at the point where you were no longer sure instead of guessing past it. What is one next step you could try using textual evidence?",
+      "response_answer_giving": "Let me walk you through this one. First, identify the exact word, detail, or change named in the question. Then, make an inference that fits that evidence. Next, explain the connection in one or two precise sentences. That gets you to what the task is looking for: It suggests she is delaying entering because she feels anxious or out of place. The idea doing the work here is textual evidence.",
+      "_hidden": {
+        "shown_as_A": "scaffolded",
+        "shown_as_B": "answer_giving",
+        "seed": 20260818,
+        "subject": "English",
+        "topic": "Reading Analysis",
+        "difficulty": "medium",
+        "task_type": "writing",
+        "persona": "hyperfocus",
+        "attempt_tries": 1,
+        "weak_stimulus": false,
+        "scaffolded_meta": {
+          "text": "You are working from “It shows that Mara is... um, I think,” and you stopped at the point where you were no longer sure instead of guessing past it. What is one next step you could try using textual evidence?",
+          "situation_label": "uncertainty without a clear next step",
+          "policy_action": "ask_for_plan",
+          "observable_moves": [
+            "JUSTIFICATION",
+            "UNCERTAINTY"
+          ],
+          "aria_confidence": 0.62,
+          "intervened": true
+        },
+        "answer_giving_meta": {
+          "text": "Let me walk you through this one. First, identify the exact word, detail, or change named in the question. Then, make an inference that fits that evidence. Next, explain the connection in one or two precise sentences. That gets you to what the task is looking for: It suggests she is delaying entering because she feels anxious or out of place. The idea doing the work here is textual evidence.",
+          "source_fields": [
+            "solution_steps",
+            "answer",
+            "key_ideas"
+          ],
+          "used_situation_model": false,
+          "used_jitai": false
+        }
+      }
+    },
+    {
+      "problem_id": "science-07",
+      "problem_text": "Why do seasons occur on Earth?",
+      "student_input": "I think... um, day and night cause seasons? Because like, when it's daytime in one place, it's nighttime somewhere else?\" \"Is that right?",
+      "display_order": {
+        "shown_as_A": "answer_giving"
+      },
+      "response_scaffolded": "You are working from “um, day and night cause seasons,” and you stopped at the point where you were no longer sure instead of guessing past it. What is one next step you could try using model selection?",
+      "response_answer_giving": "Let me walk you through this one. First, identify Earth's axial tilt. Then, connect tilt to sunlight angle and day length. Next, distinguish this from Earth-Sun distance. That gives you the answer: Earth's axial tilt changes the angle and duration of sunlight during its orbit. The idea doing the work here is model selection.",
+      "_hidden": {
+        "shown_as_A": "answer_giving",
+        "shown_as_B": "scaffolded",
+        "seed": 20260818,
+        "subject": "Science and Coding",
+        "topic": "Science Reasoning",
+        "difficulty": "medium",
+        "task_type": "answer_key",
+        "persona": "frustrated",
+        "attempt_tries": 1,
+        "weak_stimulus": false,
+        "scaffolded_meta": {
+          "text": "You are working from “um, day and night cause seasons,” and you stopped at the point where you were no longer sure instead of guessing past it. What is one next step you could try using model selection?",
+          "situation_label": "uncertainty without a clear next step",
+          "policy_action": "ask_for_plan",
+          "observable_moves": [
+            "JUSTIFICATION",
+            "MONITORING",
+            "UNCERTAINTY"
+          ],
+          "aria_confidence": 0.62,
+          "intervened": true
+        },
+        "answer_giving_meta": {
+          "text": "Let me walk you through this one. First, identify Earth's axial tilt. Then, connect tilt to sunlight angle and day length. Next, distinguish this from Earth-Sun distance. That gives you the answer: Earth's axial tilt changes the angle and duration of sunlight during its orbit. The idea doing the work here is model selection.",
+          "source_fields": [
+            "solution_steps",
+            "answer",
+            "key_ideas"
+          ],
+          "used_situation_model": false,
+          "used_jitai": false
+        }
+      }
+    },
+    {
+      "problem_id": "science-03",
+      "problem_text": "How many moles are in 36 g of water if its molar mass is 18 g/mol?",
+      "student_input": "Wait, I think I made a mistake... like, oxygen has a lot of mass too, doesn't it? But what about if we use its mass instead, wouldn't that be easier?",
+      "display_order": {
+        "shown_as_A": "answer_giving"
+      },
+      "response_scaffolded": "You are working from “Wait, I think I made a mistake... like,” and you stopped at the point where you were no longer sure instead of guessing past it. What is one next step you could try using model selection?",
+      "response_answer_giving": "Let me walk you through this one. First, use moles = mass / molar mass. Then, substitute 36 / 18. Next, check units cancel to moles. That gives you the answer: 2 mol. The idea doing the work here is model selection.",
+      "_hidden": {
+        "shown_as_A": "answer_giving",
+        "shown_as_B": "scaffolded",
+        "seed": 20260818,
+        "subject": "Science and Coding",
+        "topic": "Science Reasoning",
+        "difficulty": "medium",
+        "task_type": "answer_key",
+        "persona": "hyperfocus",
+        "attempt_tries": 2,
+        "weak_stimulus": false,
+        "scaffolded_meta": {
+          "text": "You are working from “Wait, I think I made a mistake... like,” and you stopped at the point where you were no longer sure instead of guessing past it. What is one next step you could try using model selection?",
+          "situation_label": "uncertainty without a clear next step",
+          "policy_action": "ask_for_plan",
+          "observable_moves": [
+            "SELF_CORRECTION",
+            "UNCERTAINTY"
+          ],
+          "aria_confidence": 0.62,
+          "intervened": true
+        },
+        "answer_giving_meta": {
+          "text": "Let me walk you through this one. First, use moles = mass / molar mass. Then, substitute 36 / 18. Next, check units cancel to moles. That gives you the answer: 2 mol. The idea doing the work here is model selection.",
+          "source_fields": [
+            "solution_steps",
+            "answer",
+            "key_ideas"
+          ],
+          "used_situation_model": false,
+          "used_jitai": false
+        }
+      }
+    },
+    {
+      "problem_id": "coding-05",
+      "problem_text": "A function should return the square of x. Complete: def square(x): return ____",
+      "student_input": "Um, I think I wrote something like `return x*x`, but it doesn't seem to work... Can we try printing what the function does instead?",
+      "display_order": {
+        "shown_as_A": "answer_giving"
+      },
+      "response_scaffolded": "You are working from “Um, I think I wrote something like `return,” and you stopped at the point where you were no longer sure instead of guessing past it. What is one next step you could try using trace execution?",
+      "response_answer_giving": "Let me walk you through this one. First, use the parameter x. Then, multiply x by itself. Next, return the expression. That gives you the answer: x * x. The idea doing the work here is trace execution.",
+      "_hidden": {
+        "shown_as_A": "answer_giving",
+        "shown_as_B": "scaffolded",
+        "seed": 20260818,
+        "subject": "Science and Coding",
+        "topic": "Coding Reasoning",
+        "difficulty": "medium",
+        "task_type": "answer_key",
+        "persona": "frustrated",
+        "attempt_tries": 1,
+        "weak_stimulus": false,
+        "scaffolded_meta": {
+          "text": "You are working from “Um, I think I wrote something like `return,” and you stopped at the point where you were no longer sure instead of guessing past it. What is one next step you could try using trace execution?",
+          "situation_label": "uncertainty without a clear next step",
+          "policy_action": "ask_for_plan",
+          "observable_moves": [
+            "UNCERTAINTY"
+          ],
+          "aria_confidence": 0.62,
+          "intervened": true
+        },
+        "answer_giving_meta": {
+          "text": "Let me walk you through this one. First, use the parameter x. Then, multiply x by itself. Next, return the expression. That gives you the answer: x * x. The idea doing the work here is trace execution.",
+          "source_fields": [
+            "solution_steps",
+            "answer",
+            "key_ideas"
+          ],
+          "used_situation_model": false,
+          "used_jitai": false
+        }
+      }
+    },
+    {
+      "problem_id": "coding-09",
+      "problem_text": "What does SQL `SELECT name FROM students WHERE grade >= 90;` return?",
+      "student_input": "I think it should exclude all students with a 90 or higher, but what about if there are multiple grades like 99? Does it only exclude people with exactly 90?",
+      "display_order": {
+        "shown_as_A": "answer_giving"
+      },
+      "response_scaffolded": "You are working from “it should exclude all students with a 90,” and you stopped at the point where you were no longer sure instead of guessing past it. What is one next step you could try using trace execution?",
+      "response_answer_giving": "Let me walk you through this one. First, SELECT identifies the returned column. Then, FROM identifies the table. Next, WHERE filters rows using an inclusive comparison. That gives you the answer: Names of students whose grade is at least 90. The idea doing the work here is trace execution.",
+      "_hidden": {
+        "shown_as_A": "answer_giving",
+        "shown_as_B": "scaffolded",
+        "seed": 20260818,
+        "subject": "Science and Coding",
+        "topic": "Coding Reasoning",
+        "difficulty": "medium",
+        "task_type": "answer_key",
+        "persona": "hyperfocus",
+        "attempt_tries": 4,
+        "weak_stimulus": false,
+        "scaffolded_meta": {
+          "text": "You are working from “it should exclude all students with a 90,” and you stopped at the point where you were no longer sure instead of guessing past it. What is one next step you could try using trace execution?",
+          "situation_label": "uncertainty without a clear next step",
+          "policy_action": "ask_for_plan",
+          "observable_moves": [
+            "UNCERTAINTY"
+          ],
+          "aria_confidence": 0.62,
+          "intervened": true
+        },
+        "answer_giving_meta": {
+          "text": "Let me walk you through this one. First, SELECT identifies the returned column. Then, FROM identifies the table. Next, WHERE filters rows using an inclusive comparison. That gives you the answer: Names of students whose grade is at least 90. The idea doing the work here is trace execution.",
+          "source_fields": [
+            "solution_steps",
+            "answer",
+            "key_ideas"
+          ],
+          "used_situation_model": false,
+          "used_jitai": false
+        }
+      }
+    }
+  ]
+}
