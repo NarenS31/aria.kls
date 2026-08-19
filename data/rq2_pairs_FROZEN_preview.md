@@ -3,6 +3,8 @@
 > **FROZEN 2026-08-18. Canonical — do not regenerate, do not edit.**
 > This is the review copy of `data/rq2_pairs_FROZEN.json`, the stimulus set the rating form is built from. The live pipeline output (`data/rq2_pairs.json`) is *not* the study's materials and is overwritten on every run. Student attempt text is LLM-generated without a fixed seed, so regenerating produces different stimuli.
 
+> One post-freeze hand-edit, 2026-08-19: two simulator scripting quote marks removed from the `science-07` student attempt. No coach response changed. Recorded under `post_freeze_edits` in the JSON.
+
 **Not for the rater form.** Every response below is labelled with its TRUE condition. The form must instead follow `display_order.shown_as_A` in `rq2_pairs_FROZEN.json`. Generated with seed `20260818`; the assignment is fixed at generation and must not be re-randomised at render time.
 
 10 problems.
@@ -155,7 +157,7 @@ How does the detail about rereading the menu reveal Mara's feelings?
 
 **Simulated student attempt**
 
-> I think... um, day and night cause seasons? Because like, when it's daytime in one place, it's nighttime somewhere else?" "Is that right?
+> I think... um, day and night cause seasons? Because like, when it's daytime in one place, it's nighttime somewhere else? Is that right?
 
 **TRUE CONDITION: scaffolded** — policy action `ask_for_plan`, situation "uncertainty without a clear next step", moves ['JUSTIFICATION', 'MONITORING', 'UNCERTAINTY'], confidence 0.62
 

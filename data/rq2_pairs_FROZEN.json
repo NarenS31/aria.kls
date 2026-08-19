@@ -278,7 +278,7 @@
     {
       "problem_id": "science-07",
       "problem_text": "Why do seasons occur on Earth?",
-      "student_input": "I think... um, day and night cause seasons? Because like, when it's daytime in one place, it's nighttime somewhere else?\" \"Is that right?",
+      "student_input": "I think... um, day and night cause seasons? Because like, when it's daytime in one place, it's nighttime somewhere else? Is that right?",
       "display_order": {
         "shown_as_A": "answer_giving"
       },
@@ -445,6 +445,16 @@
           "used_jitai": false
         }
       }
+    }
+  ],
+  "post_freeze_edits": [
+    {
+      "date": "2026-08-19",
+      "pair": "science-07",
+      "field": "student_input",
+      "change": "Removed two simulator scripting quote marks that butted two scripted speech segments together (`... somewhere else?\" \"Is that right?` -> `... somewhere else? Is that right?`). The marks were the simulator's, not the student's, and would have been visible to raters.",
+      "responses_changed": false,
+      "note": "Hand-edit, not a regeneration. Both coach responses for this pair are byte-identical to the generated ones: the scaffolded anchor is drawn from earlier in the utterance and the answer-giving condition never reads student text. No other pair was touched. This file is therefore the generated set plus this one recorded text edit, not a verbatim pipeline output."
     }
   ]
 }

@@ -110,6 +110,9 @@ _STAGE_DIRECTION_SHAPE = re.compile(
 # ("affect" vs "effect") nests inside rather than terminating the anchor.
 _QUOTED_CURLY = re.compile(r"“([^”]+)”")
 _QUOTED_STRAIGHT = re.compile(r"\"([^\"]+)\"")
+# Two quote marks with nothing but space between them. Nothing a student writes
+# looks like this; it is always the seam between two scripted speech segments.
+_ADJACENT_QUOTES = re.compile(r"[\"“”]\s*[\"“”]")
 
 
 def _norm(text: str) -> str:
@@ -274,6 +277,15 @@ def check_artifacts(pairs: list[dict]) -> tuple[bool, str, list[str]]:
             problems.append(
                 f"pair {i} ({pair['problem_id']}): student_input has an "
                 "unbalanced quote mark"
+            )
+        # `... somewhere else?" "Is that right?` — the simulator scripted the
+        # turn as two quoted speech segments butted together. The count is even,
+        # so the balance test above passes it, but the marks are the simulator's
+        # and a rater would see them.
+        if _ADJACENT_QUOTES.search(student):
+            problems.append(
+                f"pair {i} ({pair['problem_id']}): student_input has adjacent "
+                "quote marks (simulator speech-scripting residue)"
             )
         for field in ("student_input", "response_scaffolded",
                       "response_answer_giving", "problem_text"):
