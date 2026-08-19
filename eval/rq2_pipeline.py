@@ -183,6 +183,16 @@ _ASTERISK_ASIDE = re.compile(
 )
 
 
+# The seam between two scripted speech segments with no aside between them for
+# _INLINE_ASIDE to carry the quote marks out with:
+#   `... it's nighttime somewhere else?" "Is that right?`
+# The marks are the simulator's scripting, not the student's punctuation, and
+# their count is even, so the odd-count guard below never sees them. Anchored on
+# the terminal mark that ends the first segment, so a student quoting two words
+# back to back (`"affect" "effect"`) is left alone.
+_SCRIPT_SEAM = re.compile(r"([.!?,])\s*[\"“”]\s*[\"“”]\s*")
+
+
 def _clean_student_text(text: str) -> str:
     """Strip the wrapper artifacts the simulator's LLM sometimes emits."""
     text = (text or "").strip()
@@ -191,6 +201,7 @@ def _clean_student_text(text: str) -> str:
     # fully quoted utterance underneath it.
     text = _TRAILING_ASIDE.sub("", text).strip()
     text = _INLINE_ASIDE.sub(" ", text)
+    text = _SCRIPT_SEAM.sub(r"\1 ", text)
     text = re.sub(r"\s{2,}", " ", _ASTERISK_ASIDE.sub(" ", text)).strip()
     if len(text) > 1 and text[0] in "\"“" and text[-1] in "\"”":
         text = text[1:-1].strip()
