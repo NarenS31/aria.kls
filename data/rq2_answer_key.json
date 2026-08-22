@@ -1,0 +1,148 @@
+{
+  "_README": "HIDDEN UNBLINDING KEY for the RQ2 rating form. This file maps each item to the condition behind its A and B labels. It is not needed to run the form and must never be linked from it, pasted into it, or sent to a rater — it is read only after responses are collected, by eval/rq2_analysis.py. `form_item_number` is the item's position in the form, which is how a response CSV joins back to it: the per-item questions are worded identically across items, so the columns are told apart by order, not by name.",
+  "generated_on": "2026-08-22",
+  "generated_by": "eval/generate_rq2_form.py",
+  "form_title": "Comparing Two Tutoring Response Styles (10 items, ~10 min)",
+  "source": "data/rq2_pairs_FROZEN.json",
+  "frozen_on": "2026-08-18",
+  "measured_length_ratio_answer_giving_over_scaffolded": 1.31,
+  "length_ratio_note": "Response length is NOT matched between conditions. The measured ratio for this frozen set is 1.31x (51.7 vs 39.6 mean words); report that number rather than describing the conditions as length-matched.",
+  "post_freeze_edits": [
+    {
+      "date": "2026-08-19",
+      "pair": "science-07",
+      "field": "student_input",
+      "change": "Removed two simulator scripting quote marks that butted two scripted speech segments together (`... somewhere else?\" \"Is that right?` -> `... somewhere else? Is that right?`). The marks were the simulator's, not the student's, and would have been visible to raters.",
+      "responses_changed": false,
+      "note": "Hand-edit, not a regeneration. Both coach responses for this pair are byte-identical to the generated ones: the scaffolded anchor is drawn from earlier in the utterance and the answer-giving condition never reads student text. No other pair was touched. This file is therefore the generated set plus this one recorded text edit, not a verbatim pipeline output."
+    }
+  ],
+  "n_items": 10,
+  "shown_as_A_counts": {
+    "scaffolded": 5,
+    "answer_giving": 5
+  },
+  "questions": {
+    "which_helps": "Which response would actually help you understand how to solve this, not just get the answer?",
+    "rate_a": "Rate Response A — how helpful is this for actually learning the concept?",
+    "rate_b": "Rate Response B — how helpful is this for actually learning the concept?",
+    "when_stuck": "If you were stuck and stressed, which response would you rather receive right now?",
+    "free_text": "Anything either response got wrong, confusing, or annoying?",
+    "overall": "Across all the items you just saw, which style did you generally prefer?",
+    "grade": "What grade or year are you in?",
+    "math_relationship": "How would you describe your relationship with math?"
+  },
+  "ab_choices": [
+    "A",
+    "B",
+    "About the same"
+  ],
+  "scale": {
+    "low": 1,
+    "high": 5,
+    "low_label": "Not helpful at all",
+    "high_label": "Extremely helpful"
+  },
+  "key": {
+    "math-geometry-04": {
+      "form_item_number": 1,
+      "A": "scaffolded",
+      "B": "answer_giving",
+      "scaffolded_letter": "A",
+      "answer_giving_letter": "B",
+      "subject": "Math",
+      "topic": "Geometry",
+      "task_type": "answer_key"
+    },
+    "math-algebra-09": {
+      "form_item_number": 2,
+      "A": "answer_giving",
+      "B": "scaffolded",
+      "scaffolded_letter": "B",
+      "answer_giving_letter": "A",
+      "subject": "Math",
+      "topic": "Algebra",
+      "task_type": "answer_key"
+    },
+    "math-statistics-02": {
+      "form_item_number": 3,
+      "A": "scaffolded",
+      "B": "answer_giving",
+      "scaffolded_letter": "A",
+      "answer_giving_letter": "B",
+      "subject": "Math",
+      "topic": "Statistics and Probability",
+      "task_type": "answer_key"
+    },
+    "english-revision-04": {
+      "form_item_number": 4,
+      "A": "scaffolded",
+      "B": "answer_giving",
+      "scaffolded_letter": "A",
+      "answer_giving_letter": "B",
+      "subject": "English",
+      "topic": "Language and Revision",
+      "task_type": "writing"
+    },
+    "english-argument-01": {
+      "form_item_number": 5,
+      "A": "scaffolded",
+      "B": "answer_giving",
+      "scaffolded_letter": "A",
+      "answer_giving_letter": "B",
+      "subject": "English",
+      "topic": "Argument Writing",
+      "task_type": "writing"
+    },
+    "english-reading-01": {
+      "form_item_number": 6,
+      "A": "scaffolded",
+      "B": "answer_giving",
+      "scaffolded_letter": "A",
+      "answer_giving_letter": "B",
+      "subject": "English",
+      "topic": "Reading Analysis",
+      "task_type": "writing"
+    },
+    "science-07": {
+      "form_item_number": 7,
+      "A": "answer_giving",
+      "B": "scaffolded",
+      "scaffolded_letter": "B",
+      "answer_giving_letter": "A",
+      "subject": "Science and Coding",
+      "topic": "Science Reasoning",
+      "task_type": "answer_key"
+    },
+    "science-03": {
+      "form_item_number": 8,
+      "A": "answer_giving",
+      "B": "scaffolded",
+      "scaffolded_letter": "B",
+      "answer_giving_letter": "A",
+      "subject": "Science and Coding",
+      "topic": "Science Reasoning",
+      "task_type": "answer_key"
+    },
+    "coding-05": {
+      "form_item_number": 9,
+      "A": "answer_giving",
+      "B": "scaffolded",
+      "scaffolded_letter": "B",
+      "answer_giving_letter": "A",
+      "subject": "Science and Coding",
+      "topic": "Coding Reasoning",
+      "task_type": "answer_key"
+    },
+    "coding-09": {
+      "form_item_number": 10,
+      "A": "answer_giving",
+      "B": "scaffolded",
+      "scaffolded_letter": "B",
+      "answer_giving_letter": "A",
+      "subject": "Science and Coding",
+      "topic": "Coding Reasoning",
+      "task_type": "answer_key"
+    }
+  }
+}
