@@ -45,6 +45,11 @@ venv/
 # ignored on purpose: it is regenerable and is not the study's materials.
 !/data/rq2_pairs_FROZEN.json
 !/data/rq2_pairs_FROZEN_preview.md
+# The rating form's unblinding key. Generated from the frozen file, which is
+# itself versioned and already carries the same mapping, so committing it
+# exposes nothing new — and eval/rq2_analysis.py cannot run without it.
+# Collected responses and results (data/eval/) stay ignored.
+!/data/rq2_answer_key.json
 
 # Licensed external research data stays local; derived metadata may be committed.
 /eval/data/external/eedi_dialogues/raw/
