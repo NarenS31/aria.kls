@@ -1,0 +1,541 @@
+{
+  "generated_by": "eval/real_state_prevalence.py",
+  "question": "ARIA's synthetic corpus assumes every cognitive state is equally likely. Do real classroom logs agree?",
+  "source": "eval/data/eval/external_validation_multi_dataset.json",
+  "synthetic_corpus": {
+    "path": "eval/data/synthetic_thinkaloud/test.jsonl",
+    "n": 350,
+    "counts": {
+      "CONFUSED": 50,
+      "INSIGHT": 50,
+      "STUCK": 50,
+      "FRUSTRATED": 50,
+      "FLOW": 50,
+      "RUSHING": 50,
+      "PLANNING": 50
+    },
+    "shares": {
+      "PLANNING": 0.1429,
+      "FLOW": 0.1429,
+      "CONFUSED": 0.1429,
+      "RUSHING": 0.1429,
+      "FRUSTRATED": 0.1429,
+      "STUCK": 0.1429,
+      "INSIGHT": 0.1429
+    },
+    "is_uniform_by_construction": true,
+    "note": "Balanced deliberately for classifier training. Uniformity is a construction choice, not a claim about students — which is exactly why it should not be cited as an expected prevalence."
+  },
+  "insight_caveat": {
+    "states_not_behaviorally_derivable": [
+      "INSIGHT"
+    ],
+    "detail": "The behavioral proxy rules cannot emit INSIGHT; it needs the student's words. Roughly 1/7 of the synthetic corpus's expected mass is therefore unreachable by any behavioral method, so the 1/6 comparison over derivable states is the fair one and is reported as the headline."
+  },
+  "pooling": "The two ASSISTments years are combined (same platform, same instrument, adjacent cohorts). Nothing else is combined.",
+  "primary": {
+    "label": "ASSISTments 2004 + 2005 (combined)",
+    "datasets": [
+      "assistments_2004",
+      "assistments_2005"
+    ],
+    "counts": {
+      "STUCK": 47903,
+      "FLOW": 46869,
+      "CONFUSED": 66331,
+      "PLANNING": 13182,
+      "FRUSTRATED": 12164,
+      "RUSHING": 4512
+    },
+    "vs_uniform_seven_states": {
+      "states_compared": [
+        "PLANNING",
+        "FLOW",
+        "CONFUSED",
+        "RUSHING",
+        "FRUSTRATED",
+        "STUCK",
+        "INSIGHT"
+      ],
+      "n": 190961,
+      "expected_share_each": 0.1429,
+      "per_state": [
+        {
+          "state": "CONFUSED",
+          "n": 66331,
+          "observed_share": 0.3474,
+          "expected_share": 0.1429,
+          "difference": 0.2045,
+          "ratio_to_expected": 2.43
+        },
+        {
+          "state": "STUCK",
+          "n": 47903,
+          "observed_share": 0.2509,
+          "expected_share": 0.1429,
+          "difference": 0.108,
+          "ratio_to_expected": 1.76
+        },
+        {
+          "state": "FLOW",
+          "n": 46869,
+          "observed_share": 0.2454,
+          "expected_share": 0.1429,
+          "difference": 0.1026,
+          "ratio_to_expected": 1.72
+        },
+        {
+          "state": "PLANNING",
+          "n": 13182,
+          "observed_share": 0.069,
+          "expected_share": 0.1429,
+          "difference": -0.0738,
+          "ratio_to_expected": 0.48
+        },
+        {
+          "state": "FRUSTRATED",
+          "n": 12164,
+          "observed_share": 0.0637,
+          "expected_share": 0.1429,
+          "difference": -0.0792,
+          "ratio_to_expected": 0.45
+        },
+        {
+          "state": "RUSHING",
+          "n": 4512,
+          "observed_share": 0.0236,
+          "expected_share": 0.1429,
+          "difference": -0.1192,
+          "ratio_to_expected": 0.17
+        },
+        {
+          "state": "INSIGHT",
+          "n": 0,
+          "observed_share": 0.0,
+          "expected_share": 0.1429,
+          "difference": -0.1429,
+          "ratio_to_expected": 0.0
+        }
+      ],
+      "total_variation_distance": 0.4152,
+      "max_over_represented": {
+        "state": "CONFUSED",
+        "n": 66331,
+        "observed_share": 0.3474,
+        "expected_share": 0.1429,
+        "difference": 0.2045,
+        "ratio_to_expected": 2.43
+      },
+      "max_under_represented": {
+        "state": "INSIGHT",
+        "n": 0,
+        "observed_share": 0.0,
+        "expected_share": 0.1429,
+        "difference": -0.1429,
+        "ratio_to_expected": 0.0
+      },
+      "chi_square": {
+        "computable": true,
+        "chi2": 147500.875,
+        "dof": 6,
+        "n": 190961,
+        "p_value": 0.0,
+        "p_value_display": "< 1e-300",
+        "p_value_underflow": true,
+        "cramers_v": 0.3588
+      }
+    },
+    "vs_uniform_six_derivable_states": {
+      "states_compared": [
+        "PLANNING",
+        "FLOW",
+        "CONFUSED",
+        "RUSHING",
+        "FRUSTRATED",
+        "STUCK"
+      ],
+      "n": 190961,
+      "expected_share_each": 0.1667,
+      "per_state": [
+        {
+          "state": "CONFUSED",
+          "n": 66331,
+          "observed_share": 0.3474,
+          "expected_share": 0.1667,
+          "difference": 0.1807,
+          "ratio_to_expected": 2.08
+        },
+        {
+          "state": "STUCK",
+          "n": 47903,
+          "observed_share": 0.2509,
+          "expected_share": 0.1667,
+          "difference": 0.0842,
+          "ratio_to_expected": 1.51
+        },
+        {
+          "state": "FLOW",
+          "n": 46869,
+          "observed_share": 0.2454,
+          "expected_share": 0.1667,
+          "difference": 0.0788,
+          "ratio_to_expected": 1.47
+        },
+        {
+          "state": "PLANNING",
+          "n": 13182,
+          "observed_share": 0.069,
+          "expected_share": 0.1667,
+          "difference": -0.0976,
+          "ratio_to_expected": 0.41
+        },
+        {
+          "state": "FRUSTRATED",
+          "n": 12164,
+          "observed_share": 0.0637,
+          "expected_share": 0.1667,
+          "difference": -0.103,
+          "ratio_to_expected": 0.38
+        },
+        {
+          "state": "RUSHING",
+          "n": 4512,
+          "observed_share": 0.0236,
+          "expected_share": 0.1667,
+          "difference": -0.143,
+          "ratio_to_expected": 0.14
+        }
+      ],
+      "total_variation_distance": 0.3437,
+      "max_over_represented": {
+        "state": "CONFUSED",
+        "n": 66331,
+        "observed_share": 0.3474,
+        "expected_share": 0.1667,
+        "difference": 0.1807,
+        "ratio_to_expected": 2.08
+      },
+      "max_under_represented": {
+        "state": "RUSHING",
+        "n": 4512,
+        "observed_share": 0.0236,
+        "expected_share": 0.1667,
+        "difference": -0.143,
+        "ratio_to_expected": 0.14
+      },
+      "chi_square": {
+        "computable": true,
+        "chi2": 99149.178,
+        "dof": 5,
+        "n": 190961,
+        "p_value": 0.0,
+        "p_value_display": "< 1e-300",
+        "p_value_underflow": true,
+        "cramers_v": 0.3222
+      }
+    }
+  },
+  "per_dataset": {
+    "assistments_2004": {
+      "counts": {
+        "STUCK": 33847,
+        "FLOW": 25916,
+        "CONFUSED": 39115,
+        "PLANNING": 7033,
+        "FRUSTRATED": 7392,
+        "RUSHING": 3081
+      },
+      "vs_uniform_six_derivable_states": {
+        "states_compared": [
+          "PLANNING",
+          "FLOW",
+          "CONFUSED",
+          "RUSHING",
+          "FRUSTRATED",
+          "STUCK"
+        ],
+        "n": 116384,
+        "expected_share_each": 0.1667,
+        "per_state": [
+          {
+            "state": "CONFUSED",
+            "n": 39115,
+            "observed_share": 0.3361,
+            "expected_share": 0.1667,
+            "difference": 0.1694,
+            "ratio_to_expected": 2.02
+          },
+          {
+            "state": "STUCK",
+            "n": 33847,
+            "observed_share": 0.2908,
+            "expected_share": 0.1667,
+            "difference": 0.1242,
+            "ratio_to_expected": 1.74
+          },
+          {
+            "state": "FLOW",
+            "n": 25916,
+            "observed_share": 0.2227,
+            "expected_share": 0.1667,
+            "difference": 0.056,
+            "ratio_to_expected": 1.34
+          },
+          {
+            "state": "FRUSTRATED",
+            "n": 7392,
+            "observed_share": 0.0635,
+            "expected_share": 0.1667,
+            "difference": -0.1032,
+            "ratio_to_expected": 0.38
+          },
+          {
+            "state": "PLANNING",
+            "n": 7033,
+            "observed_share": 0.0604,
+            "expected_share": 0.1667,
+            "difference": -0.1062,
+            "ratio_to_expected": 0.36
+          },
+          {
+            "state": "RUSHING",
+            "n": 3081,
+            "observed_share": 0.0265,
+            "expected_share": 0.1667,
+            "difference": -0.1402,
+            "ratio_to_expected": 0.16
+          }
+        ],
+        "total_variation_distance": 0.3496,
+        "max_over_represented": {
+          "state": "CONFUSED",
+          "n": 39115,
+          "observed_share": 0.3361,
+          "expected_share": 0.1667,
+          "difference": 0.1694,
+          "ratio_to_expected": 2.02
+        },
+        "max_under_represented": {
+          "state": "RUSHING",
+          "n": 3081,
+          "observed_share": 0.0265,
+          "expected_share": 0.1667,
+          "difference": -0.1402,
+          "ratio_to_expected": 0.16
+        },
+        "chi_square": {
+          "computable": true,
+          "chi2": 62034.288,
+          "dof": 5,
+          "n": 116384,
+          "p_value": 0.0,
+          "p_value_display": "< 1e-300",
+          "p_value_underflow": true,
+          "cramers_v": 0.3265
+        }
+      }
+    },
+    "assistments_2005": {
+      "counts": {
+        "STUCK": 14056,
+        "FLOW": 20953,
+        "CONFUSED": 27216,
+        "RUSHING": 1431,
+        "FRUSTRATED": 4772,
+        "PLANNING": 6149
+      },
+      "vs_uniform_six_derivable_states": {
+        "states_compared": [
+          "PLANNING",
+          "FLOW",
+          "CONFUSED",
+          "RUSHING",
+          "FRUSTRATED",
+          "STUCK"
+        ],
+        "n": 74577,
+        "expected_share_each": 0.1667,
+        "per_state": [
+          {
+            "state": "CONFUSED",
+            "n": 27216,
+            "observed_share": 0.3649,
+            "expected_share": 0.1667,
+            "difference": 0.1983,
+            "ratio_to_expected": 2.19
+          },
+          {
+            "state": "FLOW",
+            "n": 20953,
+            "observed_share": 0.281,
+            "expected_share": 0.1667,
+            "difference": 0.1143,
+            "ratio_to_expected": 1.69
+          },
+          {
+            "state": "STUCK",
+            "n": 14056,
+            "observed_share": 0.1885,
+            "expected_share": 0.1667,
+            "difference": 0.0218,
+            "ratio_to_expected": 1.13
+          },
+          {
+            "state": "PLANNING",
+            "n": 6149,
+            "observed_share": 0.0825,
+            "expected_share": 0.1667,
+            "difference": -0.0842,
+            "ratio_to_expected": 0.49
+          },
+          {
+            "state": "FRUSTRATED",
+            "n": 4772,
+            "observed_share": 0.064,
+            "expected_share": 0.1667,
+            "difference": -0.1027,
+            "ratio_to_expected": 0.38
+          },
+          {
+            "state": "RUSHING",
+            "n": 1431,
+            "observed_share": 0.0192,
+            "expected_share": 0.1667,
+            "difference": -0.1475,
+            "ratio_to_expected": 0.12
+          }
+        ],
+        "total_variation_distance": 0.3343,
+        "max_over_represented": {
+          "state": "CONFUSED",
+          "n": 27216,
+          "observed_share": 0.3649,
+          "expected_share": 0.1667,
+          "difference": 0.1983,
+          "ratio_to_expected": 2.19
+        },
+        "max_under_represented": {
+          "state": "RUSHING",
+          "n": 1431,
+          "observed_share": 0.0192,
+          "expected_share": 0.1667,
+          "difference": -0.1475,
+          "ratio_to_expected": 0.12
+        },
+        "chi_square": {
+          "computable": true,
+          "chi2": 41271.582,
+          "dof": 5,
+          "n": 74577,
+          "p_value": 0.0,
+          "p_value_display": "< 1e-300",
+          "p_value_underflow": true,
+          "cramers_v": 0.3327
+        }
+      }
+    }
+  },
+  "contrast_not_pooled": {
+    "aleven_fractions": {
+      "counts": {
+        "PLANNING": 822,
+        "FRUSTRATED": 347,
+        "FLOW": 2018,
+        "RUSHING": 5,
+        "CONFUSED": 11,
+        "STUCK": 3
+      },
+      "vs_uniform_six_derivable_states": {
+        "states_compared": [
+          "PLANNING",
+          "FLOW",
+          "CONFUSED",
+          "RUSHING",
+          "FRUSTRATED",
+          "STUCK"
+        ],
+        "n": 3206,
+        "expected_share_each": 0.1667,
+        "per_state": [
+          {
+            "state": "FLOW",
+            "n": 2018,
+            "observed_share": 0.6294,
+            "expected_share": 0.1667,
+            "difference": 0.4628,
+            "ratio_to_expected": 3.78
+          },
+          {
+            "state": "PLANNING",
+            "n": 822,
+            "observed_share": 0.2564,
+            "expected_share": 0.1667,
+            "difference": 0.0897,
+            "ratio_to_expected": 1.54
+          },
+          {
+            "state": "FRUSTRATED",
+            "n": 347,
+            "observed_share": 0.1082,
+            "expected_share": 0.1667,
+            "difference": -0.0584,
+            "ratio_to_expected": 0.65
+          },
+          {
+            "state": "CONFUSED",
+            "n": 11,
+            "observed_share": 0.0034,
+            "expected_share": 0.1667,
+            "difference": -0.1632,
+            "ratio_to_expected": 0.02
+          },
+          {
+            "state": "RUSHING",
+            "n": 5,
+            "observed_share": 0.0016,
+            "expected_share": 0.1667,
+            "difference": -0.1651,
+            "ratio_to_expected": 0.01
+          },
+          {
+            "state": "STUCK",
+            "n": 3,
+            "observed_share": 0.0009,
+            "expected_share": 0.1667,
+            "difference": -0.1657,
+            "ratio_to_expected": 0.01
+          }
+        ],
+        "total_variation_distance": 0.5525,
+        "max_over_represented": {
+          "state": "FLOW",
+          "n": 2018,
+          "observed_share": 0.6294,
+          "expected_share": 0.1667,
+          "difference": 0.4628,
+          "ratio_to_expected": 3.78
+        },
+        "max_under_represented": {
+          "state": "STUCK",
+          "n": 3,
+          "observed_share": 0.0009,
+          "expected_share": 0.1667,
+          "difference": -0.1657,
+          "ratio_to_expected": 0.01
+        },
+        "chi_square": {
+          "computable": true,
+          "chi2": 5905.488,
+          "dof": 5,
+          "n": 3206,
+          "p_value": 0.0,
+          "p_value_display": "< 1e-300",
+          "p_value_underflow": true,
+          "cramers_v": 0.607
+        }
+      },
+      "note": "Different platform and interaction grain. Reported for contrast; deliberately not pooled with ASSISTments."
+    }
+  },
+  "finding": "Across 190,961 proxy-labelled interactions from two independent ASSISTments cohorts, behavioral state prevalence is far from the uniform distribution ARIA's synthetic corpus assumes: CONFUSED accounts for 34.7% of interactions against an expected 16.7% (2.08x), while RUSHING accounts for 2.4% (0.14x). The total variation distance from uniform is 0.344 (chi-square 99,149, df 5, p < 1e-300, Cramer's V 0.3222). A synthetic corpus balanced across states is therefore a reasonable training set but not a model of classroom prevalence, and should not be cited as one."
+}
