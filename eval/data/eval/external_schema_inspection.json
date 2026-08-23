@@ -1,0 +1,866 @@
+{
+  "generated_by": "eval/eval/inspect_external_schemas.py",
+  "n_datasets": 7,
+  "datasets": [
+    {
+      "key": "assistments_2004",
+      "label": "ASSISTments 2004-05",
+      "platform": "ASSISTments",
+      "year": "2004",
+      "note": "",
+      "files": [
+        {
+          "path": "eval/data/external/assistments_2004/raw/dataframe3_aggr.txt.output.txt",
+          "present": true,
+          "role": "per-problem tutor log",
+          "size_bytes": 26823306,
+          "n_data_rows": 226099,
+          "format": "utf-8, delimiter='\\t'",
+          "n_columns": 12,
+          "columns": [
+            "studentID",
+            "itemid",
+            "correctonfirstattempt",
+            "attempts",
+            "hints",
+            "seconds",
+            "full_start_time",
+            "full_finish_time",
+            "start_day",
+            "start_time",
+            "finish_day",
+            "finish_time"
+          ],
+          "dtypes": {
+            "studentID": "int[136..136]",
+            "itemid": "int[90..111]",
+            "correctonfirstattempt": "int(0/1)",
+            "attempts": "int[1..4]",
+            "hints": "int[0..3]",
+            "seconds": "int[6..93]",
+            "full_start_time": "datetime",
+            "full_finish_time": "datetime",
+            "start_day": "datetime",
+            "start_time": "str",
+            "finish_day": "datetime",
+            "finish_time": "str"
+          },
+          "proposed_mapping": {
+            "student_id": "studentID",
+            "problem_id": "itemid",
+            "correct": "correctonfirstattempt",
+            "attempt_count": "attempts",
+            "hint_count": "hints",
+            "response_time": "seconds",
+            "skill_topic": null
+          }
+        }
+      ],
+      "primary_file": "eval/data/external/assistments_2004/raw/dataframe3_aggr.txt.output.txt",
+      "n_rows_primary": 226099
+    },
+    {
+      "key": "assistments_2005",
+      "label": "ASSISTments 2005-06",
+      "platform": "ASSISTments",
+      "year": "2005",
+      "note": "",
+      "files": [
+        {
+          "path": "eval/data/external/assistments_2005/raw/dataframe3_aggr_06.txt.output.txt",
+          "present": true,
+          "role": "per-problem tutor log",
+          "size_bytes": 15245789,
+          "n_data_rows": 162898,
+          "format": "utf-8, delimiter='\\t'",
+          "n_columns": 13,
+          "columns": [
+            "student_id",
+            "question_id",
+            "response",
+            "attempt_count",
+            "hint_count",
+            "start_time",
+            "finish_time",
+            "total_SECONDS",
+            "curriculum_id",
+            "is_original",
+            "is_done",
+            "original_question_id",
+            "bottom_out_hint_count"
+          ],
+          "dtypes": {
+            "student_id": "int[163..163]",
+            "question_id": "int[49..5774]",
+            "response": "int(0/1)",
+            "attempt_count": "int[0..4]",
+            "hint_count": "int[0..5]",
+            "start_time": "datetime",
+            "finish_time": "datetime",
+            "total_SECONDS": "int[1..323]",
+            "curriculum_id": "int[723..915]",
+            "is_original": "bool-ish",
+            "is_done": "bool-ish",
+            "original_question_id": "int[49..5774]",
+            "bottom_out_hint_count": "int(0/1)"
+          },
+          "proposed_mapping": {
+            "student_id": "student_id",
+            "problem_id": "question_id",
+            "correct": "response",
+            "attempt_count": "attempt_count",
+            "hint_count": "hint_count",
+            "response_time": "total_SECONDS",
+            "skill_topic": "curriculum_id"
+          }
+        }
+      ],
+      "primary_file": "eval/data/external/assistments_2005/raw/dataframe3_aggr_06.txt.output.txt",
+      "n_rows_primary": 162898
+    },
+    {
+      "key": "assistments_2015",
+      "label": "ASSISTments 2015 skill builders",
+      "platform": "ASSISTments",
+      "year": "2015",
+      "note": "",
+      "files": [
+        {
+          "path": "eval/data/external/assistments_2015/raw/2015_100_skill_builders_main_problems.csv",
+          "present": true,
+          "role": "correctness export",
+          "size_bytes": 18334729,
+          "n_data_rows": 708631,
+          "format": "utf-8, delimiter=','",
+          "n_columns": 4,
+          "columns": [
+            "user_id",
+            "log_id",
+            "sequence_id",
+            "correct"
+          ],
+          "dtypes": {
+            "user_id": "int[50121..62432]",
+            "log_id": "int[167477540..167478081]",
+            "sequence_id": "int[7014..37570]",
+            "correct": "int(0/1)"
+          },
+          "proposed_mapping": {
+            "student_id": "user_id",
+            "problem_id": "sequence_id",
+            "correct": "correct",
+            "attempt_count": null,
+            "hint_count": null,
+            "response_time": null,
+            "skill_topic": null
+          }
+        }
+      ],
+      "primary_file": "eval/data/external/assistments_2015/raw/2015_100_skill_builders_main_problems.csv",
+      "n_rows_primary": 708631
+    },
+    {
+      "key": "aleven_fractions",
+      "label": "Aleven Fractions Lab (DataShop)",
+      "platform": "Fractions Lab",
+      "year": "2012-13",
+      "note": "",
+      "files": [
+        {
+          "path": "eval/data/external/aleven_fractions/raw/All_Data_1826_2013_0408_075715_forReimport.txt",
+          "present": true,
+          "role": "DataShop step-level transactions",
+          "size_bytes": 17648096,
+          "n_data_rows": 37889,
+          "format": "utf-8, delimiter='\\t'",
+          "n_columns": 46,
+          "columns": [
+            "Row",
+            "Sample Name",
+            "Anon Student Id",
+            "student",
+            "Session Id",
+            "Time",
+            "Time Zone",
+            "Duration (sec)",
+            "Student Response Type",
+            "Student Response Subtype",
+            "Tutor Response Type",
+            "Tutor Response Subtype",
+            "Level(Assignment)",
+            "Level(ProblemSet)",
+            "Problem Name",
+            "Problem View",
+            "Problem Start Time",
+            "Step Name",
+            "",
+            "Step Name",
+            "Attempt At Step",
+            "Outcome",
+            "Selection",
+            "Action",
+            "Input",
+            "Feedback Text",
+            "Feedback Classification",
+            "Help Level",
+            "Total Num Hints",
+            "Condition",
+            "Condition Type",
+            "KC(Default_fluency)",
+            "KC(DefaultFewer_fluency)",
+            "KC(Default_corrected)",
+            "KC(DefaultFewer_corrected)",
+            "KC(Single-KC)",
+            "KC Category(Single-KC)",
+            "School",
+            "Class",
+            "CF(calculated_offset)",
+            "CF(server_adjusted_event_time)",
+            "CF(server_name)",
+            "CF(server_time_millis)",
+            "CF(step_id)",
+            "CF(tool_event_time)",
+            "CF(tutor_event_time)"
+          ],
+          "dtypes": {
+            "Row": "int[6936..6955]",
+            "Sample Name": "str",
+            "Anon Student Id": "str",
+            "student": "str",
+            "Session Id": "str",
+            "Time": "datetime",
+            "Time Zone": "str",
+            "Duration (sec)": "float",
+            "Student Response Type": "str",
+            "Student Response Subtype": "empty",
+            "Tutor Response Type": "str",
+            "Tutor Response Subtype": "empty",
+            "Level(Assignment)": "str",
+            "Level(ProblemSet)": "str",
+            "Problem Name": "int(0/1)",
+            "Problem View": "int(0/1)",
+            "Problem Start Time": "str",
+            "Step Name": "str",
+            "col_18": "int[13..13]",
+            "Attempt At Step": "int[1..3]",
+            "Outcome": "str",
+            "Selection": "str",
+            "Action": "str",
+            "Input": "str",
+            "Feedback Text": "empty",
+            "Feedback Classification": "empty",
+            "Help Level": "empty",
+            "Total Num Hints": "empty",
+            "Condition": "str",
+            "Condition Type": "str",
+            "KC(Default_fluency)": "str",
+            "KC(DefaultFewer_fluency)": "str",
+            "KC(Default_corrected)": "str",
+            "KC(DefaultFewer_corrected)": "str",
+            "KC(Single-KC)": "str",
+            "KC Category(Single-KC)": "empty",
+            "School": "str",
+            "Class": "str",
+            "CF(calculated_offset)": "int[183..183]",
+            "CF(server_adjusted_event_time)": "str",
+            "CF(server_name)": "str",
+            "CF(server_time_millis)": "float",
+            "CF(step_id)": "int[115..119]",
+            "CF(tool_event_time)": "str",
+            "CF(tutor_event_time)": "str"
+          },
+          "proposed_mapping": {
+            "student_id": "Anon Student Id",
+            "problem_id": "Problem Name",
+            "correct": "Outcome",
+            "attempt_count": "Attempt At Step",
+            "hint_count": "Total Num Hints",
+            "response_time": "Duration (sec)",
+            "skill_topic": "Level(Assignment)"
+          }
+        }
+      ],
+      "primary_file": "eval/data/external/aleven_fractions/raw/All_Data_1826_2013_0408_075715_forReimport.txt",
+      "n_rows_primary": 37889
+    },
+    {
+      "key": "oulad",
+      "label": "Open University Learning Analytics",
+      "platform": "OULAD",
+      "year": "2013-14",
+      "note": "Distance-learning VLE. No per-problem interaction exists anywhere in these tables.",
+      "files": [
+        {
+          "path": "eval/data/external/oulad/raw/studentInfo.csv",
+          "present": true,
+          "role": "one row per enrolment",
+          "size_bytes": 3462763,
+          "n_data_rows": 32593,
+          "format": "utf-8, delimiter=','",
+          "n_columns": 12,
+          "columns": [
+            "code_module",
+            "code_presentation",
+            "id_student",
+            "gender",
+            "region",
+            "highest_education",
+            "imd_band",
+            "age_band",
+            "num_of_prev_attempts",
+            "studied_credits",
+            "disability",
+            "final_result"
+          ],
+          "dtypes": {
+            "code_module": "str",
+            "code_presentation": "str",
+            "id_student": "int[11391..75091]",
+            "gender": "str",
+            "region": "str",
+            "highest_education": "str",
+            "imd_band": "str",
+            "age_band": "str",
+            "num_of_prev_attempts": "int(0/1)",
+            "studied_credits": "int[60..240]",
+            "disability": "bool-ish",
+            "final_result": "str"
+          },
+          "proposed_mapping": {
+            "student_id": "id_student",
+            "problem_id": null,
+            "correct": null,
+            "attempt_count": "num_of_prev_attempts",
+            "hint_count": null,
+            "response_time": null,
+            "skill_topic": null
+          }
+        },
+        {
+          "path": "eval/data/external/oulad/raw/studentAssessment.csv",
+          "present": true,
+          "role": "assessment submissions (scores)",
+          "size_bytes": 5690483,
+          "n_data_rows": 173912,
+          "format": "utf-8, delimiter=','",
+          "n_columns": 5,
+          "columns": [
+            "id_assessment",
+            "id_student",
+            "date_submitted",
+            "is_banked",
+            "score"
+          ],
+          "dtypes": {
+            "id_assessment": "int[1752..1752]",
+            "id_student": "int[11391..77367]",
+            "date_submitted": "int[9..26]",
+            "is_banked": "int(0/1)",
+            "score": "int[59..83]"
+          },
+          "proposed_mapping": {
+            "student_id": "id_student",
+            "problem_id": "id_assessment",
+            "correct": "score",
+            "attempt_count": null,
+            "hint_count": null,
+            "response_time": "date_submitted",
+            "skill_topic": null
+          }
+        },
+        {
+          "path": "eval/data/external/oulad/raw/assessments.csv",
+          "present": true,
+          "role": "assessment due dates",
+          "size_bytes": 8211,
+          "n_data_rows": 206,
+          "format": "utf-8, delimiter=','",
+          "n_columns": 6,
+          "columns": [
+            "code_module",
+            "code_presentation",
+            "id_assessment",
+            "assessment_type",
+            "date",
+            "weight"
+          ],
+          "dtypes": {
+            "code_module": "str",
+            "code_presentation": "str",
+            "id_assessment": "int[1752..14995]",
+            "assessment_type": "str",
+            "date": "int[19..215]",
+            "weight": "int[1..100]"
+          },
+          "proposed_mapping": {
+            "student_id": null,
+            "problem_id": "id_assessment",
+            "correct": null,
+            "attempt_count": null,
+            "hint_count": null,
+            "response_time": null,
+            "skill_topic": null
+          }
+        },
+        {
+          "path": "eval/data/external/oulad/raw/studentVle.csv",
+          "present": true,
+          "role": "daily click counts per VLE resource",
+          "size_bytes": 453836331,
+          "n_data_rows": 10655280,
+          "format": "utf-8, delimiter=','",
+          "n_columns": 6,
+          "columns": [
+            "code_module",
+            "code_presentation",
+            "id_student",
+            "id_site",
+            "date",
+            "sum_click"
+          ],
+          "dtypes": {
+            "code_module": "str",
+            "code_presentation": "str",
+            "id_student": "int[28400..31604]",
+            "id_site": "int[546614..547013]",
+            "date": "int[-10..-10]",
+            "sum_click": "int[1..17]"
+          },
+          "proposed_mapping": {
+            "student_id": "id_student",
+            "problem_id": "id_site",
+            "correct": null,
+            "attempt_count": null,
+            "hint_count": null,
+            "response_time": null,
+            "skill_topic": null
+          }
+        },
+        {
+          "path": "eval/data/external/oulad/raw/studentRegistration.csv",
+          "present": true,
+          "role": "registration dates",
+          "size_bytes": 1132550,
+          "n_data_rows": 32593,
+          "format": "utf-8, delimiter=','",
+          "n_columns": 5,
+          "columns": [
+            "code_module",
+            "code_presentation",
+            "id_student",
+            "date_registration",
+            "date_unregistration"
+          ],
+          "dtypes": {
+            "code_module": "str",
+            "code_presentation": "str",
+            "id_student": "int[11391..75091]",
+            "date_registration": "int[-180..-29]",
+            "date_unregistration": "int[12..96]"
+          },
+          "proposed_mapping": {
+            "student_id": "id_student",
+            "problem_id": null,
+            "correct": null,
+            "attempt_count": null,
+            "hint_count": null,
+            "response_time": null,
+            "skill_topic": null
+          }
+        },
+        {
+          "path": "eval/data/external/oulad/raw/vle.csv",
+          "present": true,
+          "role": "VLE resource types",
+          "size_bytes": 270612,
+          "n_data_rows": 6364,
+          "format": "utf-8, delimiter=','",
+          "n_columns": 6,
+          "columns": [
+            "id_site",
+            "code_module",
+            "code_presentation",
+            "activity_type",
+            "week_from",
+            "week_to"
+          ],
+          "dtypes": {
+            "id_site": "int[546614..547035]",
+            "code_module": "str",
+            "code_presentation": "str",
+            "activity_type": "str",
+            "week_from": "empty",
+            "week_to": "empty"
+          },
+          "proposed_mapping": {
+            "student_id": null,
+            "problem_id": "id_site",
+            "correct": null,
+            "attempt_count": null,
+            "hint_count": null,
+            "response_time": null,
+            "skill_topic": "activity_type"
+          }
+        },
+        {
+          "path": "eval/data/external/oulad/raw/courses.csv",
+          "present": true,
+          "role": "module lengths",
+          "size_bytes": 526,
+          "n_data_rows": 22,
+          "format": "utf-8, delimiter=','",
+          "n_columns": 3,
+          "columns": [
+            "code_module",
+            "code_presentation",
+            "module_presentation_length"
+          ],
+          "dtypes": {
+            "code_module": "str",
+            "code_presentation": "str",
+            "module_presentation_length": "int[234..269]"
+          },
+          "proposed_mapping": {
+            "student_id": null,
+            "problem_id": null,
+            "correct": null,
+            "attempt_count": null,
+            "hint_count": null,
+            "response_time": null,
+            "skill_topic": null
+          }
+        }
+      ],
+      "primary_file": "eval/data/external/oulad/raw/studentAssessment.csv",
+      "n_rows_primary": 173912
+    },
+    {
+      "key": "ednet_riiid",
+      "label": "EdNet / Riiid AIEd Challenge",
+      "platform": "EdNet (Santa)",
+      "year": "2020",
+      "note": "Full train.csv (5.85 GB, 101,230,332 rows) is never opened after sampling.",
+      "files": [
+        {
+          "path": "eval/data/external/ednet_riiid/sample_500k.csv",
+          "present": true,
+          "role": "500k uniform random sample of train.csv",
+          "size_bytes": 28878473,
+          "n_data_rows": 500000,
+          "format": "utf-8, delimiter=','",
+          "n_columns": 10,
+          "columns": [
+            "row_id",
+            "timestamp",
+            "user_id",
+            "content_id",
+            "content_type_id",
+            "task_container_id",
+            "user_answer",
+            "answered_correctly",
+            "prior_question_elapsed_time",
+            "prior_question_had_explanation"
+          ],
+          "dtypes": {
+            "row_id": "int[1789255..95194082]",
+            "timestamp": "int[180794..46697711832]",
+            "user_id": "int[37830890..2020307727]",
+            "content_id": "int[610..9627]",
+            "content_type_id": "int(0/1)",
+            "task_container_id": "int[5..6171]",
+            "user_answer": "int[0..3]",
+            "answered_correctly": "int(0/1)",
+            "prior_question_elapsed_time": "float",
+            "prior_question_had_explanation": "bool-ish"
+          },
+          "proposed_mapping": {
+            "student_id": "user_id",
+            "problem_id": "content_id",
+            "correct": "answered_correctly",
+            "attempt_count": null,
+            "hint_count": null,
+            "response_time": "prior_question_elapsed_time",
+            "skill_topic": null
+          }
+        }
+      ],
+      "primary_file": "eval/data/external/ednet_riiid/sample_500k.csv",
+      "n_rows_primary": 500000,
+      "sampling": {
+        "source_file": "eval/data/external/ednet_riiid/raw/train.csv",
+        "source_size_bytes": 5846760913,
+        "population_rows": 101230332,
+        "sampled_rows": 500000,
+        "sampling_fraction": 0.00493923,
+        "method": "reservoir sampling (Vitter Algorithm L), single streaming pass, uniform without replacement",
+        "seed": 20260823,
+        "peak_rss_mb": 68.0,
+        "elapsed_seconds": 16.8
+      }
+    },
+    {
+      "key": "eedi_neurips2020",
+      "label": "Eedi NeurIPS 2020 Education Challenge",
+      "platform": "Eedi",
+      "year": "2020",
+      "note": "CC BY-NC-ND 4.0 — non-commercial use only.",
+      "files": [
+        {
+          "path": "eval/data/external/eedi_neurips2020/raw/train_data/train_task_1_2.csv",
+          "present": true,
+          "role": "answer log (tasks 1 & 2)",
+          "size_bytes": 430049940,
+          "n_data_rows": 15867850,
+          "format": "utf-8, delimiter=','",
+          "n_columns": 6,
+          "columns": [
+            "QuestionId",
+            "UserId",
+            "AnswerId",
+            "IsCorrect",
+            "CorrectAnswer",
+            "AnswerValue"
+          ],
+          "dtypes": {
+            "QuestionId": "int[1383..25200]",
+            "UserId": "int[5257..106953]",
+            "AnswerId": "int[626158..19507712]",
+            "IsCorrect": "int(0/1)",
+            "CorrectAnswer": "int[1..4]",
+            "AnswerValue": "int[1..4]"
+          },
+          "proposed_mapping": {
+            "student_id": "UserId",
+            "problem_id": "QuestionId",
+            "correct": "IsCorrect",
+            "attempt_count": null,
+            "hint_count": null,
+            "response_time": null,
+            "skill_topic": null
+          }
+        },
+        {
+          "path": "eval/data/external/eedi_neurips2020/raw/train_data/train_task_3_4.csv",
+          "present": true,
+          "role": "answer log (tasks 3 & 4)",
+          "size_bytes": 31731601,
+          "n_data_rows": 1382727,
+          "format": "utf-8, delimiter=','",
+          "n_columns": 6,
+          "columns": [
+            "QuestionId",
+            "UserId",
+            "AnswerId",
+            "IsCorrect",
+            "CorrectAnswer",
+            "AnswerValue"
+          ],
+          "dtypes": {
+            "QuestionId": "int[11..941]",
+            "UserId": "int[175..5482]",
+            "AnswerId": "int[6545..1369240]",
+            "IsCorrect": "int(0/1)",
+            "CorrectAnswer": "int[1..4]",
+            "AnswerValue": "int[2..4]"
+          },
+          "proposed_mapping": {
+            "student_id": "UserId",
+            "problem_id": "QuestionId",
+            "correct": "IsCorrect",
+            "attempt_count": null,
+            "hint_count": null,
+            "response_time": null,
+            "skill_topic": null
+          }
+        },
+        {
+          "path": "eval/data/external/eedi_neurips2020/raw/metadata/answer_metadata_task_1_2.csv",
+          "present": true,
+          "role": "per-answer timestamp / confidence",
+          "size_bytes": 1019436477,
+          "n_data_rows": 19834820,
+          "format": "utf-8, delimiter=','",
+          "n_columns": 6,
+          "columns": [
+            "AnswerId",
+            "DateAnswered",
+            "Confidence",
+            "GroupId",
+            "QuizId",
+            "SchemeOfWorkId"
+          ],
+          "dtypes": {
+            "AnswerId": "float",
+            "DateAnswered": "datetime",
+            "Confidence": "float",
+            "GroupId": "int[224..11482]",
+            "QuizId": "int[1127..17042]",
+            "SchemeOfWorkId": "float"
+          },
+          "proposed_mapping": {
+            "student_id": null,
+            "problem_id": null,
+            "correct": null,
+            "attempt_count": null,
+            "hint_count": null,
+            "response_time": "DateAnswered",
+            "skill_topic": null
+          }
+        },
+        {
+          "path": "eval/data/external/eedi_neurips2020/raw/metadata/question_metadata_task_1_2.csv",
+          "present": true,
+          "role": "question subjects",
+          "size_bytes": 741225,
+          "n_data_rows": 27613,
+          "format": "utf-8, delimiter=','",
+          "n_columns": 2,
+          "columns": [
+            "QuestionId",
+            "SubjectId"
+          ],
+          "dtypes": {
+            "QuestionId": "int[1855..25830]",
+            "SubjectId": "str"
+          },
+          "proposed_mapping": {
+            "student_id": null,
+            "problem_id": "QuestionId",
+            "correct": null,
+            "attempt_count": null,
+            "hint_count": null,
+            "response_time": null,
+            "skill_topic": "SubjectId"
+          }
+        },
+        {
+          "path": "eval/data/external/eedi_neurips2020/raw/metadata/student_metadata_task_1_2.csv",
+          "present": true,
+          "role": "student demographics",
+          "size_bytes": 3273103,
+          "n_data_rows": 118971,
+          "format": "utf-8, delimiter=','",
+          "n_columns": 4,
+          "columns": [
+            "UserId",
+            "Gender",
+            "DateOfBirth",
+            "PremiumPupil"
+          ],
+          "dtypes": {
+            "UserId": "int[2256..112941]",
+            "Gender": "int[0..2]",
+            "DateOfBirth": "datetime",
+            "PremiumPupil": "float"
+          },
+          "proposed_mapping": {
+            "student_id": "UserId",
+            "problem_id": null,
+            "correct": null,
+            "attempt_count": null,
+            "hint_count": null,
+            "response_time": null,
+            "skill_topic": null
+          }
+        },
+        {
+          "path": "eval/data/external/eedi_neurips2020/raw/metadata/subject_metadata.csv",
+          "present": true,
+          "role": "subject taxonomy",
+          "size_bytes": 13527,
+          "n_data_rows": 388,
+          "format": "utf-8, delimiter=','",
+          "n_columns": 4,
+          "columns": [
+            "﻿SubjectId",
+            "Name",
+            "ParentId",
+            "Level"
+          ],
+          "dtypes": {
+            "﻿SubjectId": "int[3..51]",
+            "Name": "str",
+            "ParentId": "str",
+            "Level": "int[0..3]"
+          },
+          "proposed_mapping": {
+            "student_id": null,
+            "problem_id": null,
+            "correct": null,
+            "attempt_count": null,
+            "hint_count": null,
+            "response_time": null,
+            "skill_topic": "﻿SubjectId"
+          }
+        }
+      ],
+      "primary_file": "eval/data/external/eedi_neurips2020/raw/train_data/train_task_1_2.csv",
+      "n_rows_primary": 15867850
+    }
+  ],
+  "summary": [
+    {
+      "dataset": "assistments_2004",
+      "n_rows": 226099,
+      "correct": "yes",
+      "hints": "yes",
+      "timing": "yes",
+      "attempts": "yes",
+      "notes": ""
+    },
+    {
+      "dataset": "assistments_2005",
+      "n_rows": 162898,
+      "correct": "yes",
+      "hints": "yes",
+      "timing": "yes",
+      "attempts": "yes",
+      "notes": ""
+    },
+    {
+      "dataset": "assistments_2015",
+      "n_rows": 708631,
+      "correct": "yes",
+      "hints": "absent",
+      "timing": "absent",
+      "attempts": "absent",
+      "notes": "Only user_id/log_id/sequence_id/correct. No behavioral columns of any kind."
+    },
+    {
+      "dataset": "aleven_fractions",
+      "n_rows": 37889,
+      "correct": "yes",
+      "hints": "yes",
+      "timing": "yes",
+      "attempts": "yes",
+      "notes": ""
+    },
+    {
+      "dataset": "oulad",
+      "n_rows": 173912,
+      "correct": "yes",
+      "hints": "absent",
+      "timing": "absent",
+      "attempts": "absent",
+      "notes": "Assessment-level scores only. `date_submitted` is a day index vs a deadline, not a response time; `num_of_prev_attempts` counts module retakes, not problem attempts."
+    },
+    {
+      "dataset": "ednet_riiid",
+      "n_rows": 500000,
+      "correct": "yes",
+      "hints": "absent",
+      "timing": "derived",
+      "attempts": "platform=1",
+      "notes": "One row per answered question, no retries in the platform, so attempts=1 is a fact about Santa rather than a guess. `prior_question_elapsed_time` describes the PREVIOUS question and must be shifted forward one row per user. `prior_question_had_explanation` is not a hint request."
+    },
+    {
+      "dataset": "eedi_neurips2020",
+      "n_rows": 15867850,
+      "correct": "yes",
+      "hints": "absent",
+      "timing": "derived",
+      "attempts": "platform=1",
+      "notes": "One row per answer, no retries and no hints. Timing only from consecutive DateAnswered differences in the 1 GB answer metadata; check granularity before trusting it."
+    }
+  ]
+}

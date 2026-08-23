@@ -46,6 +46,8 @@ METACOG_CANDIDATES = [
 ]
 CROSSGEN_PATH = os.path.join(RESULTS_DIR, "cross_generator_results.json")
 EXTVAL_PATH = os.path.join(RESULTS_DIR, "external_validation_results.json")
+MULTI_EXTVAL_PATH = os.path.join(
+    RESULTS_DIR, "external_validation_multi_dataset.json")
 EVIDENCE_MD = os.path.join(RESULTS_DIR, "EVIDENCE.md")
 LIMITATIONS_MD = os.path.join(RESULTS_DIR, "LIMITATIONS.md")
 
@@ -238,6 +240,103 @@ def build_rows(metacog, crossgen, extval) -> list[dict]:
         "tier": "B", "n": 1,
         "limitation": "n=1 real user; no statistical power, not generalizable.",
     })
+
+    # 8. multi-dataset external behavioral validation
+    rows.extend(multi_dataset_rows(_load(MULTI_EXTVAL_PATH)))
+    return rows
+
+
+def multi_dataset_rows(multi) -> list[dict]:
+    """Rows for the seven-dataset external validation.
+
+    Deliberately written from the result file rather than from the intended
+    claim. Seven datasets were mapped, but only the three carrying hints,
+    attempts AND response time can support the checks — so the claim states
+    three, names the four that cannot and why, and reports the chi-square
+    outcome as it came out rather than as it was hoped to come out.
+    """
+    if not multi:
+        return [{
+            "claim": "External behavioral validation across multiple real "
+                     "datasets",
+            "evidence": "external_validation_multi_dataset.json",
+            "tier": "E", "n": None,
+            "limitation": "pending — run eval/eval/external_validation_multi.py.",
+        }]
+
+    datasets = multi.get("datasets", [])
+    ran = [d for d in datasets if d.get("status") == "ran"]
+    with_dist = [d for d in ran if "distribution" in d.get("checks_computable", [])]
+    with_timing = [d for d in ran if "timing" in d.get("checks_computable", [])]
+    without = [d for d in ran if not d.get("checks_computable")]
+    platforms = sorted({d.get("platform", "") for d in ran})
+    n_rows = sum(d.get("n_rows_used") or 0 for d in ran)
+    n_students = sum(d.get("n_students") or 0 for d in ran)
+
+    rejects = [d for d in with_dist
+               if (d["distribution_check"].get("p_value") is not None
+                   and d["distribution_check"]["p_value"] < 0.05)]
+    timing_rates = ", ".join(
+        f"{d['dataset'].replace('_', ' ')} "
+        f"{d['timing_check']['agreement_rate']:.1%}" for d in with_timing)
+
+    rows = [{
+        "claim": f"Behavioral proxy mapping runs on {len(ran)} independent real "
+                 f"datasets across {len(platforms)} platforms "
+                 f"({', '.join(platforms)}), 2004-2020 "
+                 f"({n_rows:,} transactions, {n_students:,} students)",
+        "evidence": "external_validation_multi_dataset.json",
+        "tier": "B", "n": n_rows,
+        "limitation": f"Mapping alone is not validation. Only "
+                      f"{len(with_dist)}/{len(ran)} carry the hint, attempt and "
+                      f"timing fields the proxy rules read; the other "
+                      f"{len(without)} ({', '.join(d['dataset'] for d in without)}) "
+                      f"yield no state and are reported as uncomputable, "
+                      f"not as null results.",
+    }]
+
+    if with_dist:
+        expected = multi.get("aria_expected_state_distribution", {})
+        uniform = (len(set(round(p, 6) for p in expected.values())) == 1
+                   if expected else False)
+        rows.append({
+            "claim": f"Real behavioral state prevalence differs from the "
+                     f"distribution ARIA's corpus assumes "
+                     f"({len(rejects)}/{len(with_dist)} testable datasets "
+                     f"reject, p < 1e-300 each)",
+            "evidence": "external_validation_multi_dataset.json chi-square "
+                        "goodness-of-fit, per dataset",
+            "tier": "C" if uniform else "B",
+            "n": sum(d.get("n_rows_used") or 0 for d in with_dist),
+            "limitation": (
+                "Weak as stated: the expectation is the synthetic corpus, which "
+                "is uniform BY CONSTRUCTION (50 items per state), so this "
+                "rejects uniformity rather than a considered prevalence model — "
+                "a near-foregone result. What is usable is the shape of the "
+                "departure per dataset (observed vs expected counts in the "
+                "JSON), and the fact that it is consistent across two "
+                "independent ASSISTments years. Do not cite the synthetic "
+                "distribution as behaviourally calibrated."
+                if uniform else
+                f"rejected on {len(rejects)}/{len(with_dist)} testable datasets."),
+        })
+
+    if with_timing:
+        rates = [d["timing_check"]["agreement_rate"] for d in with_timing]
+        rows.append({
+            "claim": f"ARIA's absolute timing thresholds track percentile-based "
+                     f"real behaviour (agreement {timing_rates})",
+            "evidence": "external_validation_multi_dataset.json timing "
+                        "agreement, per dataset",
+            "tier": "B",
+            "n": sum(d["timing_check"]["n_compared"] for d in with_timing),
+            "limitation": (
+                f"Agreement is not stable across sources: {min(rates):.1%} to "
+                f"{max(rates):.1%}. The two ASSISTments logs agree far better "
+                f"than the step-level Fractions Lab data, so the thresholds "
+                f"are calibrated to problem-grain tutor logs and should not be "
+                f"claimed as platform-independent."),
+        })
     return rows
 
 
@@ -408,6 +507,8 @@ def main(argv: list[str] | None = None) -> int:
     print(f"  metacog            : {metacog_path or 'MISSING'}")
     print(f"  cross_generator    : {CROSSGEN_PATH if crossgen else 'MISSING'}")
     print(f"  external_validation: {EXTVAL_PATH if extval else 'MISSING'}")
+    print(f"  multi_dataset      : "
+          f"{MULTI_EXTVAL_PATH if _load(MULTI_EXTVAL_PATH) else 'MISSING'}")
 
     rows = build_rows(metacog, crossgen, extval)
     os.makedirs(RESULTS_DIR, exist_ok=True)
