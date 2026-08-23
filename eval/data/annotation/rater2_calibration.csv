@@ -1,0 +1,71 @@
+item_id,problem_text,think_aloud,predicted_category,confidence
+CAL_01,Which revision best fixes the run-on: 'It was raining we stayed inside.',"BEFORE STARTING: Okay, okay, let's see... I gotta fix the run-on sentence. It's like, one of those easy questions, right?
+
+WHILE SOLVING: Hmm, so if it was raining we stayed inside... That sounds good as is... Wait, no, that can't be right... Ugh, I always get these mixed up... Okay, let me try again... We could use a comma in between the two independent clauses, but... I don't know... what's the best way to do it? [pause] Oh man, this is killing me! Why did they even ask this?!
+
+AFTER FINISHING: Ugh, I have no idea how to fix it. Maybe just put a comma in between or something?",,
+CAL_02,A shirt costs $40 after a 20% discount. What was the original price?,"BEFORE STARTING: Okay, so the shirt costs $40 after a discount... yeah, I can do this, easy peasy...
+
+WHILE SOLVING: Wait, huh, let me think... if it's 20% off, that means I subtract 20 from 100 to get the percentage of the price left, right? But how does that help me find the original price? Uh, no, no, no... this is just gonna be a stupid calculation... Ugh, why did I even bother trying? Okay, let me start over. If $40 is 80% of the original price... then I need to divide by... uh, what's the percentage...? Yeah, I think it's 0.8... or is it 0.2? No, no, that can't be right... Oh man, I'm totally lost...
+
+AFTER FINISHING: This problem is just too weird, I don't get why it doesn't make sense to me. Ugh, ACT Math is so messed up.",,
+CAL_03,A shirt costs $40 after a 20% discount. What was the original price?,"BEFORE STARTING: Okay, so they're asking for the original price, and it's after a discount... I should probably make a table or something to keep track of this stuff.
+
+WHILE SOLVING: First I need to figure out what the discount was, which is just... 20% off, right? So if $40 is what you get after that, then... let me think about how much it decreased from. It decreased by... um, x percent... (pauses) Wait, no. That's not how you do it. You subtract the discount percentage from 100. Yeah! That's it. So I need to... find out what 80% of the original price is, since 20% was discounted... and then I can set up an equation or something. Let me just draw a little diagram here... (tries to scribble on paper)
+
+AFTER FINISHING: Yeah, this should be easy now. Okay, let's see...",,
+CAL_04,"If f(x) = 2x + 1, what is f(3)?","BEFORE STARTING: Okay, so this is an easy one... just plug in the value of x into the function and get the result... nothing too complicated here.
+
+WHILE SOLVING: Alright, f(x) = 2x + 1, right? So if I'm finding f(3), that means I need to plug 3 in for x. Just multiply it by 2, that's easy... 6. And then add the 1... so, um, f(3) is just 7! Yeah, got it!
+
+AFTER FINISHING: Yeah, no problem at all. That one felt like a breeze.",,
+CAL_05,What is the molar mass of CO₂?,"BEFORE STARTING: Okay, I know this is a simple one... gotta find the molar mass of CO₂... Um, let's see...
+
+WHILE SOLVING: So, it's just carbon and oxygen, right? And we know that the atomic mass of carbon is like... uh... *pauses*... What was it again?... Oh yeah, 12! And then there are two oxygens, so that would be... Um, what's the molar mass of an oxygen atom? *stares blankly ahead* I don't know, I don't know... [pauses] This is going nowhere... Okay, let me start over. Carbon has an atomic mass of 12, and there are two oxygens with a molar mass of... Uh, wait, that's it! The atomic mass of oxygen is like, 16 or something... * scribbles on paper*
+
+AFTER FINISHING: Ugh, I'm not sure if this is right... It looks good, but I feel really unsure about the whole thing...",,
+CAL_06,A shirt costs $40 after a 20% discount. What was the original price?,"BEFORE STARTING: Okay, I think I remember this type of problem from review... um, something about percentages, yeah?
+
+WHILE SOLVING: Wait, so the discount is 20% off $40? That means it's like... half? No, no, that doesn't sound right. Let me start over: if the shirt costs $40 after a discount, and I need to find the original price... I'll just use the formula for discounts, which is... um... what was it again? Oh yeah, (x - y) = z. But where do I put the 20% off? That's like, a variable or something... I don't get it, huh.
+
+AFTER FINISHING: Ugh, I feel so stupid now. Maybe I should just look up the answer and forget about this problem.",,
+CAL_07,Write code that prints 'even' or 'odd' for a variable n.,"BEFORE STARTING: Ugh, I hope this isn't one of those super easy problems... okay, let's see if I can even get it to print something.
+
+WHILE SOLVING: Wait, do I just use an if statement? 'if n % 2 == 0'... no, that's not right, that's for checking if a number is even, but what about the actual output? Forget it, this makes no sense. Hmm, let me try again... print('even' if n % 2 == 0 else 'odd'). Ugh, do I need to use the ternary operator for this? This is so annoying.
+
+AFTER FINISHING: I guess that's right... sort of. Yeah, I hope I got it right...",,
+CAL_08,Write a loop that prints the numbers 1 through 5.,"BEFORE STARTING: Ugh, come on... I know this is easy. I just need to write a loop that prints numbers... or something like that.
+
+WHILE SOLVING: Okay, so it's gotta be a for loop, right? Or maybe while? Ugh, I always get these two mixed up. Wait, no, it's for. So, I'll start with 'for i in range(1,6)':... no, that can't be right, because 5 is not included in the range... umm... 'for i in range(6)'? Forget it, this makes no sense.
+
+AFTER FINISHING: Stupid loop. Why do I always get this wrong?! Okay, so maybe just writing out the numbers one by one would be easier...",,
+CAL_09,Write a loop that prints the numbers 1 through 5.,"BEFORE STARTING: Okay, so we gotta print numbers from 1 to 5... like, a for loop or something?
+
+WHILE SOLVING: First I need to make sure I get the range right... let me think... we don't wanna include 6 in this one... hmm... `for i in range(6)`? No, that's not it... wait, I can just do `range(1, 6)`... yeah, that's what I want... but now how do I print these numbers?
+
+AFTER FINISHING: Alright, so I'm pretty sure this will work... gotta test it out.",,
+CAL_10,Simplify (3² · 3⁴) / 3³.,"BEFORE STARTING: Okay, gotta move fast on this one, ACT math's not too bad... hopefully it's a simple problem...
+
+WHILE SOLVING: Alright, so it's like, (3² · 3⁴) / 3³... I'm pretty sure that's right... multiply the exponents first... (3² * 3⁴)... probably gets me 3 to the power of 6? whatever, doesn't matter for now... just get the numerator and denominator done separately... so it's like 3 to the 12th over 3 to the third... that's a huge difference in exponents, gotta subtract them out... (12 - 3)... yeah, that's easy... gotta simplify it somehow but I'm pretty sure this is right... now just plug it back into the equation or something... wait, no, don't have time for that... move on to the next step...
+
+AFTER FINISHING: Phew, hope I got that one right... probably did, moving too fast to double-check now",,
+CAL_11,"Find the slope of the line through (1, 2) and (4, 11).","BEFORE STARTING: Ugh, why did I forget the formula... okay, so it's rise over run, and we have two points, yeah that's right...
+
+WHILE SOLVING: Wait, is this like a slope problem? Yeah, we need to find the slope. Alright, so I gotta get the difference in x-coordinates... (pauses) OH! We can use the formula y2 - y1 over x2 - x1. That's it! (laughs slightly) No, no, no... that's not it... OHHHHH... okay, so we need to subtract 11 from 2... and 4 from 1... or is it the other way around? Uh... (pauses again) Okay, let me try that. Rise over run... rise over run... (mutters to self) If I get this right...
+
+AFTER FINISHING: Hmm, did I do that correctly? (frowns slightly)",,
+CAL_12,The author says the sky 'wept all afternoon.' What does this imply about the weather?,"BEFORE STARTING: Okay, okay, I need to get this done fast... Let's see what it says... Oh yeah, the sky wept all afternoon...
+
+WHILE SOLVING: Hmm... 'wept' probably means like crying or something... So if the sky is crying, that means it's raining right? Whatever, doesn't matter how hard it rained just that it was raining, so it was a rain day. That makes sense, I guess.
+
+AFTER FINISHING: Uh, yeah, I'm pretty sure that's right... Hopefully!",,
+CAL_13,A graph shows plant growth doubling each week. Predict week 4 if week 1 is 2 cm.,"BEFORE STARTING: Okay, so like, plant growth doubles each week... I need to find out what it is in week 4... this should be easy...
+
+WHILE SOLVING: Uh, if it's doubling every week and it's 2 cm in week one... wait, that means it's 4 cm in week two... ohhhh, yeah! It doubles every time... so I just keep multiplying by 2... Week three is 8 cm, right? And then for week four... it'll be 16 cm! OH, I get it now! This is like a geometric sequence or something...
+
+AFTER FINISHING: Yup, that sounds about right. Hopefully the graph will match this.",,
+CAL_14,"If f(x) = 2x + 1, what is f(3)?","BEFORE STARTING: Alright, so I gotta find f(3) for this function f(x)... Easy peasy, right? Just plug in the number...
+
+WHILE SOLVING: Okay, so it's f(x) = 2x + 1... If x is 3, that means I replace x with 3... So, it becomes 2*3 + 1... And then I just do the math... *taps pen on paper* That's right, 6 + 1 is... 7! Easy, so that's the answer: f(3) is 7. Just gotta double-check now...
+
+AFTER FINISHING: Yeah, that seems right. Makes total sense. Now, what's next?",,

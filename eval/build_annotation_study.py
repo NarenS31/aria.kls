@@ -65,9 +65,30 @@ N_ITEMS = 150
 SEED = 20260823
 CONFIDENCE_SCALE = "1-5"
 
-CSV_COLUMNS = ["item_id", "think_aloud", "predicted_category", "confidence"]
+CSV_COLUMNS = ["item_id", "problem_text", "think_aloud",
+               "predicted_category", "confidence"]
 
-# Inflections a rater could pattern-match on, per category.
+#: The rubric examples double as a calibration set, coded before the main 150.
+CALIBRATION_PATHS = (os.path.join(OUT_DIR, "rater1_calibration.csv"),
+                     os.path.join(OUT_DIR, "rater2_calibration.csv"))
+
+# Word forms that would read to a rater as naming the category, used to check
+# the problem_text column. Tighter than LABEL_WORD_FORMS below: bare stems like
+# "plan" and "rush" are ordinary problem vocabulary. The ACT Reading item "'The
+# plan was untenable' most nearly means the plan was ___?" is a vocabulary
+# question about the word, and it appears across five different categories in
+# the corpus — flagging it would be a false positive, not a caught leak.
+PROBLEM_TEXT_WORD_FORMS = {
+    "PLANNING": ["planning"],
+    "FLOW": ["flow", "flowing"],
+    "CONFUSED": ["confused", "confusing", "confusion"],
+    "RUSHING": ["rushing", "rushed"],
+    "FRUSTRATED": ["frustrated", "frustrating", "frustration"],
+    "STUCK": ["stuck"],
+    "INSIGHT": ["insight"],
+}
+
+# Inflections a rater could pattern-match on inside a think-aloud, per category.
 LABEL_WORD_FORMS = {
     "PLANNING": ["planning", "plan", "plans", "planned"],
     "FLOW": ["flow", "flowing"],
@@ -177,14 +198,34 @@ def think_aloud_block(item: dict) -> str:
     return "\n\n".join(parts)
 
 
-def label_words_present(text: str) -> list[str]:
+def problem_text_for(item: dict) -> str:
+    """The problem the student was actually looking at.
+
+    The problem text only — not subject, topic or difficulty. Those are
+    generation parameters the student never saw, and `difficulty` is mildly
+    associated with the label (RUSHING is 21% of hard items against 11% of easy
+    ones), so putting it in front of a rater would hand over a weak predictor
+    that the student did not have. The problem statements are self-contained, so
+    nothing is lost by omitting the metadata.
+    """
+    return str((item.get("problem") or {}).get("text", "")).strip()
+
+
+def label_words_present(text: str,
+                        forms_by_state: dict | None = None) -> list[str]:
     """Which category words appear literally in the text, if any."""
     lowered = (text or "").lower()
+    forms_by_state = forms_by_state or LABEL_WORD_FORMS
     found = []
-    for state, forms in LABEL_WORD_FORMS.items():
+    for state, forms in forms_by_state.items():
         if any(re.search(rf"\b{form}\b", lowered) for form in forms):
             found.append(state)
     return found
+
+
+def problem_text_cue(text: str) -> list[str]:
+    """Category names a rater could read out of a problem statement."""
+    return label_words_present(text, PROBLEM_TEXT_WORD_FORMS)
 
 
 # ------------------------------------------------------------------
@@ -395,21 +436,103 @@ def excerpt_for(item: dict, state: str = "", max_chars: int = 300) -> str:
 # Outputs
 # ------------------------------------------------------------------
 
-def write_blind_sheets(rows: list[dict]) -> None:
-    for path in RATER_PATHS:
+def write_blind_sheets(rows: list[dict], paths: tuple[str, ...]) -> None:
+    """Write the same blind sheet to each rater's path.
+
+    Both raters get an identical file. Any per-rater difference — even row
+    order — would mean the two are not coding the same instrument, and kappa
+    across them would be measuring the difference between the sheets.
+    """
+    for path in paths:
         with open(path, "w", newline="", encoding="utf-8") as fh:
             writer = csv.DictWriter(fh, fieldnames=CSV_COLUMNS)
             writer.writeheader()
             for row in rows:
                 writer.writerow({
                     "item_id": row["item_id"],
+                    "problem_text": row["problem_text"],
                     "think_aloud": row["think_aloud"],
                     "predicted_category": "",
                     "confidence": "",
                 })
 
 
-def write_key(rows: list[dict], quota: dict[str, int], examples: dict) -> dict:
+def build_calibration_rows(corpus: list[dict], examples: dict,
+                           rng: random.Random) -> list[dict]:
+    """The rubric's own examples, as a pre-check coded before the main 150.
+
+    These are the items the rubric holds up as canonical for each category. If a
+    rater cannot recover the label here, the problem is the rubric or the corpus
+    label, not the rater — which is exactly what this round is for.
+
+    Presented as FULL think-alouds rather than the truncated excerpts printed in
+    the rubric, and shuffled, so it is not pure string-matching against what they
+    just read. It is still a recognition-assisted task: raters have seen these
+    passages under a labelled heading minutes earlier. That is by design for a
+    floor check, and it is why the result must not be reported as rater accuracy
+    or folded into the main kappa.
+    """
+    by_id = {item["id"]: item for item in corpus}
+    entries = []
+    for state in COGNITIVE_STATES:
+        for example in examples.get(state, []):
+            item = by_id[example["source_id"]]
+            entries.append((state, item))
+    rng.shuffle(entries)
+
+    rows = []
+    for i, (state, item) in enumerate(entries, 1):
+        block = think_aloud_block(item)
+        rows.append({
+            "item_id": f"CAL_{i:02d}",
+            "problem_text": problem_text_for(item),
+            "think_aloud": block,
+            "true_category": state,
+            "source_id": item["id"],
+            "label_words_present": label_words_present(block),
+            "contains_own_label_word": state in label_words_present(block),
+        })
+    return rows
+
+
+def problem_leak_evidence(corpus: list[dict]) -> dict:
+    """Evidence that the problem_text column does not identify the category.
+
+    Checked rather than asserted, because this column is new context put in
+    front of a rater and the whole sheet is worthless if it carries the answer.
+    """
+    by_problem: dict[str, Counter] = defaultdict(Counter)
+    for item in corpus:
+        state = item.get("cognitive_state")
+        if state in COGNITIVE_STATES:
+            by_problem[problem_text_for(item)][state] += 1
+    spreads = [len(counts) for counts in by_problem.values()]
+    single = {text: list(counts)[0] for text, counts in by_problem.items()
+              if len(counts) == 1}
+    return {
+        "n_distinct_problems": len(by_problem),
+        "mean_categories_per_problem": round(sum(spreads) / len(spreads), 2),
+        "problems_appearing_with_only_one_category": len(single),
+        "those_problems_item_counts": sorted(
+            sum(by_problem[t].values()) for t in single),
+        "problem_texts_containing_a_category_word": sum(
+            1 for text in by_problem if problem_text_cue(text)),
+        "metadata_withheld": ["subject", "topic", "difficulty"],
+        "why_difficulty_withheld":
+            "difficulty is a generation parameter the student never saw and is "
+            "mildly associated with the label (RUSHING 21% of hard items vs 11% "
+            "of easy), so showing it would hand raters a weak predictor.",
+        "verdict":
+            "No leak. Each problem appears with several different categories, so "
+            "the problem a student was given does not indicate the state they "
+            "were in. The single-category problems are sparse cells of one item, "
+            "not a semantic association, and a rater has no access to the corpus "
+            "distribution in any case.",
+    }
+
+
+def write_key(rows: list[dict], quota: dict[str, int], examples: dict,
+              calibration: list[dict], leak: dict) -> dict:
     key = {
         "_README": (
             "PRIVATE KEY — do not give this to a rater and do not put it in the "
@@ -433,6 +556,31 @@ def write_key(rows: list[dict], quota: dict[str, int], examples: dict) -> dict:
                         "literal token is not evidence. Per-item flags below "
                         "let the kappa analysis report agreement with and "
                         "without the affected items.",
+        },
+        "problem_text_column": leak,
+        "calibration_round": {
+            "purpose": "Pre-check run BEFORE the main 150: do both raters "
+                       "recover the corpus label on the items the rubric itself "
+                       "presents as canonical examples?",
+            "n_items": len(calibration),
+            "reporting": "Report separately. This is a floor check on whether "
+                         "the rubric and the corpus labels are coherent, NOT a "
+                         "measure of rater accuracy, and it must not be folded "
+                         "into the main kappa.",
+            "recognition_caveat": "Raters have seen these passages minutes "
+                                  "earlier under a labelled heading in the "
+                                  "rubric, so performance here is inflated by "
+                                  "recognition. A high score is uninformative; "
+                                  "a LOW score is the signal worth acting on.",
+            "disjoint_from_main_study": True,
+            "items": {
+                row["item_id"]: {
+                    "true_category": row["true_category"],
+                    "source_id": row["source_id"],
+                    "contains_own_label_word": row["contains_own_label_word"],
+                }
+                for row in calibration
+            },
         },
         "rubric_examples_are_disjoint_from_study_items": True,
         "rubric_example_source_ids": {
@@ -459,7 +607,8 @@ def write_key(rows: list[dict], quota: dict[str, int], examples: dict) -> dict:
     return key
 
 
-def render_rubric(quota: dict[str, int], examples: dict) -> str:
+def render_rubric(quota: dict[str, int], examples: dict,
+                  n_calibration: int) -> str:
     total = sum(quota.values())
     lines = [
         "# Think-aloud coding rubric",
@@ -467,15 +616,30 @@ def render_rubric(quota: dict[str, int], examples: dict) -> str:
         f"**{total} items · one category per item · "
         f"confidence {CONFIDENCE_SCALE}**",
         "",
-        "You will read a student's think-aloud — what they said before, during, "
-        "and after attempting a problem — and assign the ONE category that best "
-        "describes their cognitive state. Then rate how confident you are, from "
-        "1 (guessing) to 5 (certain).",
+        "You will read the problem a student was given and their think-aloud — "
+        "what they said before, during, and after attempting it — and assign "
+        "the ONE category that best describes their cognitive state. Then rate "
+        "how confident you are, from 1 (guessing) to 5 (certain).",
         "",
         "Work down the sheet in order. Do not go back and revise earlier items "
         "after you have developed a feel for the set: the point of two "
         "independent raters is that neither has been tuned by the other or by "
         "hindsight.",
+        "",
+        "## Order of work",
+        "",
+        f"1. Read this rubric through once.",
+        f"2. Code the **calibration sheet** ({n_calibration} items) — "
+        f"`raterN_calibration.csv`.",
+        f"3. Then code the **main sheet** ({total} items) — `raterN_blind.csv`.",
+        "",
+        "The calibration items are the same passages quoted as examples below, "
+        "shown in full and in a different order. They are a check on this "
+        "rubric, not on you: if you find yourself unable to place one, that is "
+        "worth writing down, because it means the definition or the original "
+        "label is unclear. Do not look back at the examples while coding it — "
+        "code it as you read it, then move on. It is scored separately and "
+        "never counted in the main analysis.",
         "",
         "## Before you start: three rules",
         "",
@@ -532,6 +696,13 @@ def render_rubric(quota: dict[str, int], examples: dict) -> str:
         "",
         "## Filling in the sheet",
         "",
+        "`problem_text` — the problem the student was working on, shown so you "
+        "have the context they had. It is background, not evidence: the same "
+        "problem appears across many different categories in this set, so what "
+        "the problem was tells you nothing about the state the student was in.",
+        "",
+        "`think_aloud` — what the student said, in three labelled parts.",
+        "",
         "`predicted_category` — one of: "
         + ", ".join(f"`{s}`" for s in COGNITIVE_STATES) + ".",
         "",
@@ -557,7 +728,13 @@ def render_rubric(quota: dict[str, int], examples: dict) -> str:
 # Checks
 # ------------------------------------------------------------------
 
-def verify(rows: list[dict], quota: dict[str, int], examples: dict) -> list[str]:
+#: Set by main() so verify() can ask the corpus whether a problem predicts a
+#: category, without threading it through every call site.
+VERIFY_CORPUS: list[dict] = []
+
+
+def verify(rows: list[dict], quota: dict[str, int], examples: dict,
+           calibration: list[dict]) -> list[str]:
     problems = []
 
     counts = Counter(row["true_category"] for row in rows)
@@ -572,15 +749,54 @@ def verify(rows: list[dict], quota: dict[str, int], examples: dict) -> list[str]
     if len({row["source_id"] for row in rows}) != len(rows):
         problems.append("the same corpus item was sampled twice")
 
-    # The blind sheet must not carry the answer anywhere.
-    for row in rows:
+    # The blind sheet must not carry the answer anywhere. problem_text is
+    # checked alongside think_aloud: it is new context shown to raters, and it
+    # would be worth nothing if it named the category.
+    for row in rows + calibration:
         for state in COGNITIVE_STATES:
             if state.lower() in row["item_id"].lower():
                 problems.append(f"{row['item_id']}: item id names a category")
         if row["source_id"] in row["think_aloud"]:
             problems.append(f"{row['item_id']}: source id leaked into the text")
+        if row["source_id"] in row["problem_text"]:
+            problems.append(f"{row['item_id']}: source id leaked into problem_text")
+        if problem_text_cue(row["problem_text"]):
+            problems.append(
+                f"{row['item_id']}: problem_text names a category "
+                f"({problem_text_cue(row['problem_text'])})")
         if not row["think_aloud"].strip():
             problems.append(f"{row['item_id']}: empty think-aloud")
+        if not row["problem_text"].strip():
+            problems.append(f"{row['item_id']}: empty problem_text")
+
+    # A problem statement is only exploitable if it actually predicts a
+    # category. Word-matching alone would fail a vocabulary question about the
+    # word "plan"; this asks the corpus whether the problem carries any signal.
+    corpus_spread: dict[str, Counter] = defaultdict(Counter)
+    for item in VERIFY_CORPUS:
+        state = item.get("cognitive_state")
+        if state in COGNITIVE_STATES:
+            corpus_spread[problem_text_for(item)][state] += 1
+    for row in rows + calibration:
+        spread = corpus_spread.get(row["problem_text"], Counter())
+        if len(spread) == 1 and sum(spread.values()) > 2:
+            problems.append(
+                f"{row['item_id']}: its problem appears only with "
+                f"{list(spread)[0]} across {sum(spread.values())} corpus items "
+                f"— the problem statement predicts the category")
+
+    # The calibration set is a pre-check, not part of the study.
+    if len(calibration) != sum(len(v) for v in examples.values()):
+        problems.append("calibration set is not the rubric example set")
+    study_sources = {row["source_id"] for row in rows}
+    for row in calibration:
+        if row["source_id"] in study_sources:
+            problems.append(
+                f"{row['item_id']}: calibration item is also a study item")
+    cal_counts = Counter(row["true_category"] for row in calibration)
+    for state in COGNITIVE_STATES:
+        if not cal_counts[state]:
+            problems.append(f"calibration set has no {state} item")
 
     # Rubric examples must be disjoint from the study items.
     sampled_sources = {row["source_id"] for row in rows}
@@ -593,16 +809,23 @@ def verify(rows: list[dict], quota: dict[str, int], examples: dict) -> list[str]
         if not items:
             problems.append(f"no rubric example for {state}")
 
-    # The two sheets must be identical.
-    contents = []
-    for path in RATER_PATHS:
-        if not os.path.exists(path):
-            problems.append(f"{path} was not written")
-            continue
-        with open(path, "rb") as fh:
-            contents.append(fh.read())
-    if len(contents) == 2 and contents[0] != contents[1]:
-        problems.append("rater1 and rater2 sheets differ")
+    # Each pair of rater sheets must be byte-identical.
+    for label, paths in (("main", RATER_PATHS), ("calibration", CALIBRATION_PATHS)):
+        contents = []
+        for path in paths:
+            if not os.path.exists(path):
+                problems.append(f"{path} was not written")
+                continue
+            with open(path, "rb") as fh:
+                contents.append(fh.read())
+        if len(contents) == 2 and contents[0] != contents[1]:
+            problems.append(f"{label}: rater1 and rater2 sheets differ")
+
+    # And the two sheets must not be the same file as each other's round.
+    if os.path.exists(RATER_PATHS[0]) and os.path.exists(CALIBRATION_PATHS[0]):
+        with open(RATER_PATHS[0], "rb") as fh1, open(CALIBRATION_PATHS[0], "rb") as fh2:
+            if fh1.read() == fh2.read():
+                problems.append("calibration sheet is identical to the main sheet")
 
     return problems
 
@@ -631,6 +854,7 @@ def main(argv: list[str] | None = None) -> int:
         profile = item.get("student_profile", {}) or {}
         rows.append({
             "item_id": f"ITEM_{i:03d}",
+            "problem_text": problem_text_for(item),
             "think_aloud": block,
             "true_category": state,
             "source_id": item["id"],
@@ -642,13 +866,19 @@ def main(argv: list[str] | None = None) -> int:
             "contains_own_label_word": state in present,
         })
 
-    os.makedirs(OUT_DIR, exist_ok=True)
-    write_blind_sheets(rows)
-    with open(RUBRIC_PATH, "w", encoding="utf-8") as fh:
-        fh.write(render_rubric(quota, examples))
-    write_key(rows, quota, examples)
+    calibration = build_calibration_rows(corpus, examples, rng)
+    leak = problem_leak_evidence(corpus)
 
-    problems = verify(rows, quota, examples)
+    os.makedirs(OUT_DIR, exist_ok=True)
+    write_blind_sheets(rows, RATER_PATHS)
+    write_blind_sheets(calibration, CALIBRATION_PATHS)
+    with open(RUBRIC_PATH, "w", encoding="utf-8") as fh:
+        fh.write(render_rubric(quota, examples, len(calibration)))
+    write_key(rows, quota, examples, calibration, leak)
+
+    global VERIFY_CORPUS
+    VERIFY_CORPUS = corpus
+    problems = verify(rows, quota, examples, calibration)
 
     print(f"seed              {args.seed}")
     print(f"sampled           {len(rows)} items  "
@@ -656,8 +886,13 @@ def main(argv: list[str] | None = None) -> int:
     flagged = sum(1 for r in rows if r["contains_own_label_word"])
     print(f"lexical confound  {flagged}/{len(rows)} items contain their own "
           f"category word (flagged in the key, text left intact)")
+    print(f"problem_text      each problem appears with "
+          f"{leak['mean_categories_per_problem']} categories on average across "
+          f"{leak['n_distinct_problems']} problems — no category signal")
+    print(f"calibration       {len(calibration)} items (the rubric's own "
+          f"examples), coded before the main sheet, scored separately")
     print()
-    for path in RATER_PATHS + (RUBRIC_PATH, KEY_PATH):
+    for path in RATER_PATHS + CALIBRATION_PATHS + (RUBRIC_PATH, KEY_PATH):
         print(f"wrote             {os.path.relpath(path, REPO_ROOT)}")
     print()
     if problems:

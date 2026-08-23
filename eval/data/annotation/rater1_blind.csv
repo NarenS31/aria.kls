@@ -1,750 +1,750 @@
-item_id,think_aloud,predicted_category,confidence
-ITEM_001,"BEFORE STARTING: Okay, so I know this is an easy one... gotta plug in the numbers right...
+item_id,problem_text,think_aloud,predicted_category,confidence
+ITEM_001,"If f(x) = 2x + 1, what is f(3)?","BEFORE STARTING: Okay, so I know this is an easy one... gotta plug in the numbers right...
 
 WHILE SOLVING: Alright, f(x) = 2x + 1... if x is 3, then it's like, 2 * 3 plus 1... no wait, that's just like... okay, 6 plus 1... easy peasy, that's 7! Yeah, I'm pretty sure that's right...
 
 AFTER FINISHING: Yeah, got it done. That was a breeze.",,
-ITEM_002,"BEFORE STARTING: Okay, so I think we need to use the formula for area... but which one is it again? Ugh, why do these formulas always have to be different?
+ITEM_002,Find the area of a circle with radius 5.,"BEFORE STARTING: Okay, so I think we need to use the formula for area... but which one is it again? Ugh, why do these formulas always have to be different?
 
 WHILE SOLVING: Wait, area of a circle... that's like pi r squared... no, wait, radius isn't squared, is it? OH! I remember now! It's just pi times the radius squared. So if the radius is 5, then... ohhhhh... it's just 25pi! Yeah, that sounds right.
 
 AFTER FINISHING: Sweet, got it! Hopefully that's correct. But what if I forgot to square the radius? Ugh, math anxiety",,
-ITEM_003,"BEFORE STARTING: Okay, circle area... I think it's like, formula's somewhere in here, just gotta find it, and oh man I hope I didn't leave my book at home... whatever!
+ITEM_003,Find the area of a circle with radius 5.,"BEFORE STARTING: Okay, circle area... I think it's like, formula's somewhere in here, just gotta find it, and oh man I hope I didn't leave my book at home... whatever!
 
 WHILE SOLVING: Area of a circle is probably pi times r squared, so like pi * 5 * 5... wait no that can't be right... probably? *scratches head*... Hmm, what's the formula again? Ugh, I need to get this right, gotta focus!... Okay, so it's just pi r squared, like... pi times 25... whatever, it's fine...
 
 AFTER FINISHING: I'm pretty sure that's correct... *checks work quickly*... yeah, nope, wrong again. Okay, let me try that again... and I got it this time, right? *fidgets in seat*",,
-ITEM_004,"BEFORE STARTING: okay, like, I know we did something similar in Python last week... uh, is it just a if-else statement or something? gotta refresh my memory on this one
+ITEM_004,Write code that prints 'even' or 'odd' for a variable n.,"BEFORE STARTING: okay, like, I know we did something similar in Python last week... uh, is it just a if-else statement or something? gotta refresh my memory on this one
 
 WHILE SOLVING: OH, wait, do I need to use modulo somehow? hmm, no, that's for division... but what about n % 2 = 0? that would be even, right? ohhhhh, yeah! so like, if n % 2 == 0: print('even') else: print('odd')... no, that doesn't look right... um, gotta flip the logic around... okay, got it! so it's if n % 2 != 0:
 
 AFTER FINISHING: yeah, I think I did it, feels kinda straightforward now",,
-ITEM_005,"BEFORE STARTING: Okay, so they're changing temperature and light... that's a big ol' combination. I hope I can remember what each one does, gotta stay focused here.
+ITEM_005,A study changes both temperature and light. Why is the result hard to interpret?,"BEFORE STARTING: Okay, so they're changing temperature and light... that's a big ol' combination. I hope I can remember what each one does, gotta stay focused here.
 
 WHILE SOLVING: Right, so if you change just temperature, it'll affect the rate of reaction. But wait, this is both temperature and light... does light speed up or slow down reactions? Hmm... I think it's more about energy... yeah, that's right! Energy from light can mess with catalysts, maybe even increase them too much. So if you're changing both variables, you gotta be careful about which one's really in charge here... and what about the order of operations? Maybe I should draw a diagram to help visualize this stuff.
 
 AFTER FINISHING: Yeah, that makes total sense! If light can affect the energy levels of reactants or products, it could totally throw off your results. Now I'm like, 'duh', why did I even need to think about this so hard?",,
-ITEM_006,"BEFORE STARTING: Ugh, I don't get it. Okay, so like, we have to solve this inequality... wait, what's the deal with inequalities again?
+ITEM_006,Solve and graph: 2x - 3 < 7.,"BEFORE STARTING: Ugh, I don't get it. Okay, so like, we have to solve this inequality... wait, what's the deal with inequalities again?
 
 WHILE SOLVING: Alright, so I think you're supposed to isolate x... but how do I do that when there's a negative sign in front of the whole thing? Ugh, why can't it just be like 2x < 7 and we're done? Okay, fine. Um, if I add 3 to both sides, then... I don't know, I'm getting all confused now... I think it's something like... x > 5? No, that can't be right, because what about the -3 on the left side... uh, wait, no, I already added 3...
 
 AFTER FINISHING: Okay, so I think I did it wrong. What if I just get rid of the negative sign and try again? Ugh, this is all too hard.",,
-ITEM_007,"BEFORE STARTING: Okay, so this one's like a total gimme, right? I mean, it's just grammar rules.
+ITEM_007,Pick the correct verb: 'Each of the students (is/are) responsible.',"BEFORE STARTING: Okay, so this one's like a total gimme, right? I mean, it's just grammar rules.
 
 WHILE SOLVING: Alright, so 'each of the students' is plural, so that means we need the plural verb... Yeah! That's gonna be 'are'. For sure. Is/are, easy peasy. And it makes sense too - if each student is responsible, then all of them together are responsible.
 
 AFTER FINISHING: Yeah, I nailed this one. No doubt about it.",,
-ITEM_008,"BEFORE STARTING: Ugh, I always get this gen stuff wrong. Okay, let's see... both parents are Bb... that means they're carriers or something?
+ITEM_008,"If both parents are Bb, what fraction of offspring are expected to be bb?","BEFORE STARTING: Ugh, I always get this gen stuff wrong. Okay, let's see... both parents are Bb... that means they're carriers or something?
 
 WHILE SOLVING: Wait, so if they're both Bb, that means they can only pass on a B, right? But then how do we even get an bb offspring? That doesn't make sense... unless... hmm... is it like, one parent passes on the b allele and the other parent gets recessive too? No, that's not it... circular reasoning... ugh. I don't get it.
 
 AFTER FINISHING: I'm just going to guess something now... maybe half of them or something?",,
-ITEM_009,"BEFORE STARTING: Okay, let's get this over with... x² + 5x + 6 = 0, yeah I got it, factor it out and stuff...
+ITEM_009,"If x² + 5x + 6 = 0, what are the values of x?","BEFORE STARTING: Okay, let's get this over with... x² + 5x + 6 = 0, yeah I got it, factor it out and stuff...
 
 WHILE SOLVING: Alright, so I'm gonna start by factoring the left-hand side... hmm, what's the best way to do this? Yeah, use grouping! So, (x² + 3x) + (2x + 6)... wait, no that's not right... let me try again. (x+?) * (x+?), yeah, now I've got it... x(x+?) * (x+?), and then the product of the constants is 0, which means one of them has to be zero, so x+6 = 0 or x+1 = 0... this is gonna be easy! I mean, I'm pretty sure I did this right...
 
 AFTER FINISHING: Yeah, yeah, yeah, that was a breeze! Two possible values for x: -6 and -1.",,
-ITEM_010,"BEFORE STARTING: Okay, x² - 9, factor it completely... yeah, should be easy, just need to find two binomials whose product is this... probably something with x minus three or something.
+ITEM_010,Factor completely: x² - 9.,"BEFORE STARTING: Okay, x² - 9, factor it completely... yeah, should be easy, just need to find two binomials whose product is this... probably something with x minus three or something.
 
 WHILE SOLVING: Yeah, I'm pretty sure it's (x-3)(x+3)... no wait, that's not right... (x-3)² is like, x² - 6x + 9... so yeah, maybe it's that? Whatever, let me just multiply this out real quick... (x-3)(x+3)... nope, still not right. Ugh, I'm running low on time. Um, what was the question again? Oh yeah, factor completely. (x-3)² is a thing, so maybe it's like that times something else... probably (x-3)(x-3)... or... whatever.
 
 AFTER FINISHING: Hmm, I think I might have gotten it right this time. Let me check... if it's (x-3)² then yeah, it works out.",,
-ITEM_011,"BEFORE STARTING: Okay, I know I'm supposed to find the slope using the formula... ugh, what's it called again? Oh yeah, m = (y2 - y1)/(x2 - x1)... I think that's right
+ITEM_011,"Find the slope of the line through (1, 2) and (4, 11).","BEFORE STARTING: Okay, I know I'm supposed to find the slope using the formula... ugh, what's it called again? Oh yeah, m = (y2 - y1)/(x2 - x1)... I think that's right
 
 WHILE SOLVING: [pause] Wait, which points am I supposed to use? (1, 2) and (4, 11). Okay, so m = (11 - 2)/(4 - 1)... no, wait, that can't be right... [sigh] Let me start again. Um... (11 - 2) is just 9, but what's the denominator? 4 minus 1 is 3, so m = 9/3... which is 3, right? No, I don't know if that's right. I mean, it can't be that easy, can it? Ugh, why did I even try to do this problem?
 
 AFTER FINISHING: I don't know how to do this at all. [sigh]",,
-ITEM_012,"BEFORE STARTING: Ugh, okay, so I know I'm supposed to use the fact that angles add up to... um, what was it again? 180°, yeah, but this problem's gonna be a pain...
+ITEM_012,A triangle has angles 40° and 75°. What is the third angle?,"BEFORE STARTING: Ugh, okay, so I know I'm supposed to use the fact that angles add up to... um, what was it again? 180°, yeah, but this problem's gonna be a pain...
 
 WHILE SOLVING: ...if these two angles are like, 40° and 75°, then the other one has to be... *scribbles on paper* ...no, wait, that can't be right. Forget it, I'll just try something else... hmmm, if they add up to 180°, then I need to subtract these two angles from 180°... no, that doesn't make sense either... ugh, this makes no sense. If the other angle is x, then 40° + 75° + x = 180°. Just give me a minute...
 
 AFTER FINISHING: ...I think I finally did it, and my answer's like, 65° or something? Don't know if that's right... *sigh*",,
-ITEM_013,"BEFORE STARTING: wait, what's the question again? I think it's about genotypes or something?
+ITEM_013,"If both parents are Bb, what fraction of offspring are expected to be bb?","BEFORE STARTING: wait, what's the question again? I think it's about genotypes or something?
 
 WHILE SOLVING: okay, so both parents are Bb... that means they can be BB or Bb, right? But if they're both Bb, then their kid would have to be bb... no, wait, that can't be right. If the kid has a b from one parent, it'll always be Bb, not bb. Ugh, this is stupid. I don't get it. Why are we doing genotypes again? Okay, let me try to think this through... if both parents are heterozygous, then they have a 50% chance of passing on the b allele each time... and the kid has two alleles from them, so that means... huh?
 
 AFTER FINISHING: I'm really confused now. I don't even know what I just wrote.",,
-ITEM_014,"BEFORE STARTING: Okay, gotta get this right... 'Their', 'There', 'They're'... three different words, all kinda sound the same...
+ITEM_014,Choose the correct word: 'Their/There/They're going to the store.',"BEFORE STARTING: Okay, gotta get this right... 'Their', 'There', 'They're'... three different words, all kinda sound the same...
 
 WHILE SOLVING: Probably their... no, wait, that's not it. If I'm going to the store, then it's gonna be there, right? No, that can't be it either. Ugh, whatever... It's 'they're' if it's short for they are, so that's gotta be it... or is it? Hmm, never mind, I'll just choose one and hope for the best...
 
 AFTER FINISHING: Alright, done. Whatever, let's see how I did.",,
-ITEM_015,"BEFORE STARTING: Okay, fine... gotta get this done before class... hopefully it's not too hard... probably gonna be a stupid question...
+ITEM_015,Results contradict a hypothesis. What is the most reasonable next step?,"BEFORE STARTING: Okay, fine... gotta get this done before class... hopefully it's not too hard... probably gonna be a stupid question...
 
 WHILE SOLVING: Uh, what do I even do here? Oh yeah, results contradicting hypothesis... that means we need to test the null hypothesis again, right? No, wait, that doesn't make sense... probably just test the alternative then? Yeah, whatever... so like, reject the null and try again... or something... Hmm, but what's the null in this case? Uh-oh, gotta think about this fast...
 
 AFTER FINISHING: Dunno, I guess we'd test the alternative again... hope that's right... *glances at watch*...",,
-ITEM_016,"BEFORE STARTING: I think I'm supposed to write a function... but what even is that?
+ITEM_016,Write a function that returns the square of a number.,"BEFORE STARTING: I think I'm supposed to write a function... but what even is that?
 
 WHILE SOLVING: Okay, so it's asking for the square of a number, huh? Wait, don't I need an argument for the function or something? Yeah, I'll just add x as the parameter. But how do I make it return the square of x? This isn't right... maybe I'm supposed to multiply it by itself in some way... but that sounds too easy... Ugh, why did they even ask me this question?
 
 AFTER FINISHING: I think I got it... sorta... I hope I don't get docked points for having 'x' instead of 'self.x'",,
-ITEM_017,"BEFORE STARTING: Okay, so I need to find the slope... between two points... this isn't too hard, right? I'm pretty sure I remember the formula...
+ITEM_017,"Find the slope of the line through (1, 2) and (4, 11).","BEFORE STARTING: Okay, so I need to find the slope... between two points... this isn't too hard, right? I'm pretty sure I remember the formula...
 
 WHILE SOLVING: So, um, yeah, it's rise over run... or is that run over rise? Wait, no... rise over run. Okay, so that's... (pause) ...11 minus 2, divided by... uh... 4 minus 1. Is that right? No, wait, I don't know... (sigh) Ugh, this is stupid. Why can't I remember the formula?! [stares at paper for a few seconds] Okay, okay, focus... rise over run... so it's 9 divided by 3... which is... 3. Yeah? No, that can't be right... (pauses again) Ugh...
 
 AFTER FINISHING: I don't know, I'm stuck... I was doing something with the formula, but now I have no idea what it means.",,
-ITEM_018,"BEFORE STARTING: Gotta get this done before class, I'm gonna need to cram all the notes for Unit 5 later... Um, which one is bigger, sodium or chlorine?... Sodium, isn't it?...
+ITEM_018,"Which is larger, a sodium atom or a chlorine atom? Why?","BEFORE STARTING: Gotta get this done before class, I'm gonna need to cram all the notes for Unit 5 later... Um, which one is bigger, sodium or chlorine?... Sodium, isn't it?...
 
 WHILE SOLVING: Wait, how do I know? Okay, so sodium has an atomic number of 11 and chlorine is like... 17, right? So probably sodium's smaller because it has fewer protons. But then I read something about how sodium wants to lose one electron and gain three, or whatever, and that's gonna make its size bigger too, maybe? I don't know... Ugh, why do we care about this anyway?
 
 AFTER FINISHING: Yeah, probably chlorine is bigger because it has more protons, yeah. Better hurry up and get to the notes before class starts.",,
-ITEM_019,"BEFORE STARTING: I know I'm supposed to be able to do this, but like... why are they asking me about water? Can't it just be a straightforward mole conversion or something?
+ITEM_019,How many moles of water form from 4 moles of H₂ (excess O₂)?,"BEFORE STARTING: I know I'm supposed to be able to do this, but like... why are they asking me about water? Can't it just be a straightforward mole conversion or something?
 
 WHILE SOLVING: Okay, so I need to find out how many moles of H2O form from 4 moles of H2... I think. This makes no sense. Wait, I remember the formula for water is just... *sigh*... it's just H2O. Okay, got it. So if I have 4 moles of H2 and each hydrogen atom needs one oxygen atom to form a molecule... uh... how many oxygen atoms do I need? Ugh, forget it. I'll just multiply the number of moles of H2 by 2... no, that's not right. That can't be right.
 
 AFTER FINISHING: I'm pretty sure I messed this up completely. I was really close though, I think...",,
-ITEM_020,"BEFORE STARTING: Okay, okay... let me just read this question again. Fastest temperature, yeah... should be easy, right?
+ITEM_020,A table lists reaction rates at 3 temperatures. Which temperature is fastest?,"BEFORE STARTING: Okay, okay... let me just read this question again. Fastest temperature, yeah... should be easy, right?
 
 WHILE SOLVING: [pause] Ugh, what was I doing? Oh yeah... reaction rates... okay, so it's at like... 3 temperatures... and the faster one is... [trails off] Wait, do I need to look at the actual numbers or something? Nope, nope... just looking at it... [stares blankly] Um... how did we even get this question on ACT Science... this has nothing to do with science... [pauses, thinking] Reaction rates are... related to energy and stuff... but I don't know which one is faster... *sigh*...
 
 AFTER FINISHING: I don't know, honestly. This problem just doesn't make any sense.",,
-ITEM_021,"BEFORE STARTING: Okay, I think this is easy... I just need to use the slope formula... or is it point-slope form? Ugh, why do I always get these mixed up?
+ITEM_021,"Find the slope of the line through (1, 2) and (4, 11).","BEFORE STARTING: Okay, I think this is easy... I just need to use the slope formula... or is it point-slope form? Ugh, why do I always get these mixed up?
 
 WHILE SOLVING: [pause] Alright, so the formula's gonna be y2 - y1 over x2 - x1... and I have (1, 2) and (4, 11)... that means my slope is... [mental breakdown of progress] Wait, which one do I use for y? Ugh, this is so stupid. Fine. So it's (y2 - y1), so it's... 11 - 2, right? That's 9. Now what was the other part again? Oh yeah, x... [stammering] x2 minus x1, that's just... ugh... 4 - 1... or is it the other way around? I don't know.
 
 AFTER FINISHING: Ugh, this is taking forever and I still have no idea what I'm doing. Maybe I should just look at the answers on the back of the worksheet?",,
-ITEM_022,"BEFORE STARTING: Okay, so this one's supposed to be easy, right? I mean, it's just doubling every week... Ugh, I hope I don't mess this up.
+ITEM_022,A graph shows plant growth doubling each week. Predict week 4 if week 1 is 2 cm.,"BEFORE STARTING: Okay, so this one's supposed to be easy, right? I mean, it's just doubling every week... Ugh, I hope I don't mess this up.
 
 WHILE SOLVING: So, if it doubles each week... that means in week 2, it'll be 4 cm... and then in week 3, it'll be 8 cm... or wait, no... [pause] Ugh, why did I write that? No, no, no... It's supposed to double every week, so... Um... Week 1 is 2 cm... Week 2 would be 4 cm... Week 3 would be... 8 cm... Week 4 would be... Uh-oh... I don't know... [pause] Wait, what if I just multiply it? So it's like... 2 times 2 is 4... 2 times 2 is 8... 2 times 2 is... 16... but that can't be right... No, no... I don't know...
 
 AFTER FINISHING: Ugh, I have no idea what the answer is. I'm totally stuck.",,
-ITEM_023,"BEFORE STARTING: Okay, so I don't have much time for this... just gotta get it over with...
+ITEM_023,The author says the sky 'wept all afternoon.' What does this imply about the weather?,"BEFORE STARTING: Okay, so I don't have much time for this... just gotta get it over with...
 
 WHILE SOLVING: Ugh, okay... the sky wept all afternoon... probably means it was raining or something... yeah, makes sense... I think... whatever... Oh wait, does 'wept' mean like a big storm? No, no, that's not right... probably just a normal rain... Whatever. Yeah, that sounds good... Okay, done.
 
 AFTER FINISHING: Hmm, I hope I got it right... don't wanna get this wrong... *sigh*",,
-ITEM_024,"BEFORE STARTING: Ugh, I gotta get this one right, ACT's on the line, whatever... I just hope it's a simple one...
+ITEM_024,Trim the redundancy: 'She returned back to the same identical spot.',"BEFORE STARTING: Ugh, I gotta get this one right, ACT's on the line, whatever... I just hope it's a simple one...
 
 WHILE SOLVING: Okay, so she returned back to... yeah, that's redundant, we don't say 'back' and 'to' together, probably. Um, how do I put this? She returned... (pauses) to the same identical spot, nope, that's too much. Just remove 'back', right? Yeah, probably. So it's just 'She returned to the same identical spot.' (sighs) Sounds right, whatever...
 
 AFTER FINISHING: Meh, I hope that's correct... *gulps*",,
-ITEM_025,"BEFORE STARTING: Okay, okay, I think I remember something about slicing... but it's been a while since we did strings in class... hope I don't mess this up!
+ITEM_025,How do you reverse the string s in Python?,"BEFORE STARTING: Okay, okay, I think I remember something about slicing... but it's been a while since we did strings in class... hope I don't mess this up!
 
 WHILE SOLVING: Wait, wait, what if I just use slicing? s[::-1]? No, no, that can't be right... Ohh... OHHH! Wait, I remember now! You need to start from the end of the string and move backwards... it's s[start:stop:step]... so it's s[:start:-step]... or something like that? s[::-1]? Yeah, that's gotta be it!
 
 AFTER FINISHING: Whew, made it! I'm pretty sure that's right...",,
-ITEM_026,"BEFORE STARTING: Okay, circle area... that's like... um, I think it involves pi? First I need to figure out what formula to use...
+ITEM_026,Find the area of a circle with radius 5.,"BEFORE STARTING: Okay, circle area... that's like... um, I think it involves pi? First I need to figure out what formula to use...
 
 WHILE SOLVING: Let me think... the formula is A = pi * r^2, right? So I just plug in 5 for r... wait, no, do I square it first? Yeah, 25... or maybe not? Hmm, I'm kinda sure I need to square it... okay, so that's like... 3.14 * 25... but is my answer going to be a decimal? Ugh, this is hard...
 
 AFTER FINISHING: Ugh, I think I got it right... I hope.",,
-ITEM_027,"BEFORE STARTING: Okay, so I think I know this one... I just need to use like a mod operator or something... Ugh, I don't remember the syntax for that in Python.
+ITEM_027,Write code that prints 'even' or 'odd' for a variable n.,"BEFORE STARTING: Okay, so I think I know this one... I just need to use like a mod operator or something... Ugh, I don't remember the syntax for that in Python.
 
 WHILE SOLVING: Wait, do I need to make an if statement? Or can I just do some kind of conditional expression? Hmm... I think I saw something like this somewhere before... OH, I know! You can use the % operator to find the remainder! Yeah, that's it. So if n % 2 is 0, then it's even, and otherwise it's odd. ohhhhh, I'm so sure about this now!
 
 AFTER FINISHING: Yeah, I feel pretty good about this one. I think my code looks right.",,
-ITEM_028,"BEFORE STARTING: Wait, huh, why do I have to balance this anyway? Can't we just memorize the answers?
+ITEM_028,Balance: H₂ + O₂ → H₂O.,"BEFORE STARTING: Wait, huh, why do I have to balance this anyway? Can't we just memorize the answers?
 
 WHILE SOLVING: Okay, so it's H2 plus O2... and it becomes water... right? But how do I get two hydrogen atoms on one side of the equation? That doesn't make sense. Ugh, circular reasoning... Is it something like... H2 + O -> OH? No, that can't be it. There are two oxygen atoms in O2, so maybe I just need to multiply the O by 2? But what about the hydrogen on the other side of the equation?
 
 AFTER FINISHING: Huh, this is way harder than it looks. I think I got it wrong, but I'm too confused to even try anymore.",,
-ITEM_029,"BEFORE STARTING: ugh, okay, I think I remember that one part where the character was all alone in her room... or was it the park? Ugh, this test is so hard!
+ITEM_029,Which detail best supports the claim that the character felt isolated?,"BEFORE STARTING: ugh, okay, I think I remember that one part where the character was all alone in her room... or was it the park? Ugh, this test is so hard!
 
 WHILE SOLVING: Okay, so it says here that the character felt isolated... which means she's all alone and stuff. Um, let me see if I can find something that supports this claim... This sentence sounds relevant: 'She sat in her room for hours, staring at the wall.' But wait, isn't that just a detail about what she did? Forget it, this makes no sense. Maybe it was a different part of the passage... Ooh, maybe it's this one: 'Her friends had all moved away...' No, that can't be right... Unless... unless she felt isolated because they moved away? Ugh, I don't know...
 
 AFTER FINISHING: I think I'm just going to guess at this point. Maybe the correct answer is something about her friends moving away?",,
-ITEM_030,"BEFORE STARTING: Okay, got this, just gotta use the Pythagorean theorem... yeah, that's it, math is so easy when you're in a good flow
+ITEM_030,"A ladder leans on a wall, base 3 ft out, top 4 ft up. How long is the ladder?","BEFORE STARTING: Okay, got this, just gotta use the Pythagorean theorem... yeah, that's it, math is so easy when you're in a good flow
 
 WHILE SOLVING: Alright, c-squared equals a-squared plus b-squared... so I've got my base and height, which are like, 3 ft and 4 ft... just plug 'em in: c-squared equals 3-squared plus 4-squared... that's 9 plus 16... 25... so what's the square root of 25? That's an easy one... it's 5
 
 AFTER FINISHING: Yeah, I'm pretty sure that's right... 5 ft for a ladder is totally reasonable, too",,
-ITEM_031,"BEFORE STARTING: Okay, so I think I learned this in like, eighth grade or something... Ugh, why can't they just make these tests easier?!...
+ITEM_031,What was the significance of Brown v. Board of Education?,"BEFORE STARTING: Okay, so I think I learned this in like, eighth grade or something... Ugh, why can't they just make these tests easier?!...
 
 WHILE SOLVING: Brown v. Board of Education... Wasn't that the one where they said segregation was illegal? But I know we covered desegregation laws and stuff, so maybe it's related to those... Forget it, this makes no sense. Ugh, why do I even care about some old court case?... Wait, wasn't there something about Plessy v... Plessy something or other? Yeah, that's a thing! And wasn't Brown the one that overturned Plessy? Maybe? I don't know, man...
 
 AFTER FINISHING: Ugh, I'm just gonna guess at this point. Hopefully I get it right, but I have no idea what I'm doing.",,
-ITEM_032,"BEFORE STARTING: Okay, okay, I think I need to use the max() function... or is it the min()? No wait, I'm sure it's max(). Wait, how do I even write that out?
+ITEM_032,How do you find the largest number in a list called nums?,"BEFORE STARTING: Okay, okay, I think I need to use the max() function... or is it the min()? No wait, I'm sure it's max(). Wait, how do I even write that out?
 
 WHILE SOLVING: Hmm, what if they want me to loop through the list? Like, with a for loop? But then I'd have to keep track of all the numbers... unless I use some kind of... variable? Yeah, maybe just using max() is simpler. No, no, that's too easy... can't be right. Um, what if they want me to do it recursively? Like, pass in a list and it returns the max number? But then I'd have to make sure I pass in the right parameters... wait, why am I thinking about this so hard?
 
 AFTER FINISHING: Ugh, this problem is killing me. What's wrong with just using max()?...",,
-ITEM_033,"BEFORE STARTING: Alright, so this passage is supposed to be about a town that's declining after a factory closes... sounds like it's gonna be some boring history stuff, but I'm actually kinda curious what the main idea is.
+ITEM_033,A passage describes a town's decline after a factory closes. What is the main idea?,"BEFORE STARTING: Alright, so this passage is supposed to be about a town that's declining after a factory closes... sounds like it's gonna be some boring history stuff, but I'm actually kinda curious what the main idea is.
 
 WHILE SOLVING: Okay, so first, they're saying the factory closed, and that caused a big problem for the town... which makes sense, 'cause factories usually provide jobs and stuff. Then, it says the townspeople were really dependent on this factory, so when it went under, the whole town was affected... hmm, I think I see where this is going. Yeah, the main idea's probably like, 'The town declined after the factory closed'... or maybe something more general? Like, how did they phrase it again?
 
 AFTER FINISHING: Yeah, that sounds right! The town's decline is definitely the central point of the passage.",,
-ITEM_034,"BEFORE STARTING: Okay, so food webs... I kinda get it... something about producers making the rest of the ecosystem go, right?
+ITEM_034,What happens to a food web if the primary producer population collapses?,"BEFORE STARTING: Okay, so food webs... I kinda get it... something about producers making the rest of the ecosystem go, right?
 
 WHILE SOLVING: Ugh, okay... if the primary producer population collapses... does that mean they can't make energy for anyone else? Or is it like a big domino effect and everything else dies too? Wait, no, we learned this last week... or was it the week before? *sigh* I don't know, I just remember it being complicated. [pause] Okay, what if it's just like the grasshoppers without food in that other ecosystem? No, that's not right... What happens to the whole web? *scratches head*
 
 AFTER FINISHING: Uh, I'm so stuck on this one... I don't know... I thought it was about how energy flows through an ecosystem but now my brain is a mess.",,
-ITEM_035,"BEFORE STARTING: Okay, so I know we just learned about molar masses... um, which one is the problem again? We're supposed to find the molar mass of this CO₂ thingy...
+ITEM_035,What is the molar mass of CO₂?,"BEFORE STARTING: Okay, so I know we just learned about molar masses... um, which one is the problem again? We're supposed to find the molar mass of this CO₂ thingy...
 
 WHILE SOLVING: Huh, wait, do I multiply or add these numbers together? Um, isn't there like a formula for this somewhere? Maybe it's like... CO has two oxygens and one carbon... but then I'm just adding them up like that. Hmm, is the atomic mass of oxygen like 16 plus 1 for the carbon and then... no, wait, that's not right. This is all so confusing...
 
 AFTER FINISHING: I don't even know if I did it right... I keep thinking about the formula but it just doesn't make sense to me... Ugh!",,
-ITEM_036,"BEFORE STARTING: dang it, I know this one... or do I? I don't wanna mess up the pH scale again...
+ITEM_036,What is the pH of a neutral solution at 25°C?,"BEFORE STARTING: dang it, I know this one... or do I? I don't wanna mess up the pH scale again...
 
 WHILE SOLVING: alrighy, so a neutral solution is neither acidic nor basic, that means its pH is... hmm... around... *sigh*... wait, no, it's actually really simple. OH, I think I know this! The pH of a neutral solution is always... 7, right? I'm pretty sure that's right... ohhhh, the temperature thing doesn't matter here since its pH isn't gonna change with temp, unless... unless I'm forgetting something... but no, I'm pretty confident it's just 7...
 
 AFTER FINISHING: yup, I think I got it! Neutral solution pH is indeed 7!",,
-ITEM_037,"BEFORE STARTING: I'm pretty sure this is gonna be an easy one... um, let me just write it out... (sigh) Okay, so I gotta simplify this thingy...
+ITEM_037,Simplify (3² · 3⁴) / 3³.,"BEFORE STARTING: I'm pretty sure this is gonna be an easy one... um, let me just write it out... (sigh) Okay, so I gotta simplify this thingy...
 
 WHILE SOLVING: Okay, so the two threes with two and four exponents are like, multiplied together or something... wait, huh, no, they're in a product, but then you divide by three to the third power... that's just a multiple of the original exponent, right? (pauses) Or is it just adding the exponents? Ugh, I don't get it... circular reasoning... okay, so if I multiply 3 to the second and fourth powers, that's like... (stares at notes)... just make the power bigger, yeah, but then what do you do when you divide by three to the third? Uh-oh, now I'm getting all confused again... is it still 3 to the fifth? No way, no way...
 
 AFTER FINISHING: Ugh, I think I need a break from math for like five minutes... or an hour.",,
-ITEM_038,"BEFORE STARTING: Ugh, okay, I think we did this in class... or maybe last week? Let me flip through my notes... wait, nope. First I need to understand what the problem is saying. It's got a 'less than' symbol... not greater than.
+ITEM_038,Solve and graph: 2x - 3 < 7.,"BEFORE STARTING: Ugh, okay, I think we did this in class... or maybe last week? Let me flip through my notes... wait, nope. First I need to understand what the problem is saying. It's got a 'less than' symbol... not greater than.
 
 WHILE SOLVING: Okay, so it says x - stuff... and it needs to be less than... um, 7. Right? So I'll add... uh, how many was it again? Ah yeah, 3! I'll add three on both sides... no, wait, that won't work if it's a minus sign... ugh, this is harder than it looks... Okay, let me start over... First I need to get the x stuff by itself. 2x - 3 < 7 becomes... um...
 
 AFTER FINISHING: Yeah, I think I got it... hopefully... I added 3 to both sides and got 2x < 10. Now where was the next step? Oh yeah! Divide by 2! So x < 5. Done?",,
-ITEM_039,"BEFORE STARTING: okay, so this is a prob of segregation question, right? probably. need to figure out what the parents are like...
+ITEM_039,"If both parents are Bb, what fraction of offspring are expected to be bb?","BEFORE STARTING: okay, so this is a prob of segregation question, right? probably. need to figure out what the parents are like...
 
 WHILE SOLVING: oh wait, we know one parent has the dominant B gene and the other's got the recessive b gene... whatever. so if we cross them, all their offspring will be Bb... probably. then I guess... if they're all Bb, only the ones that are bb would have no B genes at all... yeah? so it's just like half of 'em, right? 1/2 or something...
 
 AFTER FINISHING: hmm, not sure if I got it right, but I'll go with my gut and say maybe it's 1/2 or whatever?",,
-ITEM_040,"BEFORE STARTING: Okay, I think I got this... we just did it in class, right? Something about adaptation and stuff?
+ITEM_040,How does natural selection lead to changes in a population over time?,"BEFORE STARTING: Okay, I think I got this... we just did it in class, right? Something about adaptation and stuff?
 
 WHILE SOLVING: Alright, so natural selection is like, the process of how populations change over time, because of the environment, duh. Like, some birds are better at finding food, so they live longer, and then their kids inherit those traits... that makes sense, right? And it's not just about physical traits, like beak size or something, but also stuff like behavior... hmm, how does this all fit together in a population? Wait, what if I said it's like a big filter, where the best adapted ones survive and pass on their traits to their kids? Yeah, that sounds right! And over time, that leads to these changes in the population...
 
 AFTER FINISHING: Sweet, got it! That flow state is amazing when it happens. Now I just need to write it down and review!",,
-ITEM_041,"BEFORE STARTING: Okay, gotta remember that Bb thingy... one parent's B, the other's b... or is it the other way around? Ugh, focus!
+ITEM_041,"If both parents are Bb, what fraction of offspring are expected to be bb?","BEFORE STARTING: Okay, gotta remember that Bb thingy... one parent's B, the other's b... or is it the other way around? Ugh, focus!
 
 WHILE SOLVING: wait, if both parents are heterozygous... they can only pass on either B or b, right? So half of them will get a B and half will get a b... that's like 50% chance, but what about the ones who get two bs? OH yeah, those are the bb ones! ohhhhh... I think it's gotta be like 25%, no 50% of those are going to be bb... wait, that can't be right... oh no, what if they're not heterozygous at all?! No, no, we already established that. Okay, so 50% chance of B or b, and then... AND THEN... half of those B's will pair with a b from the other parent! ooh yeah, that clicks into place!
 
 AFTER FINISHING: I got it now! It's like 25% chance of bb because you gotta halve the probability each time.",,
-ITEM_042,"BEFORE STARTING: Okay, I gotta balance this thing. H₂ + O₂... easy peasy, right?
+ITEM_042,Balance: H₂ + O₂ → H₂O.,"BEFORE STARTING: Okay, I gotta balance this thing. H₂ + O₂... easy peasy, right?
 
 WHILE SOLVING: Alright, so we got hydrogen on the reactants side and oxygen on the reactants side... and probably water on the products side, yeah? Um, let's see... H₂ + O₂ → whateverH₂O... I think it's just a single O₂, right? Because... chemistry rules. Okay, so that looks balanced to me.
 
 AFTER FINISHING: Phew, hope I got it right! Wait, what was the question again?",,
-ITEM_043,"BEFORE STARTING: Okay, I think I know how to do this... Um, volume of a cube is just side squared, right? Like, I need to find the area of one face and multiply it by 6.
+ITEM_043,Find the volume of a cube with side length 4.,"BEFORE STARTING: Okay, I think I know how to do this... Um, volume of a cube is just side squared, right? Like, I need to find the area of one face and multiply it by 6.
 
 WHILE SOLVING: Wait, no... This can't be that hard. Let me think about it some more... OH, if it's a cube with side length 4, then each face is 16 square units... but do I need to find the area of all faces or just multiply by the side length? OHHHHH, I got it! It's like, you just cube the side length... So volume = 4^3. Easy peasy.
 
 AFTER FINISHING: Yeah, that makes sense now. I feel kinda stupid for not seeing it sooner.",,
-ITEM_044,"BEFORE STARTING: Okay, gotta get this done fast... I mean, it's not like a hard problem or anything...
+ITEM_044,Write a loop that prints the numbers 1 through 5.,"BEFORE STARTING: Okay, gotta get this done fast... I mean, it's not like a hard problem or anything...
 
 WHILE SOLVING: Umm, we need a loop right? So, yeah, for i in range(1,6): probably just print(i)? Yeah, that sounds good whatever, no time to check if it's even correct just gotta get this done... Wait, what's the difference between 5 and 10 again? Whatever, it doesn't matter just slap a 6 in there and see what happens... Oh yeah, for i in range(1,7): print(i)... I hope that's right...
 
 AFTER FINISHING: That seemed to work out okay, whatever, at least I'm on time",,
-ITEM_045,"BEFORE STARTING: okay, so what was it about taxes again? I know we learned this... something to do with the colonies and England, right?
+ITEM_045,Why did 'taxation without representation' anger the colonists?,"BEFORE STARTING: okay, so what was it about taxes again? I know we learned this... something to do with the colonies and England, right?
 
 WHILE SOLVING: taxation without representation, yeah that's a thing... wait, why does that sound familiar? ohhhh, it's like in class when Mrs. Johnson said they were upset because they had no say in what happened with their money, oh yeah! They couldn't vote or anything so if England just imposed taxes on them it was super unfair... and it makes sense, right? If someone came into my house and took my allowance without asking me, I'd be pretty mad too!
 
 AFTER FINISHING: yeah, that sounds about right. I'm pretty sure that's why they were angry.",,
-ITEM_046,"BEFORE STARTING: Okay, food web, primary producer... I think I know this. Um, something about energy flow? But what if the producers die off?
+ITEM_046,What happens to a food web if the primary producer population collapses?,"BEFORE STARTING: Okay, food web, primary producer... I think I know this. Um, something about energy flow? But what if the producers die off?
 
 WHILE SOLVING: Wait, huh? If the producers are gone, who's making the food for everyone else? That doesn't make sense, because isn't the whole point of a food web that it shows how all these different species rely on each other... and now you're just gonna rip out one part and expect everything to keep working? I don't get it. Maybe they'll just, like, find some new producers or something? No, that's circular reasoning, right? But if not, then wouldn't the whole food web collapse? Ugh, my head is spinning.
 
 AFTER FINISHING: I think I'm totally lost on this one... I don't even remember how to answer it anymore. Guess I'll just have to hope for the best?",,
-ITEM_047,"BEFORE STARTING: I know this one's gonna be easy... I just need to find the part that says he felt lonely or something, right? Okay, let's go!
+ITEM_047,Which detail best supports the claim that the character felt isolated?,"BEFORE STARTING: I know this one's gonna be easy... I just need to find the part that says he felt lonely or something, right? Okay, let's go!
 
 WHILE SOLVING: Okay, so... uh... if he felt isolated... maybe it was because he was living in a big city by himself... wait, no... That can't be it. Hmm, what else... Yeah! I remember, there was this one line about how hard it was for him to make friends. If that's the case, then it makes sense why he felt isolated. Okay, so I'm looking for something about friends or social stuff. And... Ah, yes! 'Difficulty forming close relationships'... That must be the one.
 
 AFTER FINISHING: Yeah, that feels right. It flows nicely too... now to just fill in the bubble and move on!",,
-ITEM_048,"BEFORE STARTING: Okay, this one's gotta be easy... I mean, I'm pretty sure it's just like, re-do the experiment or something... Let's get to it!
+ITEM_048,Results contradict a hypothesis. What is the most reasonable next step?,"BEFORE STARTING: Okay, this one's gotta be easy... I mean, I'm pretty sure it's just like, re-do the experiment or something... Let's get to it!
 
 WHILE SOLVING: Alright, so you've got your results and they don't match what you expected... Next step is to check if there was some kinda equipment problem, right? Yeah, that makes sense. Then maybe try changing some variables or something... Oh wait, or do we just re-run the experiment? I'm pretty sure that's it... Nope, nope, we need to think about this a bit more... Ahh, let me break it down... We're trying to test our hypothesis, so if it didn't work out... then maybe there was something wrong with the experiment itself. That makes sense. So yeah, re-do the experiment. I'm pretty sure that's right.
 
 AFTER FINISHING: See, wasn't too hard! Re-do the experiment, check.",,
-ITEM_049,"BEFORE STARTING: Uh, okay so like... I think this is a reaction or something? Hopefully it's just a simple one...
+ITEM_049,How many moles of water form from 4 moles of H₂ (excess O₂)?,"BEFORE STARTING: Uh, okay so like... I think this is a reaction or something? Hopefully it's just a simple one...
 
 WHILE SOLVING: Oh man, H₂... that's hydrogen gas, right? So we gotta make water... wait, how do I even remember the equation for that? OHHHHH, yeah! It's like... 2 H₂ + O₂ → 2 H₂O... but wait, they said excess O₂ so we don't need to use any of it, just the hydrogen! So, umm... if there's 4 moles of H₂ and I think each one turns into 1 mole of water? No, that can't be right, or can it? OH, maybe it is because there are two hydrogens in water... but no, then why didn't they just say 2 moles of water?!
 
 AFTER FINISHING: Yeah, I'm pretty sure I got it now. We get 4 moles of water from 4 moles of hydrogen.",,
-ITEM_050,"BEFORE STARTING: Okay, so this one's not too bad... I mean, it's like a difference of squares or something, right? Whatever, gotta get started before class is over...
+ITEM_050,Factor completely: x² - 9.,"BEFORE STARTING: Okay, so this one's not too bad... I mean, it's like a difference of squares or something, right? Whatever, gotta get started before class is over...
 
 WHILE SOLVING: Alright, x² - 9... That's a difference of squares, I think. So it's (x-... uh, what was the square root again? ...3) times (x+3)... Yeah, that looks right, probably. Now multiply those out, whatever.
 
 AFTER FINISHING: That seemed kinda easy, actually. Hope I didn't mess it up too badly...",,
-ITEM_051,"BEFORE STARTING: Okay, I think I remember how to reverse a string... um, let me think, I need to use the slice notation or something...
+ITEM_051,How do you reverse the string s in Python?,"BEFORE STARTING: Okay, I think I remember how to reverse a string... um, let me think, I need to use the slice notation or something...
 
 WHILE SOLVING: First I need to store the original string in a variable... and then I can use this slicing business... so like, `s[::-1]`? That sounds right, but wait, what's with the negative one? Is that even how it works? Let me try it out... *taps pen on desk*
 
 AFTER FINISHING: Hmmm, did I get it right? Yeah, I think so... or at least my code looks sorta similar to some examples online.",,
-ITEM_052,"BEFORE STARTING: Okay, I know this... um, mitochondria? Yeah, that's probably it. Let's just go for it...
+ITEM_052,What organelle is responsible for producing energy in a cell?,"BEFORE STARTING: Okay, I know this... um, mitochondria? Yeah, that's probably it. Let's just go for it...
 
 WHILE SOLVING: Alright, so the question is what organelle makes energy, right? Mitochondria sounds good to me. I mean, they're like the power plants of the cell or something. So, I'm gonna say... mitochondria. What else would make energy in a cell? Umm... probably just that one... and I'm sure there's nothing else... I'll just write it down...
 
 AFTER FINISHING: Hmm, did I get that right? Probably, yeah...",,
-ITEM_053,"BEFORE STARTING: Okay, I think we're supposed to solve for x and y...like, use the two equations or something...don't wanna mess this up.
+ITEM_053,Solve for x and y: 2x + y = 7 and x - y = 2.,"BEFORE STARTING: Okay, I think we're supposed to solve for x and y...like, use the two equations or something...don't wanna mess this up.
 
 WHILE SOLVING: [pause] Okay, so if I add the two equations together...that'll eliminate the y variable...right?...2x + y = 7 and x - y = 2...so if I just add 'em together...I get... [slowly writing] ...3x... equals 9...yep...so that's x = 3...but what about y now?... Wait, no, I don't know...How do I find the value of y now?! I did something wrong... *sigh*
 
 AFTER FINISHING: Ugh, this is so frustrating...I think I'm supposed to use substitution or something else...",,
-ITEM_054,"BEFORE STARTING: Ugh, why do we have to solve this inequality? Okay, so it's like, 2x minus 3 is less than 7... huh?
+ITEM_054,Solve and graph: 2x - 3 < 7.,"BEFORE STARTING: Ugh, why do we have to solve this inequality? Okay, so it's like, 2x minus 3 is less than 7... huh?
 
 WHILE SOLVING: Wait, okay, if I add 3 to both sides, that's the same as subtracting 3, right? So now I've got 2x by itself, which is good... or is it? Maybe I should multiply both sides by something to get rid of the 2... but what am I even doing?!
 
 AFTER FINISHING: Ugh, this problem just doesn't make sense. Okay, so if I multiply both sides by like, whatever, x^2 or something, that would get rid of the 2, right?",,
-ITEM_055,"BEFORE STARTING: Okay, so I'm pretty sure this is gonna be easy... Just a simple reading comprehension question, right? Can't go wrong, just gotta focus...
+ITEM_055,A passage describes a town's decline after a factory closes. What is the main idea?,"BEFORE STARTING: Okay, so I'm pretty sure this is gonna be easy... Just a simple reading comprehension question, right? Can't go wrong, just gotta focus...
 
 WHILE SOLVING: Ugh, where's the passage even talkin' about? 'A town's decline after a factory closes'? That's all it says! Forget it. Wait, I'm supposed to figure out the main idea... Hmm, if a factory closes, that'd probably hurt the economy... but is that what they're sayin'? This makes no sense. Okay, let me start over. Main idea is like... what the author wants you to know, right? So maybe it's just that the factory closed and now the town is all messed up. Yeah, that sounds good... but do I need more evidence or something?
 
 AFTER FINISHING: I guess I'm just not thinkin' about this hard enough... Maybe it's really simple, and I'm overcomplicating things.",,
-ITEM_056,"BEFORE STARTING: Okay, so I need to find a detail that supports this claim... what even is the claim again? That the character felt isolated, right?
+ITEM_056,Which detail best supports the claim that the character felt isolated?,"BEFORE STARTING: Okay, so I need to find a detail that supports this claim... what even is the claim again? That the character felt isolated, right?
 
 WHILE SOLVING: Let's see... I remember there was something about the character not having any friends or whatever. Hmm... 'the townspeople had grown wary of him' - nope, that doesn't sound like isolation to me. Maybe it was something about him being alone in his room? *pause* Ugh, why can't I remember this?! I'm so close! Wait, what if... 'he'd tried to connect with others but found they only wanted to talk about their own lives'? That sounds kinda isolated-ish, maybe?
 
 AFTER FINISHING: Ugh, I think I might have gotten it right, but I don't know for sure. It just feels kinda... meh.",,
-ITEM_057,"BEFORE STARTING: Okay, so I need to find out how many moles of water form... um, from H2. I know it's something about combining the gases or something.
+ITEM_057,How many moles of water form from 4 moles of H₂ (excess O₂)?,"BEFORE STARTING: Okay, so I need to find out how many moles of water form... um, from H2. I know it's something about combining the gases or something.
 
 WHILE SOLVING: Alright, so hydrogen gas, when it reacts with oxygen, forms water. That means for every mole of H2, we get a certain amount of water. Let me see... one mole of H2 makes two moles of water, right? So if I have four moles of H2, that's double what I had before, so I can just multiply by 2... easy peasy.
 
 AFTER FINISHING: Yeah, I'm pretty sure that's it. Two times four is eight, so eight moles of water form.",,
-ITEM_058,"BEFORE STARTING: Okay, so I gotta trim the redundancy... like, get rid of the repeated words. This one's a tough one, but I'm gonna nail it, yeah!
+ITEM_058,Trim the redundancy: 'She returned back to the same identical spot.',"BEFORE STARTING: Okay, so I gotta trim the redundancy... like, get rid of the repeated words. This one's a tough one, but I'm gonna nail it, yeah!
 
 WHILE SOLVING: Alright, 'She returned back'... that's two times they're saying 'back'. But wait, what if I just say 'to the same identical spot'? No, no, that's not right. Yeah, I remember now - redundancy means you repeat words unnecessarily. So, I'll take out the word 'back' in 'returned back', and it becomes... 'She returned to the same identical spot.' Yep, that sounds good!
 
 AFTER FINISHING: Whoa, did it! Trimmed the redundancy like a pro. Now let's see how many more of these I can get right",,
-ITEM_059,"BEFORE STARTING: Ugh, I hate this question. We're still doing cube problems... Can't they just ask me something else?
+ITEM_059,Find the volume of a cube with side length 4.,"BEFORE STARTING: Ugh, I hate this question. We're still doing cube problems... Can't they just ask me something else?
 
 WHILE SOLVING: Okay, so it's a cube and the side length is 4... Um, isn't volume like, width times height? Wait, no that's not right... Cubes don't have height or anything, it's just a square... This makes no sense. Forget it. Let me think for a sec... If I double the side length, the volume will be way bigger, so if I cube 4... Yeah, that sounds right... Volume is like, side times side times side, so 4 times 4 times 4... Ugh, come on, just do it... 64.
 
 AFTER FINISHING: Yeah, that's probably right. Hopefully the teacher doesn't ask me to prove it or something...",,
-ITEM_060,"BEFORE STARTING: Uh-oh, this one sounds kinda hard. Let me think for a sec...
+ITEM_060,How did railroads change the American economy in the late 1800s?,"BEFORE STARTING: Uh-oh, this one sounds kinda hard. Let me think for a sec...
 
 WHILE SOLVING: Okay, first I need to remember what happened with railroads... they were built and stuff. And it's like the Gilded Age or something? Did they make the economy grow more or something? Um, let me think... Railroads would transport goods faster, so maybe that helped industries expand? But wasn't there also something about how the railroad companies got too powerful and kinda controlled the economy? Wait, which one is it? Ugh...
 
 AFTER FINISHING: Hmm, I think I kind of remember how railroads changed things. Hopefully I didn't mess it up too much...",,
-ITEM_061,"BEFORE STARTING: Ugh, why do they always make us guess the meaning of these words? Fine, let's just get this over with...
+ITEM_061,"In context, 'The plan was untenable' most nearly means the plan was ___?","BEFORE STARTING: Ugh, why do they always make us guess the meaning of these words? Fine, let's just get this over with...
 
 WHILE SOLVING: Okay, so 'untenable'... I think it means something that can't be done or is bad? No, wait, that doesn't sound right... Forget it, I'm gonna take a wild guess. Maybe it means the plan was too hard to follow? Nope, nope, nope... This makes no sense... Why do they have to use such hard words?...
 
 AFTER FINISHING: Ugh, I don't know, man... I just picked something.",,
-ITEM_062,"BEFORE STARTING: Okay, so like I think this is a right triangle problem... we got a ladder and it's leaning on the wall and stuff...
+ITEM_062,"A ladder leans on a wall, base 3 ft out, top 4 ft up. How long is the ladder?","BEFORE STARTING: Okay, so like I think this is a right triangle problem... we got a ladder and it's leaning on the wall and stuff...
 
 WHILE SOLVING: Alright, so the base is 3 ft out and the top is 4 ft up... probably just use Pythagorean theorem or whatever... hmm, how does that go again? *scribbles* Oh yeah, c^2 = a^2 + b^2. So I got a = 3, b = 4... umm, what's the square root of 25? Is it 5? Yeah, probably. *jumps to answer* Okay, so c is like 5 ft...
 
 AFTER FINISHING: Meh, seems kinda too easy if I'm being honest... but whatever, hope I got it right.",,
-ITEM_063,"BEFORE STARTING: Okay, this one looks pretty easy. Just gotta isolate x... I mean, get it on one side of the inequality...
+ITEM_063,Solve and graph: 2x - 3 < 7.,"BEFORE STARTING: Okay, this one looks pretty easy. Just gotta isolate x... I mean, get it on one side of the inequality...
 
 WHILE SOLVING: Alright, so first I'm gonna add 3 to both sides, and that gets me 2x < 10... now what was next? Oh yeah, divide by 2! That's the trick... wait, do I need parentheses around 2x? Nope, it's good. Now I've got x < 5. Easy peasy...
 
 AFTER FINISHING: Yeah, that makes sense. The graph is just a bunch of points below 5 on the number line.",,
-ITEM_064,"BEFORE STARTING: Uh, I think we just learned this in class... *checks notes* yeah, natural selection is like a thing where the strongest ones survive and stuff...
+ITEM_064,How does natural selection lead to changes in a population over time?,"BEFORE STARTING: Uh, I think we just learned this in class... *checks notes* yeah, natural selection is like a thing where the strongest ones survive and stuff...
 
 WHILE SOLVING: Wait, what was the question again? *reads question* Okay, so it's about how natural selection leads to changes over time... Oh, I know this! It's because only the best-adapted individuals reproduce, so their traits are passed on to their kids. OHHHHH yeah, that makes sense now... Natural selection acts on the variation in a population, so the good traits get more common and the bad ones die out. But how do we explain it's actually changing the population? *pauses* Oh, I think it's because it takes generations for this to happen... but that's kinda obvious, right?... Wait, no, I'm being silly, of course it changes the population! It just does... somehow...
 
 AFTER FINISHING: Yeah, I feel pretty confident about this one now. I mean, it's not like super complicated or anything.",,
-ITEM_065,"BEFORE STARTING: Ugh, come on, it's just a circle... why do I always forget the formula... okay, let's get this over with.
+ITEM_065,Find the area of a circle with radius 5.,"BEFORE STARTING: Ugh, come on, it's just a circle... why do I always forget the formula... okay, let's get this over with.
 
 WHILE SOLVING: Okay, so area of a circle is pi r squared, right? But what if I mess up the units? Uh-uh, no way, that can't be right. Forget it. Wait, what if I use 3 instead of... no, no, I need to get this straight... ugh, my brain is mush... just go with 22/7 for pi like we did last time.
 
 AFTER FINISHING: Yay, I think I got it... or did I? Ugh, why do I always doubt myself?",,
-ITEM_066,"BEFORE STARTING: Okay, I know this is gonna be tough. Let me think... what do I need to do here? First I need to figure out what the main idea of the passage is... sounds easy enough.
+ITEM_066,A passage describes a town's decline after a factory closes. What is the main idea?,"BEFORE STARTING: Okay, I know this is gonna be tough. Let me think... what do I need to do here? First I need to figure out what the main idea of the passage is... sounds easy enough.
 
 WHILE SOLVING: So, a factory closes and the town declines... that's kinda vague. Um, let me think... could it be about how the economy suffers without the factory? But that's not really specific to the town itself. Hmm, or maybe it's more like... the town can't recover because people leave after jobs are gone. Yeah, that sounds more concrete. Wait, is this like one of those 'cause and effect' questions? Ugh, I don't know if I'm getting this right...
 
 AFTER FINISHING: I think I might've gotten it... I mean, the answer choice says something about how the town can't recover without jobs... so yeah, that makes sense.",,
-ITEM_067,"BEFORE STARTING: Okay, food web... producers, I know what that means, right? Let me think about how this works.
+ITEM_067,What happens to a food web if the primary producer population collapses?,"BEFORE STARTING: Okay, food web... producers, I know what that means, right? Let me think about how this works.
 
 WHILE SOLVING: Alright, so primary producer is like the grass or the plants and they make their own food from sunlight, which is cool... umm... if their population collapses, it's gonna mess up everything, but how... hmm... I remember learning that producers are at the base of the food chain, so if they go down, all the other levels will be affected too... like the herbivores and then the carnivores... it's kinda like a pyramid, right? So yeah, the whole ecosystem would probably collapse or something.
 
 AFTER FINISHING: I'm pretty sure that's how it works, but I'm not entirely confident, I should've paid more attention in class.",,
-ITEM_068,"BEFORE STARTING: Ugh, I hope I remember this stuff... We did something like this in class last week, didn't we?
+ITEM_068,The narrator calls the reunion 'a gauntlet of forced smiles.' What is the tone?,"BEFORE STARTING: Ugh, I hope I remember this stuff... We did something like this in class last week, didn't we?
 
 WHILE SOLVING: Okay, so 'gauntlet of forced smiles' sounds pretty negative, right? But is it an adjective or an adverb? I think it's describing the reunion as a whole, but wait, maybe it's describing how people are feeling during the reunion... OH, I remember now - we learned that tone can be implied by words like 'smiles' being forced. That makes sense, it sounds pretty negative... ohhhhh, I get it! It's saying that the reunion is a tough or challenging experience, but not necessarily in a bad way, just... awkward.
 
 AFTER FINISHING: Yeah, I think I got this one, we'll see when I check the answer",,
-ITEM_069,"BEFORE STARTING: Okay, so they're asking me to find f(3) for this function... which is just a simple one, right? I mean, I've got it memorized.
+ITEM_069,"If f(x) = 2x + 1, what is f(3)?","BEFORE STARTING: Okay, so they're asking me to find f(3) for this function... which is just a simple one, right? I mean, I've got it memorized.
 
 WHILE SOLVING: Wait, no... what was the question again? Oh yeah, I need to plug in x = 3 into this equation. But if it's f(x), doesn't that mean... uh... we're supposed to find f(3)? That's just a number! I don't get it. So, um... *scribbles*... 2 times 3 plus 1... 6 plus 1... no, no... that can't be right. Uh, let me think about this for a sec.
 
 AFTER FINISHING: I'm pretty sure I just did the wrong thing... my brain is all jumbled up now...",,
-ITEM_070,"BEFORE STARTING: Okay, so we need to find the molar mass of CO2... I know this one, right? Like, it's not that hard...
+ITEM_070,What is the molar mass of CO₂?,"BEFORE STARTING: Okay, so we need to find the molar mass of CO2... I know this one, right? Like, it's not that hard...
 
 WHILE SOLVING: Uh, so carbon is like... 12 something... *rummages through notes*... yeah, 12.01 g/mol. And then there are two oxygens, so I need to multiply that by... uh... *pauses* wait, no... this makes no sense. We usually do this with compounds, not just individual elements... *sigh*... and then we have to add up all the masses of each element... * mutters under breath* forget it...
 
 AFTER FINISHING: Ugh, okay so I'm gonna guess... um... 44 something? Maybe? *looks at clock*... is that right?!?",,
-ITEM_071,"BEFORE STARTING: Okay, so I know this is like that one thing in Geometry where you gotta find the hypotenuse... but I don't wanna mess it up. First I need to draw a diagram and see if it's a right triangle.
+ITEM_071,"A ladder leans on a wall, base 3 ft out, top 4 ft up. How long is the ladder?","BEFORE STARTING: Okay, so I know this is like that one thing in Geometry where you gotta find the hypotenuse... but I don't wanna mess it up. First I need to draw a diagram and see if it's a right triangle.
 
 WHILE SOLVING: Hmm, let me think... okay so the base is 3 ft out from the wall and the top is 4 ft up, that means I gotta use those numbers somehow... wait, this isn't as hard as I thought. Maybe I can just apply the Pythagorean theorem: a^2 + b^2 = c^2? Yeah, let me plug in the values... so if a is 3 and b is 4, then that's... ugh, is it gonna be sqrt(9+16) or something? Ugh, why did I even ask myself to do this problem?
 
 AFTER FINISHING: I think I got it, but I'm not really sure. Yeah, I'm pretty sure the answer is like, 5 ft or something.",,
-ITEM_072,"BEFORE STARTING: Okay, so I need to find the slope... which is like, how much it goes up over how much it goes right, or something. Ugh, why do I always forget the formula?
+ITEM_072,"Find the slope of the line through (1, 2) and (4, 11).","BEFORE STARTING: Okay, so I need to find the slope... which is like, how much it goes up over how much it goes right, or something. Ugh, why do I always forget the formula?
 
 WHILE SOLVING: Alright, first I need to get my formula straight... um, what's it called again? Oh yeah, m = (y2 - y1)/(x2 - x1). Let me plug in the points: (1, 2) and (4, 11)... so that makes y2 = 11, right? And x2 is 4. Now I just gotta subtract... um, what are those numbers again? Ugh, okay, focus. So it's like... m = (11 - 2)/(4 - 1). Yeah, this is gonna be easy, no problem.
 
 AFTER FINISHING: Hmm, I hope I got the subtraction right... *nervous smile*",,
-ITEM_073,"BEFORE STARTING: Okay, okay, I think we just need to return the number times itself... but how do I write that in Python again?
+ITEM_073,Write a function that returns the square of a number.,"BEFORE STARTING: Okay, okay, I think we just need to return the number times itself... but how do I write that in Python again?
 
 WHILE SOLVING: Ugh, function definition... `def square(num)`? Yeah, that's it. Wait, what if I want to use a parameter called `number` instead of `num`? No, no, num is fine. OH! We need to return the number times itself, so we do `return num ** 2`. That's easy enough... ohhhh, yeah, this is gonna work.
 
 AFTER FINISHING: Okay, got it! I think that's right...",,
-ITEM_074,"BEFORE STARTING: Okay, so I know this is about atomic radius or something... First I need to recall what we learned about the periodic table, let me think...
+ITEM_074,"Which is larger, a sodium atom or a chlorine atom? Why?","BEFORE STARTING: Okay, so I know this is about atomic radius or something... First I need to recall what we learned about the periodic table, let me think...
 
 WHILE SOLVING: Wait, did we learn about sodium and chlorine already? Um, yeah, sodium's like in Group 1 and it's a metal... And chlorine's in Group 17, but it's a nonmetal... Okay, so metals have larger atoms, right? No, wait, that can't be right... I'm pretty sure chlorine has more protons or something... Ugh, why did we not practice with these elements yet?! Let me try to remember the trends... If atomic radius increases down the group... and decreases across a period... Um, so sodium's in Group 1, which means it's gonna have like, super small atoms, right? But chlorine has more electrons and protons, so its atom is all squished up, but still bigger than sodium's... Wait, no, that can't be it either... Uh...
 
 AFTER FINISHING: I'm like 50/50 on this one... I think I got it mostly right, but what if I messed it up?!",,
-ITEM_075,"BEFORE STARTING: Ugh, I thought this was gonna be an easy one, but now I'm not so sure... What's the deal with the problem? Is it like a right triangle or something?
+ITEM_075,"A ladder leans on a wall, base 3 ft out, top 4 ft up. How long is the ladder?","BEFORE STARTING: Ugh, I thought this was gonna be an easy one, but now I'm not so sure... What's the deal with the problem? Is it like a right triangle or something?
 
 WHILE SOLVING: Okay, so it's a right triangle... Or is it? Wait, how do I know that? I mean, there's no angles given or anything. Hmm, let me try to draw a picture... Uh-oh, now I'm confused again. Oh man, this is gonna sound stupid, but... if the base is 3 ft out and the top is 4 ft up, then wouldn't that just be like... a straight line? But no, that can't be right, that's not what Pythagorean theorem is for or something... Ugh, I'm totally stuck.
 
 AFTER FINISHING: Wait, what if it IS just a straight line? No, no, no, that can't be it. I mean, there are legs and stuff in triangles, right? Uh, focus...",,
-ITEM_076,"BEFORE STARTING: Okay, okay, gotta solve this thing... think it's a quadratic or something... hopefully I got this right.
+ITEM_076,"If x² + 5x + 6 = 0, what are the values of x?","BEFORE STARTING: Okay, okay, gotta solve this thing... think it's a quadratic or something... hopefully I got this right.
 
 WHILE SOLVING: Alright, so x² + 5x + 6 = 0... um, factor the heck out of that... x² + 3x + 2x + 6 = 0... probably factor (x + ?) and (?)x... ugh, I hate factoring... whatever, just pick some numbers... let's say (x + 3)... that gives me x(x + 3) + 2x + 6 = 0... nope, wait, not like that... uh, something like this: (x + 3)(x + 2) = 0... yeah, that looks right... I think. Oh man, gotta hurry up.
 
 AFTER FINISHING: Whew! Hopefully I didn't mess it up too badly... my answer better be right or else...",,
-ITEM_077,"BEFORE STARTING: Ugh, another stupid discount problem... what's the formula again?
+ITEM_077,A shirt costs $40 after a 20% discount. What was the original price?,"BEFORE STARTING: Ugh, another stupid discount problem... what's the formula again?
 
 WHILE SOLVING: Okay, so if it costs $40 after a 20% discount, that means I gotta find out how much was discounted... um, wait... 100 minus 20 is like, 80 right? But that's not the answer... ohhhh, nope, nope. Let me think this through. If 20% off is $8, then... then... if they're at $40 now, I need to figure out what 100% is... OH, it clicks! If $8 is 20%, then to get to 100%, I gotta add the remaining 80% back in some way... this is gonna be tricky...
 
 AFTER FINISHING: Yay! Got it. Now let me see if my math checks out... yeah!",,
-ITEM_078,"BEFORE STARTING: Okay, so I know this is gonna be an easy one... gotta get it right though...
+ITEM_078,Pick the correct verb: 'Each of the students (is/are) responsible.',"BEFORE STARTING: Okay, so I know this is gonna be an easy one... gotta get it right though...
 
 WHILE SOLVING: [pause] Okay, so 'each of the students' means more than one, so it's a plural noun... and responsible... umm... should be 'are', but why do I think that? Wait, no, we use 'is' with singular nouns... unless there are multiple... UGH! Stupid verb rules! [sigh] Okay, focus... 'is' makes sense here, but the subject is plural... ugh, my brain hurts... I don't know, maybe it's one of those weird exceptions?... I mean, no, we use 'are' with plural subjects... but there are only students, not teachers or something... [stares off] Ugh, I just can't...
 
 AFTER FINISHING: ...I'm so confused now, I need to reread the whole thing and get my act together!",,
-ITEM_079,"BEFORE STARTING: Okay, so they're disagreeing on a cause... I just need to figure out what kind of evidence would make them agree. Let me think about this for a sec.
+ITEM_079,Two scientists disagree on a cause. What evidence would resolve it?,"BEFORE STARTING: Okay, so they're disagreeing on a cause... I just need to figure out what kind of evidence would make them agree. Let me think about this for a sec.
 
 WHILE SOLVING: Hmm, if it's a cause, then they'd need some kinda proof that shows it happened because of something else... I mean, like in biology we have experiments and stuff. But wait, isn't the scientific method more like observing and predicting? Yeah, that's probably right. So, to resolve the disagreement, they'd need evidence that supports one theory over the other... Something that shows like a correlation or something.
 
 AFTER FINISHING: Alright, I think I got it! Evidence would be like experiments or observations that support one of their theories. Easy peasy.",,
-ITEM_080,"BEFORE STARTING: Ugh, okay, so I have to fix this run-on sentence thingy... I think I need a comma or something, right?
+ITEM_080,Which revision best fixes the run-on: 'It was raining we stayed inside.',"BEFORE STARTING: Ugh, okay, so I have to fix this run-on sentence thingy... I think I need a comma or something, right?
 
 WHILE SOLVING: Wait, let me try again. So the first part is 'It was raining' and then I have... we stayed inside. OHHHH, I get it! If I just use a comma after raining, that's like a pause in between, so it's not a run-on anymore. Yeah, that makes sense, right? Okay, so I'll put a comma there: 'It was raining, we stayed inside.'
 
 AFTER FINISHING: Woohoo, did I get it? Hopefully... my teacher will know if I'm right or wrong.",,
-ITEM_081,"BEFORE STARTING: Okay, so I've got this... it's like a sentence, right? Just gotta add some punctuation...
+ITEM_081,Choose the best punctuation: 'After the game we went home tired but happy.',"BEFORE STARTING: Okay, so I've got this... it's like a sentence, right? Just gotta add some punctuation...
 
 WHILE SOLVING: I'm pretty sure we need a comma after 'game', but then what? Yeah, that sounds right. Or maybe an em dash? Nah, too much. Whatever. Probably just a comma... After the game—a no, that's not it... Ugh, I'll just go with a comma. Like this: After the game, we went home tired but happy.
 
 AFTER FINISHING: Meh, feels right, probably got it. *sigh*",,
-ITEM_082,"BEFORE STARTING: Ugh, verbs again... Okay, let me think about this one...
+ITEM_082,Pick the correct verb: 'Each of the students (is/are) responsible.',"BEFORE STARTING: Ugh, verbs again... Okay, let me think about this one...
 
 WHILE SOLVING: Okay, so the subject is 'students', plural, so I need a plural verb, right? But what's the verb for responsibility... umm... could be 'is' if it were singular... wait, no... I think it's gotta be 'are'. Yeah, that sounds better. Each of the students are responsible... no, that doesn't sound right... each of them is responsible. So, like, subject-verb agreement and stuff... *sigh*
 
 AFTER FINISHING: Hmm, did I get it? Maybe I should re-read it or something...",,
-ITEM_083,"BEFORE STARTING: I think this is gonna be easy... I've got this one... It's about the Civil War or something, right?
+ITEM_083,What was a central economic difference between the North and South before the war?,"BEFORE STARTING: I think this is gonna be easy... I've got this one... It's about the Civil War or something, right?
 
 WHILE SOLVING: [pause] Uh, what was it again? Wasn't it like, slavery and stuff? No, that's not it. Ugh, I'm so stuck on this one... The North had factories, right? So they were like, industrial or whatever... But then there's something about agriculture too... I don't know... Um... Maybe it was like, the South had more land for farming or something? Yeah, that sounds kinda right... But no, that can't be it. [sigh] I don't know what the question is even asking anymore.
 
 AFTER FINISHING: I'm just gonna guess... Maybe it's about how one side grew stuff and the other side made things? Nope, doesn't sound like that either... Ugh!",,
-ITEM_084,"BEFORE STARTING: wait, this looks easy but I'm gonna mess it up for sure, okay let me just... uh... do the exponents first...
+ITEM_084,Simplify (3² · 3⁴) / 3³.,"BEFORE STARTING: wait, this looks easy but I'm gonna mess it up for sure, okay let me just... uh... do the exponents first...
 
 WHILE SOLVING: okay so if I multiply these two things together, that's like... um... multiplying the base by the sum of the exponents? no wait, that can't be right. and then I have to divide it all by this other thing, which is just a bunch of threes. but I don't get why we're doing it in reverse order, shouldn't I multiply first? ugh, math is so stupid sometimes... okay let me try again: (3² * 3⁴) / 3³ = ... uh... if I multiply the bases together and then subtract the exponents... nope, still not getting it.
 
 AFTER FINISHING: okay I think I messed up. This problem looks way harder than I thought it was gonna be. maybe I just need to take a break or something...",,
-ITEM_085,"BEFORE STARTING: Ugh, come on. What's the evidence gonna be? I know it can't just be like 'oh we found this thingamajig'. Gimme a break.
+ITEM_085,Two scientists disagree on a cause. What evidence would resolve it?,"BEFORE STARTING: Ugh, come on. What's the evidence gonna be? I know it can't just be like 'oh we found this thingamajig'. Gimme a break.
 
 WHILE SOLVING: Okay, okay... So the scientists disagree, right? And they need some kind of proof to back up their claims. Like maybe an experiment or something. But wait, what's the difference between a controlled and independent variable here? Uh, isn't that just like... basic science stuff? Forget it. This makes no sense. I mean, I know we did this in class but now it's all fuzzy in my head... Um, is it like they need to test both variables at the same time or something? Ugh.
 
 AFTER FINISHING: I guess the answer is like... an experiment that shows a cause-and-effect relationship between the two things. Duh. I feel so stupid for getting stuck on this one.",,
-ITEM_086,"BEFORE STARTING: Okay, so I'm pretty sure this is an easy one... let me think about it for a sec...
+ITEM_086,Choose the correct word: 'Their/There/They're going to the store.',"BEFORE STARTING: Okay, so I'm pretty sure this is an easy one... let me think about it for a sec...
 
 WHILE SOLVING: Alright, so 'Their' is like possessive, right? Like my phone is mine, theirs would be someone else's. But then there's 'There', which is... uh... where something is... or am I thinking of that other word? Hmm, wait, what's the one with the apostrophe in it? They're! That's short for 'They are'... nope, I think I got this backwards... let me try again. So 'Their' and 'There' both have to do with where or something about people, but... uh...
 
 AFTER FINISHING: I hope I got that one right... yeah, it makes sense now... Their = mine, They're = they are",,
-ITEM_087,"BEFORE STARTING: Okay, okay, focus... their, there, they're... which one is it again? Ugh, I hate these kinds of questions. First I need to understand the difference...
+ITEM_087,Choose the correct word: 'Their/There/They're going to the store.',"BEFORE STARTING: Okay, okay, focus... their, there, they're... which one is it again? Ugh, I hate these kinds of questions. First I need to understand the difference...
 
 WHILE SOLVING: So, their is like... a possessive, right? Like 'their car'. But wait, that's not the case here... this is about going somewhere. Hmm, let me think... there is for places, but it's not used with 'going' usually... I don't know, maybe they're going to get the words mixed up on purpose or something... Ugh, I'm getting confused now...
 
 AFTER FINISHING: Ugh, no idea what I did. Just choose one randomly? No, wait, I think I got it... 'they're' is short for 'they are', so it fits here... Did I get lucky or what?",,
-ITEM_088,"BEFORE STARTING: Okay, okay, just find the area of a circle... I think it's like r-squared times pi? Or is that circumference or something? Ugh, gotta focus.
+ITEM_088,Find the area of a circle with radius 5.,"BEFORE STARTING: Okay, okay, just find the area of a circle... I think it's like r-squared times pi? Or is that circumference or something? Ugh, gotta focus.
 
 WHILE SOLVING: Right, r-squared times pi... so if the radius is 5, then... (skips writing) probably 25 squared is just 625, right? Then multiply by pi... whatever. Area's like 625pi, that sounds good, yeah?
 
 AFTER FINISHING: Wait, did I do that right? Ugh, too lazy to check... gotta move on to the next question.",,
-ITEM_089,"BEFORE STARTING: Okay, I think I got this... it's like, hydrogen and oxygen react to make water... I'm pretty sure the numbers are right...
+ITEM_089,Balance: H₂ + O₂ → H₂O.,"BEFORE STARTING: Okay, I think I got this... it's like, hydrogen and oxygen react to make water... I'm pretty sure the numbers are right...
 
 WHILE SOLVING: Ugh, wait... is it H2 + O2 → 2H2O? No, that can't be right... I need more oxygen or something... Hmm, what if it's just H2 + O2 → H2O? That sounds too simple... Ugh, this is so frustrating! [pause] Okay, let me start again. I don't know... Is the coefficient on the oxygen supposed to be 1? I don't think that's right either... I'm stuck...
 
 AFTER FINISHING: Ugh, I have no idea how to balance this equation... This problem is just not making sense!",,
-ITEM_090,"BEFORE STARTING: Okay, so I think we're supposed to find the max number in this list... wait, how do you even do that?
+ITEM_090,How do you find the largest number in a list called nums?,"BEFORE STARTING: Okay, so I think we're supposed to find the max number in this list... wait, how do you even do that?
 
 WHILE SOLVING: I'm gonna try using the built-in max function... but no, I don't want to use a library. Um, maybe if we sort the list and take the last element? No, that's not it either... I don't get it. I just need to find the number that is bigger than all the others... or something. Circular reasoning, why did I even try sorting?
 
 AFTER FINISHING: Ugh, I'm so confused now... maybe we're supposed to use a loop and compare each number? No, that's way too hard.",,
-ITEM_091,"BEFORE STARTING: Okay, so they're both Bb... like, that means they can be either BB or Bb... and I need to find out what fraction of the kids are gonna be bb... ugh, genepool thingy...
+ITEM_091,"If both parents are Bb, what fraction of offspring are expected to be bb?","BEFORE STARTING: Okay, so they're both Bb... like, that means they can be either BB or Bb... and I need to find out what fraction of the kids are gonna be bb... ugh, genepool thingy...
 
 WHILE SOLVING: Wait, if one parent is BB and the other's Bb, then their kid would have a chance of being Bb too, but it's not guaranteed that it'll be bb... oh no... I always get these genotypes mixed up... ugh... okay, so the bb genotype only shows up when both parents are homozygous recessive... so if they're both Bb... yeah... this is kinda like a Punnett square thingy... ohhhh... what if we make a little table for the possible genotypes? Yeah! That's it! Then I can see the probability of bb...
 
 AFTER FINISHING: Yeah, that makes sense now. So if they're both Bb, each kid has a 25% chance of being bb.",,
-ITEM_092,"BEFORE STARTING: Okay, I think I got this... Week 1 is 2 cm, and it doubles every week. Time to get my game face on!
+ITEM_092,A graph shows plant growth doubling each week. Predict week 4 if week 1 is 2 cm.,"BEFORE STARTING: Okay, I think I got this... Week 1 is 2 cm, and it doubles every week. Time to get my game face on!
 
 WHILE SOLVING: Alright, so Week 1 is 2 cm... Week 2 will be like... 4 cm? Yeah, that makes sense. Then Week 3 will be 8 cm, no wait, double of 4 is 8, got it. So Week 4 will be the same thing, double of 8, which is... 16! Yep, sounds right to me.
 
 AFTER FINISHING: That was a breeze! I'm on fire today.",,
-ITEM_093,"BEFORE STARTING: Ugh, okay, let me think... I need to get the x's on one side or something.
+ITEM_093,Solve: 3(x - 4) = 2x + 5.,"BEFORE STARTING: Ugh, okay, let me think... I need to get the x's on one side or something.
 
 WHILE SOLVING: Alright, so I'll start by distributing the 3 on the left-hand side... that makes it 3x - 12. Then I need to subtract... wait, no, add 2x to both sides... um, and then I have x stuff minus 12 equals... plus something... *pauses* Yeah, this is gonna be a tough one.
 
 AFTER FINISHING: Hmm, think I finally got it... but what if I messed up?",,
-ITEM_094,"BEFORE STARTING: Ugh, do I really need to solve this? It's so easy...
+ITEM_094,Solve for x and y: 2x + y = 7 and x - y = 2.,"BEFORE STARTING: Ugh, do I really need to solve this? It's so easy...
 
 WHILE SOLVING: Okay, first equation is 2x + y = 7... wait, what if I subtract the second one from this one? No, no, that's not it... Forget it. Just add them together instead... x - y = 2, so if I just swap the sign on the y terms in the second one, it becomes 2x + y = 5... No way, that can't be right. Let me try again... Okay, what if I multiply the whole second equation by 2? That way the x's cancel out and... yeah! So now we have 4y = 6, and 2x + y = 7... Hmm, what was my question again? Oh yeah, find x and y...
 
 AFTER FINISHING: Ugh, I think I finally got it. Now let me just plug in the values to check my work... Yes!",,
-ITEM_095,"BEFORE STARTING: Okay, so I need to figure out how many moles of water... Um, do I use the balanced equation or just multiply something? This one's got me stumped already...
+ITEM_095,How many moles of water form from 4 moles of H₂ (excess O₂)?,"BEFORE STARTING: Okay, so I need to figure out how many moles of water... Um, do I use the balanced equation or just multiply something? This one's got me stumped already...
 
 WHILE SOLVING: [pause] Wait, what's the balanced equation again for this reaction? H2 + O2 -> H2O. Yeah, got it. So, if I have 4 moles of H2... Do I just divide by two since there are two hydrogen atoms in a water molecule? No, that can't be right... [sigh] I don't know what to do here.
 
 AFTER FINISHING: Uh, maybe if I draw out the reaction it'll make more sense? This is so frustrating...",,
-ITEM_096,"BEFORE STARTING: Alright, easy peasy, I got this, primary producer, food web, ecosystem... just gotta recall that lesson on trophic levels...
+ITEM_096,What happens to a food web if the primary producer population collapses?,"BEFORE STARTING: Alright, easy peasy, I got this, primary producer, food web, ecosystem... just gotta recall that lesson on trophic levels...
 
 WHILE SOLVING: Okay, so if the primary producers die out, that means they're not producing any oxygen or organic compounds for the other organisms to feed on. That's a big deal because all those herbivores and carnivores are gonna starve, like totally dependent on them for food. So, if the primary producers go down... it's a domino effect, right? The whole ecosystem collapses, that's what I think... hmm, is that even right? Should be some secondary producers to take their place or something?
 
 AFTER FINISHING: Yeah, makes sense now! Ecosystems are pretty delicate, and when one part breaks down, the rest falls apart. Easy problem!",,
-ITEM_097,"BEFORE STARTING: Okay, okay... I think this is like, question 7 on the review sheet... something about the North and South... *sigh* why do we even need to know this?...
+ITEM_097,What was a central economic difference between the North and South before the war?,"BEFORE STARTING: Okay, okay... I think this is like, question 7 on the review sheet... something about the North and South... *sigh* why do we even need to know this?...
 
 WHILE SOLVING: ...hmm, let's see... was it the factories or something? No, no that can't be right... They were both industrializing, I think... Ugh, this makes no sense... I know there was something about slavery and the economy... Slaves were a huge economic factor in the South, but how does that relate to industry? Forget it... Maybe it's just that the North was all factories and the South was more agriculture... But that can't be the only difference... Wait, what if it's because of tariffs or something? No, we didn't learn about that yet... *taps pen impatiently on desk*...
 
 AFTER FINISHING: Ugh, I don't even know anymore... I'm so done with this",,
-ITEM_098,"BEFORE STARTING: Okay, gotta get this done, ugh, why do we even have to read this... just show me the answers...
+ITEM_098,"In context, 'The plan was untenable' most nearly means the plan was ___?","BEFORE STARTING: Okay, gotta get this done, ugh, why do we even have to read this... just show me the answers...
 
 WHILE SOLVING: Okay, so 'untenable' means... probably bad? no, that's not it... whatever, I don't know, I've never heard of this word before... *sigh*... oh wait, maybe it means impossible or something? Yeah, that sounds right, but then again, what if it means like, really hard to do? No, no, just take a deep breath and calm down... okay, so it's gotta be 'untenable' as bad or wrong, right? That makes sense, yeah... *taps pen impatiently on paper*...
 
 AFTER FINISHING: Ugh, did I even get this one right?! *looks at watch*",,
-ITEM_099,"BEFORE STARTING: Ugh, checks and balances... I know this is important for the test, but it's not like we did it in class all semester or anything. Okay, let me try to remember...
+ITEM_099,What problem did the system of checks and balances aim to solve?,"BEFORE STARTING: Ugh, checks and balances... I know this is important for the test, but it's not like we did it in class all semester or anything. Okay, let me try to remember...
 
 WHILE SOLVING: [pause] Wait, wasn't it something about preventing abuse of power? Yeah, that sounds right... But how does it exactly prevent abuse of power? Um, isn't it just like, Congress can veto the president's laws and stuff? No, no, that can't be right. [sigh] I don't know, maybe if there was a big list or something... I don't know what to say here...
 
 AFTER FINISHING: ...I'm so frustrated with this question. I knew it when we were in class, but now it's like, totally gone.",,
-ITEM_100,"BEFORE STARTING: Okay, let's see... simplifying exponents, I can handle that. I just need to remember the order of operations and stuff.
+ITEM_100,Simplify (3² · 3⁴) / 3³.,"BEFORE STARTING: Okay, let's see... simplifying exponents, I can handle that. I just need to remember the order of operations and stuff.
 
 WHILE SOLVING: Alright, so we've got 3 squared times 3 to the fourth power, divided by 3 cubed... that's like, exponent rules all over again... um, is it true that when you multiply exponents with the same base, you add 'em? Yeah, I think so... so this becomes 3 to the second plus four times three to the third power, divided by three to the third power. That's a lot of threes... I mean, it looks like they cancel out, right? So we're just left with 3 to the two plus one power... is that even a thing?
 
 AFTER FINISHING: Wait, hold on, I think I did it... yeah, it simplifies to just 3 to the fifth. That was actually kind of easy... *laughs*",,
-ITEM_101,"BEFORE STARTING: Okay, so I'm supposed to figure out what to do if the results don't match what we expected. Great, because this is totally going to be a piece of cake...
+ITEM_101,Results contradict a hypothesis. What is the most reasonable next step?,"BEFORE STARTING: Okay, so I'm supposed to figure out what to do if the results don't match what we expected. Great, because this is totally going to be a piece of cake...
 
 WHILE SOLVING: Wait, what's the question again? Oh right, most reasonable next step... Hmm, I guess we'd want to try to figure out why the results are different. Ugh, this makes no sense, there should just be an answer like in math problems... Maybe we need to re-evaluate our hypothesis or something? No, wait, that can't be it... Forget it, I'll just try again. If the results don't match what we expected, maybe we need to do more research or get more data... But how do we know if that's actually necessary?
 
 AFTER FINISHING: Ugh, okay, so I think the answer is just to re-evaluate our hypothesis, but it feels kinda vague...",,
-ITEM_102,"BEFORE STARTING: uhh okay so like what's the difference between north and south again... i think it was something about slavery but nope, we already did that question. first I need to figure out what they're asking for.
+ITEM_102,What was a central economic difference between the North and South before the war?,"BEFORE STARTING: uhh okay so like what's the difference between north and south again... i think it was something about slavery but nope, we already did that question. first I need to figure out what they're asking for.
 
 WHILE SOLVING: ok let me think... if the north was industrialized and stuff, then maybe the south didn't have as much money or something? wait no, that's not it... umm so like i remember reading about how the south relied on agriculture... but isn't that just because of slavery too? ugh why do i always get this mixed up... let me try again: the north had factories and the south didn't, right? or was it that the north traded with other countries and the south just kinda did their own thing? nope, still not getting it.
 
 AFTER FINISHING: i'm so confused now. does anyone else get really mixed up on this stuff?",,
-ITEM_103,"BEFORE STARTING: I know I'm supposed to find the volume of this cube... why did we even need a formula for this? Ugh, come on brain!
+ITEM_103,Find the volume of a cube with side length 4.,"BEFORE STARTING: I know I'm supposed to find the volume of this cube... why did we even need a formula for this? Ugh, come on brain!
 
 WHILE SOLVING: Okay, okay, so the formula is like... V = s^3, right? But what's the side length again? Uh, 4... or was it 6? Forget it. Just plug in the numbers: V = 4^3... no, wait, that's not right... 64 isn't even a cube of anything... Ugh, this makes no sense.
 
 AFTER FINISHING: I'm just gonna put down 64, because I don't have time to think about it anymore... and besides, I'm pretty sure my teacher said something about cubes being easy",,
-ITEM_104,"BEFORE STARTING: Okay, gotta get this right... need to remember the atomic numbers... sodium's like, 11 or something...
+ITEM_104,"Which is larger, a sodium atom or a chlorine atom? Why?","BEFORE STARTING: Okay, gotta get this right... need to remember the atomic numbers... sodium's like, 11 or something...
 
 WHILE SOLVING: Uh, chlorine's got, like, more protons or electrons or whatever, so it's heavier... probably... sodium's all small and light, yeah that sounds right... um, if I think about the electron configuration, maybe the ones with more energy levels are bigger? Wait no, that doesn't make sense... just go with the atomic numbers, whatever... sodium 11, chlorine like, 17...
 
 AFTER FINISHING: Hope I got it right... ugh, don't have time to double-check... gotta move on",,
-ITEM_105,"BEFORE STARTING: Okay, easy question... probably... just gotta think about it for a sec...
+ITEM_105,Two scientists disagree on a cause. What evidence would resolve it?,"BEFORE STARTING: Okay, easy question... probably... just gotta think about it for a sec...
 
 WHILE SOLVING: Alright, so like, if two scientists disagree... whatever... they must be using different data or methods, right? I mean, one of them is wrong... but how do you prove it? Okay, evidence would resolve it, that's the question... umm... probably something about like, experiments? Or statistics? Wait, no, that's not it... just think about it for a sec... UGH!
 
 AFTER FINISHING: Yeah, I got it... or did I? *sigh* Evidence would resolve it by doing more tests, duh...",,
-ITEM_106,"BEFORE STARTING: Okay, so like, I need to write a function in Python... um, what's the point of this exercise again? We already did functions last week...
+ITEM_106,Write a function that returns the square of a number.,"BEFORE STARTING: Okay, so like, I need to write a function in Python... um, what's the point of this exercise again? We already did functions last week...
 
 WHILE SOLVING: First I need to define the function, right? Like, `def square(x):`... wait, do I need an argument in there too? Yeah, that's how you pass a value to a function. Now what was the point of this thing again? Oh yeah, return the square! So like, `return x ** 2`. That makes sense, right?
 
 AFTER FINISHING: Hmm, I think I got it... but is it supposed to handle negative numbers or something?",,
-ITEM_107,"BEFORE STARTING: Alright, so this one's about natural selection... think I got it, just gotta put it into words...
+ITEM_107,How does natural selection lead to changes in a population over time?,"BEFORE STARTING: Alright, so this one's about natural selection... think I got it, just gotta put it into words...
 
 WHILE SOLVING: Okay, so natural selection is like a filter for the population, right? It favors the individuals that are best adapted to their environment. So if they have some trait that's good for surviving and reproducing, they're more likely to pass on those traits to their kids... I think. Wait, no, it's not just about passing on traits, it's also about... um... eliminating the ones that aren't as good at surviving. Yeah, like a filter. So over time, the population starts to change because there are fewer and fewer individuals with the 'bad' traits. That makes sense, right? I mean, we learned about this in class...
 
 AFTER FINISHING: Yeah, that sounds about right. Feel pretty good about this one.",,
-ITEM_108,"BEFORE STARTING: Okay, so this one's gonna be easy, right? I mean, I've read the passage like, what, three times now... and I still kinda get it...
+ITEM_108,Which detail best supports the claim that the character felt isolated?,"BEFORE STARTING: Okay, so this one's gonna be easy, right? I mean, I've read the passage like, what, three times now... and I still kinda get it...
 
 WHILE SOLVING: Wait, huh, which claim are we talking about again? Oh yeah, the character felt isolated... Let me see... So, like, where's the part that says they're alone all the time? Is it in the paragraph with the words 'quiet' and 'lonely'? I think I remember something about that... But now I'm thinking maybe it's actually the opposite, and they have lots of friends... Uh, circular reasoning, no, no, no! Focus, focus... So if they're feeling lonely, does that mean they feel isolated? Ugh, this is so stupid, why can't I just remember what I read...?
 
 AFTER FINISHING: Ugh, I still don't get it... Is the answer even in the passage anymore? I swear I saw something about a character having no one to talk to...",,
-ITEM_109,"BEFORE STARTING: Okay, system of checks and balances... I think it's like, um, when the branches of government check each other. But why did they do that?
+ITEM_109,What problem did the system of checks and balances aim to solve?,"BEFORE STARTING: Okay, system of checks and balances... I think it's like, um, when the branches of government check each other. But why did they do that?
 
 WHILE SOLVING: Huh, wait, this is supposed to be a question about the problem it solves, not how it works... Okay, so it's trying to solve... something... Um, isn't it like, preventing one branch from becoming too powerful? But then I'm just going to say that again, which is kinda circular reasoning... I don't get it, I thought this was a simple question...
 
 AFTER FINISHING: I'm not really sure what the problem was... I mean, I know they were worried about the government getting out of control, but... Ugh.",,
-ITEM_110,"BEFORE STARTING: Okay, I think I know this one... we did something like this in class... just gotta print 'even' or 'odd', right?
+ITEM_110,Write code that prints 'even' or 'odd' for a variable n.,"BEFORE STARTING: Okay, I think I know this one... we did something like this in class... just gotta print 'even' or 'odd', right?
 
 WHILE SOLVING: Alright, so I need to check if n is even... how do I do that? Hmm, do I use the modulus operator? Yeah, that's it! So, if n % 2 == 0, then it's even... no, wait, that can't be right... [pause] Uh, what was I thinking? Okay, so let me try again. If n is even, then n % 2 will equal 0, but that means it's even... and if it's not equal to 0, then it must be odd... I don't know, this doesn't feel right...
 
 AFTER FINISHING: Ugh, I'm so stuck on this one. Can't remember what we did in class.",,
-ITEM_111,"BEFORE STARTING: Ugh, okay fine... Let me see... So I gotta solve for x and y, right? Like, they're both variables...
+ITEM_111,Solve for x and y: 2x + y = 7 and x - y = 2.,"BEFORE STARTING: Ugh, okay fine... Let me see... So I gotta solve for x and y, right? Like, they're both variables...
 
 WHILE SOLVING: Alright... So if we have 2x + y = 7 and x - y = 2... Can I subtract the second equation from the first one? Yeah, that makes sense... But wait, this is gonna be hard... Okay, let me do it... 2x + y - (x - y) = 7 - 2... Simplify this stupid thing... This makes no sense... Forget it...
 
 AFTER FINISHING: Uh, I think I got it... x = 9/3, so that's like... 3? And then for y, I get -1? Idk, man, it seems right...",,
-ITEM_112,"BEFORE STARTING: Uh, okay, so I gotta find out which detail shows the character felt isolated... wait, what's the claim again? That they felt isolated?
+ITEM_112,Which detail best supports the claim that the character felt isolated?,"BEFORE STARTING: Uh, okay, so I gotta find out which detail shows the character felt isolated... wait, what's the claim again? That they felt isolated?
 
 WHILE SOLVING: Hmm, let me see... this one says 'the character didn't talk to anyone for days' and that implies isolation, right? But doesn't it also say they were in their own thoughts a lot? I don't know, is that the same thing? If I choose that one, it's kinda circular reasoning. Oh man, what if I pick the wrong one?! Ugh... okay, what about this other one... 'the character was in a new place'... no, wait, that doesn't seem right either...
 
 AFTER FINISHING: Ugh, I don't get it. Can someone just explain to me why some of these choices are even possible?",,
-ITEM_113,"BEFORE STARTING: Okay, so this is gonna be easy... just like that time we learned about complementary angles in class. I'm pretty sure it's just the other angle being whatever the first one isn't...
+ITEM_113,Two angles are complementary. One is 35°. What is the other?,"BEFORE STARTING: Okay, so this is gonna be easy... just like that time we learned about complementary angles in class. I'm pretty sure it's just the other angle being whatever the first one isn't...
 
 WHILE SOLVING: Alright, so one of the angles is 35°, and they're complementary, which means they add up to 90°. That means the other one has to be... *pauses for a sec*... 90 - 35... that's right, it's just basic subtraction! No need to even draw a diagram or anything.
 
 AFTER FINISHING: Yeah, I'm pretty sure I got this one right... it's like a math puzzle and I solved it",,
-ITEM_114,"BEFORE STARTING: Ugh, this problem is gonna be so hard... I mean, how hard can it be to find the largest number in a list?
+ITEM_114,How do you find the largest number in a list called nums?,"BEFORE STARTING: Ugh, this problem is gonna be so hard... I mean, how hard can it be to find the largest number in a list?
 
 WHILE SOLVING: Okay, so I think I need to use the max() function... no wait, that's for strings. Unless... unless it works with numbers too? This makes no sense. Let me just check the docs real quick. *pauses* Okay, yeah it does work with numbers. So I just do `max(nums)`. But what if the list is empty? Forget it, that's a whole other problem.
 
 AFTER FINISHING: I'm like 50/50 on whether this is right or not... Ugh, I wish the teacher would give us an easier assignment for once...",,
-ITEM_115,"BEFORE STARTING: I think I got this... just gotta remember the balanced equation for combustion, ugh, where did I put that?
+ITEM_115,How many moles of water form from 4 moles of H₂ (excess O₂)?,"BEFORE STARTING: I think I got this... just gotta remember the balanced equation for combustion, ugh, where did I put that?
 
 WHILE SOLVING: [pause] Okay, so H₂ + O₂ → H₂O... wait, how many moles of water form from 4 moles of H₂? Ugh, I know this... [sigh] So, if we have 4 moles of H₂ and it's in excess oxygen, that means the oxygen is gonna be... [pause] Okay, so the balanced equation has like, 2 moles of H₂ for every mole of O₂... which means we only need like, half a mole of oxygen or something. I don't know, this isn't making sense. Ugh, why can't I remember anything?!
 
 AFTER FINISHING: Ugh, no, that's just wrong... *sigh* Okay, let me think about it for a sec...",,
-ITEM_116,"BEFORE STARTING: Okay, I've done this before, like a million times. I just need to think about the loop and how it works... yeah!
+ITEM_116,Write a loop that prints the numbers 1 through 5.,"BEFORE STARTING: Okay, I've done this before, like a million times. I just need to think about the loop and how it works... yeah!
 
 WHILE SOLVING: Alright, so you gotta have a variable that increments by one in each iteration, and then print that number... or is it just print the numbers 1 through 5? Hmm, that's easy, I can do this. Oh, and I need to use a for loop, not while. While's like, too complicated when you're looping over a range of numbers... and I'm pretty sure I used the range() function last time. Yeah, range(6) should work, because it goes from 0 to 5... but I wanna start at 1, so... ugh, is this right? print(x for x in range(6))
 
 AFTER FINISHING: Yeah, that was way easier than I thought! Got it on the first try!",,
-ITEM_117,"BEFORE STARTING: alright, slope thingy... need two points, got 'em. can't remember the formula though...
+ITEM_117,"Find the slope of the line through (1, 2) and (4, 11).","BEFORE STARTING: alright, slope thingy... need two points, got 'em. can't remember the formula though...
 
 WHILE SOLVING: oh, it's y2 - y1 over x2 - x1, right? so that's 11-2 over 4-1... ohhhh wait, do I multiply or divide? ugh, gotta check my notes... yeah, division. so that's 9 over 3... which is just 3. easy peasy
 
 AFTER FINISHING: yep, got it! just a simple slope question, thanks for the review",,
-ITEM_118,"BEFORE STARTING: Okay, so I know the formula for volume of a cube is... uh, length cubed, right? Yeah, that's it.
+ITEM_118,Find the volume of a cube with side length 4.,"BEFORE STARTING: Okay, so I know the formula for volume of a cube is... uh, length cubed, right? Yeah, that's it.
 
 WHILE SOLVING: Alright, so if the side length is 4, then I just need to multiply it by itself three times... 4 multiplied by 4 is 16, and then I multiply that by... hmm, what was it again? Oh yeah, 4! So it's 16 multiplied by 4, which is... 64. That's gotta be right.
 
 AFTER FINISHING: Yeah, that makes sense. It's like a box, so the volume would just be the side length cubed. Easy peasy.",,
-ITEM_119,"BEFORE STARTING: Okay, gotta choose the right verb... this is gonna be a tough one... I hope it's not too tricky...
+ITEM_119,Pick the correct verb: 'Each of the students (is/are) responsible.',"BEFORE STARTING: Okay, gotta choose the right verb... this is gonna be a tough one... I hope it's not too tricky...
 
 WHILE SOLVING: Huh, each of the students... so plural subject... that means I need to use 'are'... wait, no, does 'is' work? Uh, I think... ohhhh, wait, I remember now! 'Each' is like a single unit, but it's still a plural subject because there's more than one student... OH, that makes sense! It has to be 'are' because of the plural subjects... right?
 
 AFTER FINISHING: Yeah, got it! It's gotta be 'are', I'm pretty sure now... thanks for that clarity!",,
-ITEM_120,"BEFORE STARTING: Ugh, come on, I know this. Punnett squares... right. Okay, so both parents are Bb...
+ITEM_120,"If both parents are Bb, what fraction of offspring are expected to be bb?","BEFORE STARTING: Ugh, come on, I know this. Punnett squares... right. Okay, so both parents are Bb...
 
 WHILE SOLVING: Okay, so if they're both Bb, that means the dad can only give a B or b... and the mom can only give a B or b too... so let's draw the square... Wait, what? This makes no sense. I already knew this... Forget it, I'll just try to do it anyway. So if you get two B's, that would be BB, right? Or if you get one B and one b, that would be Bb... And then if you get two b's, that would be bb... But wait, if both parents are Bb, they can only give one b to the kid, so there's no way to get two b's. This is so stupid... Ugh...
 
 AFTER FINISHING: Fine, I think it's... 1/4? No, that can't be right... But that's what it looks like.",,
-ITEM_121,"BEFORE STARTING: Okay, okay, let me think about this... I know food webs are all connected, right? First I need to figure out how the primary producers are related to the rest of it...
+ITEM_121,What happens to a food web if the primary producer population collapses?,"BEFORE STARTING: Okay, okay, let me think about this... I know food webs are all connected, right? First I need to figure out how the primary producers are related to the rest of it...
 
 WHILE SOLVING: So, if the primary producers die off, then that means no more energy for the next level up, like herbivores... unless... unless they can find some other food source, which is unlikely. Wait, I'm thinking this through... what if it's like a big domino effect? The primary producers are at the bottom of the web, so if they go down... Whoa, what if the whole web collapses? No, no, that's too extreme, right? Let me start again...
 
 AFTER FINISHING: I think I get it now... or do I? Okay, let me try to simplify this. So, basically, if primary producers die out, all the other levels will be affected in some way, but it depends on what else is in that ecosystem.",,
-ITEM_122,"BEFORE STARTING: Okay, okay, circle area... radius is 5... how hard can it be?
+ITEM_122,Find the area of a circle with radius 5.,"BEFORE STARTING: Okay, okay, circle area... radius is 5... how hard can it be?
 
 WHILE SOLVING: Alright, so the formula is A = πr^2... I think... wait, is that right? Ugh, I always get this mixed up... ohhhh, just plug in the numbers! So it's A = π(5)^2... 25 times pi... but what's pi equal to again? *rummages through notes* OH, 3.14! So now we're talking... 25 x 3.14 = 78.5... or is that too big?
 
 AFTER FINISHING: Hmm, I think that's right... yeah, I'm pretty sure it's the right answer... *nervous laugh*",,
-ITEM_123,"BEFORE STARTING: Ugh, why do I always get confused in Geometry? Okay, so one angle is 35° and they're complementary... that means they add up to 90°, right?
+ITEM_123,Two angles are complementary. One is 35°. What is the other?,"BEFORE STARTING: Ugh, why do I always get confused in Geometry? Okay, so one angle is 35° and they're complementary... that means they add up to 90°, right?
 
 WHILE SOLVING: Wait, huh, what if the other angle is also 55°? No, no, that can't be it... because then their sum would be more than 90°. Unless... unless I'm thinking about supplementary angles again... Ugh, why do these terms always get mixed up in my head? Hmm, let me try to draw a diagram... maybe that'll help. Okay, so if one angle is 35°, the other must be... uh... *pauses*
 
 AFTER FINISHING: Ugh, I don't know what I just did there... Did I get it right? Maybe I should just check the answer in the back of the book to be safe.",,
-ITEM_124,"BEFORE STARTING: Okay, so I gotta find the main idea... that's like, what they're trying to say. First I need to think about how a factory closing affects a town.
+ITEM_124,A passage describes a town's decline after a factory closes. What is the main idea?,"BEFORE STARTING: Okay, so I gotta find the main idea... that's like, what they're trying to say. First I need to think about how a factory closing affects a town.
 
 WHILE SOLVING: Let me think, so if a factory closes, it probably hurts the economy and stuff... so maybe the main idea is about how the town's economy went down or something? Yeah, that makes sense. Wait, no, that's not really what I'm thinking... Ugh, let me start again. The passage says the town declined after the factory closed, which means... hmm... It's probably not about the factory itself, it's more like how people are affected by its closing. Like, maybe they lost jobs or something? That sounds right.
 
 AFTER FINISHING: I think I got it, I'm pretty sure... but do I sound convincing enough on that?",,
-ITEM_125,"BEFORE STARTING: Okay, easy peasy, I got this... um, which one's the claim? Oh yeah, it's about isolation. Let me just take a sec to read the passage again real quick...
+ITEM_125,Which detail best supports the claim that the character felt isolated?,"BEFORE STARTING: Okay, easy peasy, I got this... um, which one's the claim? Oh yeah, it's about isolation. Let me just take a sec to read the passage again real quick...
 
 WHILE SOLVING: ...So, if they felt isolated, that means they were alone or something. Hmm, let me see... Ah! 'The only sound was his breathing.' That sounds pretty lonely, right? I mean, there's no one else around, just him. Yeah, this makes sense. Then again, what about the part where it says 'he wandered through the forest'? Wait, is that relevant? Ugh, no, no, focus! It's not about how he was moving, it's about how he felt. Okay, okay... The only sound... yeah, I think I've got this.
 
 AFTER FINISHING: Yup, that's my answer. 'The only sound was his breathing.' Feels right to me...",,
-ITEM_126,"BEFORE STARTING: Okay, so like I think I have to isolate x somehow... or is it just solve for x? Ugh, algebra is so hard!
+ITEM_126,Solve and graph: 2x - 3 < 7.,"BEFORE STARTING: Okay, so like I think I have to isolate x somehow... or is it just solve for x? Ugh, algebra is so hard!
 
 WHILE SOLVING: Alright, first I'll add 3 to both sides... [pause] wait, no. That's not right. Let me start again. If I add 3 to both sides, I get 2x < 10... but how do I know that's correct? And then what do I do next? Ugh, this is so confusing. I don't know. I don't know.
 
 AFTER FINISHING: Ugh, okay. I'll just copy the answer from my friend who already did it... because I'm stuck and can't figure it out.",,
-ITEM_127,"BEFORE STARTING: ugh, come on, I know this... or do I? why can't they just use one of the words right?
+ITEM_127,Choose the correct word: 'Their/There/They're going to the store.',"BEFORE STARTING: ugh, come on, I know this... or do I? why can't they just use one of the words right?
 
 WHILE SOLVING: okay, so 'their' is possessive, like their phone... but that's not it. wait, isn't 'there' where you're going to? no, that can't be right. Ugh, this makes no sense. Okay, let me think... if I'm using a contraction, it would be... they're. No, that doesn't fit the sentence either. Forget it.
 
 AFTER FINISHING: I'm gonna go with 'they're', but honestly, I don't really know. Maybe I should just skip this question...",,
-ITEM_128,"BEFORE STARTING: Okay, let's see... what if the primary producer population collapses? That means like, all the plants or whatever, right?
+ITEM_128,What happens to a food web if the primary producer population collapses?,"BEFORE STARTING: Okay, let's see... what if the primary producer population collapses? That means like, all the plants or whatever, right?
 
 WHILE SOLVING: So probably it would affect all the other organisms that depend on them for food... um, what was that diagram I drew in class again? We need to draw a food web thingy... anyway, like I said, probably the predators and decomposers would be impacted too, whatever... if I remember right, primary producers are at the base of it all, so yeah, it's gotta mess up the whole ecosystem. Wait, what's that mean for the energy pyramid? Uh-oh, no time to think about that now... just got to give a basic answer
 
 AFTER FINISHING: I hope I didn't totally butcher this, but whatever, we'll see if I get any marks on it.",,
-ITEM_129,"BEFORE STARTING: Uh-oh, I hope I remember this from last year... Okay, so I need to think about why the colonists were all angry...
+ITEM_129,Why did 'taxation without representation' anger the colonists?,"BEFORE STARTING: Uh-oh, I hope I remember this from last year... Okay, so I need to think about why the colonists were all angry...
 
 WHILE SOLVING: Okay, first I need to figure out what 'taxation without representation' even means. Let me think... If we get taxed by the government but don't have any say in it, that's kinda like being forced to do something you don't agree with, right? Like if our school board decided to raise our lunch prices without asking us. That would be pretty annoying. Hmm, does this mean they were angry because they didn't want to pay taxes or because they wanted a voice in government decisions? No, no... I think it's more the second reason. They were already upset about not being represented in government and then the taxes came on top of that... Wait, is that right?
 
 AFTER FINISHING: Yeah, I'm pretty sure that's right! It makes sense now, but I wish I had written this down during class last year so I wouldn't have to think about it all over again",,
-ITEM_130,"BEFORE STARTING: Okay, I know the function is f(x) = 2x + 1... let me think about what that means when we put in a number. Um, first I need to plug in 3 for x...
+ITEM_130,"If f(x) = 2x + 1, what is f(3)?","BEFORE STARTING: Okay, I know the function is f(x) = 2x + 1... let me think about what that means when we put in a number. Um, first I need to plug in 3 for x...
 
 WHILE SOLVING: Alright, so it's like a formula: f(3) equals... (pauses) 2 times 3 plus 1... wait, no, which operation comes first? Right, multiplication comes first, so that's... (hesitates) 6 + 1. Nope, I'm pretty sure I messed that up. Um, what if I plug in the numbers the other way around? So it's like, f(3) equals 2 times... (corrects herself) no, we're not multiplying 3 and 2 together, we're multiplying 2 by whatever x is... ugh, okay, so it's just 6 + 1. Got it!
 
 AFTER FINISHING: Yeah, I think that's right... let me write the answer down: f(3) equals 7.",,
-ITEM_131,"BEFORE STARTING: Okay, like, I gotta write a balanced equation for H2 + O2 ->... wait, what's the product again? Ugh, this is so easy...
+ITEM_131,How many moles of water form from 4 moles of H₂ (excess O₂)?,"BEFORE STARTING: Okay, like, I gotta write a balanced equation for H2 + O2 ->... wait, what's the product again? Ugh, this is so easy...
 
 WHILE SOLVING: Okay, so we got H2 + O2 -> H2O... yeah, that's right. But how many moles of water form from 4 moles of hydrogen... I don't know... [pause] Wait, if I had a mole ratio for H2 to H2O, I could just multiply it by 4... but what's the ratio again?... Ugh, this is so confusing... I don't know... [sigh]...
 
 AFTER FINISHING: Ugh, I have no idea. Why can't I just remember this stuff?",,
-ITEM_132,"BEFORE STARTING: okay gotta hurry up with this one I'm already running late for gym class and chemistry is gonna be a total disaster if I don't get this right probably...
+ITEM_132,How many moles of water form from 4 moles of H₂ (excess O₂)?,"BEFORE STARTING: okay gotta hurry up with this one I'm already running late for gym class and chemistry is gonna be a total disaster if I don't get this right probably...
 
 WHILE SOLVING: alrigh so like hydrogen gas H2 reacts with oxygen O2 to form water... so the reaction's H2 + O2 -> 2H2O... okay so we got 4 moles of H2 here, probably that'll give us... uh 8 moles of water if I multiply it by two... wait no what's the coefficient on water again? ugh focus! anyway yeah 8 moles is a good guess whatever
 
 AFTER FINISHING: meh I think I got it right this time but chemistry's still so confusing and now I'm gonna be late for gym class...",,
-ITEM_133,"BEFORE STARTING: Alright, okay, so it's like H2 plus O2... yeah, this one I know I can do, don't worry about it...
+ITEM_133,Balance: H₂ + O₂ → H₂O.,"BEFORE STARTING: Alright, okay, so it's like H2 plus O2... yeah, this one I know I can do, don't worry about it...
 
 WHILE SOLVING: Okay, first we gotta start with the reactants, so that's H2 and O2, right? And they're combining to make water, which is H2O. So I'll just multiply these guys out... H2 times two should be... *pauses for a split second* ...H4O... wait no, that can't be right. Um, so we gotta have the same number of hydrogen atoms on each side. And oxygen's got 2 in O2, so if I multiply H2 by 1 and O2 by 1, it all works out... *pauses again* ...no, no, I'm doing this too slow, just trust the math, I know what I'm doing... okay, H2 plus O2 to water is already balanced!
 
 AFTER FINISHING: Yeah! Done. Wasn't that a breeze? I mean, it makes sense now, but I had to focus for like one second, you feel me?",,
-ITEM_134,"BEFORE STARTING: Okay, so I think this is a There question or something... Like, they're going to the store, but it's not 'They're' because that's different, right?
+ITEM_134,Choose the correct word: 'Their/There/They're going to the store.',"BEFORE STARTING: Okay, so I think this is a There question or something... Like, they're going to the store, but it's not 'They're' because that's different, right?
 
 WHILE SOLVING: Uh, I don't know, let me think about this... [pause] Wait, no, it can't be Their. That makes sense... Unless... Unless I'm thinking of it wrong. No, they're going to the store, so it has to be There. But then again... I don't know. Let me try to break it down... The apostrophe... They're always talking about that in English class... Uh-oh, what if I get this wrong?! *ahem* Okay, focus... Their means something belongs to them, but it's not 'They're' because of the apostrophe... Hmm...
 
 AFTER FINISHING: Ugh, I have no idea if I got it right. Is there a trick question or something? I feel like I'm just guessing.",,
-ITEM_135,"BEFORE STARTING: Okay, area of a circle... I think it's pi-r-squared... or is that just the formula for circumference? Ugh, I always get those mixed up.
+ITEM_135,Find the area of a circle with radius 5.,"BEFORE STARTING: Okay, area of a circle... I think it's pi-r-squared... or is that just the formula for circumference? Ugh, I always get those mixed up.
 
 WHILE SOLVING: Wait, what if we just use the diameter instead? No, no, that can't be right... OH, but I remember now - the area of a circle is like pi-r-squared... ohhhh yeah! So it's... (pauses) uh... *scribbles on paper* ...pi times 5 squared. But what if we need to use 3.14 instead of just 'pi'? Ugh, I always get this part wrong... (pauses again) Yeah, it's fine. Just pi times 25.
 
 AFTER FINISHING: I hope that's right... *looks up answer* Yay, I did it! (starts to feel a surge of confidence)",,
-ITEM_136,"BEFORE STARTING: Okay, so like, I know there's something about the North being all industrial and stuff... but it's on the tip of my tongue... gotta get this straight in my head...
+ITEM_136,What was a central economic difference between the North and South before the war?,"BEFORE STARTING: Okay, so like, I know there's something about the North being all industrial and stuff... but it's on the tip of my tongue... gotta get this straight in my head...
 
 WHILE SOLVING: Wait, what was it again? Oh yeah, slavery! It was a big deal that they disagreed on... no, wait, that's not it. Slavery wasn't really an economic difference... ohhhh, got it! It's like, the North was all about factories and manufacturing, while the South was still doing agriculture... OH, I think I remember now: tariffs and trade... I'm pretty sure that's right...
 
 AFTER FINISHING: Yessss, I think I nailed it! Tariffs and trade were a huge deal between the North and South before the war... *fist pump*",,
-ITEM_137,"BEFORE STARTING: Ugh, I hate science... okay, so it's like, week 1 is 2 cm and then it just keeps doubling... umm, how does that even work?
+ITEM_137,A graph shows plant growth doubling each week. Predict week 4 if week 1 is 2 cm.,"BEFORE STARTING: Ugh, I hate science... okay, so it's like, week 1 is 2 cm and then it just keeps doubling... umm, how does that even work?
 
 WHILE SOLVING: [pause] Okay, so if it doubles each week, then that means week 2 would be 4 cm, right? No, wait, that can't be right... [sigh] I don't know... If it doubles, then shouldn't it just be like... 4 times the previous week? Week 3 would be 8 cm, and then if we keep going with this doubling thing... I don't know... Ugh... This is so hard... Week 4 should be... umm... *scribbles on paper*
 
 AFTER FINISHING: Ugh, I have no idea if that's even close... Okay, let me just stick my finger on the graph and hope for the best...",,
-ITEM_138,"BEFORE STARTING: Ugh, okay, so this is gonna be one of those stupid verb conjugation things... I hope it's not too hard...
+ITEM_138,Pick the correct verb: 'Each of the students (is/are) responsible.',"BEFORE STARTING: Ugh, okay, so this is gonna be one of those stupid verb conjugation things... I hope it's not too hard...
 
 WHILE SOLVING: Wait, why does it say 'is' or 'are'? It can't just be one... unless it's a singular thing... no, no, that can't be right... This makes no sense... If there's each of them, that means more than one... so it should be 'are', right? Ugh, forget it...
 
 AFTER FINISHING: I'm gonna go with my gut and hope I didn't mess this up... *sigh*",,
-ITEM_139,"BEFORE STARTING: Okay, so what's the question again? I think it's about hypotheses... yeah, this one's gonna be tough...
+ITEM_139,Results contradict a hypothesis. What is the most reasonable next step?,"BEFORE STARTING: Okay, so what's the question again? I think it's about hypotheses... yeah, this one's gonna be tough...
 
 WHILE SOLVING: [pause] Uh, what's a hypothesis? Is it like a guess or something? Wait, no... you gotta test it, right? So if the results contradict it, that means... hmm... do I need to come up with new data or something? No, that can't be it... [sigh] I don't know, I'm stuck on this one. Can't remember what they said in class about this... Ugh, why did I even take ACT Science?!
 
 AFTER FINISHING: I think I might have to just guess and hope for the best on this one... Ugh, this is so frustrating.",,
-ITEM_140,"BEFORE STARTING: okay, CO2, that's like carbon dioxide, right? i think we did this in class... um, which week was it?
+ITEM_140,What is the molar mass of CO₂?,"BEFORE STARTING: okay, CO2, that's like carbon dioxide, right? i think we did this in class... um, which week was it?
 
 WHILE SOLVING: wait, molar mass is just the sum of the atomic masses... or is it? no, that can't be right... if i forget to multiply by Avogadro's number... i always get these units mixed up. huh, let me start over. so carbon has an atomic mass of... 12 or something? and oxygen is... 16, i think? but we have two oxygens... no, wait, that would be 32, not 44... ugh, why can't i remember this?
 
 AFTER FINISHING: okay, so i'm gonna say it's 44 g/mol because i just looked at the periodic table real quick and carbon is 12 and oxygen is 16... circular reasoning? no, that's what we learned, right? or was it something else entirely?",,
-ITEM_141,"BEFORE STARTING: Okay, okay, I just gotta find the one that's fast... temperature-wise, whatever. I'm pretty sure this is one of those simple ones.
+ITEM_141,A table lists reaction rates at 3 temperatures. Which temperature is fastest?,"BEFORE STARTING: Okay, okay, I just gotta find the one that's fast... temperature-wise, whatever. I'm pretty sure this is one of those simple ones.
 
 WHILE SOLVING: Wait, why does it say reaction rate here? This makes no sense! Um, so the higher the number, the faster the reaction, right? No, I'm just gonna start with the lowest temp... 35... nope, that's too low. Okay, let me look at this again... ugh, forget it. If it's a simple question, why does it have all these numbers?! Hmm... if the rates are like 1.3, 2.5, and 4.7... I'm pretty sure 4.7 is gonna be fast... but which temp was that?! Ugh!
 
 AFTER FINISHING: I think I got it right, finally. And, yeah, 45°C had the fastest reaction rate.",,
-ITEM_142,"BEFORE STARTING: Okay, I hope I remember this... probably the North had something to do with manufacturing or whatever and the South was all about agriculture...
+ITEM_142,What was a central economic difference between the North and South before the war?,"BEFORE STARTING: Okay, I hope I remember this... probably the North had something to do with manufacturing or whatever and the South was all about agriculture...
 
 WHILE SOLVING: Hmm, yeah, that's right! The North was industrialized and stuff. But how does that connect to economics? Wait, wasn't there some difference in slavery laws too? Whatever, I think... The North probably didn't have as many slaves or something... Is that even right? *quickly scribbles notes* Yeah, it's like the North had factories and workers and the South had farms and... uh, people who owned the farms. I think there was some disagreement about slavery and states' rights too... probably related to economics somehow...
 
 AFTER FINISHING: Did I get it right? Hopefully it's something simple...",,
-ITEM_143,"BEFORE STARTING: Ugh, okay... let's get this over with. I'm already struggling in ACT Science and now they're gonna throw something super hard at me.
+ITEM_143,A study changes both temperature and light. Why is the result hard to interpret?,"BEFORE STARTING: Ugh, okay... let's get this over with. I'm already struggling in ACT Science and now they're gonna throw something super hard at me.
 
 WHILE SOLVING: Okay, so the question is why the result is hard to interpret. Um, is it because of like, correlation vs causation or something? No, that can't be right... or can it? Wait, no, I'm overthinking this. Just read it again... The study changes both temperature and light. Ugh, this makes no sense. Why would changing two variables make the result hard to interpret? Forget it, I'm just gonna try some stuff. Maybe it's like... if you change one variable, you can see how it affects another, but with two it's like... confusing or something. Yeah, that sounds too easy. What am I missing?
 
 AFTER FINISHING: I don't even know what I was thinking. This is still super unclear.",,
-ITEM_144,"BEFORE STARTING: Okay, so the narrator's like, really negative about this reunion... or something.
+ITEM_144,The narrator calls the reunion 'a gauntlet of forced smiles.' What is the tone?,"BEFORE STARTING: Okay, so the narrator's like, really negative about this reunion... or something.
 
 WHILE SOLVING: Hmm, 'a gauntlet of forced smiles'... that sounds bad. Wait, is a gauntlet good or bad? I always get those two mixed up... ohhhhh, I know! It's like when you're walking through the gauntlet in a video game, but here it means it's hard to go through... so maybe the tone is not happy? No, that can't be right. I'm 50/50 on this one. Forced smiles sound sad, but the whole thing sounds intense... OH, I get it! It's like they're being forced to smile at something bad. So, yeah, it's a negative tone, for sure.
 
 AFTER FINISHING: I think I nailed that one... probably...",,
-ITEM_145,"BEFORE STARTING: Ugh, ACT Science is so weird... Okay, let me think... Two scientists disagree on a cause, what does that even mean? I need to figure out what kind of evidence would make them stop arguing.
+ITEM_145,Two scientists disagree on a cause. What evidence would resolve it?,"BEFORE STARTING: Ugh, ACT Science is so weird... Okay, let me think... Two scientists disagree on a cause, what does that even mean? I need to figure out what kind of evidence would make them stop arguing.
 
 WHILE SOLVING: First I need to understand the problem, right? So, they're arguing about a cause and effect. Hmm, maybe it's like an experiment or something... Can't remember if we did that in class... Okay, so if they had some data from an experiment that showed this causes that, then... Oh wait, no, that's not right... That would be like the effect causing the cause... Ugh... Let me think again. If I were a scientist and someone disagreed with my theory, I'd need to provide more evidence to prove it. Like, if they're arguing about why this thing happens, I'd need some observations or measurements that show it's not just a coincidence. Yeah, that makes sense.
 
 AFTER FINISHING: I think I got it... Hopefully... It was a pretty simple problem but my brain kept getting stuck on the details. Now to move on to the next one...",,
-ITEM_146,"BEFORE STARTING: Okay, I think I remember that the molar mass of carbon is... um, what's it again?
+ITEM_146,What is the molar mass of CO₂?,"BEFORE STARTING: Okay, I think I remember that the molar mass of carbon is... um, what's it again?
 
 WHILE SOLVING: I don't know what I'm doing. I keep getting the numbers mixed up. This is so stupid. Ugh.
 
 AFTER FINISHING: Mmmph... maybe it's just 44? Yeah, that sounds right... [sigh] Ugh, why can't I focus?",,
-ITEM_147,"BEFORE STARTING: Hmm, okay so it's saying plant growth doubles every week... I think. Wait, how do I even start with this?
+ITEM_147,A graph shows plant growth doubling each week. Predict week 4 if week 1 is 2 cm.,"BEFORE STARTING: Hmm, okay so it's saying plant growth doubles every week... I think. Wait, how do I even start with this?
 
 WHILE SOLVING: So, if week one is 2 cm and it doubles each week... then next week it'll be like, 4 cm right? And then the week after that, it'll double again so that's 8 cm... but no, wait, that's not what I just said... Ugh, this is circular reasoning, isn't it? If I say it doubles every week, then it already doubled from zero to two last week, so next week it should be 4. And if it doubles again... yeah, that makes sense, but where's the question again? Okay, fine. So, week 2 would be 4 cm, and week 3 would be 8 cm... and then I need to double again, which is 16 cm in week 4. Yeah, I think.
 
 AFTER FINISHING: Uh, did I even make sense with that problem? Maybe I overthought it?",,
-ITEM_148,"BEFORE STARTING: Okay, so I need to find a detail that supports the claim about the character feeling isolated... Wait, how does this passage even relate to isolation? Ugh, why do they always make these questions so vague?
+ITEM_148,Which detail best supports the claim that the character felt isolated?,"BEFORE STARTING: Okay, so I need to find a detail that supports the claim about the character feeling isolated... Wait, how does this passage even relate to isolation? Ugh, why do they always make these questions so vague?
 
 WHILE SOLVING: Hmm, let me see... Ah, yeah! The character says 'I'm alone' in one of these sentences... No, that can't be it. I mean, that's just a literal statement, right? It's not supporting the claim about feeling isolated... Unless... Circular reasoning is a thing, right? Ugh, my brain is freaking out. Wait, what was the other sentence? Oh yeah! 'No one understands me.' That sounds more like isolation to me, I think.
 
 AFTER FINISHING: I'm pretty sure that's the right answer... Or am I just making this up? Uh-uh, no, it's fine. I trust my instincts on this one.",,
-ITEM_149,"BEFORE STARTING: Okay, easy peasy, molar mass of CO2... um, I think I can do this, just need to add up the numbers...
+ITEM_149,What is the molar mass of CO₂?,"BEFORE STARTING: Okay, easy peasy, molar mass of CO2... um, I think I can do this, just need to add up the numbers...
 
 WHILE SOLVING: Alright, carbon is like, 12 grams or something, and then there's two oxygens, which is like, uh, 16 times two... that's right, so it's 32... so if we add those together, it's like, 12 plus 32, no wait, 32 plus 12, so... 44... yeah, that sounds right...
 
 AFTER FINISHING: Yeah, I'm pretty sure I got it right, CO2 has a molar mass of like, 44 grams or something...",,
-ITEM_150,"BEFORE STARTING: Okay, so it's like a study that changed both temperature and light... sounds tricky. I hope I remember some of the vocab from class.
+ITEM_150,A study changes both temperature and light. Why is the result hard to interpret?,"BEFORE STARTING: Okay, so it's like a study that changed both temperature and light... sounds tricky. I hope I remember some of the vocab from class.
 
 WHILE SOLVING: [pause] Wait, why would changing temperature and light be hard to interpret? Is it because of the variables? [thinking noise] Maybe it's because they're related to each other? Or is that a red herring? Ugh, this sounds too easy. I don't know... why can't I remember anything from class?! We did this last week, right? I don't know what the problem wants me to focus on... [muttering] Temperature or light?
 

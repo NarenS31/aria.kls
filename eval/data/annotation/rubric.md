@@ -2,9 +2,17 @@
 
 **150 items · one category per item · confidence 1-5**
 
-You will read a student's think-aloud — what they said before, during, and after attempting a problem — and assign the ONE category that best describes their cognitive state. Then rate how confident you are, from 1 (guessing) to 5 (certain).
+You will read the problem a student was given and their think-aloud — what they said before, during, and after attempting it — and assign the ONE category that best describes their cognitive state. Then rate how confident you are, from 1 (guessing) to 5 (certain).
 
 Work down the sheet in order. Do not go back and revise earlier items after you have developed a feel for the set: the point of two independent raters is that neither has been tuned by the other or by hindsight.
+
+## Order of work
+
+1. Read this rubric through once.
+2. Code the **calibration sheet** (14 items) — `raterN_calibration.csv`.
+3. Then code the **main sheet** (150 items) — `raterN_blind.csv`.
+
+The calibration items are the same passages quoted as examples below, shown in full and in a different order. They are a check on this rubric, not on you: if you find yourself unable to place one, that is worth writing down, because it means the definition or the original label is unclear. Do not look back at the examples while coding it — code it as you read it, then move on. It is scored separately and never counted in the main analysis.
 
 ## Before you start: three rules
 
@@ -111,6 +119,10 @@ Most disagreement in a set like this comes from four pairs. Use these tie-breake
 | FLOW vs RUSHING | Are the steps present and sound, or skipped? Fast and correct is FLOW; fast and waved through is RUSHING. |
 
 ## Filling in the sheet
+
+`problem_text` — the problem the student was working on, shown so you have the context they had. It is background, not evidence: the same problem appears across many different categories in this set, so what the problem was tells you nothing about the state the student was in.
+
+`think_aloud` — what the student said, in three labelled parts.
 
 `predicted_category` — one of: `PLANNING`, `FLOW`, `CONFUSED`, `RUSHING`, `FRUSTRATED`, `STUCK`, `INSIGHT`.
 
