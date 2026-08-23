@@ -59,6 +59,10 @@ OUT_DIR = os.path.join(HERE, "data", "annotation")
 RATER_PATHS = (os.path.join(OUT_DIR, "rater1_blind.csv"),
                os.path.join(OUT_DIR, "rater2_blind.csv"))
 RUBRIC_PATH = os.path.join(OUT_DIR, "rubric.md")
+#: Same rubric with the worked examples stripped, used for the
+#: calibration pass so that round cannot be answered from memory of a
+#: quoted passage.
+RUBRIC_CALIBRATION_PATH = os.path.join(OUT_DIR, "rubric_calibration.md")
 KEY_PATH = os.path.join(OUT_DIR, "annotation_private_key.json")
 
 N_ITEMS = 150
@@ -582,6 +586,18 @@ def write_key(rows: list[dict], quota: dict[str, int], examples: dict,
                 for row in calibration
             },
         },
+        "rubrics": {
+            "calibration_round": "data/annotation/rubric_calibration.md",
+            "main_round": "data/annotation/rubric.md",
+            "difference": "The calibration rubric is the full rubric with the "
+                          "worked example excerpts removed, and nothing else. "
+                          "Raters code the calibration sheet from definitions "
+                          "alone, so that round cannot be answered from memory "
+                          "of a passage quoted under a labelled heading.",
+            "verified": "Stripping the example quotes and the example footer "
+                        "clause from the main rubric reproduces the calibration "
+                        "rubric line for line; the build fails otherwise.",
+        },
         "rubric_examples_are_disjoint_from_study_items": True,
         "rubric_example_source_ids": {
             state: [e["source_id"] for e in items]
@@ -607,8 +623,23 @@ def write_key(rows: list[dict], quota: dict[str, int], examples: dict,
     return key
 
 
+#: The one sentence that only makes sense next to printed examples.
+EXAMPLE_FOOTER_CLAUSE = (
+    " Every example above is drawn from items that are NOT in your "
+    "{total}-item sheet.")
+
+
 def render_rubric(quota: dict[str, int], examples: dict,
-                  n_calibration: int) -> str:
+                  n_calibration: int, include_examples: bool = True) -> str:
+    """The coding guide. With `include_examples=False`, the worked excerpts are
+    omitted and nothing else changes.
+
+    The calibration round asks whether a rater can recover a category from the
+    definition alone. If they have just read that same passage under a labelled
+    heading, it asks instead whether they remember it. Handing them a rubric
+    without the examples removes the shortcut structurally, rather than asking
+    them not to look.
+    """
     total = sum(quota.values())
     lines = [
         "# Think-aloud coding rubric",
@@ -628,18 +659,23 @@ def render_rubric(quota: dict[str, int], examples: dict,
         "",
         "## Order of work",
         "",
-        f"1. Read this rubric through once.",
+        "There are two rubric files and two sheets, used in this order:",
+        "",
+        f"1. Read `rubric_calibration.md` — the definitions, without examples.",
         f"2. Code the **calibration sheet** ({n_calibration} items) — "
         f"`raterN_calibration.csv`.",
-        f"3. Then code the **main sheet** ({total} items) — `raterN_blind.csv`.",
+        f"3. Then read `rubric.md` — the same document plus a worked example "
+        f"or two per category.",
+        f"4. Code the **main sheet** ({total} items) — `raterN_blind.csv`.",
         "",
-        "The calibration items are the same passages quoted as examples below, "
-        "shown in full and in a different order. They are a check on this "
-        "rubric, not on you: if you find yourself unable to place one, that is "
-        "worth writing down, because it means the definition or the original "
-        "label is unclear. Do not look back at the examples while coding it — "
-        "code it as you read it, then move on. It is scored separately and "
-        "never counted in the main analysis.",
+        "The calibration items are the same passages that appear as worked "
+        "examples in the full rubric, shown complete and in a different order. "
+        "You code them before you have seen those examples, so that round "
+        "measures the definitions rather than your memory of a quoted passage. "
+        "It is a check on the rubric, not on you: if you cannot place one, "
+        "write that down — it means the definition or the original label is "
+        "unclear. It is scored separately and never counted in the main "
+        "analysis.",
         "",
         "## Before you start: three rules",
         "",
@@ -670,9 +706,10 @@ def render_rubric(quota: dict[str, int], examples: dict,
             f"*Most often confused with:* {guide['not_this']}",
             "",
         ]
-        for example in examples.get(state, []):
-            lines.append(f"> {example['excerpt']}")
-            lines.append("")
+        if include_examples:
+            for example in examples.get(state, []):
+                lines.append(f"> {example['excerpt']}")
+                lines.append("")
 
     lines += [
         "## When two categories both fit",
@@ -715,10 +752,10 @@ def render_rubric(quota: dict[str, int], examples: dict,
         "",
         "---",
         "",
-        f"*Category definitions and markers are reproduced from the generation "
-        f"prompts in `eval/metacognition/generate.py` that produced these items. "
-        f"Every example above is drawn from items that are NOT in your "
-        f"{total}-item sheet.*",
+        "*Category definitions and markers are reproduced from the generation "
+        "prompts in `eval/metacognition/generate.py` that produced these items."
+        + (EXAMPLE_FOOTER_CLAUSE.format(total=total) if include_examples else "")
+        + "*",
         "",
     ]
     return "\n".join(lines)
@@ -809,6 +846,43 @@ def verify(rows: list[dict], quota: dict[str, int], examples: dict,
         if not items:
             problems.append(f"no rubric example for {state}")
 
+    # The two rubrics must differ only by the worked examples. Anything else
+    # diverging means the calibration round and the main round were coded
+    # against different definitions, which would make the two incomparable.
+    # Checked constructively: strip the examples out of the full rubric and the
+    # result must BE the calibration rubric, line for line.
+    if os.path.exists(RUBRIC_PATH) and os.path.exists(RUBRIC_CALIBRATION_PATH):
+        with open(RUBRIC_PATH, encoding="utf-8") as fh:
+            full = fh.read()
+        with open(RUBRIC_CALIBRATION_PATH, encoding="utf-8") as fh:
+            lean = fh.read()
+
+        total = sum(quota.values())
+        stripped = full.replace(EXAMPLE_FOOTER_CLAUSE.format(total=total), "")
+        kept = [line for line in stripped.splitlines()
+                if not line.startswith("> ")]
+        # Removing a quote leaves the blank line that followed it; collapse runs
+        # of blanks in both so the comparison is about content, not spacing.
+        def squeeze(lines: list[str]) -> list[str]:
+            out: list[str] = []
+            for line in lines:
+                if line.strip() == "" and out and out[-1].strip() == "":
+                    continue
+                out.append(line.rstrip())
+            return out
+
+        expected = squeeze(kept)
+        actual = squeeze(lean.splitlines())
+        if expected != actual:
+            import difflib
+            delta = [d for d in difflib.unified_diff(
+                expected, actual, "full-minus-examples", "rubric_calibration",
+                lineterm="", n=0)
+                if d.startswith(("+", "-")) and not d.startswith(("---", "+++"))]
+            problems.append(
+                f"the two rubrics differ by more than the examples "
+                f"({len(delta)} line(s)): " + " | ".join(d[:70] for d in delta[:4]))
+
     # Each pair of rater sheets must be byte-identical.
     for label, paths in (("main", RATER_PATHS), ("calibration", CALIBRATION_PATHS)):
         contents = []
@@ -873,7 +947,11 @@ def main(argv: list[str] | None = None) -> int:
     write_blind_sheets(rows, RATER_PATHS)
     write_blind_sheets(calibration, CALIBRATION_PATHS)
     with open(RUBRIC_PATH, "w", encoding="utf-8") as fh:
-        fh.write(render_rubric(quota, examples, len(calibration)))
+        fh.write(render_rubric(quota, examples, len(calibration),
+                               include_examples=True))
+    with open(RUBRIC_CALIBRATION_PATH, "w", encoding="utf-8") as fh:
+        fh.write(render_rubric(quota, examples, len(calibration),
+                               include_examples=False))
     write_key(rows, quota, examples, calibration, leak)
 
     global VERIFY_CORPUS
@@ -892,7 +970,8 @@ def main(argv: list[str] | None = None) -> int:
     print(f"calibration       {len(calibration)} items (the rubric's own "
           f"examples), coded before the main sheet, scored separately")
     print()
-    for path in RATER_PATHS + CALIBRATION_PATHS + (RUBRIC_PATH, KEY_PATH):
+    for path in RATER_PATHS + CALIBRATION_PATHS + (
+            RUBRIC_CALIBRATION_PATH, RUBRIC_PATH, KEY_PATH):
         print(f"wrote             {os.path.relpath(path, REPO_ROOT)}")
     print()
     if problems:
