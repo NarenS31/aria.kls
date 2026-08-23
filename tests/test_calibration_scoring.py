@@ -121,5 +121,52 @@ class CalibrationScoringTests(unittest.TestCase):
         self.assertIn("no_kappa_reported", report)
 
 
+
+class RubricVariantTests(unittest.TestCase):
+    """The calibration rubric must be the full rubric minus the examples only.
+
+    If any definition, marker or tie-breaker differed between the two, the
+    calibration round and the main round would have been coded against
+    different instruments and could not be compared.
+    """
+
+    FULL = os.path.join(ANNOTATION_DIR, "rubric.md")
+    LEAN = os.path.join(ANNOTATION_DIR, "rubric_calibration.md")
+
+    def setUp(self):
+        for path in (self.FULL, self.LEAN):
+            if not os.path.exists(path):
+                self.skipTest("run eval/build_annotation_study.py first")
+        self.full = open(self.FULL, encoding="utf-8").read().splitlines()
+        self.lean = open(self.LEAN, encoding="utf-8").read().splitlines()
+
+    def test_calibration_rubric_has_no_worked_examples(self):
+        self.assertEqual([l for l in self.lean if l.startswith("> ")], [])
+        self.assertEqual(len([l for l in self.full if l.startswith("> ")]), 14)
+
+    def test_headings_are_identical(self):
+        self.assertEqual([l for l in self.full if l.startswith("#")],
+                         [l for l in self.lean if l.startswith("#")])
+
+    def test_every_definition_and_tie_breaker_survives(self):
+        for prefix in ("*Typical markers:", "*Most often confused with:", "| "):
+            with self.subTest(prefix=prefix):
+                self.assertEqual([l for l in self.full if l.startswith(prefix)],
+                                 [l for l in self.lean if l.startswith(prefix)])
+
+    def test_the_only_other_difference_is_the_example_footer(self):
+        import difflib
+        non_quote_full = [l for l in self.full if not l.startswith("> ")]
+        non_quote_lean = [l for l in self.lean if not l.startswith("> ")]
+        delta = [d for d in difflib.unified_diff(
+            non_quote_full, non_quote_lean, lineterm="", n=0)
+            if d.startswith(("+", "-")) and not d.startswith(("---", "+++"))]
+        for line in delta:
+            body = line[1:]
+            self.assertTrue(
+                body.strip() == ""
+                or body.startswith("*Category definitions and markers"),
+                f"unexpected difference between the rubrics: {body[:80]!r}")
+
 if __name__ == "__main__":
     unittest.main()

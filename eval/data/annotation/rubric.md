@@ -8,11 +8,14 @@ Work down the sheet in order. Do not go back and revise earlier items after you 
 
 ## Order of work
 
-1. Read this rubric through once.
-2. Code the **calibration sheet** (14 items) — `raterN_calibration.csv`.
-3. Then code the **main sheet** (150 items) — `raterN_blind.csv`.
+There are two rubric files and two sheets, used in this order:
 
-The calibration items are the same passages quoted as examples below, shown in full and in a different order. They are a check on this rubric, not on you: if you find yourself unable to place one, that is worth writing down, because it means the definition or the original label is unclear. Do not look back at the examples while coding it — code it as you read it, then move on. It is scored separately and never counted in the main analysis.
+1. Read `rubric_calibration.md` — the definitions, without examples.
+2. Code the **calibration sheet** (14 items) — `raterN_calibration.csv`.
+3. Then read `rubric.md` — the same document plus a worked example or two per category.
+4. Code the **main sheet** (150 items) — `raterN_blind.csv`.
+
+The calibration items are the same passages that appear as worked examples in the full rubric, shown complete and in a different order. You code them before you have seen those examples, so that round measures the definitions rather than your memory of a quoted passage. It is a check on the rubric, not on you: if you cannot place one, write that down — it means the definition or the original label is unclear. It is scored separately and never counted in the main analysis.
 
 ## Before you start: three rules
 
