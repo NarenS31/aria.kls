@@ -1,3 +1,5 @@
+**CALIBRATION ROUND — definitions only, no examples**
+
 # Think-aloud coding rubric
 
 **150 items · one category per item · confidence 1-5**

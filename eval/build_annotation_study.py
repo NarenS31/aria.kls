@@ -590,13 +590,25 @@ def write_key(rows: list[dict], quota: dict[str, int], examples: dict,
             "calibration_round": "data/annotation/rubric_calibration.md",
             "main_round": "data/annotation/rubric.md",
             "difference": "The calibration rubric is the full rubric with the "
-                          "worked example excerpts removed, and nothing else. "
-                          "Raters code the calibration sheet from definitions "
-                          "alone, so that round cannot be answered from memory "
-                          "of a passage quoted under a labelled heading.",
-            "verified": "Stripping the example quotes and the example footer "
-                        "clause from the main rubric reproduces the calibration "
-                        "rubric line for line; the build fails otherwise.",
+                          "worked example excerpts removed, plus a one-line "
+                          "round banner at the top of each file so a rater with "
+                          "both open cannot code from the wrong one. Raters "
+                          "code the calibration sheet from definitions alone, "
+                          "so that round cannot be answered from memory of a "
+                          "passage quoted under a labelled heading.",
+            "accounted_differences": [
+                "14 worked-example blockquotes and the blank line after each",
+                "one footer sentence that only makes sense beside examples",
+                "the round banner on line 1",
+            ],
+            "verified": "Stripping the example quotes and the footer clause, "
+                        "and normalising the banner, makes the main rubric "
+                        "identical to the calibration rubric line for line. The "
+                        "build fails on any other divergence, on a banner that "
+                        "is missing, and on a file carrying the other round's "
+                        "banner.",
+            "banners": {"main_round": RUBRIC_BANNERS[True],
+                        "calibration_round": RUBRIC_BANNERS[False]},
         },
         "rubric_examples_are_disjoint_from_study_items": True,
         "rubric_example_source_ids": {
@@ -623,6 +635,15 @@ def write_key(rows: list[dict], quota: dict[str, int], examples: dict,
     return key
 
 
+# A one-line banner at the top of each rubric, so a rater with both files open
+# can tell at a glance which round they are holding. Plain bold rather than a
+# blockquote on purpose: a "> " line would be indistinguishable from a worked
+# example to the strip logic and the checks below.
+RUBRIC_BANNERS = {
+    True: "**MAIN STUDY — definitions plus worked examples**",
+    False: "**CALIBRATION ROUND — definitions only, no examples**",
+}
+
 #: The one sentence that only makes sense next to printed examples.
 EXAMPLE_FOOTER_CLAUSE = (
     " Every example above is drawn from items that are NOT in your "
@@ -642,6 +663,8 @@ def render_rubric(quota: dict[str, int], examples: dict,
     """
     total = sum(quota.values())
     lines = [
+        RUBRIC_BANNERS[include_examples],
+        "",
         "# Think-aloud coding rubric",
         "",
         f"**{total} items · one category per item · "
@@ -858,7 +881,14 @@ def verify(rows: list[dict], quota: dict[str, int], examples: dict,
             lean = fh.read()
 
         total = sum(quota.values())
+        # Three differences are expected and accounted for, and nothing else
+        # may differ: (1) the worked example quotes, (2) the footer sentence
+        # that only makes sense beside them, (3) the round banner on line 1.
+        # The banner is normalised to a sentinel in both files rather than
+        # deleted, so a rubric that lost its banner entirely still fails.
         stripped = full.replace(EXAMPLE_FOOTER_CLAUSE.format(total=total), "")
+        stripped = stripped.replace(RUBRIC_BANNERS[True], "<<ROUND BANNER>>", 1)
+        lean = lean.replace(RUBRIC_BANNERS[False], "<<ROUND BANNER>>", 1)
         kept = [line for line in stripped.splitlines()
                 if not line.startswith("> ")]
         # Removing a quote leaves the blank line that followed it; collapse runs
@@ -880,8 +910,26 @@ def verify(rows: list[dict], quota: dict[str, int], examples: dict,
                 lineterm="", n=0)
                 if d.startswith(("+", "-")) and not d.startswith(("---", "+++"))]
             problems.append(
-                f"the two rubrics differ by more than the examples "
-                f"({len(delta)} line(s)): " + " | ".join(d[:70] for d in delta[:4]))
+                f"the two rubrics differ by more than the examples, the "
+                f"example footer and the round banner ({len(delta)} line(s)): "
+                + " | ".join(d[:70] for d in delta[:4]))
+
+    # Each rubric must carry its own banner, first line, and not the other's.
+    for path, include_examples in ((RUBRIC_PATH, True),
+                                   (RUBRIC_CALIBRATION_PATH, False)):
+        if not os.path.exists(path):
+            continue
+        with open(path, encoding="utf-8") as fh:
+            first = fh.readline().rstrip("\n")
+        name = os.path.basename(path)
+        if first != RUBRIC_BANNERS[include_examples]:
+            problems.append(
+                f"{name}: first line is {first[:50]!r}, expected the round "
+                f"banner {RUBRIC_BANNERS[include_examples]!r}")
+        with open(path, encoding="utf-8") as fh:
+            body = fh.read()
+        if RUBRIC_BANNERS[not include_examples] in body:
+            problems.append(f"{name}: carries the OTHER round's banner")
 
     # Each pair of rater sheets must be byte-identical.
     for label, paths in (("main", RATER_PATHS), ("calibration", CALIBRATION_PATHS)):

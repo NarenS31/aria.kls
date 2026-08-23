@@ -154,17 +154,38 @@ class RubricVariantTests(unittest.TestCase):
                 self.assertEqual([l for l in self.full if l.startswith(prefix)],
                                  [l for l in self.lean if l.startswith(prefix)])
 
-    def test_the_only_other_difference_is_the_example_footer(self):
+    def test_each_rubric_carries_its_own_round_banner_on_line_one(self):
+        self.assertEqual(self.full[0],
+                         "**MAIN STUDY — definitions plus worked examples**")
+        self.assertEqual(
+            self.lean[0],
+            "**CALIBRATION ROUND — definitions only, no examples**")
+
+    def test_neither_rubric_carries_the_other_round_banner(self):
+        self.assertNotIn(self.lean[0], self.full)
+        self.assertNotIn(self.full[0], self.lean)
+
+    def test_the_banner_is_not_a_blockquote(self):
+        # A "> " banner would be indistinguishable from a worked example to the
+        # strip logic, and would silently survive into the calibration rubric.
+        for line in (self.full[0], self.lean[0]):
+            with self.subTest(line=line):
+                self.assertFalse(line.startswith("> "))
+
+    def test_the_only_other_differences_are_the_footer_and_the_banner(self):
         import difflib
         non_quote_full = [l for l in self.full if not l.startswith("> ")]
         non_quote_lean = [l for l in self.lean if not l.startswith("> ")]
         delta = [d for d in difflib.unified_diff(
             non_quote_full, non_quote_lean, lineterm="", n=0)
             if d.startswith(("+", "-")) and not d.startswith(("---", "+++"))]
+        banners = {"**MAIN STUDY — definitions plus worked examples**",
+                   "**CALIBRATION ROUND — definitions only, no examples**"}
         for line in delta:
             body = line[1:]
             self.assertTrue(
                 body.strip() == ""
+                or body in banners
                 or body.startswith("*Category definitions and markers"),
                 f"unexpected difference between the rubrics: {body[:80]!r}")
 
