@@ -1,0 +1,867 @@
+{
+  "generated_on": "2026-08-23",
+  "generator": "eval/eval/external_validation_multi.py",
+  "tier": "PROXY",
+  "pooling": "none — every dataset is reported independently and no metric is averaged across datasets",
+  "max_rows_per_dataset": 500000,
+  "shared_proxy_rules": [
+    {
+      "state": "STUCK",
+      "confidence": "high",
+      "rule": "correct == 0 AND hint_count >= 3"
+    },
+    {
+      "state": "RUSHING",
+      "confidence": "high",
+      "rule": "correct == 0 AND attempt_count == 1 AND response_time < p10(problem)"
+    },
+    {
+      "state": "FLOW",
+      "confidence": "medium",
+      "rule": "correct == 1 AND attempt_count == 1 AND response_time < p25(problem)"
+    },
+    {
+      "state": "CONFUSED",
+      "confidence": "medium",
+      "rule": "correct == 0 AND hint_count in (1,2)"
+    },
+    {
+      "state": "FRUSTRATED",
+      "confidence": "low",
+      "rule": "correct == 0 AND attempt_count >= 4 (increasing inter-attempt gaps approximated; flat log lacks per-attempt timestamps)"
+    },
+    {
+      "state": "PLANNING",
+      "confidence": "low",
+      "rule": "attempt_count == 1 AND response_time > p90(problem)"
+    },
+    {
+      "state": null,
+      "confidence": null,
+      "rule": "no rule matched (includes INSIGHT, which is not derivable from behavior)"
+    }
+  ],
+  "aria_expected_state_distribution": {
+    "PLANNING": 0.14285714285714285,
+    "FLOW": 0.14285714285714285,
+    "CONFUSED": 0.14285714285714285,
+    "RUSHING": 0.14285714285714285,
+    "FRUSTRATED": 0.14285714285714285,
+    "STUCK": 0.14285714285714285,
+    "INSIGHT": 0.14285714285714285
+  },
+  "aria_expected_state_distribution_source": "eval/data/synthetic_thinkaloud/test.jsonl (350 items, 50 per state)",
+  "aria_expected_state_distribution_caveat": "NOTE: this expectation is uniform because the synthetic corpus is balanced by construction (50 items per state), not because uniform prevalence is claimed for real students. Read the per-state observed/expected counts, not just the p-value: rejecting uniformity is close to a foregone result.",
+  "timing_agreement_definition": {
+    "method_1": "shared behavioral proxy rules",
+    "method_2": "ARIA BehavioralFeatureExtractor on response time",
+    "restricted_to": [
+      "PLANNING",
+      "RUSHING",
+      "STUCK"
+    ],
+    "same_as": "eval/eval/assistments_behavioral.py"
+  },
+  "n_datasets": 7,
+  "n_datasets_mapped": 7,
+  "datasets": [
+    {
+      "dataset": "assistments_2004",
+      "platform": "ASSISTments",
+      "year": "2004",
+      "citation_key": "feng_2009",
+      "commercial_use_allowed": true,
+      "max_rows": 500000,
+      "fields": {
+        "correct": {
+          "status": "present",
+          "source": "correctonfirstattempt (0/1)",
+          "reason": "",
+          "usable": true,
+          "constant": null
+        },
+        "attempt_count": {
+          "status": "present",
+          "source": "attempts",
+          "reason": "",
+          "usable": true,
+          "constant": null
+        },
+        "hint_count": {
+          "status": "present",
+          "source": "hints",
+          "reason": "",
+          "usable": true,
+          "constant": null
+        },
+        "response_time": {
+          "status": "derived",
+          "source": "seconds",
+          "reason": "whole seconds in the source, multiplied to milliseconds",
+          "usable": true,
+          "constant": null
+        }
+      },
+      "computability": {
+        "fields_usable": {
+          "correct": true,
+          "attempt_count": true,
+          "hint_count": true,
+          "response_time": true
+        },
+        "rules_computable": [
+          "STUCK",
+          "RUSHING",
+          "FLOW",
+          "CONFUSED",
+          "FRUSTRATED",
+          "PLANNING"
+        ],
+        "rules_blocked": {},
+        "rules_vacuous": {},
+        "distribution_check_computable": true,
+        "timing_check_computable": true
+      },
+      "raw_dir": "eval/data/external/assistments_2004/raw",
+      "status": "ran",
+      "n_rows_used": 226099,
+      "n_students": 912,
+      "n_problems": 1709,
+      "n_problems_with_response_time_percentiles": 1380,
+      "correct_rate": 0.4048,
+      "n_with_known_correctness": 226099,
+      "proxy_state_counts": {
+        "STUCK": 33847,
+        "FLOW": 25916,
+        "CONFUSED": 39115,
+        "PLANNING": 7033,
+        "FRUSTRATED": 7392,
+        "RUSHING": 3081
+      },
+      "proxy_coverage": 0.5147,
+      "distribution_check": {
+        "chi2": 62034.288,
+        "dof": 5,
+        "p_value": 0.0,
+        "states": [
+          "STUCK",
+          "FLOW",
+          "CONFUSED",
+          "PLANNING",
+          "FRUSTRATED",
+          "RUSHING"
+        ],
+        "observed": {
+          "STUCK": 33847,
+          "FLOW": 25916,
+          "CONFUSED": 39115,
+          "PLANNING": 7033,
+          "FRUSTRATED": 7392,
+          "RUSHING": 3081
+        },
+        "expected": {
+          "STUCK": 19397.33,
+          "FLOW": 19397.33,
+          "CONFUSED": 19397.33,
+          "PLANNING": 19397.33,
+          "FRUSTRATED": 19397.33,
+          "RUSHING": 19397.33
+        },
+        "computable": true,
+        "expected_source": "ARIA assumed state prevalence (synthetic think-aloud corpus)",
+        "p_value_underflow": true,
+        "p_value_display": "< 1e-300"
+      },
+      "timing_check": {
+        "computable": true,
+        "agreement_rate": 0.7371,
+        "n_compared": 43672,
+        "n_agreed": 32189,
+        "restricted_to": [
+          "PLANNING",
+          "RUSHING",
+          "STUCK"
+        ],
+        "method_1": "shared proxy rules (per-problem RT percentiles + attempts + hints + correctness)",
+        "method_2": "ARIA BehavioralFeatureExtractor on response time",
+        "method_2_label_distribution": {
+          "STUCK": 182636,
+          "PLANNING": 28024,
+          "RUSHING": 11046
+        },
+        "confusion_method1_vs_method2": {
+          "STUCK": {
+            "STUCK": 31401,
+            "PLANNING": 2281,
+            "RUSHING": 164
+          },
+          "PLANNING": {
+            "STUCK": 7032,
+            "PLANNING": 1
+          },
+          "RUSHING": {
+            "PLANNING": 1471,
+            "STUCK": 535,
+            "RUSHING": 787
+          }
+        }
+      },
+      "checks_computable": [
+        "distribution",
+        "timing"
+      ]
+    },
+    {
+      "dataset": "assistments_2005",
+      "platform": "ASSISTments",
+      "year": "2005",
+      "citation_key": "feng_2009",
+      "commercial_use_allowed": true,
+      "max_rows": 500000,
+      "fields": {
+        "correct": {
+          "status": "present",
+          "source": "response (0/1)",
+          "reason": "",
+          "usable": true,
+          "constant": null
+        },
+        "attempt_count": {
+          "status": "present",
+          "source": "attempt_count",
+          "reason": "",
+          "usable": true,
+          "constant": null
+        },
+        "hint_count": {
+          "status": "present",
+          "source": "hint_count",
+          "reason": "",
+          "usable": true,
+          "constant": null
+        },
+        "response_time": {
+          "status": "derived",
+          "source": "total_SECONDS",
+          "reason": "whole seconds in the source, multiplied to milliseconds",
+          "usable": true,
+          "constant": null
+        }
+      },
+      "computability": {
+        "fields_usable": {
+          "correct": true,
+          "attempt_count": true,
+          "hint_count": true,
+          "response_time": true
+        },
+        "rules_computable": [
+          "STUCK",
+          "RUSHING",
+          "FLOW",
+          "CONFUSED",
+          "FRUSTRATED",
+          "PLANNING"
+        ],
+        "rules_blocked": {},
+        "rules_vacuous": {},
+        "distribution_check_computable": true,
+        "timing_check_computable": true
+      },
+      "raw_dir": "eval/data/external/assistments_2005/raw",
+      "status": "ran",
+      "n_rows_used": 162898,
+      "n_students": 3213,
+      "n_problems": 1896,
+      "n_problems_with_response_time_percentiles": 1785,
+      "correct_rate": 0.4569,
+      "n_with_known_correctness": 162898,
+      "proxy_state_counts": {
+        "STUCK": 14056,
+        "FLOW": 20953,
+        "CONFUSED": 27216,
+        "RUSHING": 1431,
+        "FRUSTRATED": 4772,
+        "PLANNING": 6149
+      },
+      "proxy_coverage": 0.4578,
+      "distribution_check": {
+        "chi2": 41271.582,
+        "dof": 5,
+        "p_value": 0.0,
+        "states": [
+          "STUCK",
+          "FLOW",
+          "CONFUSED",
+          "RUSHING",
+          "FRUSTRATED",
+          "PLANNING"
+        ],
+        "observed": {
+          "STUCK": 14056,
+          "FLOW": 20953,
+          "CONFUSED": 27216,
+          "RUSHING": 1431,
+          "FRUSTRATED": 4772,
+          "PLANNING": 6149
+        },
+        "expected": {
+          "STUCK": 12429.5,
+          "FLOW": 12429.5,
+          "CONFUSED": 12429.5,
+          "RUSHING": 12429.5,
+          "FRUSTRATED": 12429.5,
+          "PLANNING": 12429.5
+        },
+        "computable": true,
+        "expected_source": "ARIA assumed state prevalence (synthetic think-aloud corpus)",
+        "p_value_underflow": true,
+        "p_value_display": "< 1e-300"
+      },
+      "timing_check": {
+        "computable": true,
+        "agreement_rate": 0.6474,
+        "n_compared": 21636,
+        "n_agreed": 14007,
+        "restricted_to": [
+          "PLANNING",
+          "RUSHING",
+          "STUCK"
+        ],
+        "method_1": "shared proxy rules (per-problem RT percentiles + attempts + hints + correctness)",
+        "method_2": "ARIA BehavioralFeatureExtractor on response time",
+        "method_2_label_distribution": {
+          "RUSHING": 9753,
+          "STUCK": 141934,
+          "PLANNING": 11211
+        },
+        "confusion_method1_vs_method2": {
+          "STUCK": {
+            "STUCK": 13626,
+            "PLANNING": 407,
+            "RUSHING": 23
+          },
+          "RUSHING": {
+            "PLANNING": 557,
+            "STUCK": 493,
+            "RUSHING": 381
+          },
+          "PLANNING": {
+            "STUCK": 6149
+          }
+        }
+      },
+      "checks_computable": [
+        "distribution",
+        "timing"
+      ]
+    },
+    {
+      "dataset": "assistments_2015",
+      "platform": "ASSISTments",
+      "year": "2015",
+      "citation_key": "heffernan_2014",
+      "commercial_use_allowed": true,
+      "max_rows": 500000,
+      "fields": {
+        "correct": {
+          "status": "present",
+          "source": "correct (0/1)",
+          "reason": "",
+          "usable": true,
+          "constant": null
+        },
+        "attempt_count": {
+          "status": "absent",
+          "source": "",
+          "reason": "The 2015 export carries only user_id, log_id, sequence_id and correct. Attempt counts, hint counts and response times are absent from the source.",
+          "usable": false,
+          "constant": null
+        },
+        "hint_count": {
+          "status": "absent",
+          "source": "",
+          "reason": "The 2015 export carries only user_id, log_id, sequence_id and correct. Attempt counts, hint counts and response times are absent from the source.",
+          "usable": false,
+          "constant": null
+        },
+        "response_time": {
+          "status": "absent",
+          "source": "",
+          "reason": "The 2015 export carries only user_id, log_id, sequence_id and correct. Attempt counts, hint counts and response times are absent from the source.",
+          "usable": false,
+          "constant": null
+        }
+      },
+      "computability": {
+        "fields_usable": {
+          "correct": true,
+          "attempt_count": false,
+          "hint_count": false,
+          "response_time": false
+        },
+        "rules_computable": [],
+        "rules_blocked": {
+          "STUCK": [
+            "hint_count"
+          ],
+          "RUSHING": [
+            "attempt_count",
+            "response_time"
+          ],
+          "FLOW": [
+            "attempt_count",
+            "response_time"
+          ],
+          "CONFUSED": [
+            "hint_count"
+          ],
+          "FRUSTRATED": [
+            "attempt_count"
+          ],
+          "PLANNING": [
+            "attempt_count",
+            "response_time"
+          ]
+        },
+        "rules_vacuous": {},
+        "distribution_check_computable": false,
+        "timing_check_computable": false
+      },
+      "raw_dir": "eval/data/external/assistments_2015/raw",
+      "status": "ran",
+      "n_rows_used": 500000,
+      "n_students": 12285,
+      "n_problems": 100,
+      "n_problems_with_response_time_percentiles": 0,
+      "correct_rate": 0.7071,
+      "n_with_known_correctness": 500000,
+      "proxy_state_counts": {},
+      "proxy_coverage": 0.0,
+      "distribution_check": {
+        "computable": false,
+        "reason": "6 of 6 rules read a field this dataset lacks (attempt_count, hint_count, response_time). No rule can therefore produce a state, so there is no distribution to test."
+      },
+      "timing_check": {
+        "computable": false,
+        "reason": "The 2015 export carries only user_id, log_id, sequence_id and correct. Attempt counts, hint counts and response times are absent from the source.",
+        "field_status": "absent"
+      },
+      "checks_computable": []
+    },
+    {
+      "dataset": "aleven_fractions",
+      "platform": "Fractions Lab (DataShop)",
+      "year": "2012",
+      "citation_key": "rau_2013",
+      "commercial_use_allowed": true,
+      "max_rows": 500000,
+      "fields": {
+        "correct": {
+          "status": "derived",
+          "source": "Outcome",
+          "reason": "outcome of the last graded attempt on the step (Correct vs InCorrect)",
+          "usable": true,
+          "constant": null
+        },
+        "attempt_count": {
+          "status": "derived",
+          "source": "Attempt At Step",
+          "reason": "highest attempt index reached on the step",
+          "usable": true,
+          "constant": null
+        },
+        "hint_count": {
+          "status": "derived",
+          "source": "Student Response Type == HINT_REQUEST",
+          "reason": "hints are separate transaction rows in DataShop, so they are counted per step rather than read from a column",
+          "usable": true,
+          "constant": null
+        },
+        "response_time": {
+          "status": "derived",
+          "source": "Duration (sec)",
+          "reason": "summed across the step's transactions, converted to milliseconds",
+          "usable": true,
+          "constant": null
+        }
+      },
+      "computability": {
+        "fields_usable": {
+          "correct": true,
+          "attempt_count": true,
+          "hint_count": true,
+          "response_time": true
+        },
+        "rules_computable": [
+          "STUCK",
+          "RUSHING",
+          "FLOW",
+          "CONFUSED",
+          "FRUSTRATED",
+          "PLANNING"
+        ],
+        "rules_blocked": {},
+        "rules_vacuous": {},
+        "distribution_check_computable": true,
+        "timing_check_computable": true
+      },
+      "raw_dir": "eval/data/external/aleven_fractions/raw",
+      "status": "ran",
+      "n_rows_used": 15153,
+      "n_students": 74,
+      "n_problems": 1678,
+      "n_problems_with_response_time_percentiles": 1422,
+      "correct_rate": 0.9459,
+      "n_with_known_correctness": 15152,
+      "proxy_state_counts": {
+        "PLANNING": 822,
+        "FRUSTRATED": 347,
+        "FLOW": 2018,
+        "RUSHING": 5,
+        "CONFUSED": 11,
+        "STUCK": 3
+      },
+      "proxy_coverage": 0.2116,
+      "distribution_check": {
+        "chi2": 5905.488,
+        "dof": 5,
+        "p_value": 0.0,
+        "states": [
+          "PLANNING",
+          "FRUSTRATED",
+          "FLOW",
+          "RUSHING",
+          "CONFUSED",
+          "STUCK"
+        ],
+        "observed": {
+          "PLANNING": 822,
+          "FRUSTRATED": 347,
+          "FLOW": 2018,
+          "RUSHING": 5,
+          "CONFUSED": 11,
+          "STUCK": 3
+        },
+        "expected": {
+          "PLANNING": 534.33,
+          "FRUSTRATED": 534.33,
+          "FLOW": 534.33,
+          "RUSHING": 534.33,
+          "CONFUSED": 534.33,
+          "STUCK": 534.33
+        },
+        "computable": true,
+        "expected_source": "ARIA assumed state prevalence (synthetic think-aloud corpus)",
+        "p_value_underflow": true,
+        "p_value_display": "< 1e-300"
+      },
+      "timing_check": {
+        "computable": true,
+        "agreement_rate": 0.1843,
+        "n_compared": 830,
+        "n_agreed": 153,
+        "restricted_to": [
+          "PLANNING",
+          "RUSHING",
+          "STUCK"
+        ],
+        "method_1": "shared proxy rules (per-problem RT percentiles + attempts + hints + correctness)",
+        "method_2": "ARIA BehavioralFeatureExtractor on response time",
+        "method_2_label_distribution": {
+          "RUSHING": 8889,
+          "STUCK": 3774,
+          "PLANNING": 2486
+        },
+        "confusion_method1_vs_method2": {
+          "PLANNING": {
+            "RUSHING": 178,
+            "PLANNING": 145,
+            "STUCK": 499
+          },
+          "RUSHING": {
+            "RUSHING": 5
+          },
+          "STUCK": {
+            "STUCK": 3
+          }
+        }
+      },
+      "checks_computable": [
+        "distribution",
+        "timing"
+      ]
+    },
+    {
+      "dataset": "oulad",
+      "platform": "OULAD (Open University)",
+      "year": "2013",
+      "citation_key": "kuzilek_2017",
+      "commercial_use_allowed": true,
+      "max_rows": 500000,
+      "fields": {
+        "correct": {
+          "status": "derived",
+          "source": "studentAssessment.score",
+          "reason": "score >= 40 (Open University pass mark)",
+          "usable": true,
+          "constant": null
+        },
+        "attempt_count": {
+          "status": "absent",
+          "source": "",
+          "reason": "OULAD is a distance-learning VLE with no per-problem interaction log. The only graded events are assessment submissions. `num_of_prev_attempts` counts module retakes, not attempts at a question.",
+          "usable": false,
+          "constant": null
+        },
+        "hint_count": {
+          "status": "absent",
+          "source": "",
+          "reason": "the platform has no hint mechanism to log.",
+          "usable": false,
+          "constant": null
+        },
+        "response_time": {
+          "status": "absent",
+          "source": "",
+          "reason": "`date_submitted` is a day index against an assessment deadline, i.e. days early or late. It is not time spent answering, so it cannot feed response-time percentiles.",
+          "usable": false,
+          "constant": null
+        }
+      },
+      "computability": {
+        "fields_usable": {
+          "correct": true,
+          "attempt_count": false,
+          "hint_count": false,
+          "response_time": false
+        },
+        "rules_computable": [],
+        "rules_blocked": {
+          "STUCK": [
+            "hint_count"
+          ],
+          "RUSHING": [
+            "attempt_count",
+            "response_time"
+          ],
+          "FLOW": [
+            "attempt_count",
+            "response_time"
+          ],
+          "CONFUSED": [
+            "hint_count"
+          ],
+          "FRUSTRATED": [
+            "attempt_count"
+          ],
+          "PLANNING": [
+            "attempt_count",
+            "response_time"
+          ]
+        },
+        "rules_vacuous": {},
+        "distribution_check_computable": false,
+        "timing_check_computable": false
+      },
+      "raw_dir": "eval/data/external/oulad/raw",
+      "status": "ran",
+      "n_rows_used": 173912,
+      "n_students": 23369,
+      "n_problems": 188,
+      "n_problems_with_response_time_percentiles": 0,
+      "correct_rate": 0.9564,
+      "n_with_known_correctness": 173739,
+      "proxy_state_counts": {},
+      "proxy_coverage": 0.0,
+      "distribution_check": {
+        "computable": false,
+        "reason": "6 of 6 rules read a field this dataset lacks (attempt_count, hint_count, response_time). No rule can therefore produce a state, so there is no distribution to test."
+      },
+      "timing_check": {
+        "computable": false,
+        "reason": "`date_submitted` is a day index against an assessment deadline, i.e. days early or late. It is not time spent answering, so it cannot feed response-time percentiles.",
+        "field_status": "absent"
+      },
+      "checks_computable": []
+    },
+    {
+      "dataset": "ednet_riiid",
+      "platform": "EdNet / Santa (Riiid)",
+      "year": "2020",
+      "citation_key": "choi_2020",
+      "commercial_use_allowed": true,
+      "max_rows": 500000,
+      "fields": {
+        "correct": {
+          "status": "present",
+          "source": "answered_correctly (0/1)",
+          "reason": "",
+          "usable": true,
+          "constant": null
+        },
+        "attempt_count": {
+          "status": "platform",
+          "source": "constant 1",
+          "reason": "Santa takes one answer per question and offers no retry, so every row represents exactly one attempt.",
+          "usable": true,
+          "constant": 1
+        },
+        "hint_count": {
+          "status": "absent",
+          "source": "",
+          "reason": "no hint mechanism in the log. prior_question_had_explanation records an explanation shown after the previous bundle, not a hint requested during this question.",
+          "usable": false,
+          "constant": null
+        },
+        "response_time": {
+          "status": "unusable",
+          "source": "prior_question_elapsed_time",
+          "reason": "prior_question_elapsed_time times the PREVIOUS question, so it must be shifted one row within a user's ordered stream. The 500k sample is drawn uniformly at random over 101,230,332 rows, so consecutive sample rows for a user are ~200 interactions apart in the real log and the shift would attach a response time to a question that did not produce it. Recoverable only from a user-contiguous sample or the full file.",
+          "usable": false,
+          "constant": null
+        }
+      },
+      "computability": {
+        "fields_usable": {
+          "correct": true,
+          "attempt_count": true,
+          "hint_count": false,
+          "response_time": false
+        },
+        "rules_computable": [],
+        "rules_blocked": {
+          "STUCK": [
+            "hint_count"
+          ],
+          "RUSHING": [
+            "response_time"
+          ],
+          "FLOW": [
+            "response_time"
+          ],
+          "CONFUSED": [
+            "hint_count"
+          ],
+          "PLANNING": [
+            "response_time"
+          ]
+        },
+        "rules_vacuous": {
+          "FRUSTRATED": "attempt_count is fixed at 1 by the platform, and this rule needs attempt_count >= 4"
+        },
+        "distribution_check_computable": false,
+        "timing_check_computable": false
+      },
+      "raw_dir": "eval/data/external/ednet_riiid/raw",
+      "status": "ran",
+      "n_rows_used": 490232,
+      "n_students": 137265,
+      "n_problems": 12830,
+      "n_problems_with_response_time_percentiles": 0,
+      "correct_rate": 0.6577,
+      "n_with_known_correctness": 490232,
+      "proxy_state_counts": {},
+      "proxy_coverage": 0.0,
+      "distribution_check": {
+        "computable": false,
+        "reason": "5 of 6 rules read a field this dataset lacks (hint_count, response_time). FRUSTRATED cannot fire because attempt_count is fixed at 1 by the platform, and this rule needs attempt_count >= 4. No rule can therefore produce a state, so there is no distribution to test."
+      },
+      "timing_check": {
+        "computable": false,
+        "reason": "prior_question_elapsed_time times the PREVIOUS question, so it must be shifted one row within a user's ordered stream. The 500k sample is drawn uniformly at random over 101,230,332 rows, so consecutive sample rows for a user are ~200 interactions apart in the real log and the shift would attach a response time to a question that did not produce it. Recoverable only from a user-contiguous sample or the full file.",
+        "field_status": "unusable"
+      },
+      "checks_computable": []
+    },
+    {
+      "dataset": "eedi_neurips2020",
+      "platform": "Eedi",
+      "year": "2020",
+      "citation_key": "wang_2020",
+      "commercial_use_allowed": false,
+      "max_rows": 500000,
+      "fields": {
+        "correct": {
+          "status": "present",
+          "source": "IsCorrect (0/1)",
+          "reason": "",
+          "usable": true,
+          "constant": null
+        },
+        "attempt_count": {
+          "status": "platform",
+          "source": "constant 1",
+          "reason": "Eedi records one answer per question with no retry, so every row represents exactly one attempt.",
+          "usable": true,
+          "constant": 1
+        },
+        "hint_count": {
+          "status": "absent",
+          "source": "",
+          "reason": "the platform has no hint mechanism to log.",
+          "usable": false,
+          "constant": null
+        },
+        "response_time": {
+          "status": "unusable",
+          "source": "metadata/answer_metadata_task_1_2.csv DateAnswered",
+          "reason": "DateAnswered is rounded to the minute: the seconds field was '00' in 200,000 of 200,000 sampled metadata rows. Response times differenced from it are quantized to 60s, which degenerates the per-question p10/p25/p90 the rules compare against.",
+          "usable": false,
+          "constant": null
+        }
+      },
+      "computability": {
+        "fields_usable": {
+          "correct": true,
+          "attempt_count": true,
+          "hint_count": false,
+          "response_time": false
+        },
+        "rules_computable": [],
+        "rules_blocked": {
+          "STUCK": [
+            "hint_count"
+          ],
+          "RUSHING": [
+            "response_time"
+          ],
+          "FLOW": [
+            "response_time"
+          ],
+          "CONFUSED": [
+            "hint_count"
+          ],
+          "PLANNING": [
+            "response_time"
+          ]
+        },
+        "rules_vacuous": {
+          "FRUSTRATED": "attempt_count is fixed at 1 by the platform, and this rule needs attempt_count >= 4"
+        },
+        "distribution_check_computable": false,
+        "timing_check_computable": false
+      },
+      "raw_dir": "eval/data/external/eedi_neurips2020/raw",
+      "status": "ran",
+      "n_rows_used": 500000,
+      "n_students": 108104,
+      "n_problems": 26603,
+      "n_problems_with_response_time_percentiles": 0,
+      "correct_rate": 0.6418,
+      "n_with_known_correctness": 500000,
+      "proxy_state_counts": {},
+      "proxy_coverage": 0.0,
+      "distribution_check": {
+        "computable": false,
+        "reason": "5 of 6 rules read a field this dataset lacks (hint_count, response_time). FRUSTRATED cannot fire because attempt_count is fixed at 1 by the platform, and this rule needs attempt_count >= 4. No rule can therefore produce a state, so there is no distribution to test."
+      },
+      "timing_check": {
+        "computable": false,
+        "reason": "DateAnswered is rounded to the minute: the seconds field was '00' in 200,000 of 200,000 sampled metadata rows. Response times differenced from it are quantized to 60s, which degenerates the per-question p10/p25/p90 the rules compare against.",
+        "field_status": "unusable"
+      },
+      "checks_computable": []
+    }
+  ]
+}
