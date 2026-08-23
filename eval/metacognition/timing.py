@@ -21,6 +21,17 @@ After a student has enough sessions, the optimal timing is persisted to
 and read by agent/reasoning.py, which delays or accelerates its interventions
 accordingly (adaptive timing). Per-episode events are appended to
     data/metacognition/timing_events_{student}.jsonl
+
+INTERACTION GRAIN
+
+Thresholds come in two sets rather than one, because a turn is not a fixed
+amount of time. A quick exchange and a long reasoning chain differ by roughly 8x
+in elapsed time, so a single set of absolute cutoffs cannot describe both: the
+cutoffs calibrated for quick exchanges put 84.4% of long-chain interactions past
+the STUCK line, which is saturation rather than detection. `interaction_grain`
+selects the set; it defaults to "atomic", so a caller that does not pass one
+keeps exactly the previous behaviour. See GRAIN_EVIDENCE below for the measured
+numbers and eval/eval/external_validation_multi.py for where they come from.
 """
 
 from __future__ import annotations
@@ -48,6 +59,69 @@ STATE_RANK = {
 # Timing buckets: how many turns the student was in the state before ARIA acted.
 TIMING_BUCKETS = [1, 2, 3, 4]      # 4 means "4+"
 MAX_BUCKET = 4
+
+# ------------------------------------------------------------------
+# Interaction grain
+# ------------------------------------------------------------------
+# One set of absolute millisecond cutoffs cannot serve both a single quick
+# exchange and a long reasoning chain, because the two differ by roughly 8x in
+# elapsed time. Measured on the external validation datasets
+# (data/eval/external_validation_multi_dataset.json):
+#
+#   atomic      one action or step        median  4,000 ms  (Aleven Fractions Lab)
+#   multi-step  a whole worked problem    median 31,000 ms  (ASSISTments 2004+2005)
+#
+# ARIA's original cutoffs (500 / 5,000 / 10,000 ms) were set for chat-turn
+# keystroke pauses. They sit at sensible spread in atomic data — p0.6 / p54.6 /
+# p73.3 — but collapse at multi-step grain, where they land at p0.0 / p3.9 /
+# p13.4 and put 84.4% of all rows above the STUCK cutoff. That saturation is
+# visible in the validation output: on ASSISTments 2004 the extractor labelled
+# 7,032 of 7,033 proxy-PLANNING rows as STUCK. The high 73.7% / 64.7% agreement
+# on those two datasets is therefore agreement by degenerate concentration, not
+# by discrimination — both methods were mostly saying STUCK.
+#
+# The multi-step cutoffs below are the atomic ones mapped to the same
+# distributional positions in multi-step data (equipercentile mapping), which
+# restores a comparable spread: 26.7% of multi-step rows above its own STUCK
+# cutoff, against 24.9% for atomic.
+INTERACTION_GRAINS = ("atomic", "multi-step")
+DEFAULT_GRAIN = "atomic"
+
+GRAIN_RESPONSE_TIME_MS = {
+    # Unchanged from the original single global set, which was calibrated here.
+    "atomic": {"rushing_below": 500, "planning_above": 5_000, "stuck_above": 10_000},
+    "multi-step": {"rushing_below": 1_000, "planning_above": 36_000,
+                   "stuck_above": 63_000},
+}
+
+#: Provenance for the numbers above, so a reader can check them rather than
+#: trust them. Percentiles are of the pooled response times for that grain.
+GRAIN_EVIDENCE = {
+    "source": "data/eval/external_validation_multi_dataset.json",
+    "atomic": {
+        "dataset": "aleven_fractions (one DataShop step per row)",
+        "n": 15_149, "median_ms": 4_000,
+        "current_cutoffs_at_percentiles": {"500": 0.6, "5000": 54.6, "10000": 73.3},
+        "share_above_stuck_cutoff": 0.249,
+    },
+    "multi-step": {
+        "dataset": "assistments_2004 + assistments_2005 (one problem per row)",
+        "n": 384_604, "median_ms": 31_000,
+        "current_cutoffs_at_percentiles": {"500": 0.0, "5000": 3.9, "10000": 13.4},
+        "share_above_stuck_cutoff_with_atomic_values": 0.844,
+        "share_above_stuck_cutoff_with_own_values": 0.267,
+    },
+    "derivation": "equipercentile mapping of the atomic cutoffs onto the "
+                  "multi-step response-time distribution",
+}
+
+# How a turn is recognised as a reasoning chain rather than a quick exchange.
+# Move count is the primary signal because ARIA already detects observable moves
+# per turn; word count is the fallback when moves were not extracted. Response
+# time is deliberately NOT used: the grain selects which response-time cutoffs
+# apply, so inferring the grain from response time would be circular.
+MULTI_STEP_MIN_MOVES = 2
+MULTI_STEP_MIN_WORDS = 40
 
 # Theory-informed defaults, used before a student has enough local data to
 # adapt. Citations provide design rationale; they do not validate these exact
@@ -77,6 +151,87 @@ TIMING_RULES = {
 DEFAULT_OPTIMAL = {
     state: rule["default_turn"] for state, rule in TIMING_RULES.items()
 }
+
+# Turn-count waits per grain. The atomic column is the existing default set,
+# unchanged, so nothing about current behaviour moves unless a caller asks for a
+# grain.
+#
+# HYPOTHESIS, NOT A MEASUREMENT — flagged as clearly as the state defaults above
+# are. The external validation measured state-label agreement, not intervention
+# outcomes, so it says how long a turn IS at each grain but nothing about how
+# many turns to wait. What it supports is the scale: a multi-step turn runs ~8x
+# the elapsed time of an atomic one (31,000 ms vs 4,000 ms), so two multi-step
+# turns of silence is over a minute of a student being stuck. On that basis the
+# multi-step column intervenes a turn earlier wherever the atomic column waits.
+#
+# A consequence worth stating rather than hiding: at multi-step grain all four
+# negative states land on turn 1, so the turn count stops discriminating between
+# them. The discrimination moves to GRAIN_RESPONSE_TIME_MS. Separating them by
+# turns at this grain would need within-turn move counting, which is a different
+# mechanism and is not attempted here.
+TIMING_RULES_BY_GRAIN = {
+    "atomic": dict(DEFAULT_OPTIMAL),
+    "multi-step": {state: max(1, turn - 1) for state, turn in DEFAULT_OPTIMAL.items()},
+}
+
+
+def normalize_grain(grain: Optional[str]) -> str:
+    """Accept a grain name, falling back to the default rather than raising.
+
+    Timing is a gate on the live coaching path; an unrecognised grain must not
+    be able to take down a turn.
+    """
+    if not grain:
+        return DEFAULT_GRAIN
+    value = str(grain).strip().lower().replace("_", "-")
+    return value if value in INTERACTION_GRAINS else DEFAULT_GRAIN
+
+
+def infer_interaction_grain(
+    *,
+    move_count: Optional[int] = None,
+    text: Optional[str] = None,
+    moves: Optional[list] = None,
+) -> str:
+    """Classify a turn as an "atomic" exchange or a "multi-step" reasoning chain.
+
+    Defaults to "atomic": a turn is only treated as a chain on positive evidence
+    that it contains one, so an unclassifiable turn keeps the thresholds ARIA
+    already uses.
+    """
+    if move_count is None and moves is not None:
+        move_count = len(moves)
+    if move_count is not None and move_count >= MULTI_STEP_MIN_MOVES:
+        return "multi-step"
+    if text and len(str(text).split()) >= MULTI_STEP_MIN_WORDS:
+        return "multi-step"
+    return DEFAULT_GRAIN
+
+
+def response_time_state(
+    response_time_ms: Optional[float], grain: Optional[str] = DEFAULT_GRAIN
+) -> Optional[str]:
+    """The state a response time implies, read against that grain's cutoffs.
+
+    Returns None when there is no time, or when the time falls between the
+    cutoffs and implies nothing on its own.
+    """
+    if response_time_ms is None:
+        return None
+    try:
+        ms = float(response_time_ms)
+    except (TypeError, ValueError):
+        return None
+    if ms <= 0:
+        return None
+    cutoffs = GRAIN_RESPONSE_TIME_MS[normalize_grain(grain)]
+    if ms < cutoffs["rushing_below"]:
+        return "RUSHING"
+    if ms > cutoffs["stuck_above"]:
+        return "STUCK"
+    if ms > cutoffs["planning_above"]:
+        return "PLANNING"
+    return None
 
 # ADHD-subtype shift applied to the default wait, in turns.
 #   hyperactive: earlier (they spiral fast)   -> shift earlier
@@ -310,11 +465,17 @@ class InterventionTimer:
 
     # -- adaptive gate (used live by reasoning.py) -------------------
 
-    def recommended_wait(self, state: str, profile: Any = "") -> int:
+    def recommended_wait(self, state: str, profile: Any = "",
+                         grain: Optional[str] = DEFAULT_GRAIN) -> int:
         """How many turns the student should be in `state` before ARIA intervenes.
 
         Uses learned per-student timing once there is enough history; otherwise
-        theory defaults, shifted by ADHD subtype.
+        the per-grain defaults, shifted by ADHD subtype.
+
+        `grain` defaults to "atomic", which is the existing threshold set, so a
+        caller that does not pass it gets exactly the previous behaviour.
+        Learned timing still outranks the grain default: a student's own logged
+        outcomes are better evidence than a scale argument.
         """
         state = (state or "").upper()
         if state not in NEGATIVE_STATES:
@@ -333,16 +494,17 @@ class InterventionTimer:
             if state in state_cfg:
                 return max(1, min(MAX_BUCKET, int(state_cfg[state])))
 
-        base = DEFAULT_OPTIMAL[state]
+        base = TIMING_RULES_BY_GRAIN[normalize_grain(grain)][state]
         shift = PROFILE_SHIFT.get(subtype, 0)
         return max(1, min(MAX_BUCKET, base + shift))
 
-    def should_intervene(self, state: str, turns_in_state: int, profile: Any = "") -> bool:
+    def should_intervene(self, state: str, turns_in_state: int, profile: Any = "",
+                         grain: Optional[str] = DEFAULT_GRAIN) -> bool:
         """True if now is the right moment to intervene given how long they've struggled."""
         state = (state or "").upper()
         if state not in NEGATIVE_STATES:
             return True  # positive/neutral: intervention is not time-gated
-        return int(turns_in_state) >= self.recommended_wait(state, profile)
+        return int(turns_in_state) >= self.recommended_wait(state, profile, grain)
 
     # -- config computation + persistence ----------------------------
 

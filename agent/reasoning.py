@@ -2291,6 +2291,15 @@ class ARIAAgent:
         consecutive = self._meta_tracker.consecutive_state(state)
         is_negative = state in self._NEGATIVE_STATES
 
+        # A long reasoning chain is a different unit of time from a quick
+        # exchange, so timing thresholds are read against that grain. Computed
+        # once here rather than inside a branch: `recommended_wait` below is
+        # reached for any negative state, including via branches that do not
+        # run the timer gate. Defaults to "atomic" — the previous behaviour —
+        # unless the turn shows positive evidence of being a chain.
+        from metacognition.timing import infer_interaction_grain
+        grain = infer_interaction_grain(text=student_input)
+
         # If a negative-state episode was open and the student has now recovered,
         # close it out as recovered (records a timing episode if we'd intervened).
         if self._meta_episode and not is_negative:
@@ -2314,7 +2323,8 @@ class ARIAAgent:
                     self._close_episode(recovered=False)
                 self._start_episode(state)
 
-            ready = self._meta_timer.should_intervene(state, consecutive, profile_tag)
+            ready = self._meta_timer.should_intervene(
+                state, consecutive, profile_tag, grain)
             if ready and not self._meta_episode.get("intervened"):
                 intervention = self._meta_interventions.generate(state, consecutive_count=consecutive)
                 self._meta_tracker.record_intervention(intervention, state_before=state)
@@ -2361,8 +2371,9 @@ class ARIAAgent:
             "metacognitive_type": mtype,
             "prompted_by_aria": transfer_rec["prompted_by_aria"],
             "turns_in_state": consecutive,
-            "recommended_wait": self._meta_timer.recommended_wait(state, profile_tag)
-                if is_negative else 0,
+            "recommended_wait": self._meta_timer.recommended_wait(
+                state, profile_tag, grain) if is_negative else 0,
+            "interaction_grain": grain,
             "flags": {
                 "planning_detected": analysis["planning_detected"],
                 "self_correction": analysis["self_correction"],
