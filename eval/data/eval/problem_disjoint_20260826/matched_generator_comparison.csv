@@ -1,0 +1,5 @@
+generator,n_examples,n_unique_problems,accuracy,accuracy_ci95_low,accuracy_ci95_high,macro_f1,macro_f1_ci95_low,macro_f1_ci95_high,delta_accuracy_vs_llama,delta_acc_ci95_low,delta_acc_ci95_high,delta_acc_excludes_zero,delta_macro_f1_vs_llama,delta_f1_ci95_low,delta_f1_ci95_high,delta_f1_excludes_zero,unmatched_accuracy,matched_minus_unmatched_accuracy
+llama3.1:8b,339,10,0.882,0.8387,0.9224,0.8796,0.8337,0.9199,0.0,0.0,0.0,,0.0,0.0,0.0,,0.8619,0.0201
+mistral:7b,339,10,0.8142,0.7706,0.8547,0.8104,0.7584,0.8521,-0.0678,-0.1032,-0.034,True,-0.0692,-0.1177,-0.0317,True,0.8147,-0.0005
+gemma2:9b,339,10,0.8378,0.8234,0.8537,0.8317,0.8136,0.8457,-0.0442,-0.0888,0.003,False,-0.0479,-0.101,0.0046,False,0.8387,-0.0009
+phi3:medium,339,10,0.6313,0.5812,0.6824,0.6226,0.5619,0.6777,-0.2507,-0.3141,-0.1785,True,-0.257,-0.3293,-0.1803,True,0.6294,0.0019

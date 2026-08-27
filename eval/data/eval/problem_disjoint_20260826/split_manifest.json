@@ -1,0 +1,1637 @@
+{
+  "schema": "aria.problem_disjoint_split/1",
+  "seed": 20260826,
+  "partition_procedure": "seeded_shuffle_30_10_10",
+  "split_sizes": {
+    "train": 30,
+    "val": 10,
+    "test": 10
+  },
+  "problem_id_scheme": "P## in ascending SHA-256 order of the normalized problem text",
+  "normalization": "unicodedata.NFKC -> lowercase -> collapse whitespace -> strip",
+  "pool": {
+    "llama3.1:8b": [
+      "eval/data/synthetic_thinkaloud/dataset.jsonl"
+    ],
+    "mistral:7b": [
+      "eval/data/synthetic_thinkaloud/holdout_mistral.jsonl",
+      "eval/data/synthetic_thinkaloud/augment_mistral.jsonl"
+    ],
+    "gemma2:9b": [
+      "eval/data/synthetic_thinkaloud/holdout_gemma2.jsonl",
+      "eval/data/synthetic_thinkaloud/augment_gemma2.jsonl"
+    ],
+    "phi3:medium": [
+      "eval/data/synthetic_thinkaloud/holdout_phi3.jsonl",
+      "eval/data/synthetic_thinkaloud/augment_phi3.jsonl"
+    ]
+  },
+  "excluded_from_pool": {
+    "eval/data/synthetic_thinkaloud/dataset_mixed.jsonl": "resample of dataset.jsonl + augment_*.jsonl; would double-count",
+    "eval/data/synthetic_thinkaloud/mixed_train.jsonl": "resample; would double-count",
+    "eval/data/synthetic_thinkaloud/mixed_val.jsonl": "resample; would double-count",
+    "eval/data/synthetic_thinkaloud/mixed_test.jsonl": "resample; would double-count (all 413 rows are in the pool already)",
+    "eval/data/synthetic_thinkaloud/train.jsonl": "subset of dataset.jsonl; would double-count",
+    "eval/data/synthetic_thinkaloud/val.jsonl": "subset of dataset.jsonl; would double-count",
+    "eval/data/synthetic_thinkaloud/test.jsonl": "subset of dataset.jsonl; would double-count. Scored separately as the seen-problem/utterance-disjoint reference condition.",
+    "eval/data/synthetic_thinkaloud/flow_hard_negatives.jsonl": "160 adversarial FLOW look-alikes over 28 problems; a targeted stress set rather than a sample of the corpus distribution. Scored separately and labelled as supplementary."
+  },
+  "totals": {
+    "n_problems": 50,
+    "n_examples": 8750,
+    "by_generator": {
+      "llama3.1:8b": 3507,
+      "mistral:7b": 1746,
+      "gemma2:9b": 1750,
+      "phi3:medium": 1747
+    },
+    "by_cognitive_state": {
+      "RUSHING": 1249,
+      "STUCK": 1250,
+      "PLANNING": 1251,
+      "FRUSTRATED": 1251,
+      "CONFUSED": 1249,
+      "INSIGHT": 1249,
+      "FLOW": 1251
+    }
+  },
+  "class_coverage": {
+    "seeded_shuffle_missing": {}
+  },
+  "leakage_check": {
+    "problem_id:train|val": 0,
+    "problem_hash:train|val": 0,
+    "normalized_problem:train|val": 0,
+    "utterance:train|val": 0,
+    "problem_id:train|test": 0,
+    "problem_hash:train|test": 0,
+    "normalized_problem:train|test": 0,
+    "utterance:train|test": 0,
+    "problem_id:val|test": 0,
+    "problem_hash:val|test": 0,
+    "normalized_problem:val|test": 0,
+    "utterance:val|test": 0,
+    "n_problems": 50,
+    "n_utterances": 8750
+  },
+  "distributions": {
+    "train": {
+      "n_problems": 30,
+      "n_examples": 5332,
+      "by_cognitive_state": {
+        "PLANNING": 731,
+        "FLOW": 753,
+        "CONFUSED": 762,
+        "RUSHING": 782,
+        "FRUSTRATED": 791,
+        "STUCK": 770,
+        "INSIGHT": 743
+      },
+      "by_generator": {
+        "llama3.1:8b": 2114,
+        "mistral:7b": 1072,
+        "gemma2:9b": 1074,
+        "phi3:medium": 1072
+      },
+      "by_generator_and_state": {
+        "llama3.1:8b": {
+          "PLANNING": 299,
+          "FLOW": 300,
+          "CONFUSED": 304,
+          "RUSHING": 307,
+          "FRUSTRATED": 302,
+          "STUCK": 302,
+          "INSIGHT": 300
+        },
+        "mistral:7b": {
+          "PLANNING": 144,
+          "FLOW": 151,
+          "CONFUSED": 153,
+          "RUSHING": 158,
+          "FRUSTRATED": 163,
+          "STUCK": 156,
+          "INSIGHT": 147
+        },
+        "gemma2:9b": {
+          "PLANNING": 144,
+          "FLOW": 151,
+          "CONFUSED": 153,
+          "RUSHING": 159,
+          "FRUSTRATED": 163,
+          "STUCK": 156,
+          "INSIGHT": 148
+        },
+        "phi3:medium": {
+          "PLANNING": 144,
+          "FLOW": 151,
+          "CONFUSED": 152,
+          "RUSHING": 158,
+          "FRUSTRATED": 163,
+          "STUCK": 156,
+          "INSIGHT": 148
+        }
+      },
+      "by_subject": {
+        "ACT English": 191,
+        "ACT Math": 900,
+        "ACT Reading": 581,
+        "ACT Science": 201,
+        "Algebra": 500,
+        "Biology": 615,
+        "Chemistry": 550,
+        "Geometry": 702,
+        "Python Programming": 734,
+        "US History": 358
+      },
+      "problem_ids": [
+        "P01",
+        "P02",
+        "P04",
+        "P06",
+        "P11",
+        "P13",
+        "P15",
+        "P16",
+        "P17",
+        "P18",
+        "P19",
+        "P21",
+        "P22",
+        "P23",
+        "P24",
+        "P25",
+        "P27",
+        "P28",
+        "P29",
+        "P30",
+        "P32",
+        "P36",
+        "P37",
+        "P38",
+        "P40",
+        "P42",
+        "P43",
+        "P44",
+        "P49",
+        "P50"
+      ]
+    },
+    "val": {
+      "n_problems": 10,
+      "n_examples": 1702,
+      "by_cognitive_state": {
+        "PLANNING": 264,
+        "FLOW": 244,
+        "CONFUSED": 226,
+        "RUSHING": 238,
+        "FRUSTRATED": 228,
+        "STUCK": 260,
+        "INSIGHT": 242
+      },
+      "by_generator": {
+        "llama3.1:8b": 698,
+        "mistral:7b": 334,
+        "gemma2:9b": 335,
+        "phi3:medium": 335
+      },
+      "by_generator_and_state": {
+        "llama3.1:8b": {
+          "PLANNING": 102,
+          "FLOW": 100,
+          "CONFUSED": 97,
+          "RUSHING": 97,
+          "FRUSTRATED": 99,
+          "STUCK": 104,
+          "INSIGHT": 99
+        },
+        "mistral:7b": {
+          "PLANNING": 54,
+          "FLOW": 48,
+          "CONFUSED": 43,
+          "RUSHING": 47,
+          "FRUSTRATED": 43,
+          "STUCK": 52,
+          "INSIGHT": 47
+        },
+        "gemma2:9b": {
+          "PLANNING": 54,
+          "FLOW": 48,
+          "CONFUSED": 43,
+          "RUSHING": 47,
+          "FRUSTRATED": 43,
+          "STUCK": 52,
+          "INSIGHT": 48
+        },
+        "phi3:medium": {
+          "PLANNING": 54,
+          "FLOW": 48,
+          "CONFUSED": 43,
+          "RUSHING": 47,
+          "FRUSTRATED": 43,
+          "STUCK": 52,
+          "INSIGHT": 48
+        }
+      },
+      "by_subject": {
+        "ACT English": 169,
+        "ACT Reading": 182,
+        "ACT Science": 337,
+        "Biology": 161,
+        "Chemistry": 325,
+        "Geometry": 189,
+        "Python Programming": 181,
+        "US History": 158
+      },
+      "problem_ids": [
+        "P07",
+        "P08",
+        "P09",
+        "P12",
+        "P26",
+        "P34",
+        "P45",
+        "P46",
+        "P47",
+        "P48"
+      ]
+    },
+    "test": {
+      "n_problems": 10,
+      "n_examples": 1716,
+      "by_cognitive_state": {
+        "PLANNING": 256,
+        "FLOW": 254,
+        "CONFUSED": 261,
+        "RUSHING": 229,
+        "FRUSTRATED": 232,
+        "STUCK": 220,
+        "INSIGHT": 264
+      },
+      "by_generator": {
+        "llama3.1:8b": 695,
+        "mistral:7b": 340,
+        "gemma2:9b": 341,
+        "phi3:medium": 340
+      },
+      "by_generator_and_state": {
+        "llama3.1:8b": {
+          "PLANNING": 100,
+          "FLOW": 101,
+          "CONFUSED": 100,
+          "RUSHING": 97,
+          "FRUSTRATED": 100,
+          "STUCK": 95,
+          "INSIGHT": 102
+        },
+        "mistral:7b": {
+          "PLANNING": 52,
+          "FLOW": 51,
+          "CONFUSED": 54,
+          "RUSHING": 44,
+          "FRUSTRATED": 44,
+          "STUCK": 41,
+          "INSIGHT": 54
+        },
+        "gemma2:9b": {
+          "PLANNING": 52,
+          "FLOW": 51,
+          "CONFUSED": 54,
+          "RUSHING": 44,
+          "FRUSTRATED": 44,
+          "STUCK": 42,
+          "INSIGHT": 54
+        },
+        "phi3:medium": {
+          "PLANNING": 52,
+          "FLOW": 51,
+          "CONFUSED": 53,
+          "RUSHING": 44,
+          "FRUSTRATED": 44,
+          "STUCK": 42,
+          "INSIGHT": 54
+        }
+      },
+      "by_subject": {
+        "ACT English": 525,
+        "ACT Reading": 165,
+        "ACT Science": 349,
+        "Algebra": 309,
+        "US History": 368
+      },
+      "problem_ids": [
+        "P03",
+        "P05",
+        "P10",
+        "P14",
+        "P20",
+        "P31",
+        "P33",
+        "P35",
+        "P39",
+        "P41"
+      ]
+    }
+  },
+  "problems": [
+    {
+      "problem_id": "P01",
+      "normalized_problem_sha256": "0becdde1f34055b43dd0306851838fd0d047df6f09ab559629ba3a6130fcc5dd",
+      "split": "train",
+      "subject": "ACT English",
+      "topic": "subject-verb agreement",
+      "difficulty": "medium",
+      "problem_text": "Pick the correct verb: 'Each of the students (is/are) responsible.'",
+      "n_examples": 191,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 72,
+        "mistral:7b": 40,
+        "gemma2:9b": 40,
+        "phi3:medium": 39
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 38,
+        "FLOW": 25,
+        "CONFUSED": 39,
+        "RUSHING": 14,
+        "FRUSTRATED": 25,
+        "STUCK": 29,
+        "INSIGHT": 21
+      }
+    },
+    {
+      "problem_id": "P02",
+      "normalized_problem_sha256": "0d2e2efd0efd453621453d2c524faf15c86130821fa68874cc770d37a5add0c7",
+      "split": "train",
+      "subject": "Biology",
+      "topic": "genetics",
+      "difficulty": "medium",
+      "problem_text": "If both parents are Bb, what fraction of offspring are expected to be bb?",
+      "n_examples": 143,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 65,
+        "mistral:7b": 26,
+        "gemma2:9b": 26,
+        "phi3:medium": 26
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 18,
+        "FLOW": 31,
+        "CONFUSED": 15,
+        "RUSHING": 21,
+        "FRUSTRATED": 18,
+        "STUCK": 22,
+        "INSIGHT": 18
+      }
+    },
+    {
+      "problem_id": "P03",
+      "normalized_problem_sha256": "10b64168969900625158d1b9b8b7c67b037ff692aba83e1bc5c4f48f2a0d9029",
+      "split": "test",
+      "subject": "ACT Science",
+      "topic": "hypothesis testing",
+      "difficulty": "hard",
+      "problem_text": "Results contradict a hypothesis. What is the most reasonable next step?",
+      "n_examples": 177,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 72,
+        "mistral:7b": 35,
+        "gemma2:9b": 35,
+        "phi3:medium": 35
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 15,
+        "FLOW": 23,
+        "CONFUSED": 22,
+        "RUSHING": 32,
+        "FRUSTRATED": 35,
+        "STUCK": 22,
+        "INSIGHT": 28
+      }
+    },
+    {
+      "problem_id": "P04",
+      "normalized_problem_sha256": "13961301f4d0463b8134104c5929d18d3ab37c5883d8ee77c5c340467c105649",
+      "split": "train",
+      "subject": "US History",
+      "topic": "civil rights movement",
+      "difficulty": "easy",
+      "problem_text": "What was the significance of Brown v. Board of Education?",
+      "n_examples": 182,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 71,
+        "mistral:7b": 37,
+        "gemma2:9b": 37,
+        "phi3:medium": 37
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 27,
+        "FLOW": 32,
+        "CONFUSED": 29,
+        "RUSHING": 35,
+        "FRUSTRATED": 19,
+        "STUCK": 19,
+        "INSIGHT": 21
+      }
+    },
+    {
+      "problem_id": "P05",
+      "normalized_problem_sha256": "1db99f43035f95bf4d81944b24b35bd43be3b417fb3e73f7fffa3cda083b8118",
+      "split": "test",
+      "subject": "ACT Reading",
+      "topic": "main idea",
+      "difficulty": "hard",
+      "problem_text": "A passage describes a town's decline after a factory closes. What is the main idea?",
+      "n_examples": 165,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 69,
+        "mistral:7b": 32,
+        "gemma2:9b": 32,
+        "phi3:medium": 32
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 22,
+        "FLOW": 29,
+        "CONFUSED": 28,
+        "RUSHING": 15,
+        "FRUSTRATED": 31,
+        "STUCK": 21,
+        "INSIGHT": 19
+      }
+    },
+    {
+      "problem_id": "P06",
+      "normalized_problem_sha256": "21e2342fe35d02b4a1a6c32697c3b525e7be2bb6c20fc85be54e4d7cf0287fb0",
+      "split": "train",
+      "subject": "ACT Math",
+      "topic": "exponents",
+      "difficulty": "hard",
+      "problem_text": "Simplify (3² · 3⁴) / 3³.",
+      "n_examples": 173,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 74,
+        "mistral:7b": 33,
+        "gemma2:9b": 33,
+        "phi3:medium": 33
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 23,
+        "FLOW": 39,
+        "CONFUSED": 19,
+        "RUSHING": 12,
+        "FRUSTRATED": 19,
+        "STUCK": 35,
+        "INSIGHT": 26
+      }
+    },
+    {
+      "problem_id": "P07",
+      "normalized_problem_sha256": "26f779b21ab4c07a52ce8067f5478a646a8bdd693900c36dcacabe905f9fa765",
+      "split": "val",
+      "subject": "ACT Science",
+      "topic": "experimental design",
+      "difficulty": "medium",
+      "problem_text": "A study changes both temperature and light. Why is the result hard to interpret?",
+      "n_examples": 164,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 71,
+        "mistral:7b": 31,
+        "gemma2:9b": 31,
+        "phi3:medium": 31
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 15,
+        "FLOW": 26,
+        "CONFUSED": 21,
+        "RUSHING": 19,
+        "FRUSTRATED": 25,
+        "STUCK": 22,
+        "INSIGHT": 36
+      }
+    },
+    {
+      "problem_id": "P08",
+      "normalized_problem_sha256": "271845c683a60ad3ca7eb94cbd4cc5ec7f02875ecd19c9f465da62f8d7402c6b",
+      "split": "val",
+      "subject": "Biology",
+      "topic": "evolution",
+      "difficulty": "hard",
+      "problem_text": "How does natural selection lead to changes in a population over time?",
+      "n_examples": 161,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 69,
+        "mistral:7b": 30,
+        "gemma2:9b": 31,
+        "phi3:medium": 31
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 31,
+        "FLOW": 21,
+        "CONFUSED": 19,
+        "RUSHING": 18,
+        "FRUSTRATED": 26,
+        "STUCK": 22,
+        "INSIGHT": 24
+      }
+    },
+    {
+      "problem_id": "P09",
+      "normalized_problem_sha256": "28605f2e89983a8fdd3c474500d0f8a874d4e51320b7c1bf7c781794f727fd98",
+      "split": "val",
+      "subject": "Geometry",
+      "topic": "triangles",
+      "difficulty": "easy",
+      "problem_text": "A triangle has angles 40° and 75°. What is the third angle?",
+      "n_examples": 189,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 72,
+        "mistral:7b": 39,
+        "gemma2:9b": 39,
+        "phi3:medium": 39
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 28,
+        "FLOW": 43,
+        "CONFUSED": 16,
+        "RUSHING": 21,
+        "FRUSTRATED": 28,
+        "STUCK": 24,
+        "INSIGHT": 29
+      }
+    },
+    {
+      "problem_id": "P10",
+      "normalized_problem_sha256": "2ec265ffef04211779816d70b72e849557773b4ea05b9aa5be96410d683c139e",
+      "split": "test",
+      "subject": "Algebra",
+      "topic": "functions",
+      "difficulty": "medium",
+      "problem_text": "If f(x) = 2x + 1, what is f(3)?",
+      "n_examples": 167,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 68,
+        "mistral:7b": 33,
+        "gemma2:9b": 33,
+        "phi3:medium": 33
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 24,
+        "FLOW": 22,
+        "CONFUSED": 24,
+        "RUSHING": 21,
+        "FRUSTRATED": 12,
+        "STUCK": 25,
+        "INSIGHT": 39
+      }
+    },
+    {
+      "problem_id": "P11",
+      "normalized_problem_sha256": "3119328b68cb28de7a86502b6f6fd41241ed06ddbed7f144cf7c87c264c9a266",
+      "split": "train",
+      "subject": "ACT Math",
+      "topic": "percentages",
+      "difficulty": "hard",
+      "problem_text": "A shirt costs $40 after a 20% discount. What was the original price?",
+      "n_examples": 171,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 69,
+        "mistral:7b": 34,
+        "gemma2:9b": 34,
+        "phi3:medium": 34
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 25,
+        "FLOW": 22,
+        "CONFUSED": 28,
+        "RUSHING": 28,
+        "FRUSTRATED": 21,
+        "STUCK": 22,
+        "INSIGHT": 25
+      }
+    },
+    {
+      "problem_id": "P12",
+      "normalized_problem_sha256": "369fb2702af4d3a1e1c7a473f2c764bd168074eb29f4d9611e0a57be47e1bad8",
+      "split": "val",
+      "subject": "ACT English",
+      "topic": "redundancy",
+      "difficulty": "hard",
+      "problem_text": "Trim the redundancy: 'She returned back to the same identical spot.'",
+      "n_examples": 169,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 70,
+        "mistral:7b": 33,
+        "gemma2:9b": 33,
+        "phi3:medium": 33
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 29,
+        "FLOW": 22,
+        "CONFUSED": 21,
+        "RUSHING": 19,
+        "FRUSTRATED": 21,
+        "STUCK": 19,
+        "INSIGHT": 38
+      }
+    },
+    {
+      "problem_id": "P13",
+      "normalized_problem_sha256": "3ce670e7145869a1f523126c4b9beb3f15e29466b762e185394a332570bd360d",
+      "split": "train",
+      "subject": "ACT Science",
+      "topic": "scientific reasoning",
+      "difficulty": "medium",
+      "problem_text": "Two scientists disagree on a cause. What evidence would resolve it?",
+      "n_examples": 201,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 72,
+        "mistral:7b": 43,
+        "gemma2:9b": 43,
+        "phi3:medium": 43
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 32,
+        "FLOW": 35,
+        "CONFUSED": 19,
+        "RUSHING": 36,
+        "FRUSTRATED": 34,
+        "STUCK": 24,
+        "INSIGHT": 21
+      }
+    },
+    {
+      "problem_id": "P14",
+      "normalized_problem_sha256": "4d6f4c8a68f6e9e631a3ef06b62797806a1eabe4e36e2200427d458a683b7777",
+      "split": "test",
+      "subject": "US History",
+      "topic": "civil war",
+      "difficulty": "medium",
+      "problem_text": "What was a central economic difference between the North and South before the war?",
+      "n_examples": 171,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 69,
+        "mistral:7b": 34,
+        "gemma2:9b": 34,
+        "phi3:medium": 34
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 31,
+        "FLOW": 12,
+        "CONFUSED": 28,
+        "RUSHING": 25,
+        "FRUSTRATED": 29,
+        "STUCK": 18,
+        "INSIGHT": 28
+      }
+    },
+    {
+      "problem_id": "P15",
+      "normalized_problem_sha256": "4fcb70b8fa496f44195afa726ad65fc39f8e1837c161493a1ecb2e9db5e286b5",
+      "split": "train",
+      "subject": "ACT Reading",
+      "topic": "vocabulary in context",
+      "difficulty": "easy",
+      "problem_text": "In context, 'The plan was untenable' most nearly means the plan was ___?",
+      "n_examples": 208,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 74,
+        "mistral:7b": 45,
+        "gemma2:9b": 45,
+        "phi3:medium": 44
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 31,
+        "FLOW": 25,
+        "CONFUSED": 40,
+        "RUSHING": 29,
+        "FRUSTRATED": 32,
+        "STUCK": 22,
+        "INSIGHT": 29
+      }
+    },
+    {
+      "problem_id": "P16",
+      "normalized_problem_sha256": "4fe3f2ddaab9a0be063cd835f934d089303aaeaf6d10e7b5d791374905d40e7c",
+      "split": "train",
+      "subject": "Python Programming",
+      "topic": "loops",
+      "difficulty": "medium",
+      "problem_text": "Write a loop that prints the numbers 1 through 5.",
+      "n_examples": 193,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 73,
+        "mistral:7b": 40,
+        "gemma2:9b": 40,
+        "phi3:medium": 40
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 29,
+        "FLOW": 28,
+        "CONFUSED": 43,
+        "RUSHING": 21,
+        "FRUSTRATED": 26,
+        "STUCK": 18,
+        "INSIGHT": 28
+      }
+    },
+    {
+      "problem_id": "P17",
+      "normalized_problem_sha256": "57f05d964702ac00f4eb6c1e550d816066074a720566eb6231d667a7243868bb",
+      "split": "train",
+      "subject": "ACT Math",
+      "topic": "quadratic equations",
+      "difficulty": "easy",
+      "problem_text": "If x² + 5x + 6 = 0, what are the values of x?",
+      "n_examples": 174,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 69,
+        "mistral:7b": 35,
+        "gemma2:9b": 35,
+        "phi3:medium": 35
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 12,
+        "FLOW": 25,
+        "CONFUSED": 26,
+        "RUSHING": 15,
+        "FRUSTRATED": 34,
+        "STUCK": 30,
+        "INSIGHT": 32
+      }
+    },
+    {
+      "problem_id": "P18",
+      "normalized_problem_sha256": "5e11004b34f514e5ba496bab1030f22b342da164b0866d0107565edf1ef49822",
+      "split": "train",
+      "subject": "Geometry",
+      "topic": "area",
+      "difficulty": "medium",
+      "problem_text": "Find the area of a circle with radius 5.",
+      "n_examples": 196,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 73,
+        "mistral:7b": 41,
+        "gemma2:9b": 41,
+        "phi3:medium": 41
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 19,
+        "FLOW": 25,
+        "CONFUSED": 28,
+        "RUSHING": 39,
+        "FRUSTRATED": 31,
+        "STUCK": 29,
+        "INSIGHT": 25
+      }
+    },
+    {
+      "problem_id": "P19",
+      "normalized_problem_sha256": "5f1508338f71670ca7781c6708082d38ba27609d16a19ae76114a4158905f743",
+      "split": "train",
+      "subject": "ACT Math",
+      "topic": "linear systems",
+      "difficulty": "hard",
+      "problem_text": "Solve for x and y: 2x + y = 7 and x - y = 2.",
+      "n_examples": 198,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 72,
+        "mistral:7b": 42,
+        "gemma2:9b": 42,
+        "phi3:medium": 42
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 31,
+        "FLOW": 32,
+        "CONFUSED": 31,
+        "RUSHING": 15,
+        "FRUSTRATED": 35,
+        "STUCK": 25,
+        "INSIGHT": 29
+      }
+    },
+    {
+      "problem_id": "P20",
+      "normalized_problem_sha256": "625fa8f4001424feeb771162a23e33e00a9bacf86e23ec5979b886a1f092b559",
+      "split": "test",
+      "subject": "ACT English",
+      "topic": "sentence structure",
+      "difficulty": "medium",
+      "problem_text": "Which revision best fixes the run-on: 'It was raining we stayed inside.'",
+      "n_examples": 153,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 67,
+        "mistral:7b": 29,
+        "gemma2:9b": 29,
+        "phi3:medium": 28
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 28,
+        "FLOW": 18,
+        "CONFUSED": 17,
+        "RUSHING": 15,
+        "FRUSTRATED": 19,
+        "STUCK": 24,
+        "INSIGHT": 32
+      }
+    },
+    {
+      "problem_id": "P21",
+      "normalized_problem_sha256": "64c66f908a23f8941c224357bbfaf162b7b5e7d32c0211d3545efb126697d581",
+      "split": "train",
+      "subject": "Python Programming",
+      "topic": "conditionals",
+      "difficulty": "hard",
+      "problem_text": "Write code that prints 'even' or 'odd' for a variable n.",
+      "n_examples": 174,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 69,
+        "mistral:7b": 35,
+        "gemma2:9b": 35,
+        "phi3:medium": 35
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 22,
+        "FLOW": 18,
+        "CONFUSED": 38,
+        "RUSHING": 21,
+        "FRUSTRATED": 36,
+        "STUCK": 21,
+        "INSIGHT": 18
+      }
+    },
+    {
+      "problem_id": "P22",
+      "normalized_problem_sha256": "6a347f1cd18684881f7c565061fc9add9262c52ae0167faa22b9e93fd209e0a4",
+      "split": "train",
+      "subject": "Python Programming",
+      "topic": "functions",
+      "difficulty": "medium",
+      "problem_text": "Write a function that returns the square of a number.",
+      "n_examples": 171,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 73,
+        "mistral:7b": 32,
+        "gemma2:9b": 33,
+        "phi3:medium": 33
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 15,
+        "FLOW": 23,
+        "CONFUSED": 22,
+        "RUSHING": 36,
+        "FRUSTRATED": 26,
+        "STUCK": 29,
+        "INSIGHT": 20
+      }
+    },
+    {
+      "problem_id": "P23",
+      "normalized_problem_sha256": "6e70620f139d5f1436c7d34ee1e6a4ab4545cba2851bbdf4cc49d7c58232187e",
+      "split": "train",
+      "subject": "Geometry",
+      "topic": "pythagorean theorem",
+      "difficulty": "medium",
+      "problem_text": "A ladder leans on a wall, base 3 ft out, top 4 ft up. How long is the ladder?",
+      "n_examples": 170,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 68,
+        "mistral:7b": 34,
+        "gemma2:9b": 34,
+        "phi3:medium": 34
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 18,
+        "FLOW": 28,
+        "CONFUSED": 28,
+        "RUSHING": 28,
+        "FRUSTRATED": 21,
+        "STUCK": 15,
+        "INSIGHT": 32
+      }
+    },
+    {
+      "problem_id": "P24",
+      "normalized_problem_sha256": "71cf2ce704a9938806ad3faf7442d95c89fa92d38a6b336443373bd16f7a813e",
+      "split": "train",
+      "subject": "Algebra",
+      "topic": "inequalities",
+      "difficulty": "medium",
+      "problem_text": "Solve and graph: 2x - 3 < 7.",
+      "n_examples": 180,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 70,
+        "mistral:7b": 36,
+        "gemma2:9b": 37,
+        "phi3:medium": 37
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 26,
+        "FLOW": 31,
+        "CONFUSED": 15,
+        "RUSHING": 27,
+        "FRUSTRATED": 28,
+        "STUCK": 22,
+        "INSIGHT": 31
+      }
+    },
+    {
+      "problem_id": "P25",
+      "normalized_problem_sha256": "80d1b021fdc336680f60c9b6ed39b4b5bde1579aa9508e28b07cac9a122aaa8c",
+      "split": "train",
+      "subject": "Geometry",
+      "topic": "angles",
+      "difficulty": "hard",
+      "problem_text": "Two angles are complementary. One is 35°. What is the other?",
+      "n_examples": 170,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 74,
+        "mistral:7b": 32,
+        "gemma2:9b": 32,
+        "phi3:medium": 32
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 27,
+        "FLOW": 29,
+        "CONFUSED": 19,
+        "RUSHING": 22,
+        "FRUSTRATED": 19,
+        "STUCK": 22,
+        "INSIGHT": 32
+      }
+    },
+    {
+      "problem_id": "P26",
+      "normalized_problem_sha256": "838fab8c85b24b5fa43df48f25fce44ae776e63b10e0d0b0b77c47ed245dd8e2",
+      "split": "val",
+      "subject": "Python Programming",
+      "topic": "strings",
+      "difficulty": "hard",
+      "problem_text": "How do you reverse the string s in Python?",
+      "n_examples": 181,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 70,
+        "mistral:7b": 37,
+        "gemma2:9b": 37,
+        "phi3:medium": 37
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 26,
+        "FLOW": 28,
+        "CONFUSED": 38,
+        "RUSHING": 24,
+        "FRUSTRATED": 15,
+        "STUCK": 32,
+        "INSIGHT": 18
+      }
+    },
+    {
+      "problem_id": "P27",
+      "normalized_problem_sha256": "83d3f7bf6e9a78436ffeea9b94f38c28dd07b2601dd68bee7a8abddb9a83eaf5",
+      "split": "train",
+      "subject": "Biology",
+      "topic": "ecosystems",
+      "difficulty": "easy",
+      "problem_text": "What happens to a food web if the primary producer population collapses?",
+      "n_examples": 185,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 71,
+        "mistral:7b": 38,
+        "gemma2:9b": 38,
+        "phi3:medium": 38
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 21,
+        "FLOW": 19,
+        "CONFUSED": 32,
+        "RUSHING": 35,
+        "FRUSTRATED": 18,
+        "STUCK": 32,
+        "INSIGHT": 28
+      }
+    },
+    {
+      "problem_id": "P28",
+      "normalized_problem_sha256": "91c94edfe001d63e5baf688ab0a6a24f43f5d51927a63b607b896a3f7e00600f",
+      "split": "train",
+      "subject": "Algebra",
+      "topic": "slope",
+      "difficulty": "easy",
+      "problem_text": "Find the slope of the line through (1, 2) and (4, 11).",
+      "n_examples": 163,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 67,
+        "mistral:7b": 32,
+        "gemma2:9b": 32,
+        "phi3:medium": 32
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 18,
+        "FLOW": 28,
+        "CONFUSED": 18,
+        "RUSHING": 21,
+        "FRUSTRATED": 18,
+        "STUCK": 35,
+        "INSIGHT": 25
+      }
+    },
+    {
+      "problem_id": "P29",
+      "normalized_problem_sha256": "9337dfaef98e844eb0fd82e5be03ca06f2b7fb30d336d2aff9982a161754d11e",
+      "split": "train",
+      "subject": "Chemistry",
+      "topic": "acids and bases",
+      "difficulty": "easy",
+      "problem_text": "What is the pH of a neutral solution at 25°C?",
+      "n_examples": 194,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 71,
+        "mistral:7b": 41,
+        "gemma2:9b": 41,
+        "phi3:medium": 41
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 25,
+        "FLOW": 18,
+        "CONFUSED": 18,
+        "RUSHING": 31,
+        "FRUSTRATED": 39,
+        "STUCK": 41,
+        "INSIGHT": 22
+      }
+    },
+    {
+      "problem_id": "P30",
+      "normalized_problem_sha256": "97ec5a510955f70e9a8c0abc381c7da0ea2ed05d7a64477e072a851f98fae2b4",
+      "split": "train",
+      "subject": "ACT Reading",
+      "topic": "author's tone",
+      "difficulty": "easy",
+      "problem_text": "The narrator calls the reunion 'a gauntlet of forced smiles.' What is the tone?",
+      "n_examples": 190,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 70,
+        "mistral:7b": 40,
+        "gemma2:9b": 40,
+        "phi3:medium": 40
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 18,
+        "FLOW": 12,
+        "CONFUSED": 28,
+        "RUSHING": 31,
+        "FRUSTRATED": 25,
+        "STUCK": 34,
+        "INSIGHT": 42
+      }
+    },
+    {
+      "problem_id": "P31",
+      "normalized_problem_sha256": "a7ec361019f84db3dea5501c07df8673c6cc6a4b10134c49db20e2542ee3e36d",
+      "split": "test",
+      "subject": "ACT Science",
+      "topic": "reading tables",
+      "difficulty": "medium",
+      "problem_text": "A table lists reaction rates at 3 temperatures. Which temperature is fastest?",
+      "n_examples": 172,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 68,
+        "mistral:7b": 34,
+        "gemma2:9b": 35,
+        "phi3:medium": 35
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 28,
+        "FLOW": 31,
+        "CONFUSED": 32,
+        "RUSHING": 25,
+        "FRUSTRATED": 15,
+        "STUCK": 20,
+        "INSIGHT": 21
+      }
+    },
+    {
+      "problem_id": "P32",
+      "normalized_problem_sha256": "ab8ada02c1e3bbaa879ee9e66dbd55e3b455a1505c40ff8d9ee1f11279e35ea8",
+      "split": "train",
+      "subject": "Chemistry",
+      "topic": "molar mass",
+      "difficulty": "medium",
+      "problem_text": "What is the molar mass of CO₂?",
+      "n_examples": 173,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 71,
+        "mistral:7b": 34,
+        "gemma2:9b": 34,
+        "phi3:medium": 34
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 36,
+        "FLOW": 21,
+        "CONFUSED": 19,
+        "RUSHING": 29,
+        "FRUSTRATED": 32,
+        "STUCK": 15,
+        "INSIGHT": 21
+      }
+    },
+    {
+      "problem_id": "P33",
+      "normalized_problem_sha256": "afafd1387ab2e99c76c37d6869397ac6d02cbceb12f4c4f8d7f9af49124ab762",
+      "split": "test",
+      "subject": "ACT English",
+      "topic": "comma usage",
+      "difficulty": "medium",
+      "problem_text": "Choose the best punctuation: 'After the game we went home tired but happy.'",
+      "n_examples": 174,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 69,
+        "mistral:7b": 35,
+        "gemma2:9b": 35,
+        "phi3:medium": 35
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 28,
+        "FLOW": 24,
+        "CONFUSED": 18,
+        "RUSHING": 32,
+        "FRUSTRATED": 29,
+        "STUCK": 25,
+        "INSIGHT": 18
+      }
+    },
+    {
+      "problem_id": "P34",
+      "normalized_problem_sha256": "b11c5aef706d119e1f0b381d8bb9064c84b1f958c7321dc25b55e5bd3b4e271c",
+      "split": "val",
+      "subject": "US History",
+      "topic": "the constitution",
+      "difficulty": "easy",
+      "problem_text": "What problem did the system of checks and balances aim to solve?",
+      "n_examples": 158,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 71,
+        "mistral:7b": 29,
+        "gemma2:9b": 29,
+        "phi3:medium": 29
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 32,
+        "FLOW": 19,
+        "CONFUSED": 15,
+        "RUSHING": 29,
+        "FRUSTRATED": 25,
+        "STUCK": 26,
+        "INSIGHT": 12
+      }
+    },
+    {
+      "problem_id": "P35",
+      "normalized_problem_sha256": "b818500be9b4d3906a3395f19e9bbc870bde0234bc10f18592f3baf5c9062b1c",
+      "split": "test",
+      "subject": "ACT English",
+      "topic": "word choice",
+      "difficulty": "easy",
+      "problem_text": "Choose the correct word: 'Their/There/They're going to the store.'",
+      "n_examples": 198,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 72,
+        "mistral:7b": 42,
+        "gemma2:9b": 42,
+        "phi3:medium": 42
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 25,
+        "FLOW": 35,
+        "CONFUSED": 28,
+        "RUSHING": 25,
+        "FRUSTRATED": 21,
+        "STUCK": 32,
+        "INSIGHT": 32
+      }
+    },
+    {
+      "problem_id": "P36",
+      "normalized_problem_sha256": "b90d815c29dc41c762ea691b3a416aa3f07ac61780653c46e6d1ee818defd7e6",
+      "split": "train",
+      "subject": "Chemistry",
+      "topic": "balancing equations",
+      "difficulty": "easy",
+      "problem_text": "Balance: H₂ + O₂ → H₂O.",
+      "n_examples": 183,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 72,
+        "mistral:7b": 37,
+        "gemma2:9b": 37,
+        "phi3:medium": 37
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 18,
+        "FLOW": 21,
+        "CONFUSED": 33,
+        "RUSHING": 29,
+        "FRUSTRATED": 34,
+        "STUCK": 22,
+        "INSIGHT": 26
+      }
+    },
+    {
+      "problem_id": "P37",
+      "normalized_problem_sha256": "ba585356accff0dc57c778b484ec936d38f7d822d3a629a40e3b3d4dd83b1dc0",
+      "split": "train",
+      "subject": "Python Programming",
+      "topic": "lists",
+      "difficulty": "easy",
+      "problem_text": "How do you find the largest number in a list called nums?",
+      "n_examples": 196,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 73,
+        "mistral:7b": 41,
+        "gemma2:9b": 41,
+        "phi3:medium": 41
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 29,
+        "FLOW": 22,
+        "CONFUSED": 25,
+        "RUSHING": 19,
+        "FRUSTRATED": 37,
+        "STUCK": 46,
+        "INSIGHT": 18
+      }
+    },
+    {
+      "problem_id": "P38",
+      "normalized_problem_sha256": "ccc990d97a7bc35c9c215fe3e7a0b6e2a778ba133d0d717d61abe197524d9ff8",
+      "split": "train",
+      "subject": "Biology",
+      "topic": "photosynthesis",
+      "difficulty": "easy",
+      "problem_text": "What are the reactants and products of photosynthesis?",
+      "n_examples": 135,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 66,
+        "mistral:7b": 23,
+        "gemma2:9b": 23,
+        "phi3:medium": 23
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 32,
+        "FLOW": 12,
+        "CONFUSED": 12,
+        "RUSHING": 18,
+        "FRUSTRATED": 18,
+        "STUCK": 18,
+        "INSIGHT": 25
+      }
+    },
+    {
+      "problem_id": "P39",
+      "normalized_problem_sha256": "cf6c20250e8b81f42866c33efd0fd0100f2e843f98a511f91c5f09065af11e35",
+      "split": "test",
+      "subject": "US History",
+      "topic": "industrialization",
+      "difficulty": "easy",
+      "problem_text": "How did railroads change the American economy in the late 1800s?",
+      "n_examples": 197,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 74,
+        "mistral:7b": 41,
+        "gemma2:9b": 41,
+        "phi3:medium": 41
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 36,
+        "FLOW": 36,
+        "CONFUSED": 42,
+        "RUSHING": 18,
+        "FRUSTRATED": 22,
+        "STUCK": 21,
+        "INSIGHT": 22
+      }
+    },
+    {
+      "problem_id": "P40",
+      "normalized_problem_sha256": "cffad7ef67f837c35d59d3f7b301ca151f1076604c46afe40c410a01296545c1",
+      "split": "train",
+      "subject": "Algebra",
+      "topic": "factoring",
+      "difficulty": "hard",
+      "problem_text": "Factor completely: x² - 9.",
+      "n_examples": 157,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 70,
+        "mistral:7b": 29,
+        "gemma2:9b": 29,
+        "phi3:medium": 29
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 24,
+        "FLOW": 22,
+        "CONFUSED": 22,
+        "RUSHING": 29,
+        "FRUSTRATED": 22,
+        "STUCK": 15,
+        "INSIGHT": 23
+      }
+    },
+    {
+      "problem_id": "P41",
+      "normalized_problem_sha256": "e0aea462e2a3c4b4145b7d67cbe7c1e526c238b60d6c8e9bf90ed17fdc84c01c",
+      "split": "test",
+      "subject": "Algebra",
+      "topic": "solving for x",
+      "difficulty": "medium",
+      "problem_text": "Solve: 3(x - 4) = 2x + 5.",
+      "n_examples": 142,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 67,
+        "mistral:7b": 25,
+        "gemma2:9b": 25,
+        "phi3:medium": 25
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 19,
+        "FLOW": 24,
+        "CONFUSED": 22,
+        "RUSHING": 21,
+        "FRUSTRATED": 19,
+        "STUCK": 12,
+        "INSIGHT": 25
+      }
+    },
+    {
+      "problem_id": "P42",
+      "normalized_problem_sha256": "e0e6791aeb07afb850d06a1c4b2526555d8cdb55020c8d7bbf034d42cf885c34",
+      "split": "train",
+      "subject": "US History",
+      "topic": "causes of the revolution",
+      "difficulty": "hard",
+      "problem_text": "Why did 'taxation without representation' anger the colonists?",
+      "n_examples": 176,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 71,
+        "mistral:7b": 35,
+        "gemma2:9b": 35,
+        "phi3:medium": 35
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 15,
+        "FLOW": 25,
+        "CONFUSED": 18,
+        "RUSHING": 33,
+        "FRUSTRATED": 28,
+        "STUCK": 32,
+        "INSIGHT": 25
+      }
+    },
+    {
+      "problem_id": "P43",
+      "normalized_problem_sha256": "e1b61b509b85d3aa9aea109de8b5c7498ee1e178c07886267f98027976b5ce6c",
+      "split": "train",
+      "subject": "ACT Reading",
+      "topic": "inference",
+      "difficulty": "medium",
+      "problem_text": "The author says the sky 'wept all afternoon.' What does this imply about the weather?",
+      "n_examples": 183,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 72,
+        "mistral:7b": 37,
+        "gemma2:9b": 37,
+        "phi3:medium": 37
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 32,
+        "FLOW": 31,
+        "CONFUSED": 29,
+        "RUSHING": 36,
+        "FRUSTRATED": 15,
+        "STUCK": 21,
+        "INSIGHT": 19
+      }
+    },
+    {
+      "problem_id": "P44",
+      "normalized_problem_sha256": "e7520696896ea24c3f8a6139d63fd46807044d30d3d4bd0ea39d970911763c01",
+      "split": "train",
+      "subject": "Geometry",
+      "topic": "volume",
+      "difficulty": "easy",
+      "problem_text": "Find the volume of a cube with side length 4.",
+      "n_examples": 166,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 67,
+        "mistral:7b": 33,
+        "gemma2:9b": 33,
+        "phi3:medium": 33
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 21,
+        "FLOW": 24,
+        "CONFUSED": 24,
+        "RUSHING": 25,
+        "FRUSTRATED": 29,
+        "STUCK": 25,
+        "INSIGHT": 18
+      }
+    },
+    {
+      "problem_id": "P45",
+      "normalized_problem_sha256": "e863581075d5cbf7c91dc07e3bf5cef3f6c2faa61106a926f8a2ceaa0639ca46",
+      "split": "val",
+      "subject": "ACT Reading",
+      "topic": "supporting detail",
+      "difficulty": "easy",
+      "problem_text": "Which detail best supports the claim that the character felt isolated?",
+      "n_examples": 182,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 68,
+        "mistral:7b": 38,
+        "gemma2:9b": 38,
+        "phi3:medium": 38
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 25,
+        "FLOW": 31,
+        "CONFUSED": 21,
+        "RUSHING": 30,
+        "FRUSTRATED": 29,
+        "STUCK": 25,
+        "INSIGHT": 21
+      }
+    },
+    {
+      "problem_id": "P46",
+      "normalized_problem_sha256": "e96503b095ac555ecec84075cc83d0ea2251a37dc7db74ba2d13bf236b97e47a",
+      "split": "val",
+      "subject": "Chemistry",
+      "topic": "periodic trends",
+      "difficulty": "easy",
+      "problem_text": "Which is larger, a sodium atom or a chlorine atom? Why?",
+      "n_examples": 149,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 68,
+        "mistral:7b": 27,
+        "gemma2:9b": 27,
+        "phi3:medium": 27
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 22,
+        "FLOW": 9,
+        "CONFUSED": 28,
+        "RUSHING": 22,
+        "FRUSTRATED": 12,
+        "STUCK": 32,
+        "INSIGHT": 24
+      }
+    },
+    {
+      "problem_id": "P47",
+      "normalized_problem_sha256": "eb5369b3c0a94e7bac416d95fd82570d2d574466947e5edf4808bc9ca282e481",
+      "split": "val",
+      "subject": "ACT Science",
+      "topic": "data interpretation",
+      "difficulty": "medium",
+      "problem_text": "A graph shows plant growth doubling each week. Predict week 4 if week 1 is 2 cm.",
+      "n_examples": 173,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 68,
+        "mistral:7b": 35,
+        "gemma2:9b": 35,
+        "phi3:medium": 35
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 25,
+        "FLOW": 24,
+        "CONFUSED": 21,
+        "RUSHING": 24,
+        "FRUSTRATED": 25,
+        "STUCK": 36,
+        "INSIGHT": 18
+      }
+    },
+    {
+      "problem_id": "P48",
+      "normalized_problem_sha256": "edf86f867a2bcc6db7fb694fd9e518289a9162ed666ebac7486a342212754791",
+      "split": "val",
+      "subject": "Chemistry",
+      "topic": "stoichiometry",
+      "difficulty": "medium",
+      "problem_text": "How many moles of water form from 4 moles of H₂ (excess O₂)?",
+      "n_examples": 176,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 71,
+        "mistral:7b": 35,
+        "gemma2:9b": 35,
+        "phi3:medium": 35
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 31,
+        "FLOW": 21,
+        "CONFUSED": 26,
+        "RUSHING": 32,
+        "FRUSTRATED": 22,
+        "STUCK": 22,
+        "INSIGHT": 22
+      }
+    },
+    {
+      "problem_id": "P49",
+      "normalized_problem_sha256": "fc71043a128dc38daa4637138b8482e91b1d741141c6333674a3428f0ee6890c",
+      "split": "train",
+      "subject": "Biology",
+      "topic": "cell structure",
+      "difficulty": "medium",
+      "problem_text": "What organelle is responsible for producing energy in a cell?",
+      "n_examples": 152,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 68,
+        "mistral:7b": 28,
+        "gemma2:9b": 28,
+        "phi3:medium": 28
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 21,
+        "FLOW": 19,
+        "CONFUSED": 21,
+        "RUSHING": 19,
+        "FRUSTRATED": 25,
+        "STUCK": 29,
+        "INSIGHT": 18
+      }
+    },
+    {
+      "problem_id": "P50",
+      "normalized_problem_sha256": "fee0f7b367f9b564d6d7e4b6bed1b1cc26cd57e97ee8f51c7726c2ce1e13354f",
+      "split": "train",
+      "subject": "ACT Math",
+      "topic": "geometry basics",
+      "difficulty": "hard",
+      "problem_text": "A right triangle has legs of length 6 and 8. What is the hypotenuse?",
+      "n_examples": 184,
+      "n_personas": 3,
+      "examples_by_generator": {
+        "llama3.1:8b": 67,
+        "mistral:7b": 39,
+        "gemma2:9b": 39,
+        "phi3:medium": 39
+      },
+      "examples_by_cognitive_state": {
+        "PLANNING": 28,
+        "FLOW": 31,
+        "CONFUSED": 24,
+        "RUSHING": 28,
+        "FRUSTRATED": 27,
+        "STUCK": 21,
+        "INSIGHT": 25
+      }
+    }
+  ]
+}
