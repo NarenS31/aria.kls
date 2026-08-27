@@ -24,6 +24,39 @@ INTERVENTION_TYPES = {
 NEGATIVE_STATES = {"CONFUSED", "STUCK", "FRUSTRATED", "RUSHING"}
 POSITIVE_STATES = {"FLOW", "INSIGHT"}
 
+AFFECT_PROTECTIVE = "affect_protective"
+INSTRUCTIONALLY_DIRECT = "instructionally_direct"
+
+# Style of each FRUSTRATED and STUCK bank entry, read off its current wording:
+# acknowledge-first phrasing ("This is a hard moment", "Take a short reset") is
+# affect-protective; a straight ask-for-the-plan question is instructionally
+# direct. Used only to break ties when the state read is uncertain — see
+# RuleBasedJITAIPolicy._affect_tiebreak.
+INTERVENTION_STYLE_TAGS = {
+    "hint": {
+        # "What is one part of this that still makes some sense?"
+        "FRUSTRATED": INSTRUCTIONALLY_DIRECT,
+        # "What is the first thing the problem is asking you to find?"
+        "STUCK": INSTRUCTIONALLY_DIRECT,
+    },
+    "encouragement": {
+        # "This is a hard moment. What is one part you do understand?"
+        "FRUSTRATED": AFFECT_PROTECTIVE,
+    },
+    "break_suggestion": {
+        # "Take a short reset, then come back and tell me the first thing you notice."
+        "FRUSTRATED": AFFECT_PROTECTIVE,
+        # "Take a short reset, then restart with just the first sentence."
+        "STUCK": AFFECT_PROTECTIVE,
+    },
+    "task_chunking": {
+        # "Make it smaller: what is the easiest piece to handle first?"
+        "FRUSTRATED": INSTRUCTIONALLY_DIRECT,
+        # "Break this into one tiny step: read the first sentence and name the goal."
+        "STUCK": INSTRUCTIONALLY_DIRECT,
+    },
+}
+
 RULE_CITATIONS = {
     "jitai.insight_transfer": ["zimmerman_2002", "hattie_timperley_2007"],
     "jitai.no_interrupt_positive": ["zimmerman_2002"],
@@ -37,12 +70,17 @@ RULE_CITATIONS = {
     "jitai.no_action": ["zimmerman_2002"],
 }
 
+TIEBREAK_CITATIONS = ["le_tallec_2025"]
+
 
 @dataclass
 class JITAIContext:
     profile_id: str
     topic: str
     cognitive_state: str
+    # Analyzer confidence in `cognitive_state`. None means the caller did not
+    # supply one, which leaves the affect tiebreak inactive.
+    state_confidence: float | None = None
     consecutive_state_count: int = 1
     response_latency_ms: int | None = None
     time_since_previous_ms: int | None = None
@@ -99,6 +137,10 @@ class RuleBasedJITAIPolicy:
     LONG_PAUSE_MS = 12_000
     HIGH_STRUGGLE_RATE = 0.5
     LOW_CONFIDENCE = 0.4
+    # Below this analyzer confidence the state read is treated as unreliable
+    # enough to prefer an acknowledging prompt over a directive one.
+    LOW_SITUATION_CONFIDENCE = 0.6
+    AFFECT_TIEBREAK_STATES = {"FRUSTRATED", "STUCK"}
 
     def decide(self, context: JITAIContext) -> JITAIDecision:
         state = (context.cognitive_state or "CONFUSED").upper()
@@ -250,6 +292,61 @@ class RuleBasedJITAIPolicy:
             rationale="No JITAI decision threshold was met.",
         )
 
+    def _affect_tiebreak(
+        self,
+        context: JITAIContext,
+        should: bool,
+        intervention_type: str,
+    ) -> tuple[str, dict[str, Any] | None]:
+        """Prefer an acknowledge-first prompt when the state read is uncertain.
+
+        Le Tallec et al. 2025: when the situation model is unreliable, a
+        directive prompt costs more if it lands on a misread affective state
+        than an acknowledging one does, so uncertainty should bias toward the
+        affect-protective option. This only breaks a tie between two otherwise
+        applicable options — the rule chain has already decided *whether* to
+        intervene, and this never flips that decision.
+
+        Returns the (possibly swapped) type and an audit record, or None when
+        the tiebreak is out of scope.
+        """
+        state = context.cognitive_state
+        confidence = context.state_confidence
+        if not should or state not in self.AFFECT_TIEBREAK_STATES or confidence is None:
+            return intervention_type, None
+        if float(confidence) >= self.LOW_SITUATION_CONFIDENCE:
+            return intervention_type, None
+
+        original_style = intervention_style(intervention_type, state)
+        record: dict[str, Any] = {
+            "applied": False,
+            "state_confidence": float(confidence),
+            "threshold": self.LOW_SITUATION_CONFIDENCE,
+            "original_intervention_type": intervention_type,
+            "original_style": original_style,
+            "citation_keys": list(TIEBREAK_CITATIONS),
+        }
+
+        if original_style != INSTRUCTIONALLY_DIRECT:
+            record["reason"] = "chosen option is not instructionally direct"
+            return intervention_type, record
+
+        alternative = _affect_protective_alternative(state)
+        if alternative is None:
+            record["reason"] = (
+                "no non-escalating affect-protective option is tagged for "
+                f"{state}; escalation stays owned by jitai.escalate_after_ignored"
+            )
+            return intervention_type, record
+
+        record.update({
+            "applied": True,
+            "intervention_type": alternative,
+            "style": AFFECT_PROTECTIVE,
+            "reason": "situation-model confidence below threshold",
+        })
+        return alternative, record
+
     def _decision(
         self,
         context: JITAIContext,
@@ -259,6 +356,15 @@ class RuleBasedJITAIPolicy:
         rule_id: str,
         rationale: str,
     ) -> JITAIDecision:
+        intervention_type, tiebreak = self._affect_tiebreak(
+            context, should, intervention_type
+        )
+        if tiebreak and tiebreak["applied"]:
+            rationale += (
+                f" State detection confidence was {tiebreak['state_confidence']:.2f}"
+                f" (below {self.LOW_SITUATION_CONFIDENCE}), so the policy preferred"
+                " an acknowledging prompt over a directive one."
+            )
         if intervention_type not in INTERVENTION_TYPES:
             raise ValueError(f"Unknown intervention type: {intervention_type}")
         components = JITAIComponents(
@@ -266,6 +372,7 @@ class RuleBasedJITAIPolicy:
                 "profile_id": context.profile_id,
                 "topic": context.topic,
                 "cognitive_state": context.cognitive_state,
+                "state_confidence": context.state_confidence,
                 "consecutive_state_count": context.consecutive_state_count,
                 "latency_ms": context.response_latency_ms,
                 "time_since_previous_ms": context.time_since_previous_ms,
@@ -284,6 +391,18 @@ class RuleBasedJITAIPolicy:
             ),
         )
         citation_keys = list(RULE_CITATIONS.get(rule_id, []))
+        extension_metadata: dict[str, Any] = {
+            "policy_family": "rule_based_jitai",
+            "future_policy_hook": (
+                "Replace or augment RuleBasedJITAIPolicy after enough real "
+                "local interaction logs exist for calibration."
+            ),
+        }
+        if tiebreak is not None:
+            extension_metadata["affect_tiebreak"] = tiebreak
+            if tiebreak["applied"]:
+                citation_keys += [c for c in TIEBREAK_CITATIONS
+                                  if c not in citation_keys]
         return JITAIDecision(
             should_intervene=should,
             intervention_type=intervention_type,
@@ -293,13 +412,7 @@ class RuleBasedJITAIPolicy:
             citation_key=citation_keys[0] if citation_keys else "",
             citation_keys=citation_keys,
             components=components,
-            extension_metadata={
-                "policy_family": "rule_based_jitai",
-                "future_policy_hook": (
-                    "Replace or augment RuleBasedJITAIPolicy after enough real "
-                    "local interaction logs exist for calibration."
-                ),
-            },
+            extension_metadata=extension_metadata,
         )
 
 
@@ -335,6 +448,32 @@ JITAI_INTERVENTION_BANK = {
 }
 
 
+def intervention_style(intervention_type: str, cognitive_state: str) -> str | None:
+    """Style tag for a bank entry, or None if that entry carries no tag."""
+
+    return INTERVENTION_STYLE_TAGS.get(intervention_type, {}).get(
+        (cognitive_state or "").upper()
+    )
+
+
+def _affect_protective_alternative(state: str) -> str | None:
+    """Least-escalating affect-protective option tagged for `state`, if any.
+
+    `break_suggestion` is skipped even though it is tagged affect-protective:
+    it sets `escalated`, and escalation stays owned by the ignored-intervention
+    rule. Low confidence in the state read is a reason to soften the prompt,
+    not to escalate. STUCK therefore has no alternative today — its only
+    affect-protective entry is the break — and the tiebreak records that.
+    """
+
+    for intervention_type, by_state in INTERVENTION_STYLE_TAGS.items():
+        if intervention_type == "break_suggestion":
+            continue
+        if by_state.get(state) == AFFECT_PROTECTIVE:
+            return intervention_type
+    return None
+
+
 def build_jitai_intervention(
     decision: JITAIDecision,
     cognitive_state: str,
@@ -349,6 +488,7 @@ def build_jitai_intervention(
             "state": state,
             "type": "none",
             "text": "",
+            "style": None,
             "escalated": False,
             "trigger_condition": decision.trigger_condition,
             "rule_id": decision.rule_id,
@@ -363,6 +503,7 @@ def build_jitai_intervention(
         "state": state,
         "type": intervention_type,
         "text": text,
+        "style": intervention_style(intervention_type, state),
         "escalated": intervention_type == "break_suggestion",
         "trigger_condition": decision.trigger_condition,
         "rule_id": decision.rule_id,
@@ -381,6 +522,7 @@ def context_from_signals(
     ignored_intervention_count: int = 0,
     topic_stats: dict[str, Any] | None = None,
     allow_positive_reflection: bool = False,
+    state_confidence: float | None = None,
 ) -> JITAIContext:
     """Build a JITAIContext from logger query rows and graph topic stats."""
 
@@ -390,6 +532,7 @@ def context_from_signals(
         profile_id=profile_id,
         topic=topic,
         cognitive_state=cognitive_state,
+        state_confidence=state_confidence,
         consecutive_state_count=consecutive_state_count,
         response_latency_ms=latest.get("response_latency_ms"),
         time_since_previous_ms=latest.get("time_since_previous_ms"),

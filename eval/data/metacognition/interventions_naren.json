@@ -17,10 +17,24 @@
       "What would happen if you changed one part of your approach?": {
         "tries": 1,
         "improved": 0
+      },
+      "Can you explain why that step works, not just what you did?": {
+        "tries": 1,
+        "improved": 0
+      },
+      "Would this same approach work on a different problem?": {
+        "tries": 1,
+        "improved": 0
       }
     },
     "STUCK": {
       "Just read the first sentence out loud.": {
+        "tries": 1,
+        "improved": 0
+      }
+    },
+    "RUSHING": {
+      "You moved fast there \u2014 walk me through it?": {
         "tries": 1,
         "improved": 0
       }

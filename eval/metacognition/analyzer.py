@@ -78,6 +78,39 @@ COGNITIVE_STATES = [
 
 LLM_MODEL = os.environ.get("ARIA_META_MODEL", "llama3.2:3b")
 
+# Confidence blend: absolute evidence plus the winner's margin over the best
+# competing state. `_heuristic` scores the winning state with it and
+# `per_state_confidence` scores every state with it, so the reported confidence
+# and the per-state vector cannot drift apart.
+CONFIDENCE_BASE = 0.45
+CONFIDENCE_EVIDENCE_WEIGHT = 0.09
+CONFIDENCE_MARGIN_WEIGHT = 0.12
+CONFIDENCE_CEILING = 0.97
+
+
+def per_state_confidence(scores: dict[str, float]) -> dict[str, float]:
+    """Score every state on the same confidence scale as the winning state.
+
+    `scores` are the raw marker weights from `_heuristic`. Each state is scored
+    as if it were the winner: its own evidence plus its margin over the strongest
+    competing state (negative for every state that did not actually win). The
+    evaluation harness uses this to separate a confident-but-wrong prediction
+    from a near-tie the analyzer had no basis to call either way.
+    """
+    if not scores:
+        return {}
+    if max(scores.values()) <= 0:
+        # No distinctive markers. `_heuristic` reports 0.0 here rather than the
+        # floor of the blend, so mirror that instead of returning the base.
+        return {state: 0.0 for state in scores}
+    confidences: dict[str, float] = {}
+    for state, score in scores.items():
+        rival = max((v for s, v in scores.items() if s != state), default=0.0)
+        confidence = (CONFIDENCE_BASE + CONFIDENCE_EVIDENCE_WEIGHT * score
+                      + CONFIDENCE_MARGIN_WEIGHT * (score - rival))
+        confidences[state] = max(0.0, min(CONFIDENCE_CEILING, confidence))
+    return confidences
+
 
 # ------------------------------------------------------------------
 # Multi-generator few-shot examples for the LLM classifier
@@ -345,6 +378,9 @@ class AnalysisResult:
             "heuristic_state": self.heuristic_state,
             "heuristic_confidence": round(self.heuristic_confidence, 3),
             "llm_state": self.llm_state,
+            # Raw per-state marker weights. Exposed so callers can rank the
+            # runners-up (see `per_state_confidence`), not just the winner.
+            "state_scores": {k: round(v, 3) for k, v in (self.scores or {}).items()},
             "behavioral_features": self.behavioral_features,
             "fusion_method": self.fusion_method,
             "fusion_evidence": self.fusion_evidence,
@@ -614,8 +650,7 @@ class CognitiveStateAnalyzer:
 
         # Confidence blends absolute evidence with the winning margin.
         margin = top_score - second_score
-        confidence = 0.45 + 0.09 * top_score + 0.12 * margin
-        confidence = max(0.0, min(0.97, confidence))
+        confidence = per_state_confidence(scores)[top_state]
 
         # Ambiguity penalty (generator-agnostic). Verbose think-alouds — the
         # signature of more formal generators like phi3 — trip markers for many
