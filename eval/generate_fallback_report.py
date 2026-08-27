@@ -56,6 +56,27 @@ def ci_plain(pair):
     return f"[{pair[0]:.4f}, {pair[1]:.4f}]"
 
 
+# ------------------------------------------------------------------ helpers
+
+def _per_example(out_dir):
+    """Per-example rows indexed by config, then by (source_file, source_line)."""
+    out = {}
+    with open(os.path.join(out_dir, "per_example_predictions.csv"),
+              encoding="utf-8") as fh:
+        for r in csv.DictReader(fh):
+            out.setdefault(r["config"], {})[(r["source_file"], r["source_line"])] = r
+    return out
+
+
+def _triggered_keys(rows):
+    """Keys the natural trigger fires on — identical for B and B'."""
+    for name in ("Bprime_hybrid_decontaminated", "B_hybrid_shipped"):
+        if name in rows:
+            return {k for k, r in rows[name].items()
+                    if r["fallback_triggered"] == "True"}
+    return set()
+
+
 # ------------------------------------------------------------------ CSVs
 
 def write_csvs(m, out_dir):
@@ -158,6 +179,56 @@ def write_csvs(m, out_dir):
             for s, v in c["by_condition_activation"].items():
                 w.writerow([name, "condition", s, v["n"], v["triggered"],
                             round(100.0 * v["triggered"] / v["n"], 2) if v["n"] else 0.0])
+    paths.append(p)
+
+    # The triggered subset is where the fallback can possibly act. Pooled numbers
+    # dilute it by the 1,025 examples the trigger never reaches, so it is broken
+    # out separately rather than left for a reader to reconstruct.
+    rows = _per_example(out_dir)
+    trig = _triggered_keys(rows)
+    p = os.path.join(out_dir, "triggered_subset_metrics.csv")
+    with open(p, "w", newline="", encoding="utf-8") as fh:
+        w = csv.writer(fh)
+        w.writerow(["config", "scope", "key", "n", "n_correct", "accuracy",
+                    "delta_vs_lexical"])
+        base = rows["A_lexical_only"]
+        for name in ORDER:
+            if name not in rows:
+                continue
+            d = rows[name]
+            for scope, keyfn in (("overall", lambda r: "all"),
+                                 ("generator", lambda r: r["generator"]),
+                                 ("condition", lambda r: r["condition"])):
+                groups = {}
+                for k in trig:
+                    groups.setdefault(keyfn(base[k]), []).append(k)
+                for gk, ks in groups.items():
+                    n = len(ks)
+                    corr = sum(1 for k in ks if d[k]["correct"] == "True")
+                    bcorr = sum(1 for k in ks if base[k]["correct"] == "True")
+                    w.writerow([name, scope, gk, n, corr, round(corr / n, 4),
+                                round((corr - bcorr) / n, 4)])
+    paths.append(p)
+
+    # What the fallback model actually emits. A classifier that answers FLOW for
+    # half of everything can look good on FLOW recall while being degenerate.
+    p = os.path.join(out_dir, "llm_prediction_distribution.csv")
+    with open(p, "w", newline="", encoding="utf-8") as fh:
+        w = csv.writer(fh)
+        w.writerow(["config", "scope", "state", "n_true", "n_llm_predicted",
+                    "predicted_over_true_ratio"])
+        for name in ("Bprime_hybrid_decontaminated", "B_hybrid_shipped",
+                     "C_forced_llm_ablation"):
+            if name not in rows:
+                continue
+            sub = [r for r in rows[name].values() if r["fallback_triggered"] == "True"]
+            true_c = {s: sum(1 for r in sub if r["condition"] == s)
+                      for s in COGNITIVE_STATES}
+            pred_c = {s: sum(1 for r in sub if r["llm_state"] == s)
+                      for s in COGNITIVE_STATES}
+            for s in COGNITIVE_STATES:
+                ratio = (round(pred_c[s] / true_c[s], 3) if true_c[s] else None)
+                w.writerow([name, "triggered_subset", s, true_c[s], pred_c[s], ratio])
     paths.append(p)
 
     p = os.path.join(out_dir, "changed_predictions_summary.csv")
@@ -342,6 +413,67 @@ def write_report(m, out_dir):
             pct = 100.0 * v["triggered"] / v["n"] if v["n"] else 0.0
             L.append(f"| {s} | {v['triggered']} / {v['n']} | {pct:.1f}% |")
     L.append("\nTrace: `fallback_activation.csv`.\n")
+
+    rows = _per_example(out_dir)
+    trig = _triggered_keys(rows)
+    if trig:
+        base = rows["A_lexical_only"]
+        L.append("\n---\n\n## 4A. The triggered subset\n")
+        L.append(f"Pooled numbers dilute the fallback across the "
+                 f"{1356 - len(trig)} examples the trigger never reaches. On the "
+                 f"{len(trig)} examples where it does fire:\n")
+        L.append("| Config | Correct | Accuracy on the triggered subset |")
+        L.append("|---|---|---|")
+        for n in ORDER:
+            if n not in rows or n == "C_forced_llm_ablation":
+                continue
+            c = sum(1 for k in trig if rows[n][k]["correct"] == "True")
+            L.append(f"| {LABEL[n]} | {c} / {len(trig)} | {c / len(trig):.4f} |")
+        L.append("\nBy generator, lexical → decontaminated hybrid:\n")
+        L.append("| Generator | n triggered | A | B′ | Δ |")
+        L.append("|---|---|---|---|---|")
+        bp = rows.get("Bprime_hybrid_decontaminated", {})
+        for g in GENERATORS:
+            ks = [k for k in trig if base[k]["generator"] == g]
+            if not ks:
+                continue
+            a = sum(1 for k in ks if base[k]["correct"] == "True") / len(ks)
+            b = sum(1 for k in ks if bp[k]["correct"] == "True") / len(ks)
+            L.append(f"| {g} | {len(ks)} | {a:.4f} | {b:.4f} | {sgn(round(b - a, 4))} |")
+        L.append("\nBy intended condition — this is where the mechanism shows:\n")
+        L.append("| Condition | n triggered | A | B′ | Δ |")
+        L.append("|---|---|---|---|---|")
+        for s in COGNITIVE_STATES:
+            ks = [k for k in trig if base[k]["condition"] == s]
+            if not ks:
+                continue
+            a = sum(1 for k in ks if base[k]["correct"] == "True") / len(ks)
+            b = sum(1 for k in ks if bp[k]["correct"] == "True") / len(ks)
+            L.append(f"| {s} | {len(ks)} | {a:.4f} | {b:.4f} | "
+                     f"**{sgn(round(b - a, 4))}** |")
+        L.append("\nTrace: `triggered_subset_metrics.csv`.\n")
+
+        L.append("\n### Why: the fallback model has collapsed onto FLOW\n")
+        sub = [r for r in bp.values() if r["fallback_triggered"] == "True"]
+        true_c = {s: sum(1 for r in sub if r["condition"] == s) for s in COGNITIVE_STATES}
+        pred_c = {s: sum(1 for r in sub if r["llm_state"] == s) for s in COGNITIVE_STATES}
+        L.append("What the LLM actually emits on the triggered subset, against what "
+                 "is actually there:\n")
+        L.append("| State | True | LLM predicted | Predicted ÷ true |")
+        L.append("|---|---|---|---|")
+        for s in COGNITIVE_STATES:
+            ratio = (f"{pred_c[s] / true_c[s]:.2f}" if true_c[s] else "—")
+            L.append(f"| {s} | {true_c[s]} | {pred_c[s]} | {ratio} |")
+        flow_share = pred_c["FLOW"] / len(sub) if sub else 0
+        L.append(f"\n`llama3.2:3b` answers FLOW for **{flow_share:.1%}** of the "
+                 f"triggered examples and INSIGHT for **{pred_c['INSIGHT']}** of "
+                 f"{len(sub)}. That single fact explains the whole condition table "
+                 "above: FLOW recall rises because the model says FLOW to almost "
+                 "everything, and INSIGHT and FRUSTRATED collapse because it has "
+                 "effectively stopped predicting them. The apparent FLOW gain is a "
+                 "artefact of a degenerate prior, not evidence the fallback "
+                 "understands FLOW. It should not be reported as an improvement.\n")
+        L.append("Trace: `llm_prediction_distribution.csv`.\n")
 
     L.append("\n---\n\n## 5. What the fallback changed\n")
     L.append("| Config | Changed | Corrected | Broke | Wrong→wrong | Net |")
