@@ -364,6 +364,7 @@ def handle_message(
             profile_id=runtime.profile_id,
             topic=topic.strip() or "general",
             cognitive_state=state,
+            state_confidence=analysis.get("confidence"),
             consecutive_state_count=runtime.consecutive_state_count,
             time_since_previous_ms=elapsed_ms,
             tone_proxy_label=tone.label,

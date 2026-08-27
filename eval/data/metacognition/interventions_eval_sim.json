@@ -11,8 +11,8 @@
         "improved": 0
       },
       "What do you already know that applies here?": {
-        "tries": 7,
-        "improved": 0
+        "tries": 8,
+        "improved": 1
       }
     },
     "FLOW": {
@@ -25,7 +25,7 @@
         "improved": 1
       },
       "Can you explain why that step works, not just what you did?": {
-        "tries": 12,
+        "tries": 13,
         "improved": 4
       }
     },
@@ -51,7 +51,7 @@
         "improved": 0
       },
       "You mentioned {concept}. What do you already know about that specifically?": {
-        "tries": 3,
+        "tries": 4,
         "improved": 2
       },
       "You mentioned {concept}. Can you point to the exact step that loses you?": {
@@ -109,7 +109,7 @@
         "improved": 0
       },
       "You moved fast there \u2014 walk me through it?": {
-        "tries": 3,
+        "tries": 4,
         "improved": 2
       },
       "Before you move on \u2014 how could you double-check it?": {
@@ -151,8 +151,8 @@
         "improved": 0
       },
       "Totally reasonable to be frustrated here. Where should we point our attention first?": {
-        "tries": 2,
-        "improved": 2
+        "tries": 3,
+        "improved": 3
       }
     },
     "STUCK": {
@@ -185,8 +185,8 @@
         "improved": 2
       },
       "What is one tiny first step you can take without finding the answer?": {
-        "tries": 1,
-        "improved": 1
+        "tries": 2,
+        "improved": 2
       }
     },
     "INSIGHT": {
@@ -207,7 +207,7 @@
         "improved": 0
       },
       "What clue could help you recognize this pattern next time?": {
-        "tries": 2,
+        "tries": 3,
         "improved": 0
       },
       "How is this insight different from what you thought before?": {

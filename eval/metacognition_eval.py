@@ -52,6 +52,7 @@ from metacognition.analyzer import (  # noqa: E402
     CognitiveStateAnalyzer,
     COGNITIVE_STATES,
     compute_classification_metrics,
+    per_state_confidence,
     print_confusion_matrix,
     _join_think_aloud,
     _load_jsonl,
@@ -109,6 +110,82 @@ def _parse_json(text: str) -> dict:
 # METRIC 1 — State Detection Accuracy
 # ------------------------------------------------------------------
 
+# Error decomposition (Xu et al. 2026): a misclassification where the true state
+# scored almost as high as the predicted one is a near-tie the analyzer had no
+# basis to call, not the same kind of failure as a confident wrong answer.
+# Separating the two stops ambiguous labels from being read as model capability
+# headroom. Two states within this much confidence of each other count as tied.
+AMBIGUITY_MARGIN = 0.15
+
+ERROR_TYPES = ("model_error", "ambiguous_case")
+
+
+def _decompose_error(true_state: str, pred_state: str, result: dict,
+                     text: str, index: int, generator: str) -> dict:
+    """Tag one misclassified sample as a near-tie or a confident wrong answer."""
+    confidences = per_state_confidence(result.get("state_scores") or {})
+    pred_conf = confidences.get(pred_state)
+    true_conf = confidences.get(true_state)
+
+    if pred_conf is None or true_conf is None:
+        # No marker scores to compare (e.g. empty think-aloud). Not evidence of
+        # ambiguity, so charge it to the model rather than inflating the tie bucket.
+        error_type, gap = "model_error", None
+    else:
+        gap = round(abs(pred_conf - true_conf), 3)
+        error_type = "ambiguous_case" if gap <= AMBIGUITY_MARGIN else "model_error"
+
+    return {
+        "index": index,
+        "generator_model": generator,
+        "true_state": true_state,
+        "predicted_state": pred_state,
+        "error_type": error_type,
+        "predicted_confidence": round(pred_conf, 3) if pred_conf is not None else None,
+        "true_state_confidence": round(true_conf, 3) if true_conf is not None else None,
+        "confidence_gap": gap,
+        # The confidence vector is built from heuristic marker scores. When the
+        # analyzer's verdict came from the LLM fallback instead, the tag explains
+        # the near-tie in the heuristic, not in the path that made the call.
+        "decision_method": result.get("method"),
+        "text": text[:160],
+    }
+
+
+def _error_decomposition(misclassified: list[dict], labels: list[str]) -> dict:
+    """Count each error type per true state, plus overall totals."""
+    per_state = {s: {t: 0 for t in ERROR_TYPES} for s in labels}
+    totals = {t: 0 for t in ERROR_TYPES}
+    for m in misclassified:
+        bucket = per_state.setdefault(m["true_state"], {t: 0 for t in ERROR_TYPES})
+        bucket[m["error_type"]] += 1
+        totals[m["error_type"]] += 1
+
+    n_errors = sum(totals.values())
+    print("\n" + "-" * 70)
+    print(f"ERROR DECOMPOSITION (ambiguity margin {AMBIGUITY_MARGIN})")
+    print("-" * 70)
+    print(f"{'true state':12s}{'model_error':>14s}{'ambiguous':>12s}{'errors':>9s}")
+    for state in labels:
+        counts = per_state[state]
+        total = counts["model_error"] + counts["ambiguous_case"]
+        print(f"{state:12s}{counts['model_error']:>14d}"
+              f"{counts['ambiguous_case']:>12d}{total:>9d}")
+    print(f"{'TOTAL':12s}{totals['model_error']:>14d}"
+          f"{totals['ambiguous_case']:>12d}{n_errors:>9d}")
+    share = totals["ambiguous_case"] / n_errors if n_errors else 0.0
+    print(f"\nAmbiguous share of all errors: {share:.1%}  "
+          f"— these are near-ties, not capability gaps")
+
+    return {
+        "ambiguity_margin": AMBIGUITY_MARGIN,
+        "per_true_state": per_state,
+        "totals": totals,
+        "n_errors": n_errors,
+        "ambiguous_share": round(share, 3),
+    }
+
+
 def metric_state_detection(test_path: str, use_llm: bool, limit: int = 0,
                            generator_filter: str | None = None) -> dict:
     print("\n" + "=" * 70)
@@ -125,11 +202,19 @@ def metric_state_detection(test_path: str, use_llm: bool, limit: int = 0,
     analyzer = CognitiveStateAnalyzer(use_llm=use_llm)
 
     y_true, y_pred, y_gen = [], [], []
+    misclassified: list[dict] = []
     for i, rec in enumerate(records, 1):
         text = _join_think_aloud(rec.get("think_aloud", ""))
-        y_true.append(rec.get("cognitive_state", ""))
-        y_pred.append(analyzer.analyze(text)["state"])
-        y_gen.append(rec.get("generator_model", "unknown"))
+        true_state = rec.get("cognitive_state", "")
+        generator = rec.get("generator_model", "unknown")
+        result = analyzer.analyze(text)
+        pred_state = result["state"]
+        y_true.append(true_state)
+        y_pred.append(pred_state)
+        y_gen.append(generator)
+        if pred_state != true_state:
+            misclassified.append(_decompose_error(
+                true_state, pred_state, result, text, i - 1, generator))
         if i % 20 == 0:
             print(f"  ...{i}/{len(records)}")
 
@@ -145,6 +230,10 @@ def metric_state_detection(test_path: str, use_llm: bool, limit: int = 0,
     macro_f1 = sum(metrics["per_state"][s]["f1"] for s in COGNITIVE_STATES) / len(COGNITIVE_STATES)
     metrics["macro_f1"] = round(macro_f1, 3)
     print(f"\nMacro-F1: {macro_f1:.3f}")
+
+    # --- Error decomposition (which errors are near-ties vs real misses?) ---
+    metrics["misclassified"] = misclassified
+    metrics["error_decomposition"] = _error_decomposition(misclassified, COGNITIVE_STATES)
 
     # --- Per-generator breakdown (does F1 stay consistent across generators?) ---
     metrics["per_generator"] = _per_generator_breakdown(y_true, y_pred, y_gen)
@@ -599,6 +688,11 @@ def print_summary_table(results: dict, results_path: str = RESULTS_PATH) -> None
         print(f"  {'   macro-F1':40s}{m1.get('macro_f1', 0):>20.3f}")
         target = "PASS" if (acc or 0) >= 0.70 else "BELOW 70%"
         print(f"  {'   >70% target':40s}{target:>20s}")
+        ed = m1.get("error_decomposition") or {}
+        if ed.get("n_errors"):
+            split = (f"{ed['totals']['model_error']} / "
+                     f"{ed['totals']['ambiguous_case']}")
+            print(f"  {'   errors: model / ambiguous':40s}{split:>20s}")
     if m2:
         ov = m2.get("overall_mean")
         print(f"  {'2. Intervention appropriateness /2':40s}"
