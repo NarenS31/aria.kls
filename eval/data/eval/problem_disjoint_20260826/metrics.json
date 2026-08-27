@@ -1,0 +1,2380 @@
+{
+  "schema": "aria.problem_disjoint_eval/1",
+  "generated_for": "NeurIPS IAEval workshop paper — leakage-free evaluation of the offline seven-state CognitiveStateAnalyzer",
+  "frozen": {
+    "git_commit": "ef5b7d6c50bd05c4b6797e0eedf220c8f81b7183",
+    "git_branch": "main",
+    "git_status_porcelain": "?? eval/build_problem_disjoint_split.py\n?? eval/data/eval/problem_disjoint_20260826/\n?? eval/matched_generator_eval.py\n?? eval/problem_disjoint_eval.py\n?? tests/test_problem_disjoint_split.py",
+    "source_sha256": {
+      "eval/metacognition/analyzer.py": "0edb199802f9eebc49fbbfd402022c5eb17fbf743929e57d9027c82526ff96a2",
+      "eval/metacognition/behavioral.py": "15ec47fd7438d8ce27ec60aea8855eadd8fee79d0dbb9fad25ce460846a0a25f",
+      "eval/metacognition/transfer.py": "1ee8bcbd101f438d556516e6add53e6cef8accfb7db3fca3ec1e343fc11ef165"
+    },
+    "classifier": {
+      "class": "eval.metacognition.analyzer.CognitiveStateAnalyzer",
+      "use_llm": false,
+      "route": "heuristic-only; the Ollama fallback is never consulted",
+      "HEURISTIC_TRUST": 0.65,
+      "ARIA_META_MODEL_env": "<unset>",
+      "audio_features": null,
+      "behavioral_features": null,
+      "aria_previous_prompt": "",
+      "labels": [
+        "PLANNING",
+        "FLOW",
+        "CONFUSED",
+        "RUSHING",
+        "FRUSTRATED",
+        "STUCK",
+        "INSIGHT"
+      ]
+    },
+    "environment": {
+      "python": "3.11.15",
+      "python_implementation": "CPython",
+      "platform": "macOS-26.4.1-arm64-arm-64bit",
+      "machine": "arm64",
+      "packages": {
+        "numpy": "2.4.6",
+        "scipy": "1.17.1",
+        "sklearn": "1.9.0",
+        "matplotlib": "3.11.0",
+        "ollama": "<no __version__>"
+      }
+    },
+    "determinism": "The heuristic route is pure string matching with no RNG, no network call and no model weights. Repeated runs on the same input return byte-identical predictions."
+  },
+  "split": {
+    "seed": 20260826,
+    "procedure": "seeded_shuffle_30_10_10",
+    "sizes": {
+      "train": 30,
+      "val": 10,
+      "test": 10
+    },
+    "test_problem_ids": [
+      "P03",
+      "P05",
+      "P10",
+      "P14",
+      "P20",
+      "P31",
+      "P33",
+      "P35",
+      "P39",
+      "P41"
+    ],
+    "val_problem_ids": [
+      "P07",
+      "P08",
+      "P09",
+      "P12",
+      "P26",
+      "P34",
+      "P45",
+      "P46",
+      "P47",
+      "P48"
+    ],
+    "train_problem_ids": [
+      "P01",
+      "P02",
+      "P04",
+      "P06",
+      "P11",
+      "P13",
+      "P15",
+      "P16",
+      "P17",
+      "P18",
+      "P19",
+      "P21",
+      "P22",
+      "P23",
+      "P24",
+      "P25",
+      "P27",
+      "P28",
+      "P29",
+      "P30",
+      "P32",
+      "P36",
+      "P37",
+      "P38",
+      "P40",
+      "P42",
+      "P43",
+      "P44",
+      "P49",
+      "P50"
+    ],
+    "leakage_check": {
+      "problem_id:train|val": 0,
+      "problem_hash:train|val": 0,
+      "normalized_problem:train|val": 0,
+      "utterance:train|val": 0,
+      "problem_id:train|test": 0,
+      "problem_hash:train|test": 0,
+      "normalized_problem:train|test": 0,
+      "utterance:train|test": 0,
+      "problem_id:val|test": 0,
+      "problem_hash:val|test": 0,
+      "normalized_problem:val|test": 0,
+      "utterance:val|test": 0,
+      "n_problems": 50,
+      "n_utterances": 8750
+    },
+    "distributions": {
+      "train": {
+        "n_problems": 30,
+        "n_examples": 5332,
+        "by_cognitive_state": {
+          "PLANNING": 731,
+          "FLOW": 753,
+          "CONFUSED": 762,
+          "RUSHING": 782,
+          "FRUSTRATED": 791,
+          "STUCK": 770,
+          "INSIGHT": 743
+        },
+        "by_generator": {
+          "llama3.1:8b": 2114,
+          "mistral:7b": 1072,
+          "gemma2:9b": 1074,
+          "phi3:medium": 1072
+        },
+        "by_generator_and_state": {
+          "llama3.1:8b": {
+            "PLANNING": 299,
+            "FLOW": 300,
+            "CONFUSED": 304,
+            "RUSHING": 307,
+            "FRUSTRATED": 302,
+            "STUCK": 302,
+            "INSIGHT": 300
+          },
+          "mistral:7b": {
+            "PLANNING": 144,
+            "FLOW": 151,
+            "CONFUSED": 153,
+            "RUSHING": 158,
+            "FRUSTRATED": 163,
+            "STUCK": 156,
+            "INSIGHT": 147
+          },
+          "gemma2:9b": {
+            "PLANNING": 144,
+            "FLOW": 151,
+            "CONFUSED": 153,
+            "RUSHING": 159,
+            "FRUSTRATED": 163,
+            "STUCK": 156,
+            "INSIGHT": 148
+          },
+          "phi3:medium": {
+            "PLANNING": 144,
+            "FLOW": 151,
+            "CONFUSED": 152,
+            "RUSHING": 158,
+            "FRUSTRATED": 163,
+            "STUCK": 156,
+            "INSIGHT": 148
+          }
+        },
+        "by_subject": {
+          "ACT English": 191,
+          "ACT Math": 900,
+          "ACT Reading": 581,
+          "ACT Science": 201,
+          "Algebra": 500,
+          "Biology": 615,
+          "Chemistry": 550,
+          "Geometry": 702,
+          "Python Programming": 734,
+          "US History": 358
+        },
+        "problem_ids": [
+          "P01",
+          "P02",
+          "P04",
+          "P06",
+          "P11",
+          "P13",
+          "P15",
+          "P16",
+          "P17",
+          "P18",
+          "P19",
+          "P21",
+          "P22",
+          "P23",
+          "P24",
+          "P25",
+          "P27",
+          "P28",
+          "P29",
+          "P30",
+          "P32",
+          "P36",
+          "P37",
+          "P38",
+          "P40",
+          "P42",
+          "P43",
+          "P44",
+          "P49",
+          "P50"
+        ]
+      },
+      "val": {
+        "n_problems": 10,
+        "n_examples": 1702,
+        "by_cognitive_state": {
+          "PLANNING": 264,
+          "FLOW": 244,
+          "CONFUSED": 226,
+          "RUSHING": 238,
+          "FRUSTRATED": 228,
+          "STUCK": 260,
+          "INSIGHT": 242
+        },
+        "by_generator": {
+          "llama3.1:8b": 698,
+          "mistral:7b": 334,
+          "gemma2:9b": 335,
+          "phi3:medium": 335
+        },
+        "by_generator_and_state": {
+          "llama3.1:8b": {
+            "PLANNING": 102,
+            "FLOW": 100,
+            "CONFUSED": 97,
+            "RUSHING": 97,
+            "FRUSTRATED": 99,
+            "STUCK": 104,
+            "INSIGHT": 99
+          },
+          "mistral:7b": {
+            "PLANNING": 54,
+            "FLOW": 48,
+            "CONFUSED": 43,
+            "RUSHING": 47,
+            "FRUSTRATED": 43,
+            "STUCK": 52,
+            "INSIGHT": 47
+          },
+          "gemma2:9b": {
+            "PLANNING": 54,
+            "FLOW": 48,
+            "CONFUSED": 43,
+            "RUSHING": 47,
+            "FRUSTRATED": 43,
+            "STUCK": 52,
+            "INSIGHT": 48
+          },
+          "phi3:medium": {
+            "PLANNING": 54,
+            "FLOW": 48,
+            "CONFUSED": 43,
+            "RUSHING": 47,
+            "FRUSTRATED": 43,
+            "STUCK": 52,
+            "INSIGHT": 48
+          }
+        },
+        "by_subject": {
+          "ACT English": 169,
+          "ACT Reading": 182,
+          "ACT Science": 337,
+          "Biology": 161,
+          "Chemistry": 325,
+          "Geometry": 189,
+          "Python Programming": 181,
+          "US History": 158
+        },
+        "problem_ids": [
+          "P07",
+          "P08",
+          "P09",
+          "P12",
+          "P26",
+          "P34",
+          "P45",
+          "P46",
+          "P47",
+          "P48"
+        ]
+      },
+      "test": {
+        "n_problems": 10,
+        "n_examples": 1716,
+        "by_cognitive_state": {
+          "PLANNING": 256,
+          "FLOW": 254,
+          "CONFUSED": 261,
+          "RUSHING": 229,
+          "FRUSTRATED": 232,
+          "STUCK": 220,
+          "INSIGHT": 264
+        },
+        "by_generator": {
+          "llama3.1:8b": 695,
+          "mistral:7b": 340,
+          "gemma2:9b": 341,
+          "phi3:medium": 340
+        },
+        "by_generator_and_state": {
+          "llama3.1:8b": {
+            "PLANNING": 100,
+            "FLOW": 101,
+            "CONFUSED": 100,
+            "RUSHING": 97,
+            "FRUSTRATED": 100,
+            "STUCK": 95,
+            "INSIGHT": 102
+          },
+          "mistral:7b": {
+            "PLANNING": 52,
+            "FLOW": 51,
+            "CONFUSED": 54,
+            "RUSHING": 44,
+            "FRUSTRATED": 44,
+            "STUCK": 41,
+            "INSIGHT": 54
+          },
+          "gemma2:9b": {
+            "PLANNING": 52,
+            "FLOW": 51,
+            "CONFUSED": 54,
+            "RUSHING": 44,
+            "FRUSTRATED": 44,
+            "STUCK": 42,
+            "INSIGHT": 54
+          },
+          "phi3:medium": {
+            "PLANNING": 52,
+            "FLOW": 51,
+            "CONFUSED": 53,
+            "RUSHING": 44,
+            "FRUSTRATED": 44,
+            "STUCK": 42,
+            "INSIGHT": 54
+          }
+        },
+        "by_subject": {
+          "ACT English": 525,
+          "ACT Reading": 165,
+          "ACT Science": 349,
+          "Algebra": 309,
+          "US History": 368
+        },
+        "problem_ids": [
+          "P03",
+          "P05",
+          "P10",
+          "P14",
+          "P20",
+          "P31",
+          "P33",
+          "P35",
+          "P39",
+          "P41"
+        ]
+      }
+    }
+  },
+  "conditions": {
+    "A_utterance_level": {
+      "condition": "A_utterance_level",
+      "description": "Seen-problem / utterance-disjoint. The shipped test.jsonl: new utterances about problems that also appear in train.jsonl and val.jsonl. This is the condition behind the previously reported 0.8457 / 0.8373.",
+      "n_examples": 350,
+      "n_unique_problems": 50,
+      "problem_ids": [
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05",
+        "P06",
+        "P07",
+        "P08",
+        "P09",
+        "P10",
+        "P11",
+        "P12",
+        "P13",
+        "P14",
+        "P15",
+        "P16",
+        "P17",
+        "P18",
+        "P19",
+        "P20",
+        "P21",
+        "P22",
+        "P23",
+        "P24",
+        "P25",
+        "P26",
+        "P27",
+        "P28",
+        "P29",
+        "P30",
+        "P31",
+        "P32",
+        "P33",
+        "P34",
+        "P35",
+        "P36",
+        "P37",
+        "P38",
+        "P39",
+        "P40",
+        "P41",
+        "P42",
+        "P43",
+        "P44",
+        "P45",
+        "P46",
+        "P47",
+        "P48",
+        "P49",
+        "P50"
+      ],
+      "accuracy": 0.8457,
+      "macro_f1": 0.8373,
+      "per_state": {
+        "PLANNING": {
+          "precision": 0.793,
+          "recall": 0.92,
+          "f1": 0.852,
+          "support": 50
+        },
+        "FLOW": {
+          "precision": 0.852,
+          "recall": 0.46,
+          "f1": 0.597,
+          "support": 50
+        },
+        "CONFUSED": {
+          "precision": 0.84,
+          "recall": 0.84,
+          "f1": 0.84,
+          "support": 50
+        },
+        "RUSHING": {
+          "precision": 0.922,
+          "recall": 0.94,
+          "f1": 0.931,
+          "support": 50
+        },
+        "FRUSTRATED": {
+          "precision": 0.769,
+          "recall": 1.0,
+          "f1": 0.87,
+          "support": 50
+        },
+        "STUCK": {
+          "precision": 1.0,
+          "recall": 0.82,
+          "f1": 0.901,
+          "support": 50
+        },
+        "INSIGHT": {
+          "precision": 0.81,
+          "recall": 0.94,
+          "f1": 0.87,
+          "support": 50
+        }
+      },
+      "confusion_matrix": [
+        [
+          46,
+          2,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          9,
+          23,
+          4,
+          4,
+          0,
+          0,
+          10
+        ],
+        [
+          1,
+          0,
+          42,
+          0,
+          7,
+          0,
+          0
+        ],
+        [
+          1,
+          2,
+          0,
+          47,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          50,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          2,
+          0,
+          6,
+          41,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          2,
+          0,
+          47
+        ]
+      ],
+      "labels": [
+        "PLANNING",
+        "FLOW",
+        "CONFUSED",
+        "RUSHING",
+        "FRUSTRATED",
+        "STUCK",
+        "INSIGHT"
+      ],
+      "routing": {
+        "heuristic": 350
+      },
+      "by_generator": {
+        "llama3.1:8b": 350
+      },
+      "majority_baseline": {
+        "majority_class": "RUSHING",
+        "chosen_on": "problem-disjoint train split (30 problems)",
+        "accuracy": 0.1429,
+        "macro_f1": 0.0357
+      },
+      "bootstrap": {
+        "method": "percentile bootstrap over problems (clusters), with replacement",
+        "reps": 2000,
+        "seed": 4242,
+        "n_clusters": 50,
+        "replicates_missing_a_class": 0,
+        "accuracy_ci95": [
+          0.8042,
+          0.8838
+        ],
+        "macro_f1_ci95": [
+          0.7926,
+          0.8747
+        ]
+      }
+    },
+    "B_problem_disjoint": {
+      "condition": "B_problem_disjoint",
+      "description": "Problem-disjoint. Every llama3.1:8b utterance whose problem is one of the 10 held-out test problems. No test problem, paraphrase, persona rendering or generator variant appears in train or val.",
+      "n_examples": 695,
+      "n_unique_problems": 10,
+      "problem_ids": [
+        "P03",
+        "P05",
+        "P10",
+        "P14",
+        "P20",
+        "P31",
+        "P33",
+        "P35",
+        "P39",
+        "P41"
+      ],
+      "accuracy": 0.8619,
+      "macro_f1": 0.8567,
+      "per_state": {
+        "PLANNING": {
+          "precision": 0.828,
+          "recall": 0.96,
+          "f1": 0.889,
+          "support": 100
+        },
+        "FLOW": {
+          "precision": 0.895,
+          "recall": 0.505,
+          "f1": 0.646,
+          "support": 101
+        },
+        "CONFUSED": {
+          "precision": 0.863,
+          "recall": 0.88,
+          "f1": 0.871,
+          "support": 100
+        },
+        "RUSHING": {
+          "precision": 0.929,
+          "recall": 0.948,
+          "f1": 0.939,
+          "support": 97
+        },
+        "FRUSTRATED": {
+          "precision": 0.748,
+          "recall": 0.98,
+          "f1": 0.848,
+          "support": 100
+        },
+        "STUCK": {
+          "precision": 1.0,
+          "recall": 0.895,
+          "f1": 0.944,
+          "support": 95
+        },
+        "INSIGHT": {
+          "precision": 0.848,
+          "recall": 0.873,
+          "f1": 0.86,
+          "support": 102
+        }
+      },
+      "confusion_matrix": [
+        [
+          96,
+          1,
+          1,
+          0,
+          1,
+          0,
+          1
+        ],
+        [
+          18,
+          51,
+          7,
+          6,
+          5,
+          0,
+          14
+        ],
+        [
+          1,
+          0,
+          88,
+          0,
+          11,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          92,
+          2,
+          0,
+          1
+        ],
+        [
+          0,
+          1,
+          0,
+          1,
+          98,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          1,
+          0,
+          8,
+          85,
+          0
+        ],
+        [
+          1,
+          1,
+          5,
+          0,
+          6,
+          0,
+          89
+        ]
+      ],
+      "labels": [
+        "PLANNING",
+        "FLOW",
+        "CONFUSED",
+        "RUSHING",
+        "FRUSTRATED",
+        "STUCK",
+        "INSIGHT"
+      ],
+      "routing": {
+        "heuristic": 695
+      },
+      "by_generator": {
+        "llama3.1:8b": 695
+      },
+      "majority_baseline": {
+        "majority_class": "RUSHING",
+        "chosen_on": "problem-disjoint train split (30 problems)",
+        "accuracy": 0.1396,
+        "macro_f1": 0.035
+      },
+      "bootstrap": {
+        "method": "percentile bootstrap over problems (clusters), with replacement",
+        "reps": 2000,
+        "seed": 4242,
+        "n_clusters": 10,
+        "replicates_missing_a_class": 0,
+        "accuracy_ci95": [
+          0.8317,
+          0.8881
+        ],
+        "macro_f1_ci95": [
+          0.8271,
+          0.8836
+        ]
+      }
+    },
+    "B_train_problems": {
+      "condition": "B_train_problems",
+      "description": "Supplementary. The same llama3.1:8b pool restricted to the 30 TRAIN problems. Holding the utterance pool constant, the gap to B_problem_disjoint isolates the seen-problem effect.",
+      "n_examples": 2114,
+      "n_unique_problems": 30,
+      "problem_ids": [
+        "P01",
+        "P02",
+        "P04",
+        "P06",
+        "P11",
+        "P13",
+        "P15",
+        "P16",
+        "P17",
+        "P18",
+        "P19",
+        "P21",
+        "P22",
+        "P23",
+        "P24",
+        "P25",
+        "P27",
+        "P28",
+        "P29",
+        "P30",
+        "P32",
+        "P36",
+        "P37",
+        "P38",
+        "P40",
+        "P42",
+        "P43",
+        "P44",
+        "P49",
+        "P50"
+      ],
+      "accuracy": 0.8477,
+      "macro_f1": 0.8414,
+      "per_state": {
+        "PLANNING": {
+          "precision": 0.807,
+          "recall": 0.94,
+          "f1": 0.869,
+          "support": 299
+        },
+        "FLOW": {
+          "precision": 0.93,
+          "recall": 0.487,
+          "f1": 0.639,
+          "support": 300
+        },
+        "CONFUSED": {
+          "precision": 0.859,
+          "recall": 0.882,
+          "f1": 0.87,
+          "support": 304
+        },
+        "RUSHING": {
+          "precision": 0.941,
+          "recall": 0.928,
+          "f1": 0.934,
+          "support": 307
+        },
+        "FRUSTRATED": {
+          "precision": 0.719,
+          "recall": 0.964,
+          "f1": 0.823,
+          "support": 302
+        },
+        "STUCK": {
+          "precision": 1.0,
+          "recall": 0.858,
+          "f1": 0.923,
+          "support": 302
+        },
+        "INSIGHT": {
+          "precision": 0.794,
+          "recall": 0.873,
+          "f1": 0.832,
+          "support": 300
+        }
+      },
+      "confusion_matrix": [
+        [
+          281,
+          1,
+          5,
+          0,
+          11,
+          0,
+          1
+        ],
+        [
+          50,
+          146,
+          21,
+          15,
+          14,
+          0,
+          54
+        ],
+        [
+          1,
+          0,
+          268,
+          1,
+          32,
+          0,
+          2
+        ],
+        [
+          3,
+          4,
+          4,
+          285,
+          5,
+          0,
+          6
+        ],
+        [
+          2,
+          0,
+          3,
+          1,
+          291,
+          0,
+          5
+        ],
+        [
+          5,
+          0,
+          5,
+          0,
+          33,
+          259,
+          0
+        ],
+        [
+          6,
+          6,
+          6,
+          1,
+          19,
+          0,
+          262
+        ]
+      ],
+      "labels": [
+        "PLANNING",
+        "FLOW",
+        "CONFUSED",
+        "RUSHING",
+        "FRUSTRATED",
+        "STUCK",
+        "INSIGHT"
+      ],
+      "routing": {
+        "heuristic": 2114
+      },
+      "by_generator": {
+        "llama3.1:8b": 2114
+      },
+      "majority_baseline": {
+        "majority_class": "RUSHING",
+        "chosen_on": "problem-disjoint train split (30 problems)",
+        "accuracy": 0.1452,
+        "macro_f1": 0.0363
+      },
+      "bootstrap": {
+        "method": "percentile bootstrap over problems (clusters), with replacement",
+        "reps": 2000,
+        "seed": 4242,
+        "n_clusters": 30,
+        "replicates_missing_a_class": 0,
+        "accuracy_ci95": [
+          0.8328,
+          0.8617
+        ],
+        "macro_f1_ci95": [
+          0.8246,
+          0.8567
+        ]
+      }
+    },
+    "B_val_problems": {
+      "condition": "B_val_problems",
+      "description": "Supplementary. The same llama3.1:8b pool restricted to the 10 VALIDATION problems. Reported for completeness; nothing was tuned on it.",
+      "n_examples": 698,
+      "n_unique_problems": 10,
+      "problem_ids": [
+        "P07",
+        "P08",
+        "P09",
+        "P12",
+        "P26",
+        "P34",
+        "P45",
+        "P46",
+        "P47",
+        "P48"
+      ],
+      "accuracy": 0.8539,
+      "macro_f1": 0.8426,
+      "per_state": {
+        "PLANNING": {
+          "precision": 0.839,
+          "recall": 0.971,
+          "f1": 0.9,
+          "support": 102
+        },
+        "FLOW": {
+          "precision": 1.0,
+          "recall": 0.41,
+          "f1": 0.582,
+          "support": 100
+        },
+        "CONFUSED": {
+          "precision": 0.81,
+          "recall": 0.876,
+          "f1": 0.842,
+          "support": 97
+        },
+        "RUSHING": {
+          "precision": 0.958,
+          "recall": 0.948,
+          "f1": 0.953,
+          "support": 97
+        },
+        "FRUSTRATED": {
+          "precision": 0.784,
+          "recall": 0.99,
+          "f1": 0.875,
+          "support": 99
+        },
+        "STUCK": {
+          "precision": 1.0,
+          "recall": 0.827,
+          "f1": 0.905,
+          "support": 104
+        },
+        "INSIGHT": {
+          "precision": 0.748,
+          "recall": 0.96,
+          "f1": 0.841,
+          "support": 99
+        }
+      },
+      "confusion_matrix": [
+        [
+          99,
+          0,
+          1,
+          0,
+          2,
+          0,
+          0
+        ],
+        [
+          16,
+          41,
+          11,
+          3,
+          2,
+          0,
+          27
+        ],
+        [
+          1,
+          0,
+          85,
+          0,
+          9,
+          0,
+          2
+        ],
+        [
+          0,
+          0,
+          1,
+          92,
+          2,
+          0,
+          2
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          98,
+          0,
+          1
+        ],
+        [
+          2,
+          0,
+          6,
+          0,
+          10,
+          86,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          2,
+          0,
+          95
+        ]
+      ],
+      "labels": [
+        "PLANNING",
+        "FLOW",
+        "CONFUSED",
+        "RUSHING",
+        "FRUSTRATED",
+        "STUCK",
+        "INSIGHT"
+      ],
+      "routing": {
+        "heuristic": 698
+      },
+      "by_generator": {
+        "llama3.1:8b": 698
+      },
+      "majority_baseline": {
+        "majority_class": "RUSHING",
+        "chosen_on": "problem-disjoint train split (30 problems)",
+        "accuracy": 0.139,
+        "macro_f1": 0.0349
+      },
+      "bootstrap": {
+        "method": "percentile bootstrap over problems (clusters), with replacement",
+        "reps": 2000,
+        "seed": 4242,
+        "n_clusters": 10,
+        "replicates_missing_a_class": 0,
+        "accuracy_ci95": [
+          0.8336,
+          0.8764
+        ],
+        "macro_f1_ci95": [
+          0.8179,
+          0.8671
+        ]
+      }
+    },
+    "C_generator::llama3.1:8b": {
+      "condition": "C_generator::llama3.1:8b",
+      "description": "Generator-stratified. llama3.1:8b utterances on the SAME 10 problem-disjoint test problems as condition B.",
+      "n_examples": 695,
+      "n_unique_problems": 10,
+      "problem_ids": [
+        "P03",
+        "P05",
+        "P10",
+        "P14",
+        "P20",
+        "P31",
+        "P33",
+        "P35",
+        "P39",
+        "P41"
+      ],
+      "accuracy": 0.8619,
+      "macro_f1": 0.8567,
+      "per_state": {
+        "PLANNING": {
+          "precision": 0.828,
+          "recall": 0.96,
+          "f1": 0.889,
+          "support": 100
+        },
+        "FLOW": {
+          "precision": 0.895,
+          "recall": 0.505,
+          "f1": 0.646,
+          "support": 101
+        },
+        "CONFUSED": {
+          "precision": 0.863,
+          "recall": 0.88,
+          "f1": 0.871,
+          "support": 100
+        },
+        "RUSHING": {
+          "precision": 0.929,
+          "recall": 0.948,
+          "f1": 0.939,
+          "support": 97
+        },
+        "FRUSTRATED": {
+          "precision": 0.748,
+          "recall": 0.98,
+          "f1": 0.848,
+          "support": 100
+        },
+        "STUCK": {
+          "precision": 1.0,
+          "recall": 0.895,
+          "f1": 0.944,
+          "support": 95
+        },
+        "INSIGHT": {
+          "precision": 0.848,
+          "recall": 0.873,
+          "f1": 0.86,
+          "support": 102
+        }
+      },
+      "confusion_matrix": [
+        [
+          96,
+          1,
+          1,
+          0,
+          1,
+          0,
+          1
+        ],
+        [
+          18,
+          51,
+          7,
+          6,
+          5,
+          0,
+          14
+        ],
+        [
+          1,
+          0,
+          88,
+          0,
+          11,
+          0,
+          0
+        ],
+        [
+          0,
+          2,
+          0,
+          92,
+          2,
+          0,
+          1
+        ],
+        [
+          0,
+          1,
+          0,
+          1,
+          98,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          1,
+          0,
+          8,
+          85,
+          0
+        ],
+        [
+          1,
+          1,
+          5,
+          0,
+          6,
+          0,
+          89
+        ]
+      ],
+      "labels": [
+        "PLANNING",
+        "FLOW",
+        "CONFUSED",
+        "RUSHING",
+        "FRUSTRATED",
+        "STUCK",
+        "INSIGHT"
+      ],
+      "routing": {
+        "heuristic": 695
+      },
+      "by_generator": {
+        "llama3.1:8b": 695
+      },
+      "majority_baseline": {
+        "majority_class": "RUSHING",
+        "chosen_on": "problem-disjoint train split (30 problems)",
+        "accuracy": 0.1396,
+        "macro_f1": 0.035
+      },
+      "bootstrap": {
+        "method": "percentile bootstrap over problems (clusters), with replacement",
+        "reps": 2000,
+        "seed": 4242,
+        "n_clusters": 10,
+        "replicates_missing_a_class": 0,
+        "accuracy_ci95": [
+          0.8317,
+          0.8881
+        ],
+        "macro_f1_ci95": [
+          0.8271,
+          0.8836
+        ]
+      }
+    },
+    "C_generator::mistral:7b": {
+      "condition": "C_generator::mistral:7b",
+      "description": "Generator-stratified. mistral:7b utterances on the SAME 10 problem-disjoint test problems as condition B.",
+      "n_examples": 340,
+      "n_unique_problems": 10,
+      "problem_ids": [
+        "P03",
+        "P05",
+        "P10",
+        "P14",
+        "P20",
+        "P31",
+        "P33",
+        "P35",
+        "P39",
+        "P41"
+      ],
+      "accuracy": 0.8147,
+      "macro_f1": 0.8107,
+      "per_state": {
+        "PLANNING": {
+          "precision": 0.907,
+          "recall": 0.942,
+          "f1": 0.925,
+          "support": 52
+        },
+        "FLOW": {
+          "precision": 0.7,
+          "recall": 0.412,
+          "f1": 0.519,
+          "support": 51
+        },
+        "CONFUSED": {
+          "precision": 0.81,
+          "recall": 0.944,
+          "f1": 0.872,
+          "support": 54
+        },
+        "RUSHING": {
+          "precision": 0.974,
+          "recall": 0.841,
+          "f1": 0.902,
+          "support": 44
+        },
+        "FRUSTRATED": {
+          "precision": 0.925,
+          "recall": 0.841,
+          "f1": 0.881,
+          "support": 44
+        },
+        "STUCK": {
+          "precision": 0.909,
+          "recall": 0.732,
+          "f1": 0.811,
+          "support": 41
+        },
+        "INSIGHT": {
+          "precision": 0.634,
+          "recall": 0.963,
+          "f1": 0.765,
+          "support": 54
+        }
+      },
+      "confusion_matrix": [
+        [
+          49,
+          1,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          2,
+          21,
+          7,
+          1,
+          0,
+          2,
+          18
+        ],
+        [
+          1,
+          1,
+          51,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          2,
+          37,
+          0,
+          0,
+          3
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          37,
+          1,
+          4
+        ],
+        [
+          0,
+          3,
+          2,
+          0,
+          2,
+          30,
+          4
+        ],
+        [
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          52
+        ]
+      ],
+      "labels": [
+        "PLANNING",
+        "FLOW",
+        "CONFUSED",
+        "RUSHING",
+        "FRUSTRATED",
+        "STUCK",
+        "INSIGHT"
+      ],
+      "routing": {
+        "heuristic": 340
+      },
+      "by_generator": {
+        "mistral:7b": 340
+      },
+      "majority_baseline": {
+        "majority_class": "FRUSTRATED",
+        "chosen_on": "problem-disjoint train split (30 problems)",
+        "accuracy": 0.1294,
+        "macro_f1": 0.0327
+      },
+      "bootstrap": {
+        "method": "percentile bootstrap over problems (clusters), with replacement",
+        "reps": 2000,
+        "seed": 4242,
+        "n_clusters": 10,
+        "replicates_missing_a_class": 0,
+        "accuracy_ci95": [
+          0.7716,
+          0.8555
+        ],
+        "macro_f1_ci95": [
+          0.7594,
+          0.8524
+        ]
+      }
+    },
+    "C_generator::gemma2:9b": {
+      "condition": "C_generator::gemma2:9b",
+      "description": "Generator-stratified. gemma2:9b utterances on the SAME 10 problem-disjoint test problems as condition B.",
+      "n_examples": 341,
+      "n_unique_problems": 10,
+      "problem_ids": [
+        "P03",
+        "P05",
+        "P10",
+        "P14",
+        "P20",
+        "P31",
+        "P33",
+        "P35",
+        "P39",
+        "P41"
+      ],
+      "accuracy": 0.8387,
+      "macro_f1": 0.8326,
+      "per_state": {
+        "PLANNING": {
+          "precision": 0.926,
+          "recall": 0.962,
+          "f1": 0.943,
+          "support": 52
+        },
+        "FLOW": {
+          "precision": 0.857,
+          "recall": 0.471,
+          "f1": 0.608,
+          "support": 51
+        },
+        "CONFUSED": {
+          "precision": 0.828,
+          "recall": 0.889,
+          "f1": 0.857,
+          "support": 54
+        },
+        "RUSHING": {
+          "precision": 0.878,
+          "recall": 0.977,
+          "f1": 0.925,
+          "support": 44
+        },
+        "FRUSTRATED": {
+          "precision": 0.733,
+          "recall": 1.0,
+          "f1": 0.846,
+          "support": 44
+        },
+        "STUCK": {
+          "precision": 0.97,
+          "recall": 0.762,
+          "f1": 0.853,
+          "support": 42
+        },
+        "INSIGHT": {
+          "precision": 0.763,
+          "recall": 0.833,
+          "f1": 0.796,
+          "support": 54
+        }
+      },
+      "confusion_matrix": [
+        [
+          50,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          24,
+          3,
+          5,
+          5,
+          0,
+          13
+        ],
+        [
+          0,
+          0,
+          48,
+          0,
+          5,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          43,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          44,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          3,
+          0,
+          5,
+          32,
+          0
+        ],
+        [
+          2,
+          3,
+          3,
+          0,
+          1,
+          0,
+          45
+        ]
+      ],
+      "labels": [
+        "PLANNING",
+        "FLOW",
+        "CONFUSED",
+        "RUSHING",
+        "FRUSTRATED",
+        "STUCK",
+        "INSIGHT"
+      ],
+      "routing": {
+        "heuristic": 341
+      },
+      "by_generator": {
+        "gemma2:9b": 341
+      },
+      "majority_baseline": {
+        "majority_class": "FRUSTRATED",
+        "chosen_on": "problem-disjoint train split (30 problems)",
+        "accuracy": 0.129,
+        "macro_f1": 0.0327
+      },
+      "bootstrap": {
+        "method": "percentile bootstrap over problems (clusters), with replacement",
+        "reps": 2000,
+        "seed": 4242,
+        "n_clusters": 10,
+        "replicates_missing_a_class": 0,
+        "accuracy_ci95": [
+          0.8243,
+          0.8546
+        ],
+        "macro_f1_ci95": [
+          0.815,
+          0.8466
+        ]
+      }
+    },
+    "C_generator::phi3:medium": {
+      "condition": "C_generator::phi3:medium",
+      "description": "Generator-stratified. phi3:medium utterances on the SAME 10 problem-disjoint test problems as condition B.",
+      "n_examples": 340,
+      "n_unique_problems": 10,
+      "problem_ids": [
+        "P03",
+        "P05",
+        "P10",
+        "P14",
+        "P20",
+        "P31",
+        "P33",
+        "P35",
+        "P39",
+        "P41"
+      ],
+      "accuracy": 0.6294,
+      "macro_f1": 0.6206,
+      "per_state": {
+        "PLANNING": {
+          "precision": 0.672,
+          "recall": 0.827,
+          "f1": 0.741,
+          "support": 52
+        },
+        "FLOW": {
+          "precision": 0.567,
+          "recall": 0.333,
+          "f1": 0.42,
+          "support": 51
+        },
+        "CONFUSED": {
+          "precision": 0.493,
+          "recall": 0.623,
+          "f1": 0.55,
+          "support": 53
+        },
+        "RUSHING": {
+          "precision": 0.775,
+          "recall": 0.705,
+          "f1": 0.738,
+          "support": 44
+        },
+        "FRUSTRATED": {
+          "precision": 0.585,
+          "recall": 0.705,
+          "f1": 0.639,
+          "support": 44
+        },
+        "STUCK": {
+          "precision": 0.944,
+          "recall": 0.405,
+          "f1": 0.567,
+          "support": 42
+        },
+        "INSIGHT": {
+          "precision": 0.618,
+          "recall": 0.778,
+          "f1": 0.689,
+          "support": 54
+        }
+      },
+      "confusion_matrix": [
+        [
+          43,
+          1,
+          4,
+          2,
+          1,
+          0,
+          1
+        ],
+        [
+          7,
+          17,
+          5,
+          2,
+          5,
+          1,
+          14
+        ],
+        [
+          5,
+          3,
+          33,
+          1,
+          7,
+          0,
+          4
+        ],
+        [
+          3,
+          3,
+          4,
+          31,
+          1,
+          0,
+          2
+        ],
+        [
+          2,
+          1,
+          7,
+          3,
+          31,
+          0,
+          0
+        ],
+        [
+          3,
+          2,
+          9,
+          1,
+          5,
+          17,
+          5
+        ],
+        [
+          1,
+          3,
+          5,
+          0,
+          3,
+          0,
+          42
+        ]
+      ],
+      "labels": [
+        "PLANNING",
+        "FLOW",
+        "CONFUSED",
+        "RUSHING",
+        "FRUSTRATED",
+        "STUCK",
+        "INSIGHT"
+      ],
+      "routing": {
+        "heuristic": 340
+      },
+      "by_generator": {
+        "phi3:medium": 340
+      },
+      "majority_baseline": {
+        "majority_class": "FRUSTRATED",
+        "chosen_on": "problem-disjoint train split (30 problems)",
+        "accuracy": 0.1294,
+        "macro_f1": 0.0327
+      },
+      "bootstrap": {
+        "method": "percentile bootstrap over problems (clusters), with replacement",
+        "reps": 2000,
+        "seed": 4242,
+        "n_clusters": 10,
+        "replicates_missing_a_class": 0,
+        "accuracy_ci95": [
+          0.5808,
+          0.676
+        ],
+        "macro_f1_ci95": [
+          0.5613,
+          0.6714
+        ]
+      }
+    },
+    "C_all_generators_pooled": {
+      "condition": "C_all_generators_pooled",
+      "description": "All four generators pooled on the 10 problem-disjoint test problems.",
+      "n_examples": 1716,
+      "n_unique_problems": 10,
+      "problem_ids": [
+        "P03",
+        "P05",
+        "P10",
+        "P14",
+        "P20",
+        "P31",
+        "P33",
+        "P35",
+        "P39",
+        "P41"
+      ],
+      "accuracy": 0.8019,
+      "macro_f1": 0.7969,
+      "per_state": {
+        "PLANNING": {
+          "precision": 0.826,
+          "recall": 0.93,
+          "f1": 0.875,
+          "support": 256
+        },
+        "FLOW": {
+          "precision": 0.779,
+          "recall": 0.445,
+          "f1": 0.566,
+          "support": 254
+        },
+        "CONFUSED": {
+          "precision": 0.759,
+          "recall": 0.843,
+          "f1": 0.799,
+          "support": 261
+        },
+        "RUSHING": {
+          "precision": 0.898,
+          "recall": 0.886,
+          "f1": 0.892,
+          "support": 229
+        },
+        "FRUSTRATED": {
+          "precision": 0.739,
+          "recall": 0.905,
+          "f1": 0.814,
+          "support": 232
+        },
+        "STUCK": {
+          "precision": 0.97,
+          "recall": 0.745,
+          "f1": 0.843,
+          "support": 220
+        },
+        "INSIGHT": {
+          "precision": 0.726,
+          "recall": 0.864,
+          "f1": 0.789,
+          "support": 264
+        }
+      },
+      "confusion_matrix": [
+        [
+          238,
+          3,
+          6,
+          3,
+          2,
+          0,
+          4
+        ],
+        [
+          28,
+          113,
+          22,
+          14,
+          15,
+          3,
+          59
+        ],
+        [
+          7,
+          4,
+          220,
+          1,
+          24,
+          1,
+          4
+        ],
+        [
+          4,
+          6,
+          7,
+          203,
+          3,
+          0,
+          6
+        ],
+        [
+          3,
+          3,
+          7,
+          4,
+          210,
+          1,
+          4
+        ],
+        [
+          4,
+          7,
+          15,
+          1,
+          20,
+          164,
+          9
+        ],
+        [
+          4,
+          9,
+          13,
+          0,
+          10,
+          0,
+          228
+        ]
+      ],
+      "labels": [
+        "PLANNING",
+        "FLOW",
+        "CONFUSED",
+        "RUSHING",
+        "FRUSTRATED",
+        "STUCK",
+        "INSIGHT"
+      ],
+      "routing": {
+        "heuristic": 1716
+      },
+      "by_generator": {
+        "llama3.1:8b": 695,
+        "mistral:7b": 340,
+        "gemma2:9b": 341,
+        "phi3:medium": 340
+      },
+      "majority_baseline": {
+        "majority_class": "FRUSTRATED",
+        "chosen_on": "problem-disjoint train split (30 problems)",
+        "accuracy": 0.1352,
+        "macro_f1": 0.034
+      },
+      "bootstrap": {
+        "method": "percentile bootstrap over problems (clusters), with replacement",
+        "reps": 2000,
+        "seed": 4242,
+        "n_clusters": 10,
+        "replicates_missing_a_class": 0,
+        "accuracy_ci95": [
+          0.7794,
+          0.8191
+        ],
+        "macro_f1_ci95": [
+          0.7757,
+          0.8134
+        ]
+      }
+    },
+    "S_flow_hard_negatives": {
+      "condition": "S_flow_hard_negatives",
+      "description": "SUPPLEMENTARY, NOT A HEADLINE NUMBER. The adversarial FLOW hard-negative set restricted to the 10 test problems. Adversarially constructed rather than sampled from the corpus, so it is excluded from every other condition and must not be pooled with them.",
+      "n_examples": 36,
+      "n_unique_problems": 5,
+      "problem_ids": [
+        "P05",
+        "P10",
+        "P31",
+        "P35",
+        "P39"
+      ],
+      "accuracy": 0.4722,
+      "macro_f1": 0.469,
+      "per_state": {
+        "PLANNING": {
+          "precision": 0.667,
+          "recall": 0.25,
+          "f1": 0.364,
+          "support": 8
+        },
+        "FLOW": {
+          "precision": 0.923,
+          "recall": 0.6,
+          "f1": 0.727,
+          "support": 20
+        },
+        "CONFUSED": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "RUSHING": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "FRUSTRATED": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "STUCK": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0
+        },
+        "INSIGHT": {
+          "precision": 0.273,
+          "recall": 0.375,
+          "f1": 0.316,
+          "support": 8
+        }
+      },
+      "confusion_matrix": [
+        [
+          2,
+          1,
+          0,
+          1,
+          2,
+          0,
+          2
+        ],
+        [
+          0,
+          12,
+          0,
+          1,
+          1,
+          0,
+          6
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          1,
+          1,
+          2,
+          0,
+          3
+        ]
+      ],
+      "labels": [
+        "PLANNING",
+        "FLOW",
+        "CONFUSED",
+        "RUSHING",
+        "FRUSTRATED",
+        "STUCK",
+        "INSIGHT"
+      ],
+      "routing": {
+        "heuristic": 36
+      },
+      "by_generator": {
+        "llama3.1:8b": 9,
+        "mistral:7b": 9,
+        "phi3:medium": 9,
+        "gemma2:9b": 9
+      },
+      "majority_baseline": {
+        "majority_class": "FRUSTRATED",
+        "chosen_on": "problem-disjoint train split (30 problems)",
+        "accuracy": 0.0,
+        "macro_f1": 0.0
+      },
+      "bootstrap": {
+        "method": "percentile bootstrap over problems (clusters), with replacement",
+        "reps": 2000,
+        "seed": 4242,
+        "n_clusters": 5,
+        "replicates_missing_a_class": 2000,
+        "accuracy_ci95": [
+          0.3611,
+          0.6071
+        ],
+        "macro_f1_ci95": [
+          0.382,
+          0.6285
+        ]
+      }
+    }
+  },
+  "utterance_level_vs_problem_disjoint": {
+    "paired": false,
+    "approximate": true,
+    "note": "A and B are scored on overlapping problem sets (B's 10 test problems are among A's 50), so this is neither a paired nor an independent comparison. Bounds combine the two separate cluster bootstraps and are indicative only, not a significance test.",
+    "delta_accuracy": 0.0162,
+    "delta_macro_f1": 0.0194,
+    "a_accuracy_ci95": [
+      0.8042,
+      0.8838
+    ],
+    "b_accuracy_ci95": [
+      0.8317,
+      0.8881
+    ],
+    "a_macro_f1_ci95": [
+      0.7926,
+      0.8747
+    ],
+    "b_macro_f1_ci95": [
+      0.8271,
+      0.8836
+    ]
+  },
+  "seen_vs_unseen_problems_same_pool": {
+    "note": "Both arms are the same llama3.1:8b pool and the same classifier; only the problem group differs. Unpaired (disjoint problem sets) but non-overlapping, so the two intervals can be read side by side.",
+    "train_problems_accuracy": 0.8477,
+    "train_problems_accuracy_ci95": [
+      0.8328,
+      0.8617
+    ],
+    "test_problems_accuracy": 0.8619,
+    "test_problems_accuracy_ci95": [
+      0.8317,
+      0.8881
+    ],
+    "delta_accuracy": 0.0142,
+    "delta_macro_f1": 0.0153
+  },
+  "generator_vs_llama": {
+    "llama3.1:8b": {
+      "baseline": true,
+      "delta_accuracy": 0.0,
+      "delta_macro_f1": 0.0,
+      "delta_accuracy_ci95": [
+        0.0,
+        0.0
+      ]
+    },
+    "mistral:7b": {
+      "paired": true,
+      "shared_problems": 10,
+      "delta_accuracy": -0.0472,
+      "delta_accuracy_ci95": [
+        -0.0893,
+        -0.0108
+      ],
+      "delta_macro_f1_ci95": [
+        -0.0983,
+        -0.0053
+      ],
+      "excludes_zero_accuracy": true,
+      "delta_macro_f1": -0.046
+    },
+    "gemma2:9b": {
+      "paired": true,
+      "shared_problems": 10,
+      "delta_accuracy": -0.0232,
+      "delta_accuracy_ci95": [
+        -0.0558,
+        0.0113
+      ],
+      "delta_macro_f1_ci95": [
+        -0.0601,
+        0.0111
+      ],
+      "excludes_zero_accuracy": false,
+      "delta_macro_f1": -0.0241
+    },
+    "phi3:medium": {
+      "paired": true,
+      "shared_problems": 10,
+      "delta_accuracy": -0.2325,
+      "delta_accuracy_ci95": [
+        -0.2831,
+        -0.1792
+      ],
+      "delta_macro_f1_ci95": [
+        -0.2957,
+        -0.1794
+      ],
+      "excludes_zero_accuracy": true,
+      "delta_macro_f1": -0.2361
+    }
+  },
+  "calibration": {
+    "ece_reported": false,
+    "reason": "ECE is deliberately omitted. The analyzer's `confidence` is 0.45 + 0.09*evidence + 0.12*margin, capped at 0.97 — a hand-set affine function of keyword-marker weights. It is not normalised over the seven states, cannot fall below 0.45 whenever any marker fires, and was never fitted against observed correctness. Binning it and calling the gap an expected calibration error would report a number for a quantity that is not a probability. The repository's eval/metacognition/calibration.py measures a different thing entirely — the STUDENT's metacognitive calibration (confidence_before vs correct) — and is not a classifier confidence calibration.",
+    "descriptive_only_confidence_bins": [
+      {
+        "bin": "[0.50, 0.60)",
+        "n": 1,
+        "accuracy": 0.0,
+        "mean_confidence": 0.585
+      },
+      {
+        "bin": "[0.60, 0.70)",
+        "n": 410,
+        "accuracy": 0.4927,
+        "mean_confidence": 0.6036
+      },
+      {
+        "bin": "[0.70, 0.80)",
+        "n": 20,
+        "accuracy": 0.3,
+        "mean_confidence": 0.7581
+      },
+      {
+        "bin": "[0.80, 0.90)",
+        "n": 30,
+        "accuracy": 0.5,
+        "mean_confidence": 0.8469
+      },
+      {
+        "bin": "[0.90, 1.01)",
+        "n": 1255,
+        "accuracy": 0.9187,
+        "mean_confidence": 0.9694
+      }
+    ],
+    "descriptive_bins_caveat": "Accuracy per confidence bin on the problem-disjoint test set, all generators. Descriptive only; NOT a reliability diagram and NOT an ECE."
+  },
+  "failure_cases": [
+    {
+      "kind": "flow_false_negative",
+      "problem_id": "P03",
+      "problem_text": "Results contradict a hypothesis. What is the most reasonable next step?",
+      "subject": "ACT Science",
+      "topic": "hypothesis testing",
+      "generator": "mistral:7b",
+      "source_file": "eval/data/synthetic_thinkaloud/augment_mistral.jsonl",
+      "source_line": 312,
+      "record_id": "FLOW|ACT Science|easy|inattentive|hypothesis testing|0.66|mistral",
+      "persona": "inattentive",
+      "ground_truth_state": "FLOW",
+      "predicted_state": "CONFUSED",
+      "confidence": 0.97,
+      "confidence_definition": "analyzer heuristic score for the winning state: 0.45 + 0.09*evidence + 0.12*(margin over runner-up), capped at 0.97. A marker-weight blend, not a calibrated probability.",
+      "top_state_scores": [
+        [
+          "CONFUSED",
+          4.0
+        ],
+        [
+          "INSIGHT",
+          2.5
+        ],
+        [
+          "FLOW",
+          1.5
+        ],
+        [
+          "RUSHING",
+          1.2
+        ]
+      ],
+      "matched_evidence": "markers: wait, what, circular repetition",
+      "student_think_aloud": "[Excited mutter] Alright, let's do this! Results don't make sense with my initial idea, but I know I can figure it out. Just gotta stay focused. [Whispers to himself] Hypothesis vs. results... Hmm, maybe I messed up the calculations or missed something obvious. Let's go back and check each step again. Alright, that seems good. But wait, what if it's something else? Okay, let me look at the data from another angle. [Satisfied chuckle] Aha! Got it. Results were indeed contradicting my hypothesis because I was looking at the wrong data set. Good thing I caught that before moving on.",
+      "explanation": "FLOW false negative, predicted CONFUSED on markers [markers: wait, what, circular repetition]. FLOW is missed on 141 of 254 true-FLOW test utterances (55.5%), most often as INSIGHT (59 of them) — by a wide margin the weakest class in every condition. The cause is structural: FLOW has no lexical marker of its own. Sustained productive work is narrated in ordinary procedural language, whereas the states it loses to carry high-weight distinctive markers (PLANNING's 'first I'll', INSIGHT's 'oh wait', CONFUSED's 'wait, what'). FLOW's evidence is therefore diffuse and low-weight, and a single competing marker anywhere in a long utterance is enough to take the argmax away from it. Note the utterance here does contain a genuine self-check ('but wait, what if'), so part of this gap is label ambiguity rather than pure classifier error — a fluent student checking their work is not cleanly separable from a confused one on surface lexis alone."
+    },
+    {
+      "kind": "phi3_generator_specific",
+      "problem_id": "P20",
+      "problem_text": "Which revision best fixes the run-on: 'It was raining we stayed inside.'",
+      "subject": "ACT English",
+      "topic": "sentence structure",
+      "generator": "phi3:medium",
+      "source_file": "eval/data/synthetic_thinkaloud/augment_phi3.jsonl",
+      "source_line": 1235,
+      "record_id": "STUCK|ACT English|medium|hyperactive|sentence structure|0.42|phi3",
+      "persona": "hyperactive",
+      "ground_truth_state": "STUCK",
+      "predicted_state": "CONFUSED",
+      "confidence": 0.97,
+      "confidence_definition": "analyzer heuristic score for the winning state: 0.45 + 0.09*evidence + 0.12*(margin over runner-up), capped at 0.97. A marker-weight blend, not a calibrated probability.",
+      "top_state_scores": [
+        [
+          "CONFUSED",
+          7.0
+        ],
+        [
+          "STUCK",
+          3.3
+        ],
+        [
+          "FRUSTRATED",
+          2.5
+        ],
+        [
+          "INSIGHT",
+          2.5
+        ]
+      ],
+      "matched_evidence": "markers: confusing, is confusing, circular repetition",
+      "student_think_aloud": "Man, this run-on sentence thing is confusing. I don't know where to even start. Okay... it was raining - that’s the first part. And we stayed inside. Uh... maybe adding a period? But then what about 'we stayed?' Wait, could a comma work too? Or... Nope, can't remember clearly. This is so frustrating. I think I got it! A period after raining should do the trick. It was raining. We stayed inside.",
+      "explanation": "phi3-specific failure, predicted CONFUSED on markers [markers: confusing, is confusing, circular repetition]. The STUCK->CONFUSED confusion hits 9/340 phi3 test utterances (2.6%) against 0.1% on llama3.1:8b over the same 10 problems — an excess of +2.5%, and phi3 overall is 23.2% below llama. phi3:medium narrates in long, formal, fully-punctuated prose that walks the entire solution path in one utterance. That style trips markers belonging to several states at once, so the winner is decided by which marker bank carries more weight rather than by the student's actual state. The marker banks were audited for generator-agnosticism on token identity (eval/mine_signals.py), which does not control for the utterance length and register that phi3 changes: more sentences means more chances to fire an off-state marker, and the additive scoring has no length normalisation."
+    },
+    {
+      "kind": "highest_confidence_error",
+      "problem_id": "P05",
+      "problem_text": "A passage describes a town's decline after a factory closes. What is the main idea?",
+      "subject": "ACT Reading",
+      "topic": "main idea",
+      "generator": "gemma2:9b",
+      "source_file": "eval/data/synthetic_thinkaloud/holdout_gemma2.jsonl",
+      "source_line": 9,
+      "record_id": "FLOW|ACT Reading|easy|combined|main idea|0.60",
+      "persona": "combined",
+      "ground_truth_state": "FLOW",
+      "predicted_state": "INSIGHT",
+      "confidence": 0.97,
+      "confidence_definition": "analyzer heuristic score for the winning state: 0.45 + 0.09*evidence + 0.12*(margin over runner-up), capped at 0.97. A marker-weight blend, not a calibrated probability.",
+      "top_state_scores": [
+        [
+          "INSIGHT",
+          4.0
+        ],
+        [
+          "CONFUSED",
+          2.0
+        ],
+        [
+          "PLANNING",
+          1.5
+        ],
+        [
+          "RUSHING",
+          1.5
+        ]
+      ],
+      "matched_evidence": "markers: got it, makes sense",
+      "student_think_aloud": "Okay, so it's about a town and how things went downhill after the factory shut down. I bet it's something about how important factories are to towns or something. Yeah, probably about how places depend on factories for jobs. Hmm, but wait...the passage is mostly about people losing their homes and businesses too.  So maybe it's more about how factories closing just really mess everything up? Yeah, that makes sense. I think I got it right! That seems pretty spot-on with what the passage was saying.",
+      "explanation": "Highest-confidence error on an otherwise unreported problem (confidence 0.970, the 0.97 ceiling). The true state FLOW scored 0.00 against INSIGHT's 4.00 on markers [markers: got it, makes sense], so this is not a near-tie the analyzer had no basis to call — the evidence actively points the wrong way. 93 of the 340 problem-disjoint test errors (27.4%) sit at that same ceiling. This is the structurally important one: because the reported confidence rises with the winning margin and contains no term for whether the winning evidence is correct, a maximally-confident wrong answer is indistinguishable from a maximally-confident right one to any downstream consumer. It is also the concrete reason no ECE is reported here — the score is a marker-weight margin, not a probability that could be compared against observed correctness."
+    },
+    {
+      "kind": "most_frequent_non_flow_confusion",
+      "problem_id": "P14",
+      "problem_text": "What was a central economic difference between the North and South before the war?",
+      "subject": "US History",
+      "topic": "civil war",
+      "generator": "phi3:medium",
+      "source_file": "eval/data/synthetic_thinkaloud/augment_phi3.jsonl",
+      "source_line": 260,
+      "record_id": "CONFUSED|US History|hard|inattentive|civil war|0.44|phi3",
+      "persona": "inattentive",
+      "ground_truth_state": "CONFUSED",
+      "predicted_state": "FRUSTRATED",
+      "confidence": 0.97,
+      "confidence_definition": "analyzer heuristic score for the winning state: 0.45 + 0.09*evidence + 0.12*(margin over runner-up), capped at 0.97. A marker-weight blend, not a calibrated probability.",
+      "top_state_scores": [
+        [
+          "FRUSTRATED",
+          4.2
+        ],
+        [
+          "CONFUSED",
+          2.0
+        ],
+        [
+          "RUSHING",
+          1.2
+        ],
+        [
+          "FLOW",
+          0.0
+        ]
+      ],
+      "matched_evidence": "markers: why is, finally, so hard",
+      "student_think_aloud": "Okay, I gotta remember something about the North and South having different ways of making money before all that war stuff. But man, what was it again? The textbook's like a maze. Wait... wasn't it like the South did cotton or something 'cause they had those big farms? Nope, wait, wrong topic. Okay, maybe they were into... manufacturing? But isn't that what everyone does? Hmm, I keep mixing them up, why is this so hard. Ah, finally it hit me! The South was all about agriculture, with big plantations and stuff like cotton, while the North focused more on industry and manufacturing. Phew, that felt complicated.",
+      "explanation": "Most frequent non-FLOW confusion: CONFUSED->FRUSTRATED, 24 occurrences, i.e. 9.2% of all true CONFUSED test utterances. Predicted on markers [markers: why is, finally, so hard]. Included so the failure set is not dominated by the single class already known to be weakest. CONFUSED and FRUSTRATED are adjacent in the ARIA state model and share much of their vocabulary of difficulty, but they call for different scaffolds, so this confusion is the one with the clearest downstream cost."
+    }
+  ]
+}

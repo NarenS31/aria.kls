@@ -1,0 +1,153 @@
+{
+  "selection_rules": "Fixed rules, applied in order, no manual choice: (1) the highest-confidence true-FLOW error; (2) the phi3:medium true->predicted confusion whose rate most exceeds llama3.1:8b's on the same 10 problems, then that pair's highest-confidence instance; (3) the highest-confidence remaining error; (4) the most frequent non-FLOW confusion pair, highest-confidence instance. Each selector prefers a problem not already reported, because confidence saturates at the 0.97 ceiling and would otherwise send every case to the same problem. Ties break on problem_id then source_line.",
+  "cases": [
+    {
+      "kind": "flow_false_negative",
+      "problem_id": "P03",
+      "problem_text": "Results contradict a hypothesis. What is the most reasonable next step?",
+      "subject": "ACT Science",
+      "topic": "hypothesis testing",
+      "generator": "mistral:7b",
+      "source_file": "eval/data/synthetic_thinkaloud/augment_mistral.jsonl",
+      "source_line": 312,
+      "record_id": "FLOW|ACT Science|easy|inattentive|hypothesis testing|0.66|mistral",
+      "persona": "inattentive",
+      "ground_truth_state": "FLOW",
+      "predicted_state": "CONFUSED",
+      "confidence": 0.97,
+      "confidence_definition": "analyzer heuristic score for the winning state: 0.45 + 0.09*evidence + 0.12*(margin over runner-up), capped at 0.97. A marker-weight blend, not a calibrated probability.",
+      "top_state_scores": [
+        [
+          "CONFUSED",
+          4.0
+        ],
+        [
+          "INSIGHT",
+          2.5
+        ],
+        [
+          "FLOW",
+          1.5
+        ],
+        [
+          "RUSHING",
+          1.2
+        ]
+      ],
+      "matched_evidence": "markers: wait, what, circular repetition",
+      "student_think_aloud": "[Excited mutter] Alright, let's do this! Results don't make sense with my initial idea, but I know I can figure it out. Just gotta stay focused. [Whispers to himself] Hypothesis vs. results... Hmm, maybe I messed up the calculations or missed something obvious. Let's go back and check each step again. Alright, that seems good. But wait, what if it's something else? Okay, let me look at the data from another angle. [Satisfied chuckle] Aha! Got it. Results were indeed contradicting my hypothesis because I was looking at the wrong data set. Good thing I caught that before moving on.",
+      "explanation": "FLOW false negative, predicted CONFUSED on markers [markers: wait, what, circular repetition]. FLOW is missed on 141 of 254 true-FLOW test utterances (55.5%), most often as INSIGHT (59 of them) — by a wide margin the weakest class in every condition. The cause is structural: FLOW has no lexical marker of its own. Sustained productive work is narrated in ordinary procedural language, whereas the states it loses to carry high-weight distinctive markers (PLANNING's 'first I'll', INSIGHT's 'oh wait', CONFUSED's 'wait, what'). FLOW's evidence is therefore diffuse and low-weight, and a single competing marker anywhere in a long utterance is enough to take the argmax away from it. Note the utterance here does contain a genuine self-check ('but wait, what if'), so part of this gap is label ambiguity rather than pure classifier error — a fluent student checking their work is not cleanly separable from a confused one on surface lexis alone."
+    },
+    {
+      "kind": "phi3_generator_specific",
+      "problem_id": "P20",
+      "problem_text": "Which revision best fixes the run-on: 'It was raining we stayed inside.'",
+      "subject": "ACT English",
+      "topic": "sentence structure",
+      "generator": "phi3:medium",
+      "source_file": "eval/data/synthetic_thinkaloud/augment_phi3.jsonl",
+      "source_line": 1235,
+      "record_id": "STUCK|ACT English|medium|hyperactive|sentence structure|0.42|phi3",
+      "persona": "hyperactive",
+      "ground_truth_state": "STUCK",
+      "predicted_state": "CONFUSED",
+      "confidence": 0.97,
+      "confidence_definition": "analyzer heuristic score for the winning state: 0.45 + 0.09*evidence + 0.12*(margin over runner-up), capped at 0.97. A marker-weight blend, not a calibrated probability.",
+      "top_state_scores": [
+        [
+          "CONFUSED",
+          7.0
+        ],
+        [
+          "STUCK",
+          3.3
+        ],
+        [
+          "FRUSTRATED",
+          2.5
+        ],
+        [
+          "INSIGHT",
+          2.5
+        ]
+      ],
+      "matched_evidence": "markers: confusing, is confusing, circular repetition",
+      "student_think_aloud": "Man, this run-on sentence thing is confusing. I don't know where to even start. Okay... it was raining - that’s the first part. And we stayed inside. Uh... maybe adding a period? But then what about 'we stayed?' Wait, could a comma work too? Or... Nope, can't remember clearly. This is so frustrating. I think I got it! A period after raining should do the trick. It was raining. We stayed inside.",
+      "explanation": "phi3-specific failure, predicted CONFUSED on markers [markers: confusing, is confusing, circular repetition]. The STUCK->CONFUSED confusion hits 9/340 phi3 test utterances (2.6%) against 0.1% on llama3.1:8b over the same 10 problems — an excess of +2.5%, and phi3 overall is 23.2% below llama. phi3:medium narrates in long, formal, fully-punctuated prose that walks the entire solution path in one utterance. That style trips markers belonging to several states at once, so the winner is decided by which marker bank carries more weight rather than by the student's actual state. The marker banks were audited for generator-agnosticism on token identity (eval/mine_signals.py), which does not control for the utterance length and register that phi3 changes: more sentences means more chances to fire an off-state marker, and the additive scoring has no length normalisation."
+    },
+    {
+      "kind": "highest_confidence_error",
+      "problem_id": "P05",
+      "problem_text": "A passage describes a town's decline after a factory closes. What is the main idea?",
+      "subject": "ACT Reading",
+      "topic": "main idea",
+      "generator": "gemma2:9b",
+      "source_file": "eval/data/synthetic_thinkaloud/holdout_gemma2.jsonl",
+      "source_line": 9,
+      "record_id": "FLOW|ACT Reading|easy|combined|main idea|0.60",
+      "persona": "combined",
+      "ground_truth_state": "FLOW",
+      "predicted_state": "INSIGHT",
+      "confidence": 0.97,
+      "confidence_definition": "analyzer heuristic score for the winning state: 0.45 + 0.09*evidence + 0.12*(margin over runner-up), capped at 0.97. A marker-weight blend, not a calibrated probability.",
+      "top_state_scores": [
+        [
+          "INSIGHT",
+          4.0
+        ],
+        [
+          "CONFUSED",
+          2.0
+        ],
+        [
+          "PLANNING",
+          1.5
+        ],
+        [
+          "RUSHING",
+          1.5
+        ]
+      ],
+      "matched_evidence": "markers: got it, makes sense",
+      "student_think_aloud": "Okay, so it's about a town and how things went downhill after the factory shut down. I bet it's something about how important factories are to towns or something. Yeah, probably about how places depend on factories for jobs. Hmm, but wait...the passage is mostly about people losing their homes and businesses too.  So maybe it's more about how factories closing just really mess everything up? Yeah, that makes sense. I think I got it right! That seems pretty spot-on with what the passage was saying.",
+      "explanation": "Highest-confidence error on an otherwise unreported problem (confidence 0.970, the 0.97 ceiling). The true state FLOW scored 0.00 against INSIGHT's 4.00 on markers [markers: got it, makes sense], so this is not a near-tie the analyzer had no basis to call — the evidence actively points the wrong way. 93 of the 340 problem-disjoint test errors (27.4%) sit at that same ceiling. This is the structurally important one: because the reported confidence rises with the winning margin and contains no term for whether the winning evidence is correct, a maximally-confident wrong answer is indistinguishable from a maximally-confident right one to any downstream consumer. It is also the concrete reason no ECE is reported here — the score is a marker-weight margin, not a probability that could be compared against observed correctness."
+    },
+    {
+      "kind": "most_frequent_non_flow_confusion",
+      "problem_id": "P14",
+      "problem_text": "What was a central economic difference between the North and South before the war?",
+      "subject": "US History",
+      "topic": "civil war",
+      "generator": "phi3:medium",
+      "source_file": "eval/data/synthetic_thinkaloud/augment_phi3.jsonl",
+      "source_line": 260,
+      "record_id": "CONFUSED|US History|hard|inattentive|civil war|0.44|phi3",
+      "persona": "inattentive",
+      "ground_truth_state": "CONFUSED",
+      "predicted_state": "FRUSTRATED",
+      "confidence": 0.97,
+      "confidence_definition": "analyzer heuristic score for the winning state: 0.45 + 0.09*evidence + 0.12*(margin over runner-up), capped at 0.97. A marker-weight blend, not a calibrated probability.",
+      "top_state_scores": [
+        [
+          "FRUSTRATED",
+          4.2
+        ],
+        [
+          "CONFUSED",
+          2.0
+        ],
+        [
+          "RUSHING",
+          1.2
+        ],
+        [
+          "FLOW",
+          0.0
+        ]
+      ],
+      "matched_evidence": "markers: why is, finally, so hard",
+      "student_think_aloud": "Okay, I gotta remember something about the North and South having different ways of making money before all that war stuff. But man, what was it again? The textbook's like a maze. Wait... wasn't it like the South did cotton or something 'cause they had those big farms? Nope, wait, wrong topic. Okay, maybe they were into... manufacturing? But isn't that what everyone does? Hmm, I keep mixing them up, why is this so hard. Ah, finally it hit me! The South was all about agriculture, with big plantations and stuff like cotton, while the North focused more on industry and manufacturing. Phew, that felt complicated.",
+      "explanation": "Most frequent non-FLOW confusion: CONFUSED->FRUSTRATED, 24 occurrences, i.e. 9.2% of all true CONFUSED test utterances. Predicted on markers [markers: why is, finally, so hard]. Included so the failure set is not dominated by the single class already known to be weakest. CONFUSED and FRUSTRATED are adjacent in the ARIA state model and share much of their vocabulary of difficulty, but they call for different scaffolds, so this confusion is the one with the clearest downstream cost."
+    }
+  ]
+}
