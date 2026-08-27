@@ -101,6 +101,61 @@ Trace: `fallback_activation.csv`.
 
 ---
 
+## 4A. The triggered subset
+
+Pooled numbers dilute the fallback across the 1025 examples the trigger never reaches. On the 331 examples where it does fire:
+
+| Config | Correct | Accuracy on the triggered subset |
+|---|---|---|
+| A · lexical-only (control) | 169 / 331 | 0.5106 |
+| B · hybrid, shipped few-shot (CONTAMINATED) | 109 / 331 | 0.3293 |
+| B′ · hybrid, decontaminated few-shot | 140 / 331 | 0.4230 |
+
+By generator, lexical → decontaminated hybrid:
+
+| Generator | n triggered | A | B′ | Δ |
+|---|---|---|---|---|
+| llama3.1:8b | 69 | 0.6522 | 0.5652 | −0.0870 |
+| mistral:7b | 75 | 0.5067 | 0.3600 | −0.1467 |
+| gemma2:9b | 61 | 0.5082 | 0.5738 | +0.0656 |
+| phi3:medium | 126 | 0.4365 | 0.3095 | −0.1270 |
+
+By intended condition — this is where the mechanism shows:
+
+| Condition | n triggered | A | B′ | Δ |
+|---|---|---|---|---|
+| PLANNING | 30 | 0.6333 | 0.4000 | **−0.2333** |
+| FLOW | 92 | 0.3804 | 0.9348 | **+0.5543** |
+| CONFUSED | 38 | 0.5263 | 0.4474 | **−0.0789** |
+| RUSHING | 30 | 0.5667 | 0.3333 | **−0.2333** |
+| FRUSTRATED | 34 | 0.5882 | 0.0588 | **−0.5294** |
+| STUCK | 59 | 0.4576 | 0.2034 | **−0.2542** |
+| INSIGHT | 48 | 0.6458 | 0.0208 | **−0.6250** |
+
+Trace: `triggered_subset_metrics.csv`.
+
+
+### Why: the fallback model has collapsed onto FLOW
+
+What the LLM actually emits on the triggered subset, against what is actually there:
+
+| State | True | LLM predicted | Predicted ÷ true |
+|---|---|---|---|
+| PLANNING | 30 | 24 | 0.80 |
+| FLOW | 92 | 176 | 1.91 |
+| CONFUSED | 38 | 82 | 2.16 |
+| RUSHING | 30 | 14 | 0.47 |
+| FRUSTRATED | 34 | 2 | 0.06 |
+| STUCK | 59 | 32 | 0.54 |
+| INSIGHT | 48 | 1 | 0.02 |
+
+`llama3.2:3b` answers FLOW for **53.2%** of the triggered examples and INSIGHT for **1** of 331. That single fact explains the whole condition table above: FLOW recall rises because the model says FLOW to almost everything, and INSIGHT and FRUSTRATED collapse because it has effectively stopped predicting them. The apparent FLOW gain is a artefact of a degenerate prior, not evidence the fallback understands FLOW. It should not be reported as an improvement.
+
+Trace: `llm_prediction_distribution.csv`.
+
+
+---
+
 ## 5. What the fallback changed
 
 | Config | Changed | Corrected | Broke | Wrong→wrong | Net |
