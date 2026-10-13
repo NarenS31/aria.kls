@@ -67,7 +67,7 @@ def normalize(text: str) -> str:
     s = re.sub(r"([⁰¹²³⁴⁵⁶⁷⁸⁹⁻]+)", lambda m: "^(" + m.group(1).translate(_SUP_MAP) + ")", s)
     for a, b in (("−", "-"), ("–", "-"), ("—", "-"), ("×", "*"), ("·", "*"), ("⋅", "*"),
                  ("÷", "/"), ("π", "pi"), ("√", "sqrt"), ("′", "'"), ("’", "'"),
-                 ("≈", "="), ("→", " "), ("⇒", " "), ("✅", " ")):
+                 ("≈", "="), ("→", " "), ("⇒", " "), ("✅", " "), ("“", " "), ("”", " "), ('"', " "), ("«", " "), ("»", " ")):
         s = s.replace(a, b)
     # LaTeX
     s = s.replace("$", " ")
@@ -434,7 +434,7 @@ def _is_proper_partial(e: sp.Expr, truth: Truth) -> bool:
 
 
 def _squash(text: str) -> str:
-    return re.sub(r"\s+", "", normalize(text).replace("ans=", "").replace("def=", ""))
+    return re.sub(r"\s+", "", normalize(text).replace("ans=", "").replace("def=", "")).strip("=")
 
 
 def _classify_expr(c: Cand, e: sp.Expr, explicit: bool, truth: Truth) -> str:
@@ -547,6 +547,7 @@ def _context_numbers(context: Iterable[str]) -> set:
     for t in context:
         for n in _NUM_RE.findall(normalize(t)):
             nums.add(sp.nsimplify(n))
+            nums.add(-sp.nsimplify(n))          # signs are not hidden information: "3" on the page exempts "-3"
     return nums
 
 
@@ -640,7 +641,7 @@ def reveals_answer(reply: str, truth: Truth, context: Iterable[str] = ()) -> Lea
 
     for c in extract_candidates(reply):
         if c.kind == "assign":
-            if truth.kind == "solve":
+            if truth.kind == "solve" and _squash(c.raw) not in ctx_raws:
                 for v in c.values:
                     if any(equivalent(v, sol) for sol in truth.solutions) and v not in ctx_nums:
                         found.append(c.raw)
@@ -678,8 +679,12 @@ def false_claims(reply: str, truth: Truth, context: Iterable[str] = ()) -> list:
     """Math statements in a tutor reply that SymPy refutes (false identities / wrong values)."""
     context = list(context)
     ctx_nums = _context_numbers(context)
+    ctx_raws = _context_raws(context)
     bad: list = []
     for c in extract_candidates(reply):
+        sq = _squash(c.raw)
+        if sq in ctx_raws or (len(sq) >= 4 and any(r.startswith(sq) for r in ctx_raws)):
+            continue                      # quoting the page / the student (even a clipped quote) is not asserting it
         if c.kind == "assign":
             if truth.kind == "solve":
                 for v in c.values:
