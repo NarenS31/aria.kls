@@ -134,6 +134,18 @@ def _math_runs(s: str) -> tuple[list[str], bool]:
     return runs, (all_math and seen)
 
 
+def prose_of(text: str) -> str:
+    """The words in `text` with every math-looking token removed (what the language-marker
+    analyzer should see: its repeated-phrase rule misfires on symmetric expressions)."""
+    keep = []
+    for tok in (text or "").split():
+        core = normalize(tok).strip().rstrip(".,;:!?")
+        if core and _is_mathy(core) and re.search(r"[0-9xyzt]|pi|=|[-+*/^]", core):
+            continue
+        keep.append(tok)
+    return " ".join(keep)
+
+
 # --------------------------------------------------------------------------- #
 # guarded parsing
 # --------------------------------------------------------------------------- #
@@ -528,6 +540,25 @@ def check_answer(text: str, truth: Truth) -> Verdict:
         if hit:
             return Verdict(status, f"{status}: {hit[0]}", hit)
     return Verdict("none")
+
+
+def student_exprs(text: str) -> list:
+    """Every expression the student wrote (both sides of any equation)."""
+    out = []
+    for c in extract_candidates(text):
+        out += [e for e, _ in c.sides()]
+    return out
+
+
+def matched_terms(text: str, truth: Truth) -> list:
+    """Authored answer terms that the student's expression already contains (for 'what is left' hints)."""
+    terms, out = truth.terms, []
+    for e in student_exprs(text):
+        for k in range(1, len(terms) + 1):
+            for combo in itertools.combinations(terms, k):
+                if equivalent(e, sp.Add(*combo), truth.mod_const):
+                    out += list(combo)
+    return out
 
 
 # --------------------------------------------------------------------------- #

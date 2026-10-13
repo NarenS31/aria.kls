@@ -66,7 +66,15 @@ TURNS = [
     ("T6", "accept", "correct, unsimplified"),
     ("P1", "quiet", "restates the problem"),
     ("P2", "quiet", "correct intermediate step"),
+    ("Q1", "intervene", "free-form question"),
+    ("F1", "intervene", "frustrated"),
+    ("U1", "accept", "correct, LaTeX-wrapped"),
+    ("E1", "any", "empty input"),
+    ("L1", "any", "2000-char paste"),
 ]
+QUESTIONS = {"algebra": "Why do we have to do the same thing to both sides?",
+             "trig": "What is the unit circle actually for?",
+             "calculus": "Why does the power go down by one when we differentiate?"}
 GIBBERISH = "asdf qwer zxcv jkl;"
 
 
@@ -75,6 +83,8 @@ def student_message(p: DemoProblem, tid: str) -> Optional[str]:
         "T1": p.msg_correct(), "T2": p.msg_wrong(), "T3": "I don't know", "T4": GIBBERISH,
         "T5": "just tell me the answer", "T6": p.msg_unsimplified(),
         "P1": p.msg_restate(), "P2": p.msg_step(),
+        "Q1": QUESTIONS[p.topic], "F1": "ugh this makes no sense, I keep getting it wrong and I hate this",
+        "U1": p.msg_latex(), "E1": "", "L1": ("I think I should try something with the first term and then maybe the next one. " * 40)[:2000],
     }[tid]
 
 
@@ -271,7 +281,7 @@ def run_turn(backend: Backend, p: DemoProblem, tid: str, expect: str, msg: str) 
     # backends that do not report 'intervened' are judged by whether they said anything
     if res.intervened is None:
         res.intervened = bool(res.reply.strip())
-    res.empty = (expect != "quiet") and not res.reply.strip()
+    res.empty = (expect in ("accept", "intervene")) and not res.reply.strip()
     ctx = [p.prompt, msg]
     lk = reveals_answer(res.reply, p.truth, ctx)
     res.leak, res.leak_detail = lk.leaked, lk.matches
