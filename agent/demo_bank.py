@@ -43,6 +43,13 @@ class DemoProblem:
     def msg_step(self) -> Optional[str]:
         return self.spec.get("step_ok")
 
+    def msg_latex(self) -> str:
+        """The correct answer as a LaTeX-wrapped message, the way a pasted answer might arrive."""
+        if self.truth.kind == "expr":
+            return f"${sp.latex(self.truth.answer)}$"
+        vals = sorted(self.truth.solutions, key=float)
+        return " , ".join(f"${self.truth.var} = {sp.latex(v)}$" for v in vals)
+
     def msg_restate(self) -> str:
         return self.spec["equation"].replace("=", " = ", 1) if self.truth.kind == "solve" else f"f(x) = {self.spec['given'][0]}"
 

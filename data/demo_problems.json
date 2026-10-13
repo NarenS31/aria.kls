@@ -496,7 +496,7 @@
   "step_ok": "2x cos(2x)",
   "moves": [
    {
-    "do": "Use the product rule: differentiate x^2 and keep cos(2x)",
+    "do": "Use the product rule, so differentiate x^2 and keep cos(2x)",
     "result": "2x cos(2x)"
    }
   ]
@@ -524,7 +524,7 @@
   "step_ok": "2x sin(3x)",
   "moves": [
    {
-    "do": "Use the product rule: differentiate x^2 and keep sin(3x)",
+    "do": "Use the product rule, so differentiate x^2 and keep sin(3x)",
     "result": "2x sin(3x)"
    }
   ]
@@ -547,7 +547,7 @@
   "unsimplified": "e^(2x) * 2",
   "moves": [
    {
-    "do": "Use the chain rule: what is the derivative of the inside, 2x?"
+    "do": "Use the chain rule, and find the derivative of the inside, 2x"
    }
   ]
  },
@@ -572,7 +572,7 @@
   "unsimplified": "(1/(x^2+1)) * 2x",
   "moves": [
    {
-    "do": "Use the chain rule: the derivative of ln(u) is 1/u",
+    "do": "Use the chain rule, where the derivative of ln(u) is 1/u",
     "result": "1/(x^2+1)"
    }
   ],
@@ -599,7 +599,7 @@
   "unsimplified": "3(x^2+1)^2 * 2x",
   "moves": [
    {
-    "do": "Use the chain rule: bring down the 3 and lower the power",
+    "do": "Use the chain rule, so bring down the 3 and lower the power",
     "result": "3(x^2+1)^2"
    }
   ],
@@ -680,7 +680,7 @@
   "unsimplified": "(1/4)x^4 + C",
   "moves": [
    {
-    "do": "Use the power rule for integrals: raise the power by one",
+    "do": "Use the power rule for integrals and raise the power by one",
     "result": "x^4"
    }
   ],
@@ -709,7 +709,7 @@
   "step_ok": "cos(x)^2",
   "moves": [
    {
-    "do": "Use the product rule: differentiate sin(x) and keep cos(x)",
+    "do": "Use the product rule, so differentiate sin(x) and keep cos(x)",
     "result": "cos(x)^2"
    }
   ]
