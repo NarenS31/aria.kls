@@ -1,0 +1,717 @@
+[
+ {
+  "id": "alg-01",
+  "level": "intro",
+  "topic": "algebra",
+  "prompt": "Solve for x: 3(x - 4) = 2x + 5",
+  "kind": "solve",
+  "equation": "3(x-4) = 2x+5",
+  "wrong": "7",
+  "unsimplified": "34/2",
+  "step_ok": "x - 12 = 5",
+  "moves": [
+   {
+    "do": "Subtract 2x from both sides",
+    "result": "x - 12 = 5"
+   }
+  ]
+ },
+ {
+  "id": "alg-02",
+  "level": "intro",
+  "topic": "algebra",
+  "prompt": "Solve for x: 2x + 7 = 15",
+  "kind": "solve",
+  "equation": "2x+7 = 15",
+  "wrong": "11",
+  "unsimplified": "8/2",
+  "step_ok": "2x = 8",
+  "moves": [
+   {
+    "do": "Subtract 7 from both sides",
+    "result": "2x = 8"
+   }
+  ]
+ },
+ {
+  "id": "alg-03",
+  "level": "intro",
+  "topic": "algebra",
+  "prompt": "Solve for x: 5x - 3 = 2x + 9",
+  "kind": "solve",
+  "equation": "5x-3 = 2x+9",
+  "wrong": "2",
+  "unsimplified": "12/3",
+  "step_ok": "3x - 3 = 9",
+  "moves": [
+   {
+    "do": "Subtract 2x from both sides",
+    "result": "3x - 3 = 9"
+   }
+  ]
+ },
+ {
+  "id": "alg-04",
+  "level": "core",
+  "topic": "algebra",
+  "prompt": "Solve for x: (x + 1)/2 = 7",
+  "kind": "solve",
+  "equation": "(x+1)/2 = 7",
+  "wrong": "6",
+  "unsimplified": "14 - 1",
+  "step_ok": "x + 1 = 14",
+  "moves": [
+   {
+    "do": "Multiply both sides by 2",
+    "result": "x + 1 = 14"
+   }
+  ]
+ },
+ {
+  "id": "alg-05",
+  "level": "core",
+  "topic": "algebra",
+  "prompt": "Solve for x: x^2 - 5x + 6 = 0",
+  "kind": "solve",
+  "equation": "x^2-5x+6 = 0",
+  "wrong": "1",
+  "unsimplified": [
+   "4/2",
+   "6/2"
+  ],
+  "step_ok": "(x - 2)(x - 3) = 0",
+  "moves": [
+   {
+    "do": "Factor the left side",
+    "result": "(x - 2)(x - 3) = 0"
+   }
+  ]
+ },
+ {
+  "id": "alg-06",
+  "level": "core",
+  "topic": "algebra",
+  "prompt": "Solve for x: x^2 - 9 = 0",
+  "kind": "solve",
+  "equation": "x^2-9 = 0",
+  "wrong": "9",
+  "unsimplified": [
+   "9/3",
+   "-9/3"
+  ],
+  "step_ok": "x^2 = 9",
+  "moves": [
+   {
+    "do": "Add 9 to both sides",
+    "result": "x^2 = 9"
+   }
+  ]
+ },
+ {
+  "id": "alg-07",
+  "level": "advanced",
+  "topic": "algebra",
+  "prompt": "Solve for x: 2x^2 + 3x - 2 = 0",
+  "kind": "solve",
+  "equation": "2x^2+3x-2 = 0",
+  "wrong": "2",
+  "unsimplified": [
+   "1/2",
+   "-4/2"
+  ],
+  "step_ok": "(2x - 1)(x + 2) = 0",
+  "moves": [
+   {
+    "do": "Factor the left side",
+    "result": "(2x - 1)(x + 2) = 0"
+   }
+  ]
+ },
+ {
+  "id": "alg-08",
+  "level": "core",
+  "topic": "algebra",
+  "prompt": "Expand (x + 3)^2",
+  "kind": "expr",
+  "given": [
+   "(x+3)^2"
+  ],
+  "answer": "x^2+6x+9",
+  "terms": [
+   "x^2",
+   "6x",
+   "9"
+  ],
+  "check": {
+   "op": "expand",
+   "of": "(x+3)^2"
+  },
+  "wrong": "x^2 + 3x + 9",
+  "unsimplified": "x^2 + 3x + 3x + 9",
+  "step_ok": "x^2 + 6x",
+  "moves": [
+   {
+    "do": "Write (x + 3)(x + 3) and multiply each term",
+    "result": "x^2"
+   }
+  ]
+ },
+ {
+  "id": "alg-09",
+  "level": "core",
+  "topic": "algebra",
+  "prompt": "Expand (2x - 1)(x + 4)",
+  "kind": "expr",
+  "given": [
+   "(2x-1)(x+4)"
+  ],
+  "answer": "2x^2+7x-4",
+  "terms": [
+   "2x^2",
+   "7x",
+   "-4"
+  ],
+  "check": {
+   "op": "expand",
+   "of": "(2x-1)(x+4)"
+  },
+  "wrong": "2x^2 + 7x + 4",
+  "unsimplified": "2x^2 + 8x - x - 4",
+  "step_ok": "2x^2 + 7x",
+  "moves": [
+   {
+    "do": "Multiply 2x by each term in the second bracket",
+    "result": "2x^2"
+   }
+  ]
+ },
+ {
+  "id": "alg-10",
+  "level": "core",
+  "topic": "algebra",
+  "prompt": "Simplify (x^2 - 4)/(x - 2)",
+  "kind": "expr",
+  "given": [
+   "(x^2-4)/(x-2)"
+  ],
+  "answer": "x+2",
+  "check": {
+   "op": "simplify",
+   "of": "(x^2-4)/(x-2)"
+  },
+  "wrong": "x - 2",
+  "unsimplified": "(x - 2)(x + 2)/(x - 2)",
+  "moves": [
+   {
+    "do": "Factor the top as a difference of squares"
+   }
+  ]
+ },
+ {
+  "id": "trig-01",
+  "level": "intro",
+  "topic": "trig",
+  "prompt": "Evaluate sin(pi/6) + cos(pi/3)",
+  "kind": "expr",
+  "given": [
+   "sin(pi/6)+cos(pi/3)"
+  ],
+  "answer": "1",
+  "steps": [
+   "1/2"
+  ],
+  "check": {
+   "op": "value",
+   "of": "sin(pi/6)+cos(pi/3)"
+  },
+  "wrong": "3/2",
+  "unsimplified": "1/2 + 1/2",
+  "step_ok": "sin(pi/6) = 1/2",
+  "moves": [
+   {
+    "do": "Find sin(pi/6) from the unit circle",
+    "result": "1/2"
+   }
+  ]
+ },
+ {
+  "id": "trig-02",
+  "level": "intro",
+  "topic": "trig",
+  "prompt": "Evaluate tan(pi/4) * cos(pi/3)",
+  "kind": "expr",
+  "given": [
+   "tan(pi/4)*cos(pi/3)"
+  ],
+  "answer": "1/2",
+  "steps": [
+   "1"
+  ],
+  "check": {
+   "op": "value",
+   "of": "tan(pi/4)*cos(pi/3)"
+  },
+  "wrong": "2",
+  "unsimplified": "1 * 1/2",
+  "step_ok": "tan(pi/4) = 1",
+  "moves": [
+   {
+    "do": "Find tan(pi/4) first",
+    "result": "1"
+   }
+  ]
+ },
+ {
+  "id": "trig-03",
+  "level": "core",
+  "topic": "trig",
+  "prompt": "Evaluate cos(pi/4)^2",
+  "kind": "expr",
+  "given": [
+   "cos(pi/4)^2"
+  ],
+  "answer": "1/2",
+  "steps": [
+   "sqrt(2)/2"
+  ],
+  "check": {
+   "op": "value",
+   "of": "cos(pi/4)^2"
+  },
+  "wrong": "1",
+  "unsimplified": "(sqrt(2)/2)^2",
+  "step_ok": "cos(pi/4) = sqrt(2)/2",
+  "moves": [
+   {
+    "do": "Find cos(pi/4) first",
+    "result": "sqrt(2)/2"
+   }
+  ]
+ },
+ {
+  "id": "trig-04",
+  "level": "core",
+  "topic": "trig",
+  "prompt": "Simplify sin(x)cos(x)/(1 - sin(x)^2)",
+  "kind": "expr",
+  "given": [
+   "sin(x)cos(x)/(1-sin(x)^2)"
+  ],
+  "answer": "tan(x)",
+  "check": {
+   "op": "simplify",
+   "of": "sin(x)cos(x)/(1-sin(x)^2)"
+  },
+  "wrong": "sin(x)",
+  "unsimplified": "sin(x)/cos(x)",
+  "moves": [
+   {
+    "do": "Rewrite 1 - sin(x)^2 using the Pythagorean identity",
+    "claim": "1 - sin(x)^2 = cos(x)^2"
+   }
+  ],
+  "step_ok": "1 - sin(x)^2 = cos(x)^2"
+ },
+ {
+  "id": "trig-05",
+  "level": "core",
+  "topic": "trig",
+  "prompt": "Simplify (1 - cos(x)^2)/sin(x)",
+  "kind": "expr",
+  "given": [
+   "(1-cos(x)^2)/sin(x)"
+  ],
+  "answer": "sin(x)",
+  "check": {
+   "op": "simplify",
+   "of": "(1-cos(x)^2)/sin(x)"
+  },
+  "wrong": "cos(x)",
+  "unsimplified": "sin(x)^2/sin(x)",
+  "moves": [
+   {
+    "do": "Rewrite 1 - cos(x)^2 using the Pythagorean identity",
+    "claim": "1 - cos(x)^2 = sin(x)^2"
+   }
+  ],
+  "step_ok": "1 - cos(x)^2 = sin(x)^2"
+ },
+ {
+  "id": "trig-06",
+  "level": "core",
+  "topic": "trig",
+  "prompt": "Simplify sin(2x)/(2 sin(x))",
+  "kind": "expr",
+  "given": [
+   "sin(2x)/(2 sin(x))"
+  ],
+  "answer": "cos(x)",
+  "check": {
+   "op": "simplify",
+   "of": "sin(2x)/(2 sin(x))"
+  },
+  "wrong": "sin(x)",
+  "unsimplified": "2 sin(x) cos(x)/(2 sin(x))",
+  "moves": [
+   {
+    "do": "Expand sin(2x) with the double-angle formula",
+    "claim": "sin(2x) = 2 sin(x) cos(x)"
+   }
+  ],
+  "step_ok": "sin(2x) = 2 sin(x) cos(x)"
+ },
+ {
+  "id": "trig-07",
+  "level": "intro",
+  "topic": "trig",
+  "prompt": "Simplify tan(x) cos(x)",
+  "kind": "expr",
+  "given": [
+   "tan(x)cos(x)"
+  ],
+  "answer": "sin(x)",
+  "check": {
+   "op": "simplify",
+   "of": "tan(x)cos(x)"
+  },
+  "wrong": "cos(x)",
+  "unsimplified": "sin(x)/cos(x) * cos(x)",
+  "moves": [
+   {
+    "do": "Write tan(x) as sin(x)/cos(x)",
+    "claim": "tan(x) = sin(x)/cos(x)"
+   }
+  ],
+  "step_ok": "tan(x) = sin(x)/cos(x)"
+ },
+ {
+  "id": "trig-08",
+  "level": "core",
+  "topic": "trig",
+  "prompt": "Solve sin(x) = 1/2 for 0 <= x <= pi/2",
+  "kind": "solve",
+  "equation": "sin(x) = 1/2",
+  "solutions": [
+   "pi/6"
+  ],
+  "wrong": "pi/3",
+  "unsimplified": "2pi/12",
+  "moves": [
+   {
+    "do": "Recall which angle in the first quadrant has sine 1/2"
+   }
+  ]
+ },
+ {
+  "id": "trig-09",
+  "level": "core",
+  "topic": "trig",
+  "prompt": "Solve 2cos(x) = 1 for 0 <= x <= pi/2",
+  "kind": "solve",
+  "equation": "2cos(x) = 1",
+  "solutions": [
+   "pi/3"
+  ],
+  "wrong": "pi/6",
+  "unsimplified": "2pi/6",
+  "step_ok": "cos(x) = 1/2",
+  "moves": [
+   {
+    "do": "Divide both sides by 2",
+    "result": "cos(x) = 1/2"
+   }
+  ]
+ },
+ {
+  "id": "trig-10",
+  "level": "core",
+  "topic": "trig",
+  "prompt": "Solve tan(x) = 1 for 0 <= x <= pi/2",
+  "kind": "solve",
+  "equation": "tan(x) = 1",
+  "solutions": [
+   "pi/4"
+  ],
+  "wrong": "pi/3",
+  "unsimplified": "2pi/8",
+  "moves": [
+   {
+    "do": "Recall which angle in the first quadrant has tangent 1"
+   }
+  ]
+ },
+ {
+  "id": "calc-01",
+  "level": "core",
+  "topic": "calculus",
+  "prompt": "Differentiate f(x) = 3x^4 - 5x^2 + 7x - 9",
+  "kind": "expr",
+  "given": [
+   "3x^4-5x^2+7x-9"
+  ],
+  "answer": "12x^3-10x+7",
+  "terms": [
+   "12x^3",
+   "-10x",
+   "7"
+  ],
+  "check": {
+   "op": "diff",
+   "of": "3x^4-5x^2+7x-9"
+  },
+  "wrong": "12x^3 - 10x - 9",
+  "unsimplified": "7 - 10x + 12x^3",
+  "step_ok": "12x^3 - 10x",
+  "moves": [
+   {
+    "do": "Apply the power rule to 3x^4",
+    "result": "12x^3"
+   },
+   {
+    "do": "Apply the power rule to 5x^2",
+    "result": "-10x"
+   }
+  ]
+ },
+ {
+  "id": "calc-02",
+  "level": "advanced",
+  "topic": "calculus",
+  "prompt": "Differentiate f(x) = x^2 cos(2x)",
+  "kind": "expr",
+  "given": [
+   "x^2 cos(2x)"
+  ],
+  "answer": "2x cos(2x) - 2x^2 sin(2x)",
+  "terms": [
+   "2x cos(2x)",
+   "-2x^2 sin(2x)"
+  ],
+  "check": {
+   "op": "diff",
+   "of": "x^2 cos(2x)"
+  },
+  "wrong": "2x cos(2x) + 2x^2 sin(2x)",
+  "unsimplified": "2x cos(2x) + x^2 (-2 sin(2x))",
+  "step_ok": "2x cos(2x)",
+  "moves": [
+   {
+    "do": "Use the product rule: differentiate x^2 and keep cos(2x)",
+    "result": "2x cos(2x)"
+   }
+  ]
+ },
+ {
+  "id": "calc-03",
+  "level": "advanced",
+  "topic": "calculus",
+  "prompt": "Differentiate f(x) = x^2 sin(3x)",
+  "kind": "expr",
+  "given": [
+   "x^2 sin(3x)"
+  ],
+  "answer": "2x sin(3x) + 3x^2 cos(3x)",
+  "terms": [
+   "2x sin(3x)",
+   "3x^2 cos(3x)"
+  ],
+  "check": {
+   "op": "diff",
+   "of": "x^2 sin(3x)"
+  },
+  "wrong": "2x cos(3x)",
+  "unsimplified": "3x^2 cos(3x) + 2x sin(3x)",
+  "step_ok": "2x sin(3x)",
+  "moves": [
+   {
+    "do": "Use the product rule: differentiate x^2 and keep sin(3x)",
+    "result": "2x sin(3x)"
+   }
+  ]
+ },
+ {
+  "id": "calc-04",
+  "level": "core",
+  "topic": "calculus",
+  "prompt": "Differentiate f(x) = e^(2x)",
+  "kind": "expr",
+  "given": [
+   "e^(2x)"
+  ],
+  "answer": "2e^(2x)",
+  "check": {
+   "op": "diff",
+   "of": "e^(2x)"
+  },
+  "wrong": "e^(2x)",
+  "unsimplified": "e^(2x) * 2",
+  "moves": [
+   {
+    "do": "Use the chain rule: what is the derivative of the inside, 2x?"
+   }
+  ]
+ },
+ {
+  "id": "calc-05",
+  "level": "core",
+  "topic": "calculus",
+  "prompt": "Differentiate f(x) = ln(x^2 + 1)",
+  "kind": "expr",
+  "given": [
+   "ln(x^2+1)"
+  ],
+  "answer": "2x/(x^2+1)",
+  "steps": [
+   "1/(x^2+1)"
+  ],
+  "check": {
+   "op": "diff",
+   "of": "ln(x^2+1)"
+  },
+  "wrong": "2x",
+  "unsimplified": "(1/(x^2+1)) * 2x",
+  "moves": [
+   {
+    "do": "Use the chain rule: the derivative of ln(u) is 1/u",
+    "result": "1/(x^2+1)"
+   }
+  ],
+  "step_ok": "the outer derivative is 1/(x^2+1)"
+ },
+ {
+  "id": "calc-06",
+  "level": "advanced",
+  "topic": "calculus",
+  "prompt": "Differentiate f(x) = (x^2 + 1)^3",
+  "kind": "expr",
+  "given": [
+   "(x^2+1)^3"
+  ],
+  "answer": "6x(x^2+1)^2",
+  "steps": [
+   "3(x^2+1)^2"
+  ],
+  "check": {
+   "op": "diff",
+   "of": "(x^2+1)^3"
+  },
+  "wrong": "6x(x^2+1)^3",
+  "unsimplified": "3(x^2+1)^2 * 2x",
+  "moves": [
+   {
+    "do": "Use the chain rule: bring down the 3 and lower the power",
+    "result": "3(x^2+1)^2"
+   }
+  ],
+  "step_ok": "the outer derivative is 3(x^2+1)^2"
+ },
+ {
+  "id": "calc-07",
+  "level": "core",
+  "topic": "calculus",
+  "prompt": "Find the integral of 6x^2 - 4x + 1 dx",
+  "kind": "expr",
+  "given": [
+   "6x^2-4x+1"
+  ],
+  "answer": "2x^3-2x^2+x",
+  "terms": [
+   "2x^3",
+   "-2x^2",
+   "x"
+  ],
+  "mod_const": true,
+  "check": {
+   "op": "integrate",
+   "of": "6x^2-4x+1"
+  },
+  "wrong": "6x^3 - 4x^2 + x",
+  "unsimplified": "x - 2x^2 + 2x^3 + C",
+  "step_ok": "2x^3 - 2x^2",
+  "moves": [
+   {
+    "do": "Integrate 6x^2 using the power rule",
+    "result": "2x^3"
+   }
+  ]
+ },
+ {
+  "id": "calc-08",
+  "level": "intro",
+  "topic": "calculus",
+  "prompt": "Find the integral of cos(x) dx",
+  "kind": "expr",
+  "given": [
+   "cos(x)"
+  ],
+  "answer": "sin(x)",
+  "mod_const": true,
+  "check": {
+   "op": "integrate",
+   "of": "cos(x)"
+  },
+  "wrong": "-sin(x)",
+  "unsimplified": "sin(x) + C",
+  "moves": [
+   {
+    "do": "Which function has cos(x) as its derivative?"
+   }
+  ]
+ },
+ {
+  "id": "calc-09",
+  "level": "intro",
+  "topic": "calculus",
+  "prompt": "Find the integral of x^3 dx",
+  "kind": "expr",
+  "given": [
+   "x^3"
+  ],
+  "answer": "x^4/4",
+  "steps": [
+   "x^4"
+  ],
+  "mod_const": true,
+  "check": {
+   "op": "integrate",
+   "of": "x^3"
+  },
+  "wrong": "3x^2",
+  "unsimplified": "(1/4)x^4 + C",
+  "moves": [
+   {
+    "do": "Use the power rule for integrals: raise the power by one",
+    "result": "x^4"
+   }
+  ],
+  "step_ok": "the power goes up to x^4"
+ },
+ {
+  "id": "calc-10",
+  "level": "advanced",
+  "topic": "calculus",
+  "prompt": "Differentiate f(x) = sin(x) cos(x)",
+  "kind": "expr",
+  "given": [
+   "sin(x)cos(x)"
+  ],
+  "answer": "cos(x)^2-sin(x)^2",
+  "terms": [
+   "cos(x)^2",
+   "-sin(x)^2"
+  ],
+  "check": {
+   "op": "diff",
+   "of": "sin(x)cos(x)"
+  },
+  "wrong": "cos(x)^2 + sin(x)^2",
+  "unsimplified": "cos(2x)",
+  "step_ok": "cos(x)^2",
+  "moves": [
+   {
+    "do": "Use the product rule: differentiate sin(x) and keep cos(x)",
+    "result": "cos(x)^2"
+   }
+  ]
+ }
+]
