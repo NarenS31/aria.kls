@@ -17,11 +17,17 @@ can be reproduced.
    audit file is `docs/AUDIT_20260826.md:1`. Anything you built after Aug 26 and
    did not push is invisible to me. Full history was available (23 commits,
    `git rev-parse --is-shallow-repository` → `false`).
-2. **`docs/aria_tutor_demo.html` — not found.** It has never existed on any ref
-   (`git log --all -- docs/aria_tutor_demo.html` is empty; `docs/` contains only
-   `AUDIT_20260826.md`). The only other branch with "summit demo" in its name,
-   `origin/codex/aria-summit-demo`, is a 2026-07-23 ancestor of `main` and also has
-   no such file. Item 1 therefore covers `ui/app.py` only.
+2. **`docs/aria_tutor_demo.html` — not in the clone of `main`; RESOLVED 2026-10-13.**
+   It was untracked on your Mac and is now on `origin/summit-demo` (commit `3874a8f`,
+   with `docs/AUDIT_20260901.md` and the two mockups). §1 now covers it. I
+   re-diffed `origin/summit-demo` against the `main` I audited: `agent/`, `ui/`,
+   `main.py`, `scripts/`, `requirements.txt` are **identical**; the only code-side
+   additions are two new test files from your eval commits
+   (`tests/test_llm_fallback.py`, `tests/test_problem_disjoint_split.py`, not
+   run). So every citation below still holds on your branch. Your own
+   `docs/AUDIT_20260901.md` (§1.2, §6.3) lists `data/question_bank.json` as a local
+   100-task file dated 2026-07-29, which agrees with §0.3 (present on your Mac,
+   not committed); I have not diffed it against my rebuild.
 3. **`data/question_bank.json` — not found in the repo.** `.gitignore:17`
    (`/data/*`) excludes it and no allow-list line re-includes it, although
    `scripts/build_question_bank.py:3` and `agent/reasoning.py:820` both call it
@@ -37,8 +43,32 @@ can be reproduced.
 
 ## 1. Demo entry point
 
-**`docs/aria_tutor_demo.html`: not found** (see §0.2). I cannot say whether it is
-static or calls Ollama.
+**`docs/aria_tutor_demo.html`** (667 lines, read in full; added 2026-10-13, after
+your 09-01 audit, which lists only the two mockups in `docs/`):
+
+- **It is a static, scripted playback. It never calls Ollama or anything else.** A
+  scan for `fetch(`, `XMLHttpRequest`, `WebSocket`, `localhost`, `11434`, `ollama`,
+  `/api/` and any `http(s)://` resource returns no matches. There is one inline
+  `<script>` (`:484-664`).
+- **One hard-coded problem:** "Differentiate f(x) = x²·sin(3x)" (`:465`), with two
+  canned transcripts: **Direct answer** (`DIRECT`, `:495-515`) and **Guided**
+  (`GUIDED`, `:517-532`), switched by a toggle (`:456-457`, `setMode` `:628-639`)
+  and a Replay button (`:471`, `:655`). The student's lines are fixed (`SHARED`,
+  `:490-493`); delays are fixed `sleep()` calls (`:610`, `:617`).
+- **Typed input is discarded.** The composer's submit handler only clears the
+  field (`:657-660`).
+- **It does not demonstrate timing.** Its contrast is answer-giving vs scaffolded,
+  not intervene vs stay quiet. There is no state model and no "watching" state
+  (no Stuck/Flow/Frustrated/Planning logic anywhere in the file). Worse for your
+  pitch, the Guided script has ARIA reply with a question to **every** student turn
+  (`:518`, `:522`, `:526`, `:529-531`), including a "Correct." plus a further
+  question after the student finishes (`:529-531`). That is the "scaffolds every
+  turn" behavior your talk positions ARIA *against*.
+- Its worked answer is mathematically right:
+  `f′(x) = 2x·sin(3x) + 3x²·cos(3x)` (`:510`), and it is structurally close to your
+  `x^2 cos(2x)` demo problem (product rule plus chain rule).
+- The two mockups (`docs/mockup_A_answer_giving.html`,
+  `docs/mockup_B_scaffolded.html`, 395 and 387 lines) were **not** read in detail.
 
 **`ui/app.py` + `main.py`** (the only runnable UI in the repo):
 
@@ -67,10 +97,13 @@ launches experiment subprocesses (`ui/app.py:1154-1172`); startup needs the full
 memory stack plus a `rumps`/`pyobjc` macOS dependency set
 (`requirements.txt:1-4`).
 
-**Which is the better base?** With the HTML demo missing, `ui/app.py` is the only
-base, but I would not demo from the full app. Recommendation in §10: a new slim
-demo page that reuses the state-panel and banner patterns
-(`ui/app.py:369-430`, `:456-482`) and none of the rest.
+**Which is the better base?** Neither as-is. The HTML page is safe, instant and
+offline, but it is a recording: no live model, no input handling, no timing
+behavior, and its guided script intervenes on every turn. `ui/app.py` is live but
+loads the full memory stack and exposes `reset_everything`. Recommendation in §10:
+a new slim live demo page that reuses the HTML page's look and the `ui/app.py`
+state-panel and banner patterns (`ui/app.py:369-430`, `:456-482`), and drops the
+rest. The HTML file can double as an offline fallback if the live model hangs.
 
 ---
 
@@ -381,6 +414,9 @@ There is **no test that touches the live Ollama path**; UI tests use a `FakeAgen
 4. **Problem data is not versioned** (§0.3, §5) and has no levels.
 5. **No pinned/complete requirements** (§6): `sympy`, `scikit-learn`, `joblib` are
    absent.
+6. **The existing demo page does not show the differentiator** (§1): it is a fixed
+   recording, and its guided transcript scaffolds every turn. The timing behavior
+   has to be built live, not recovered from the HTML.
 
 ---
 
