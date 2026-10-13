@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARIA — Condition B · Scaffolded Prompt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0F1F3D;
+    --blue:#2E7DD1;
+    --page:#F7F9FC;
+    --card:#FFFFFF;
+    --line:#E4E9F0;
+    --ink:#1B2536;
+    --ink-soft:#5C6880;
+    --ink-faint:#8A94A6;
+    --student:#E8F0FA;
+    --code:#F4F6F8;
+    --red:#C0392B;
+    --green:#1A7A4A;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+
+  html{-webkit-text-size-adjust:100%;}
+
+  body{
+    background:var(--page);
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    padding:20px 24px 24px;
+    min-height:100vh;
+  }
+
+  .frame{
+    width:1200px;
+    max-width:100%;
+    background:var(--page);
+    border-radius:21px;
+    overflow:hidden;
+    box-shadow:0 1.5px 3px rgba(15,31,61,.06), 0 18px 48px rgba(15,31,61,.10);
+  }
+
+  /* ── Header bar ─────────────────────────────── */
+  .topbar{
+    height:78px;
+    background:var(--navy);
+    display:flex;
+    align-items:center;
+    padding:0 21px;
+    gap:15px;
+  }
+
+  .brand{display:flex;align-items:center;gap:13.5px;flex:0 0 auto;}
+
+  /* CSS-drawn geometric "A" in a circle */
+  .mark{
+    position:relative;
+    width:var(--s,39px);
+    height:var(--s,39px);
+    border-radius:50%;
+    border:2.25px solid var(--c,#fff);
+    flex:0 0 auto;
+  }
+  .mark i{position:absolute;background:var(--c,#fff);display:block;}
+  .mark .l,.mark .r{
+    width:2.4px;
+    height:calc(var(--s,39px) * .50);
+    top:calc(var(--s,39px) * .21);
+    border-radius:1.5px;
+  }
+  .mark .l{left:calc(var(--s,39px) * .29);transform:rotate(20deg);transform-origin:bottom center;}
+  .mark .r{right:calc(var(--s,39px) * .29);transform:rotate(-20deg);transform-origin:bottom center;}
+  .mark .b{
+    height:2.4px;
+    width:calc(var(--s,39px) * .31);
+    left:50%;
+    bottom:calc(var(--s,39px) * .30);
+    transform:translateX(-50%);
+    border-radius:1.5px;
+  }
+
+
+
+  /* ── Body ───────────────────────────────────── */
+  .body{padding:21px 21px 27px;display:grid;grid-template-columns:500px 1fr;gap:21px;align-items:start;}
+
+  /* Problem card */
+  .problem{
+    background:var(--card);
+    border:1.5px solid var(--line);
+    border-radius:18px;
+    padding:24px;
+    box-shadow:0 1.5px 3px rgba(15,31,61,.05), 0 6px 18px rgba(15,31,61,.045);
+  }
+  .eyebrow{
+    font-size:13.5px;
+    font-weight:700;
+    letter-spacing:1.65px;
+    text-transform:uppercase;
+    color:var(--blue);
+  }
+  .problem-text{
+    margin-top:10.5px;
+    font-size:31.5px;
+    font-weight:600;
+    letter-spacing:-0.3px;
+    color:var(--navy);
+  }
+  .tried-label{
+    margin-top:21px;
+    font-size:14.25px;
+    font-weight:600;
+    letter-spacing:0.45px;
+    color:var(--ink-soft);
+  }
+  .tried{
+    margin-top:9px;
+    margin-left:15px;
+    padding:13.5px 16.5px;
+    background:#F4F6F9;
+    border-left:3px solid #D7DEE8;
+    border-radius:0 12px 12px 0;
+    font-size:15.75px;
+    line-height:1.65;
+    color:#5A657C;
+    font-style:italic;
+  }
+
+  /* Chat area */
+  .chat{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    padding:3px 0;
+  }
+  .turn{display:flex;flex-direction:column;}
+  .row{display:flex;gap:12px;align-items:flex-start;}
+  .row.student{justify-content:flex-end;}
+
+  .avatar{
+    width:36px;height:36px;border-radius:50%;
+    flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;
+    font-size:14.25px;font-weight:700;
+    margin-top:3px;
+  }
+  .avatar.s{background:#CFE0F5;color:#2A5A93;}
+  .avatar.a{background:transparent;}
+
+  .stack{display:flex;flex-direction:column;max-width:580px;}
+  .row.student .stack{align-items:flex-end;}
+
+  .bubble{
+    border-radius:18px;
+    padding:16.5px 19.5px;
+    font-size:15.75px;
+    line-height:1.7;
+  }
+  .bubble.student{
+    background:var(--student);
+    color:#20304A;
+    border-top-right-radius:6px;
+  }
+  .bubble.aria{
+    background:#fff;
+    border:1.5px solid var(--line);
+    border-top-left-radius:6px;
+    box-shadow:0 1.5px 3px rgba(15,31,61,.04);
+    color:var(--ink);
+  }
+
+  .time{
+    font-size:12px;
+    color:var(--ink-faint);
+    margin-top:6px;
+    letter-spacing:0.3px;
+  }
+
+  /* Condition badge */
+  .badge{
+    display:inline-flex;
+    align-items:center;
+    align-self:flex-start;
+    font-size:10.5px;
+    font-weight:700;
+    letter-spacing:1.35px;
+    text-transform:uppercase;
+    color:#fff;
+    padding:4.5px 10.5px;
+    border-radius:1498.5px;
+    margin:0 0 9px 48px;
+  }
+  .badge.direct{background:var(--red);}
+  .badge.scaffold{background:var(--green);}
+
+  /* ARIA answer internals (condition A) */
+  .lead{margin-bottom:13.5px;}
+  .steps{
+    background:var(--code);
+    border:1.5px solid #E7EBF0;
+    border-radius:12px;
+    padding:15px 18px;
+    margin:0 0 13.5px;
+    font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+    font-size:15px;
+    line-height:1.7;
+    color:#2C3852;
+  }
+  .steps .h{
+    font-family:"Inter",sans-serif;
+    font-weight:600;
+    font-size:15px;
+    color:var(--navy);
+  }
+  .steps .m{padding-left:21px;color:#43506B;}
+  .steps .sp{height:12px;}
+
+  .result{margin-bottom:13.5px;}
+  .result b{font-weight:700;color:var(--navy);}
+
+  .check{
+    background:#EBF7F0;
+    border:1.5px solid #CBE7D8;
+    border-left:3px solid var(--green);
+    border-radius:0 10.5px 10.5px 0;
+    padding:10.5px 15px;
+    margin-bottom:13.5px;
+    font-size:14.25px;
+    line-height:1.6;
+    color:#17603C;
+  }
+  .check b{font-weight:600;}
+
+  .keyidea{color:#3E4A61;}
+
+  /* ARIA prompt internals (condition B) */
+  .ack{margin-bottom:15px;color:#3E4A61;}
+  .question{
+    font-size:16.5px;
+    font-weight:700;
+    line-height:1.6;
+    color:var(--navy);
+    letter-spacing:-0.075px;
+  }
+  .signals{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:9px 15px;
+    margin-top:16.5px;
+    padding-top:13.5px;
+    border-top:1.5px solid #EDF0F5;
+  }
+  .signal{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:12px;
+    color:#7E889B;
+    letter-spacing:0.3px;
+    white-space:nowrap;
+  }
+  .signal .d{width:9px;height:9px;border-radius:50%;flex:0 0 auto;}
+  .signal .d.blue{background:#2E7DD1;box-shadow:0 0 0 3px rgba(46,125,209,.14);}
+  .signal .d.amber{background:#E3A72F;box-shadow:0 0 0 3px rgba(227,167,47,.14);}
+  .signal .d.idle{background:#fff;border:1.5px solid #C9D1DE;}
+
+  .footnote{
+    font-size:13.5px;
+    font-style:italic;
+    color:var(--ink-faint);
+    margin-top:10.5px;
+    line-height:1.5;
+    padding-left:3px;
+  }
+
+  /* Composer */
+  .composer{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:#fff;
+    border:1.5px solid var(--line);
+    border-radius:1498.5px;
+    padding:12px 12px 12px 21px;
+    margin-top:3px;
+    box-shadow:0 1.5px 3px rgba(15,31,61,.04);
+  }
+  .composer span{flex:1;font-size:15px;color:#A9B2C2;}
+  .composer .send{
+    width:39px;height:39px;border-radius:50%;
+    background:var(--navy);
+    display:flex;align-items:center;justify-content:center;
+    flex:0 0 auto;
+  }
+  .composer .send::after{
+    content:"";
+    width:9px;height:9px;
+    border-top:2.1px solid #fff;
+    border-right:2.1px solid #fff;
+    transform:rotate(45deg);
+    margin-left:-3px;
+  }
+
+
+  @media (max-width:1248px){
+    body{padding:24px 12px 48px;}
+    .body{grid-template-columns:1fr;}
+    .stack{max-width:78%;}
+  }
+</style>
+</head>
+<body>
+
+<div class="frame">
+
+  <!-- Header -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="mark" style="--s:39px;--c:#fff;"><i class="l"></i><i class="r"></i><i class="b"></i></div>
+    </div>
+  </header>
+
+  <div class="body">
+
+    <!-- Problem card -->
+    <section class="problem">
+      <div class="eyebrow">Problem</div>
+      <div class="problem-text">If 3x + 7 = 22, what is x?</div>
+      <div class="tried-label">What the student tried:</div>
+      <div class="tried">“Ok so I need to get x by itself… maybe I subtract 7 first? Or do I divide? I’m not sure which order to do things in… I’ll try subtracting 7 so 22 minus 7 is 15, so maybe x equals 15?”</div>
+    </section>
+
+    <!-- Chat -->
+    <section class="chat">
+
+      <div class="row student">
+        <div class="stack">
+          <div class="bubble student">I think x = 15? But I’m not sure I did the steps in the right order.</div>
+          <div class="time">2:14 PM</div>
+        </div>
+        <div class="avatar s">S</div>
+      </div>
+
+      <div class="turn">
+        <span class="badge scaffold">Scaffolded Prompt</span>
+        <div class="row aria">
+        <div class="avatar a"><div class="mark" style="--s:36px;--c:#0F1F3D;border-width:1.95px;"><i class="l"></i><i class="r"></i><i class="b"></i></div></div>
+        <div class="stack">
+          <div class="bubble aria">
+            <div class="ack">You mentioned subtracting 7 first — that shows you’re thinking about isolation.</div>
+
+            <div class="question">Before you go further — what’s your plan for getting x completely by itself?</div>
+
+            <div class="signals">
+              <div class="signal"><span class="d blue"></span>Uncertainty detected</div>
+              <div class="signal"><span class="d amber"></span>No next step named</div>
+              <div class="signal"><span class="d idle"></span>Waiting for student plan</div>
+            </div>
+          </div>
+          <div class="footnote">ARIA detected uncertainty and asked a targeted question instead of providing the answer.</div>
+        </div>
+        </div>
+      </div>
+
+      <div class="composer">
+        <span>Type your thinking…</span>
+        <div class="send"></div>
+      </div>
+
+    </section>
+  </div>
+
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,667 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARIA — AI math tutor</title>
+<style>
+  :root{
+    --navy:#0F1F3D;
+    --blue:#2E7DD1;
+    --page:#F7F9FC;
+    --card:#FFFFFF;
+    --line:#E4E9F0;
+    --ink:#1B2536;
+    --ink-soft:#5C6880;
+    --ink-faint:#8A94A6;
+    --student:#E8F0FA;
+    --code:#F4F6F8;
+    --green:#1A7A4A;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-text-size-adjust:100%;}
+
+  body{
+    background:var(--page);
+    font-family:var(--sans);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    padding:20px;
+    min-height:100vh;
+  }
+
+  .frame{
+    width:1080px;
+    max-width:100%;
+    height:calc(100vh - 40px);
+    height:min(880px, calc(100dvh - 40px));
+    display:flex;
+    flex-direction:column;
+    background:var(--page);
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 1.5px 3px rgba(15,31,61,.06), 0 18px 48px rgba(15,31,61,.10);
+  }
+
+  /* -- Header ----------------------------------- */
+  .topbar{
+    flex:0 0 auto;
+    background:var(--navy);
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:0 20px;
+    height:78px;
+  }
+  .brand{display:flex;align-items:center;gap:13px;min-width:0;}
+  .wordmark{
+    font-size:19px;
+    font-weight:700;
+    letter-spacing:2.4px;
+    color:#fff;
+    line-height:1.1;
+  }
+  .tagline{
+    font-size:12.5px;
+    color:rgba(255,255,255,.62);
+    letter-spacing:.2px;
+    margin-top:2px;
+  }
+
+  /* CSS-drawn geometric "A" in a circle */
+  .mark{
+    position:relative;
+    width:var(--s,39px);
+    height:var(--s,39px);
+    border-radius:50%;
+    border:2.25px solid var(--c,#fff);
+    flex:0 0 auto;
+  }
+  .mark i{position:absolute;background:var(--c,#fff);display:block;}
+  .mark .l,.mark .r{
+    width:2.4px;
+    height:calc(var(--s,39px) * .50);
+    top:calc(var(--s,39px) * .21);
+    border-radius:1.5px;
+  }
+  .mark .l{left:calc(var(--s,39px) * .29);transform:rotate(20deg);transform-origin:bottom center;}
+  .mark .r{right:calc(var(--s,39px) * .29);transform:rotate(-20deg);transform-origin:bottom center;}
+  .mark .b{
+    height:2.4px;
+    width:calc(var(--s,39px) * .31);
+    left:50%;
+    bottom:calc(var(--s,39px) * .30);
+    transform:translateX(-50%);
+    border-radius:1.5px;
+  }
+
+  /* Mode switch */
+  .switch{
+    position:relative;
+    display:flex;
+    padding:4px;
+    margin-left:auto;
+    background:rgba(255,255,255,.13);
+    border-radius:999px;
+    flex:0 0 auto;
+  }
+  .switch .thumb{
+    position:absolute;
+    top:4px;
+    left:4px;
+    width:calc(50% - 4px);
+    height:calc(100% - 8px);
+    background:#fff;
+    border-radius:999px;
+    box-shadow:0 1px 3px rgba(0,0,0,.18);
+    transition:transform .22s cubic-bezier(.4,0,.2,1);
+  }
+  .switch[data-mode="guided"] .thumb{transform:translateX(100%);}
+  .opt{
+    position:relative;
+    z-index:1;
+    flex:1 1 0;
+    min-width:118px;
+    border:0;
+    background:none;
+    font:inherit;
+    font-size:13.5px;
+    font-weight:600;
+    letter-spacing:.1px;
+    color:rgba(255,255,255,.78);
+    padding:8px 16px;
+    border-radius:999px;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:color .18s ease;
+  }
+  .opt[aria-checked="true"]{color:var(--navy);}
+  .opt:focus-visible{outline:2px solid #fff;outline-offset:2px;}
+
+  /* -- Body ------------------------------------- */
+  .body{
+    flex:1 1 auto;
+    min-height:0;
+    display:flex;
+    flex-direction:column;
+    padding:18px 20px 20px;
+    gap:14px;
+  }
+
+  /* Problem card */
+  .problem{
+    flex:0 0 auto;
+    background:var(--card);
+    border:1.5px solid var(--line);
+    border-radius:16px;
+    padding:20px 24px;
+    box-shadow:0 1.5px 3px rgba(15,31,61,.05), 0 6px 18px rgba(15,31,61,.045);
+  }
+  .eyebrow{
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:1.6px;
+    text-transform:uppercase;
+    color:var(--blue);
+  }
+  .problem-text{
+    margin-top:8px;
+    font-size:29px;
+    font-weight:600;
+    letter-spacing:-0.3px;
+    color:var(--navy);
+    line-height:1.25;
+  }
+  .problem-sub{
+    margin-top:8px;
+    font-size:13.5px;
+    color:var(--ink-faint);
+  }
+
+  /* Mode note */
+  .noterow{
+    flex:0 0 auto;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:0 2px;
+  }
+  .note{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:13px;
+    color:var(--ink-soft);
+    line-height:1.45;
+  }
+  .note .d{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--blue);
+    box-shadow:0 0 0 3px rgba(46,125,209,.14);
+    flex:0 0 auto;
+  }
+  .replay{
+    margin-left:auto;
+    flex:0 0 auto;
+    border:1.5px solid var(--line);
+    background:#fff;
+    color:var(--ink-soft);
+    font:inherit;
+    font-size:12.5px;
+    font-weight:600;
+    padding:6px 14px;
+    border-radius:999px;
+    cursor:pointer;
+    transition:border-color .18s ease,color .18s ease;
+  }
+  .replay:hover{border-color:#C9D5E4;color:var(--navy);}
+  .replay:focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
+
+  /* Chat */
+  .chat{
+    flex:1 1 auto;
+    min-height:0;
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    padding:4px 4px 6px;
+    opacity:1;
+    transition:opacity .18s ease, transform .18s ease;
+  }
+  .chat.leaving{opacity:0;transform:translateY(-4px);}
+
+  .row{display:flex;gap:12px;align-items:flex-start;}
+  .row.student{justify-content:flex-end;}
+
+  .avatar{
+    width:36px;height:36px;border-radius:50%;
+    flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;
+    font-size:14px;font-weight:700;
+    margin-top:3px;
+  }
+  .avatar.s{background:#CFE0F5;color:#2A5A93;}
+  .avatar.a{background:transparent;}
+
+  .stack{display:flex;flex-direction:column;max-width:640px;min-width:0;}
+  .row.student .stack{align-items:flex-end;}
+
+  .bubble{
+    border-radius:18px;
+    padding:15px 19px;
+    font-size:15.5px;
+    line-height:1.7;
+  }
+  .bubble.student{
+    background:var(--student);
+    color:#20304A;
+    border-top-right-radius:6px;
+  }
+  .bubble.aria{
+    background:#fff;
+    border:1.5px solid var(--line);
+    border-top-left-radius:6px;
+    box-shadow:0 1.5px 3px rgba(15,31,61,.04);
+    color:var(--ink);
+  }
+  .time{
+    font-size:11.5px;
+    color:var(--ink-faint);
+    margin-top:6px;
+    letter-spacing:.3px;
+  }
+
+  /* Math + answer emphasis */
+  .mth{
+    display:inline-block;
+    margin-top:5px;
+    font-family:var(--mono);
+    font-size:14.5px;
+    background:rgba(255,255,255,.62);
+    padding:4px 9px;
+    border-radius:8px;
+    max-width:100%;
+    overflow-x:auto;
+  }
+  .answer{
+    background:#EAF3FC;
+    color:#12325A;
+    font-weight:600;
+    padding:2px 7px;
+    border-radius:7px;
+    -webkit-box-decoration-break:clone;
+    box-decoration-break:clone;
+  }
+  .bubble.student .answer{background:#fff;}
+
+  /* Worked solution */
+  .lead{margin-bottom:13px;}
+  .steps{
+    background:var(--code);
+    border:1.5px solid #E7EBF0;
+    border-radius:12px;
+    padding:14px 17px;
+    margin:0 0 13px;
+    font-family:var(--mono);
+    font-size:14.5px;
+    line-height:1.7;
+    color:#2C3852;
+    overflow-x:auto;
+  }
+  .steps .h{
+    font-family:var(--sans);
+    font-weight:600;
+    font-size:14.5px;
+    color:var(--navy);
+  }
+  .steps .m{padding-left:20px;color:#43506B;white-space:nowrap;}
+  .steps .sp{height:12px;}
+  .result{margin-bottom:13px;}
+  .check{
+    background:#EBF7F0;
+    border:1.5px solid #CBE7D8;
+    border-left:3px solid var(--green);
+    border-radius:0 10px 10px 0;
+    padding:10px 15px;
+    margin-bottom:13px;
+    font-size:14px;
+    line-height:1.6;
+    color:#17603C;
+  }
+  .check b{font-weight:600;}
+  .keyidea{color:#3E4A61;font-size:14.5px;}
+
+  /* Guided turn internals */
+  .ack{margin-bottom:12px;color:#3E4A61;}
+  .question{
+    font-size:16px;
+    font-weight:700;
+    line-height:1.6;
+    color:var(--navy);
+    letter-spacing:-0.075px;
+  }
+
+  /* Typing indicator */
+  .dots{display:flex;align-items:center;gap:5px;padding:17px 19px;}
+  .dots span{
+    width:7px;height:7px;border-radius:50%;
+    background:#B7C0CF;
+    animation:blink 1.15s infinite ease-in-out;
+  }
+  .dots span:nth-child(2){animation-delay:.18s;}
+  .dots span:nth-child(3){animation-delay:.36s;}
+  @keyframes blink{0%,80%,100%{opacity:.32;transform:translateY(0);}40%{opacity:1;transform:translateY(-2px);}}
+  @keyframes rise{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+  .row.enter{animation:rise .26s cubic-bezier(.2,.7,.3,1) both;}
+
+  /* Composer */
+  .composer{
+    flex:0 0 auto;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:#fff;
+    border:1.5px solid var(--line);
+    border-radius:999px;
+    padding:8px 8px 8px 20px;
+    box-shadow:0 1.5px 3px rgba(15,31,61,.04);
+  }
+  .composer input{
+    flex:1 1 auto;
+    min-width:0;
+    border:0;
+    outline:0;
+    background:none;
+    font:inherit;
+    font-size:15px;
+    color:var(--ink);
+    padding:8px 0;
+  }
+  .composer input::placeholder{color:#A9B2C2;}
+  .send{
+    width:39px;height:39px;border-radius:50%;
+    background:var(--navy);
+    border:0;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    flex:0 0 auto;
+  }
+  .send::after{
+    content:"";
+    width:9px;height:9px;
+    border-top:2.1px solid #fff;
+    border-right:2.1px solid #fff;
+    transform:rotate(45deg);
+    margin-left:-3px;
+  }
+  .send:focus-visible,.composer:focus-within{outline:none;}
+  .composer:focus-within{border-color:#BBD3EC;box-shadow:0 0 0 3px rgba(46,125,209,.12);}
+
+  /* -- Responsive ------------------------------- */
+  @media (max-width:720px){
+    body{padding:10px;}
+    .frame{height:calc(100vh - 20px);height:calc(100dvh - 20px);border-radius:16px;}
+    .topbar{height:auto;flex-wrap:wrap;padding:14px 16px;gap:12px;}
+    .switch{width:100%;margin-left:0;}
+    .opt{min-width:0;}
+    .body{padding:14px 14px 16px;gap:12px;}
+    .problem{padding:16px 18px;border-radius:14px;}
+    .problem-text{font-size:23px;}
+    .problem-sub{display:none;}
+    .stack{max-width:84%;}
+    .bubble{font-size:15px;padding:13px 16px;}
+    .steps,.mth{font-size:13px;}
+    .note{font-size:12.5px;}
+    .composer{padding:6px 6px 6px 16px;}
+  }
+  @media (max-width:420px){
+    .avatar{width:30px;height:30px;}
+    .stack{max-width:88%;}
+    .replay{display:none;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{
+      animation-duration:.001ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.001ms !important;
+      scroll-behavior:auto !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="frame">
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="mark" style="--s:39px;--c:#fff;"><i class="l"></i><i class="r"></i><i class="b"></i></div>
+      <div>
+        <div class="wordmark">ARIA</div>
+        <div class="tagline">AI math tutor</div>
+      </div>
+    </div>
+
+    <div class="switch" id="switch" data-mode="direct" role="radiogroup" aria-label="Tutor mode">
+      <span class="thumb" aria-hidden="true"></span>
+      <button type="button" class="opt" role="radio" aria-checked="true" tabindex="0" data-mode="direct">Direct answer</button>
+      <button type="button" class="opt" role="radio" aria-checked="false" tabindex="-1" data-mode="guided">Guided</button>
+    </div>
+  </header>
+
+  <div class="body">
+
+    <section class="problem">
+      <div class="eyebrow">Problem</div>
+      <h1 class="problem-text">Differentiate f(x) = x²·sin(3x)</h1>
+      <p class="problem-sub">Calculus · product rule and chain rule practice</p>
+    </section>
+
+    <div class="noterow">
+      <p class="note" id="note" aria-live="polite"><span class="d"></span><span id="note-text">Direct answer — ARIA corrects the mistake and walks through the full solution.</span></p>
+      <button type="button" class="replay" id="replay">Replay</button>
+    </div>
+
+    <section class="chat" id="chat" aria-label="Conversation"></section>
+
+    <form class="composer" id="composer">
+      <input id="entry" type="text" autocomplete="off" placeholder="Think out loud as you work..." aria-label="Message ARIA">
+      <button type="submit" class="send" aria-label="Send"></button>
+    </form>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var MARK = '<div class="mark" style="--s:36px;--c:#0F1F3D;border-width:1.95px;"><i class="l"></i><i class="r"></i><i class="b"></i></div>';
+
+  var SHARED = [
+    {who:'s', time:'4:07 PM', html:'Two things multiplied, so product rule:<span class="mth">f′(x) = (x²)′·sin(3x) + x²·(sin(3x))′</span>'},
+    {who:'s', time:'4:08 PM', html:'So that’s 2x·sin(3x) + x²·cos(3x)... wait. Is the derivative of sin(3x) really just cos(3x)? I’m stuck on that part.'}
+  ];
+
+  var DIRECT = [
+    {who:'a', time:'4:08 PM', html:
+      '<div class="lead">Your product rule setup is right, but the second piece is off. sin(3x) is a composition — there is a function inside the sine — so its derivative is not just cos(3x).</div>' +
+      '<div class="steps">' +
+        '<div class="h">Step 1 — product rule</div>' +
+        '<div class="m">f′(x) = (x²)′·sin(3x) + x²·(sin(3x))′</div>' +
+        '<div class="m">(x²)′ = 2x</div>' +
+        '<div class="sp"></div>' +
+        '<div class="h">Step 2 — chain rule on sin(3x)</div>' +
+        '<div class="m">outer: sin(u), inner: u = 3x, so u′ = 3</div>' +
+        '<div class="m">d/dx[sin(3x)] = cos(3x)·3 = 3cos(3x)</div>' +
+        '<div class="sp"></div>' +
+        '<div class="h">Step 3 — combine</div>' +
+        '<div class="m">f′(x) = 2x·sin(3x) + x²·3cos(3x)</div>' +
+      '</div>' +
+      '<div class="result">So <span class="answer">f′(x) = 2x·sin(3x) + 3x²·cos(3x)</span></div>' +
+      '<div class="check"><b>Quick check:</b> each term differentiates one factor and keeps the other, and the 3 from the inner function lands as the coefficient on the second term.</div>' +
+      '<div class="keyidea">Key idea: when one function sits inside another, the chain rule multiplies by the derivative of the inner function.</div>'
+    },
+    {who:'s', time:'4:09 PM', html:'Oh okay, that makes sense. Thanks.'}
+  ];
+
+  var GUIDED = [
+    {who:'a', time:'4:08 PM', html:
+      '<div class="ack">Your product rule setup is right.</div>' +
+      '<div class="question">Look at sin(3x) — is that a plain sine function, or is there a function inside it?</div>'},
+    {who:'s', time:'4:09 PM', html:'There’s a 3x inside... so it’s a composition.'},
+    {who:'a', time:'4:09 PM', html:
+      '<div class="ack">Right.</div>' +
+      '<div class="question">Which rule handles a function inside another function?</div>'},
+    {who:'s', time:'4:10 PM', html:'Chain rule. So it’s cos(3x) times the derivative of 3x, which is 3. So 3cos(3x).'},
+    {who:'a', time:'4:10 PM', html:
+      '<div class="question">Put your full derivative together now, and tell me how you’d check each piece.</div>'},
+    {who:'s', time:'4:11 PM', html:'<span class="answer">f′(x) = 2x·sin(3x) + 3x²·cos(3x)</span><br>Each term keeps one factor and differentiates the other, and the chain rule multiplier is there.'},
+    {who:'a', time:'4:11 PM', html:
+      '<div class="ack">Correct.</div>' +
+      '<div class="question">What will you look for next time so you catch a hidden inner function before you differentiate?</div>'}
+  ];
+
+  var NOTES = {
+    direct: 'Direct answer — ARIA corrects the mistake and walks through the full solution.',
+    guided: 'Guided — ARIA asks questions and lets you reach the answer yourself.'
+  };
+
+  var reduceQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var chat = document.getElementById('chat');
+  var sw = document.getElementById('switch');
+  var opts = Array.prototype.slice.call(sw.querySelectorAll('.opt'));
+  var noteText = document.getElementById('note-text');
+  var mode = 'direct';
+  var run = 0;
+
+  function reduced(){ return reduceQuery.matches; }
+  function sleep(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+
+  function messages(m){
+    return SHARED.concat(m === 'guided' ? GUIDED : DIRECT);
+  }
+
+  function rowFor(msg){
+    var row = document.createElement('div');
+    row.className = 'row ' + (msg.who === 's' ? 'student' : 'aria');
+    var stack = '<div class="stack"><div class="bubble ' + (msg.who === 's' ? 'student' : 'aria') + '">' +
+      msg.html + '</div><div class="time">' + msg.time + '</div></div>';
+    row.innerHTML = msg.who === 's'
+      ? stack + '<div class="avatar s">S</div>'
+      : '<div class="avatar a">' + MARK + '</div>' + stack;
+    return row;
+  }
+
+  function typingRow(){
+    var row = document.createElement('div');
+    row.className = 'row aria enter';
+    row.innerHTML = '<div class="avatar a">' + MARK + '</div>' +
+      '<div class="stack"><div class="bubble aria dots" role="status" aria-label="ARIA is typing">' +
+      '<span></span><span></span><span></span></div></div>';
+    return row;
+  }
+
+  function toEnd(){
+    chat.scrollTo({ top: chat.scrollHeight, behavior: reduced() ? 'auto' : 'smooth' });
+  }
+
+  // A message taller than most of the panel is anchored by its top edge, so a
+  // long worked solution is read from the beginning instead of the tail.
+  function bring(el){
+    if(el && el.offsetHeight > chat.clientHeight * 0.72){
+      var top = el.getBoundingClientRect().top - chat.getBoundingClientRect().top + chat.scrollTop;
+      chat.scrollTo({ top: Math.max(0, top - 6), behavior: reduced() ? 'auto' : 'smooth' });
+      return;
+    }
+    toEnd();
+  }
+
+  async function play(){
+    var id = ++run;
+    var list = messages(mode);
+
+    if(!reduced() && chat.children.length){
+      chat.classList.add('leaving');
+      await sleep(180);
+      if(id !== run){ return; }
+    }
+    chat.classList.remove('leaving');
+    chat.innerHTML = '';
+
+    if(reduced()){
+      list.forEach(function(msg){ chat.appendChild(rowFor(msg)); });
+      toEnd();
+      return;
+    }
+
+    for(var i = 0; i < list.length; i++){
+      var msg = list[i];
+      if(i > 0){
+        await sleep(msg.who === 'a' ? 300 : 340);
+        if(id !== run){ return; }
+      }
+      if(msg.who === 'a'){
+        var t = typingRow();
+        chat.appendChild(t);
+        toEnd();
+        await sleep(i === 0 ? 420 : 500);
+        t.remove();
+        if(id !== run){ return; }
+      }
+      var el = rowFor(msg);
+      el.classList.add('enter');
+      chat.appendChild(el);
+      bring(el);
+    }
+  }
+
+  function setMode(next){
+    if(next === mode){ return; }
+    mode = next;
+    sw.setAttribute('data-mode', mode);
+    opts.forEach(function(btn){
+      var on = btn.getAttribute('data-mode') === mode;
+      btn.setAttribute('aria-checked', on ? 'true' : 'false');
+      btn.tabIndex = on ? 0 : -1;
+    });
+    noteText.textContent = NOTES[mode];
+    play();
+  }
+
+  opts.forEach(function(btn){
+    btn.addEventListener('click', function(){ setMode(btn.getAttribute('data-mode')); });
+  });
+
+  sw.addEventListener('keydown', function(e){
+    if(['ArrowRight','ArrowDown','ArrowLeft','ArrowUp'].indexOf(e.key) === -1){ return; }
+    e.preventDefault();
+    var next = mode === 'direct' ? 'guided' : 'direct';
+    setMode(next);
+    opts.forEach(function(btn){
+      if(btn.getAttribute('data-mode') === next){ btn.focus(); }
+    });
+  });
+
+  document.getElementById('replay').addEventListener('click', play);
+
+  document.getElementById('composer').addEventListener('submit', function(e){
+    e.preventDefault();
+    document.getElementById('entry').value = '';
+  });
+
+  play();
+})();
+</script>
+
+</body>
+</html>
