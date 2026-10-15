@@ -147,3 +147,26 @@ Cost `J(tau) = w_I * U + w_D * D`, where `U` = number of unnecessary interruptio
 **A1.12 Reporting rule.** Calibration metrics (ECE, calibration intercept, slope) are shown as `n/a` for 0/1 methods (three-wrong rule, always-help); AUC for them is shown as the AUC of the single binary score.
 
 **A1.13 Output.** `results/policy_val.json`, `results/riskhead_val.json`. No `RESULTS.md` until Stage 5. No test-split file is read.
+
+### Amendment 2 — Stage 5 test protocol (2026-10-15, before freezing values or reading any test label)
+
+Reason: the owner set conditions for the one-time test evaluation. Sections 1–11 and Amendment 1 are unchanged except where stated.
+
+**A2.1 Fair three-wrong baseline.** The three-wrong rule is generalised to *n consecutive verified errors ending at decision point `i`* (needs `i >= n`), with `n` in {1, 2, 3, 4, 5, 6}; `n = 1` equals always-help. `n` is chosen **per profile** to minimise validation cost `J` (ties go to the larger `n`), separately for each configuration in A2.2. The untuned `n = 3` rule from Stage 4 is also reported.
+
+**A2.2 Configurations.** *main* (leavers dropped, primary verified error); *leavers* (leavers added as `y = 0`, primary error); *hintfirst* (leavers dropped, error includes hint-first). For *leavers* and *hintfirst* two variants are reported: **carried** (the *main* taus and `n`) and **rechosen** (re-chosen on validation under that configuration). Everything in this list is decided on validation and then frozen.
+
+**A2.3 Frozen artifacts.** Before any test label is read, `results/frozen_val.json` is written and **committed**. It holds: model hyperparameters (PFA `C`, BKT `min_seq`, risk-head `C`), the Platt parameters `(intercept, slope)` per risk method, and for every configuration and variant: `tau` per (risk method, profile) and tuned `n` per profile. Its sha256 is recorded; the test script refuses to run if the hash differs from the recorded one. PFA, BKT and the risk head are refitted on the **training split only** (deterministic), never on validation or test.
+
+**A2.4 Test protocol.** `python -m aria_pace.run_test` evaluates *main* and both sensitivities once, with the frozen values, and writes `results/test_results.json` and `results/TEST_LOCK`; it refuses to run if the lock exists. No `tau`, `n`, or calibrator is chosen on test. In the same single pass it also computes the full `tau` sweep on test **for diagnosis and plotting only** (including the test-optimal `tau`); those test-optimal values feed nothing and are labelled as such. Test results are reported as they are, including where they contradict validation. A `--verify` mode, intended for third parties, recomputes and compares without writing.
+
+**A2.5 Bootstrap.** Students are resampled with replacement (multinomial counts over students; 1,000 draws; seed `20261018`), identically for all methods (paired). Reported: 95% percentile intervals of the cost difference `J(BKT) - J(baseline)` per student, negative meaning BKT is cheaper, for baselines always-help, tuned three-wrong, untuned three-wrong, PFA, risk head, and the matched-rate random policy. The random policy enters as its expected per-sequence contribution (200 draws, seed `20261017`, threshold matched to BKT's intervened-sequence count on the full sample and held fixed across resamples). Intervals for BKT's own metrics (interventions, unnecessary, missed share, delay, lead time) use the same draws. Validation intervals are computed the same way and labelled optimistic.
+
+**A2.6 Tau stability.** On validation, 1,000 student-bootstrap resamples (seed `20261019`) re-choose `tau` for BKT in each configuration and profile; reported: median and 10th–90th percentile of the chosen `tau`, the fraction of resamples within 0.10 of the frozen `tau`, and the range of `tau` whose validation `J` is within 2% of the minimum. This is reported as a finding for the quiet profile.
+
+**A2.7 Figures.** (1) Frontier: BKT, PFA and risk-head `tau` sweeps, expected matched-random, tuned and untuned three-wrong over `n`, and always-help, with the three profiles' operating points marked on the BKT curve; x = interventions per student with y = mean delay (including censored), and x = unnecessary interventions per student with y = missed-help share. (2) `J` versus `tau` for each profile. Each is drawn for validation (marked optimistic) and test.
+
+**A2.8 Tables.** Calibration columns are `n/a` for 0/1 methods. Every validation figure is labelled optimistic because calibrator and `tau` were fitted on the same split.
+
+**A2.9 Headline.** `RESULTS.md` carries the owner's headline: "On ASSISTments 2009 logs, a BKT-threshold abstention rule roughly halves interventions when interruptions are costly, with ~5% missed help; when delayed help is costly, abstention saves little." It is accompanied by the test numbers; if the test numbers do not support any part of it, `RESULTS.md` says which part and by how much.
+
