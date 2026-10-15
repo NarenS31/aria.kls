@@ -123,6 +123,8 @@ class DemoSession:
         """One-click new attempt: all per-attempt state is cleared; the per-turn file log keeps going."""
         self.attempt += 1
         self._llm_outcome = ""
+        self._move_idx = -1               # which authored step the last hint pointed at (-1: none)
+        self.t_start = time.time()
         self.rotor = T.Rotor()
         self.log: list = []
         self.hint_level = 0
@@ -154,6 +156,7 @@ class DemoSession:
     def _turn(self, t0: float, text: str, in_flags: list) -> TurnResult:
         p, tut = self.problem, self.tutor
         self._llm_outcome = ""
+        self._move_idx = -1
         if not text.strip():
             return self._finish(t0, text, "none", "UNKNOWN", {}, None, None, "empty", "", False, None, in_flags=in_flags)
 
@@ -197,6 +200,7 @@ class DemoSession:
             self._llm_outcome = self.tutor.last_llm_outcome
             if llm:
                 return llm, "llm", True
+        self._move_idx = next((i for i, m in enumerate(p.moves) if m is move), -1)     # template hint -> authored step
 
         def render(tpl: str, with_result=True) -> str:
             return T.fill(tpl, bank=bank, do=do, result=result if with_result else None)
@@ -252,6 +256,7 @@ class DemoSession:
             "intervention_type": getattr(decision, "intervention_type", "none"), "template": tpl,
             "llm_used": llm_used, "llm_outcome": self._llm_outcome, "hint_level": self.hint_level,
             "student_chars": len(text), "reply_chars": len(reply), "input_flags": list(in_flags or []), "fallback": fallback,
+            "intervened": bool(intervened), "move_index": self._move_idx if intervened else -1, "t_s": round(time.time() - self.t_start, 1),
         }
         self.log.append(meta)
         self.tutor.turn_log.write({**meta, "session_id": self.session_id, "attempt": self.attempt, "problem_id": self.problem.id,

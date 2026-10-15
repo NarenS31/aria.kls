@@ -20,22 +20,9 @@ import gradio as gr
 
 from agent.demo_bank import load_problems
 from agent.demo_input import sanitize_input
+from agent.demo_summary import RULE_TEXT, STATE_LABELS, headline, summarize
 from agent.demo_log import DEFAULT_PATH as LOG_PATH
 from agent.demo_tutor import DemoSession, DemoTutor
-
-STATE_LABELS = {
-    "FLOW": "in flow", "PLANNING": "planning", "INSIGHT": "got it", "STUCK": "stuck", "FRUSTRATED": "frustrated",
-    "CONFUSED": "confused", "UNKNOWN": "unclear", "RUSHING": "rushing",
-}
-RULE_TEXT = {
-    "jitai.no_interrupt_positive": "productive work: stay quiet",
-    "jitai.no_action": "no reason to interrupt: stay quiet",
-    "jitai.insight_transfer": "a good moment to reflect",
-    "jitai.initial_negative_support": "student needs support: one small prompt",
-    "jitai.repeated_confusion": "stuck for several turns: a smaller step",
-    "jitai.frustration_reset": "frustration is building: lower the pressure",
-    "jitai.escalate_after_ignored": "earlier nudge was ignored: suggest a reset",
-}
 
 CSS = """
 .aria-badge{display:flex;align-items:center;gap:14px;padding:16px 20px;border-radius:14px;font-family:system-ui,sans-serif;
@@ -52,6 +39,19 @@ CSS = """
 .aria-chat .user{align-self:flex-end;background:#e2e8f0}
 .aria-chat .aria{align-self:flex-start;background:#fef3c7;border:1px solid #f59e0b}
 .aria-chat .quiet{align-self:flex-start;color:#475569;font-style:italic;font-size:.9rem;padding:4px 8px}
+.aria-sum{font-family:system-ui,sans-serif;color:#0f172a;line-height:1.4}
+.aria-sum h3{margin:14px 0 6px;font-size:1rem}
+.aria-sum .head{font-size:1.05rem;font-weight:600;margin-bottom:4px}
+.aria-sum .where{padding:10px 14px;border-radius:10px;background:#fffbeb;border:1px solid #f59e0b;margin:8px 0}
+.aria-sum .tiles{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
+.aria-sum .tile{border:1px solid #cbd5e1;border-radius:10px;padding:8px 14px;min-width:90px;background:#f8fafc}
+.aria-sum .tile b{display:block;font-size:1.3rem}
+.aria-sum table{border-collapse:collapse;width:100%;font-size:.92rem}
+.aria-sum th,.aria-sum td{border-bottom:1px solid #e2e8f0;padding:5px 8px;text-align:left;vertical-align:top}
+.aria-sum th{background:#f1f5f9;font-weight:600}
+.aria-sum .pill{display:inline-block;padding:1px 8px;border-radius:999px;border:1px solid #94a3b8;background:#f1f5f9;font-size:.85rem}
+.aria-sum .pill.bad{border-color:#d97706;background:#fffbeb}.aria-sum .pill.good{border-color:#16a34a;background:#f0fdf4}
+.aria-sum .note{margin-top:14px;font-size:.82rem;color:#475569}
 """
 
 
@@ -68,6 +68,67 @@ def badge_html(kind: str, headline: str = "", detail: str = "") -> str:
     return (f'<div class="aria-badge {kind}"><span class="dot"></span><div>'
             f'<div class="big">{labels[kind]}</div><div class="small">{html.escape(headline)}'
             f'{"<br>" + html.escape(detail) if detail else ""}</div></div></div>')
+
+
+def _esc(x) -> str:
+    return html.escape("" if x is None else str(x))
+
+
+def _pill(label: str, kind: str = "") -> str:
+    return f'<span class="pill {kind}">{_esc(label)}</span>'
+
+
+def summary_html(summary: dict | None) -> str:
+    """Teacher view of one attempt. Everything shown is derived metadata or authored text; no chat transcript."""
+    if not summary or not summary["timeline"]:
+        return '<div class="aria-sum">No attempt to summarise yet. Pick a problem and try a few steps in the Student tab.</div>'
+    pr, c = summary["problem"], summary["counts"]
+    outcome = {"solved": f"Solved at turn {summary['solved_at_turn']}", "in_progress": "Not solved yet"}[summary["outcome"]]
+    secs = summary.get("elapsed_s")
+    when = f", {secs:.0f} s into the attempt at the last turn" if secs is not None else ""
+    tiles = "".join(f'<div class="tile"><b>{v}</b>{_esc(k)}</div>' for k, v in (
+        ("turns", c["turns"]), ("quiet", c["stayed_quiet"]), ("stepped in", c["stepped_in"]), ("hints given", c["hints_given"])))
+    rows = []
+    for t in summary["timeline"]:
+        bad = t["state"] in ("STUCK", "FRUSTRATED", "CONFUSED")
+        act = _pill(t["action_label"], "bad" if t["action"] != "none" else "")
+        if t.get("fallback"):
+            act += " " + _pill("unreadable input")
+        clock = "" if t["t_s"] is None else "%d s" % round(t["t_s"])
+        rows.append(f'<tr><td>{t["turn"]}</td><td>{clock}</td>'
+                    f'<td>{_pill(t["state_label"], "bad" if bad else "good")}</td><td>{_esc(t["verdict_label"])}</td>'
+                    f'<td>{act}</td><td>{_esc(t["why"])}</td></tr>')
+    timeline = ('<table><tr><th>Turn</th><th>Time</th><th>ARIA read the student as</th><th>Student\'s message was</th>'
+                '<th>ARIA</th><th>Why</th></tr>' + "".join(rows) + "</table>")
+    if summary["hints"]:
+        def target(h):
+            if h["step"]:
+                return h["step"]
+            return "after the correct answer" if h["type"] == "reflection" else "a free-form question"
+        hrows = "".join(f'<tr><td>{h["turn"]}</td><td>{_esc(h["type_label"])}</td><td>{_esc(target(h))}</td></tr>'
+                        for h in summary["hints"])
+        hints = ('<div>Every time ARIA spoke. Hints and smaller steps count as hints; the rest are encouragement, a pause, or reflection.</div>'
+                 f'<table><tr><th>Turn</th><th>What ARIA did</th><th>Step it pointed to</th></tr>{hrows}</table>')
+    else:
+        hints = "<div>ARIA did not step in during this attempt.</div>"
+    srows = []
+    for st in summary["steps"]:
+        mark = {True: "done", False: "not yet", None: "not tracked"}[st["done"]]
+        hinted = f"hinted at turn {', '.join(map(str, st['hinted_at_turns']))}" if st["hinted_at_turns"] else "no hint needed"
+        srows.append(f'<tr><td>{st["index"] + 1}</td><td>{_esc(st["step"])}</td><td>{_pill(mark, "good" if st["done"] else "")}</td><td>{_esc(hinted)}</td></tr>')
+    steps = ('<table><tr><th>#</th><th>Authored step</th><th>Student produced it</th><th>Hints</th></tr>' + "".join(srows) + "</table>"
+             if srows else "<div>This problem has no authored steps.</div>")
+    return (f'<div class="aria-sum"><div class="head">{_esc(pr["prompt"])}</div>'
+            f'<div>{_esc(pr["level"])} {_esc(pr["topic"])}, attempt {summary["attempt"]}. <b>{_esc(outcome)}</b>{_esc(when)}.</div>'
+            f'<div class="where"><b>Where the student got stuck.</b> {_esc(headline(summary))}</div>'
+            f'<div class="tiles">{tiles}</div><h3>State timeline</h3>{timeline}<h3>Hints given</h3>{hints}'
+            f'<h3>Authored steps</h3>{steps}<div class="note">{_esc(summary["note"])}</div></div>')
+
+
+def make_summary_handler():
+    def show(session):
+        return summary_html(summarize(session) if session is not None else None)
+    return show
 
 
 def make_handlers(tutor: DemoTutor, problems: list):
@@ -108,19 +169,27 @@ def build_demo_ui(tutor: DemoTutor | None = None) -> gr.Blocks:
     tutor = tutor or DemoTutor()
     problems = list(tutor.problems.values())
     start, send, reset = make_handlers(tutor, problems)
+    show_summary = make_summary_handler()
     with gr.Blocks(title="ARIA — when to help") as demo:
         gr.HTML(f"<style>{CSS}</style>")
         gr.Markdown("## ARIA\nOther tutors speak every turn. ARIA decides **whether** to.")
         session, history = gr.State(None), gr.State([])
         problem = gr.Dropdown([p.prompt for p in problems], value=problems[0].prompt, label="Problem")
-        badge = gr.HTML(badge_html("idle", "Type a step or an answer. ARIA will decide whether to speak."))
-        chat = gr.HTML(chat_html([]))
-        box = gr.Textbox(placeholder="Type your next step or answer, then press Enter", show_label=False)
-        reset_btn = gr.Button("Reset (new attempt)")
-        reset_btn.click(reset, [session], [history, session, chat, badge, box])
-        problem.change(start, [problem], [session, history, chat, badge, box])
-        box.submit(send, [box, history, session], [history, session, chat, badge, box])
+        with gr.Tabs():
+            with gr.Tab("Student"):
+                badge = gr.HTML(badge_html("idle", "Type a step or an answer. ARIA will decide whether to speak."))
+                chat = gr.HTML(chat_html([]))
+                box = gr.Textbox(placeholder="Type your next step or answer, then press Enter", show_label=False)
+                reset_btn = gr.Button("Reset (new attempt)")
+            with gr.Tab("Teacher summary") as teacher_tab:
+                refresh = gr.Button("Refresh summary")
+                summary = gr.HTML(summary_html(None))
+        reset_btn.click(reset, [session], [history, session, chat, badge, box]).then(show_summary, [session], [summary])
+        problem.change(start, [problem], [session, history, chat, badge, box]).then(show_summary, [session], [summary])
+        box.submit(send, [box, history, session], [history, session, chat, badge, box]).then(show_summary, [session], [summary])
         demo.load(start, [problem], [session, history, chat, badge, box])
+        teacher_tab.select(show_summary, [session], [summary])
+        refresh.click(show_summary, [session], [summary])
     return demo
 
 
