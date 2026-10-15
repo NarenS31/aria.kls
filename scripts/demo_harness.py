@@ -404,11 +404,12 @@ def main(argv=None) -> int:
     ap.add_argument("--backend", action="append", default=[], help="legacy | demo | ollama:<tag> | selftest-<kind> (repeatable)")
     ap.add_argument("--limit", type=int, default=0, help="only the first N problems")
     ap.add_argument("--problems", default=None, help="path to a problems json (default data/demo_problems.json)")
+    ap.add_argument("--featured", action="store_true", help="only the problems marked featured (the live-demo list)")
     ap.add_argument("--log", default=None, help="write one json line per turn here")
     ap.add_argument("--json", default=None, help="write the summary json here")
     ap.add_argument("--strict", action="store_true", help="exit 1 unless all four targets are met")
     a = ap.parse_args(argv)
-    problems = load_problems(a.problems)
+    problems = load_problems(a.problems, featured_only=a.featured)
     if a.limit:
         problems = problems[: a.limit]
     log = open(a.log, "w", encoding="utf-8") if a.log else None
