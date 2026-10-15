@@ -82,6 +82,14 @@ class Content(unittest.TestCase):
         self.assertEqual([x["done"] for x in st], [True, True])               # 12x^3 and -10x were both produced
         self.assertEqual(st[0]["hinted_at_turns"], [1])
 
+    def test_reflection_after_a_correct_answer_is_not_tied_to_an_authored_step(self):
+        refl = [h for h in self.sm["hints"] if h["type"] == "reflection"]
+        self.assertTrue(refl)
+        for h in refl:
+            self.assertEqual((h["step_index"], h["step"]), (-1, None))
+        for st in self.sm["steps"]:
+            self.assertNotIn(self.sm["solved_at_turn"], st["hinted_at_turns"])      # no step was "hinted" on the turn the student solved it
+
     def test_unresolved_stretch_and_no_stuck_cases(self):
         s, _ = play("calc-01", ["I don't know", "still no idea", "help"])
         sm = S.summarize(s)
