@@ -224,7 +224,8 @@ class DemoSession:
             self._llm_outcome = self.tutor.last_llm_outcome
             if llm:
                 return llm, "llm", True
-        self._move_idx = next((i for i, m in enumerate(p.moves) if m is move), -1)     # template hint -> authored step
+        # a template hint points at an authored step; a reflection after a correct answer does not
+        self._move_idx = -1 if itype == "reflection" else next((i for i, m in enumerate(p.moves) if m is move), -1)
 
         def render(tpl: str, with_result=True) -> str:
             return T.fill(tpl, bank=bank, do=do, result=result if with_result else None)
