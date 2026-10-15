@@ -21,7 +21,7 @@ FIELDS = {
     "session_id": str, "attempt": int, "problem_id": str, "turn": int, "latency_ms": float, "correctness": str,
     "derived_state": str, "kind": str, "analyzer_state": str, "analyzer_confidence": float, "rule_id": str,
     "intervention_type": str, "template": str, "intervened": bool, "llm_used": bool, "llm_outcome": str,
-    "fallback": str, "hint_level": int, "student_chars": int, "reply_chars": int, "input_flags": list,
+    "fallback": str, "move_index": int, "t_s": float, "hint_level": int, "student_chars": int, "reply_chars": int, "input_flags": list,
 }
 
 
