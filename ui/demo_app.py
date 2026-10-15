@@ -26,33 +26,42 @@ from agent.demo_log import DEFAULT_PATH as LOG_PATH
 from agent.demo_tutor import DemoSession, DemoTutor
 
 CSS = """
+/* Every card sets its own background AND its own text colour (with !important): Gradio's dark theme otherwise paints
+   near-white text onto these light cards. */
 .aria-badge{display:flex;align-items:center;gap:14px;padding:16px 20px;border-radius:14px;font-family:system-ui,sans-serif;
-  border:2px solid var(--b,#94a3b8);background:var(--bg,#f1f5f9);color:#0f172a}
-.aria-badge .dot{width:16px;height:16px;border-radius:50%;background:var(--b,#94a3b8)}
+  border:2px solid var(--b,#94a3b8);background:var(--bg,#f1f5f9)}
+.aria-badge, .aria-badge *{color:#0f172a !important}
+.aria-badge .dot{width:16px;height:16px;border-radius:50%;background:var(--b,#94a3b8);flex:none}
 .aria-badge.watching{--b:#2563eb;--bg:#eff6ff}.aria-badge.watching .dot{animation:pulse 1.6s ease-in-out infinite}
 .aria-badge.stepping{--b:#d97706;--bg:#fffbeb}
 .aria-badge.idle{--b:#94a3b8;--bg:#f1f5f9}
 .aria-badge .big{font-weight:700;letter-spacing:.06em;font-size:1.15rem}
-.aria-badge .small{font-size:.9rem;opacity:.85}
+.aria-badge .small{font-size:.9rem}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(1.25)}}
-.aria-chat{display:flex;flex-direction:column;gap:8px;min-height:300px;max-height:380px;overflow:auto;padding:8px;font-family:system-ui,sans-serif}
+/* column-reverse keeps the newest message in view without any script */
+.aria-chat{display:flex;flex-direction:column-reverse;min-height:300px;max-height:380px;overflow:auto;padding:8px;font-family:system-ui,sans-serif}
+.aria-chat-in{display:flex;flex-direction:column;gap:8px}
 .aria-chat .msg{padding:10px 14px;border-radius:12px;max-width:80%;line-height:1.35}
+.aria-chat .msg, .aria-chat .msg *{color:#0f172a !important}
 .aria-chat .user{align-self:flex-end;background:#e2e8f0}
 .aria-chat .aria{align-self:flex-start;background:#fef3c7;border:1px solid #f59e0b}
-.aria-chat .quiet{align-self:flex-start;color:#475569;font-style:italic;font-size:.9rem;padding:4px 8px}
-.aria-sum{font-family:system-ui,sans-serif;color:#0f172a;line-height:1.4}
+.aria-chat .quiet{align-self:flex-start;background:#f1f5f9;border:1px solid #cbd5e1;font-style:italic;font-size:.9rem;padding:6px 12px;border-radius:999px;max-width:80%}
+.aria-chat .quiet, .aria-chat .quiet *{color:#334155 !important}
+.aria-sum{font-family:system-ui,sans-serif;line-height:1.4;background:#fcfcfb;border:1px solid #cbd5e1;border-radius:12px;padding:16px}
+.aria-sum, .aria-sum *{color:#0f172a !important}
 .aria-sum h3{margin:14px 0 6px;font-size:1rem}
 .aria-sum .head{font-size:1.05rem;font-weight:600;margin-bottom:4px}
 .aria-sum .where{padding:10px 14px;border-radius:10px;background:#fffbeb;border:1px solid #f59e0b;margin:8px 0}
 .aria-sum .tiles{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0}
 .aria-sum .tile{border:1px solid #cbd5e1;border-radius:10px;padding:8px 14px;min-width:90px;background:#f8fafc}
 .aria-sum .tile b{display:block;font-size:1.3rem}
-.aria-sum table{border-collapse:collapse;width:100%;font-size:.92rem}
-.aria-sum th,.aria-sum td{border-bottom:1px solid #e2e8f0;padding:5px 8px;text-align:left;vertical-align:top}
+.aria-sum table{border-collapse:collapse;width:100%;font-size:.92rem;background:#fff}
+.aria-sum th,.aria-sum td{border-bottom:1px solid #e2e8f0;padding:5px 8px;text-align:left;vertical-align:top;background:#fff}
 .aria-sum th{background:#f1f5f9;font-weight:600}
 .aria-sum .pill{display:inline-block;padding:1px 8px;border-radius:999px;border:1px solid #94a3b8;background:#f1f5f9;font-size:.85rem}
 .aria-sum .pill.bad{border-color:#d97706;background:#fffbeb}.aria-sum .pill.good{border-color:#16a34a;background:#f0fdf4}
-.aria-sum .note{margin-top:14px;font-size:.82rem;color:#475569}
+.aria-sum .note{margin-top:14px;font-size:.82rem}
+.aria-sum .note{color:#475569 !important}
 """
 
 
@@ -61,7 +70,7 @@ def chat_html(history: list) -> str:
     for m in history:
         cls = {"user": "user", "aria": "aria", "quiet": "quiet"}[m["role"]]
         rows.append(f'<div class="msg {cls}">{html.escape(m["content"])}</div>')
-    return '<div class="aria-chat">' + "".join(rows) + "</div>"
+    return '<div class="aria-chat"><div class="aria-chat-in">' + "".join(rows) + "</div></div>"
 
 
 def badge_html(kind: str, headline: str = "", detail: str = "") -> str:
