@@ -55,3 +55,17 @@ def test_matched_random_hits_target():
 def test_choose_tau_prefers_larger_on_ties():
     sw = {0.0: {"unnecessary": 1, "total_delay_D": 1.0}, 0.5: {"unnecessary": 1, "total_delay_D": 1.0}}
     assert P.choose_tau(sw, 1.0, 1.0)[0] == 0.5
+
+
+def test_run_fire_n1_is_always_help_and_vec_matches_evaluate_fire():
+    from aria_pace import stage5 as S5
+    seqs = [mk([0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], uid=1), mk([1, 0, 0, 0, 1, 1, 1], uid=2), mk([0] * 12, uid=3)]
+    t = P.Table(seqs, True)
+    err = t.err["primary"]
+    assert (P.run_fire(t, "primary", 1) & t.valid == (t.valid & err)).all()
+    fire = P.run_fire(t, "primary", 2)
+    old = P.evaluate_fire(t, err, fire, 3.0, 1.0)
+    new = S5.point_metrics(S5.seq_vec(t, err, fire), len(set(t.sid.tolist())), 3.0, 1.0)
+    for k in ("interventions", "unnecessary", "missed_help", "total_delay_D", "cost_J_per_student", "mean_lead_time",
+              "mean_delay_incl_censored"):
+        assert abs((old[k] or 0) - (new[k] or 0)) < 1e-9, k

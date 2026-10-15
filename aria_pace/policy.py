@@ -78,6 +78,21 @@ def three_wrong_fire(table, kind):
     return F
 
 
+def run_fire(table, kind, n):
+    """n consecutive verified errors ending at decision point i (needs i >= n). n = 1 is always-help."""
+    F = np.zeros(table.valid.shape, bool)
+    for r, q in enumerate(table.seqs):
+        for j, i in enumerate(DEC):
+            if not table.valid[r, j] or i < n:
+                continue
+            idx = range(i - n, i)  # 0-based opportunity indices i-n .. i-1
+            if kind == "primary":
+                F[r, j] = all(q.correct[t] == 0 and q.first_action[t] == 0 for t in idx)
+            else:
+                F[r, j] = all(q.correct[t] == 0 for t in idx)
+    return F
+
+
 def evaluate_fire(table, err, fire, w_I, w_D):
     """Metrics for a boolean fire matrix; at most one intervention per sequence (the first firing)."""
     fire = fire & table.valid & err

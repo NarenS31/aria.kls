@@ -1,0 +1,151 @@
+{
+  "configs": {
+    "hintfirst": {
+      "carried": {
+        "n": {
+          "balanced": 1,
+          "quiet": 2,
+          "supportive": 1
+        },
+        "taus": {
+          "bkt": {
+            "balanced": 0.19,
+            "quiet": 0.57,
+            "supportive": 0.09
+          },
+          "pfa": {
+            "balanced": 0.22,
+            "quiet": 0.46,
+            "supportive": 0.1
+          },
+          "risk_head": {
+            "balanced": 0.3,
+            "quiet": 0.55,
+            "supportive": 0.3
+          }
+        }
+      },
+      "rechosen": {
+        "n": {
+          "balanced": 1,
+          "quiet": 2,
+          "supportive": 1
+        },
+        "taus": {
+          "bkt": {
+            "balanced": 0.19,
+            "quiet": 0.49,
+            "supportive": 0.09
+          },
+          "pfa": {
+            "balanced": 0.22,
+            "quiet": 0.46,
+            "supportive": 0.08
+          },
+          "risk_head": {
+            "balanced": 0.3,
+            "quiet": 0.55,
+            "supportive": 0.3
+          }
+        }
+      }
+    },
+    "leavers": {
+      "carried": {
+        "n": {
+          "balanced": 1,
+          "quiet": 2,
+          "supportive": 1
+        },
+        "taus": {
+          "bkt": {
+            "balanced": 0.19,
+            "quiet": 0.57,
+            "supportive": 0.09
+          },
+          "pfa": {
+            "balanced": 0.22,
+            "quiet": 0.46,
+            "supportive": 0.1
+          },
+          "risk_head": {
+            "balanced": 0.3,
+            "quiet": 0.55,
+            "supportive": 0.3
+          }
+        }
+      },
+      "rechosen": {
+        "n": {
+          "balanced": 1,
+          "quiet": 6,
+          "supportive": 1
+        },
+        "taus": {
+          "bkt": {
+            "balanced": 0.35,
+            "quiet": 0.85,
+            "supportive": 0.18
+          },
+          "pfa": {
+            "balanced": 0.31,
+            "quiet": 0.91,
+            "supportive": 0.1
+          },
+          "risk_head": {
+            "balanced": 0.45,
+            "quiet": 0.82,
+            "supportive": 0.3
+          }
+        }
+      }
+    },
+    "main": {
+      "frozen": {
+        "n": {
+          "balanced": 1,
+          "quiet": 2,
+          "supportive": 1
+        },
+        "taus": {
+          "bkt": {
+            "balanced": 0.19,
+            "quiet": 0.57,
+            "supportive": 0.09
+          },
+          "pfa": {
+            "balanced": 0.22,
+            "quiet": 0.46,
+            "supportive": 0.1
+          },
+          "risk_head": {
+            "balanced": 0.3,
+            "quiet": 0.55,
+            "supportive": 0.3
+          }
+        }
+      }
+    }
+  },
+  "models": {
+    "bkt_min_seq": 10,
+    "head_C": 10.0,
+    "pfa_C": 0.1
+  },
+  "note": "Chosen on the validation split only (SPEC A2.2-A2.3). Do not edit.",
+  "platt": {
+    "bkt": {
+      "intercept": -0.08597486183739239,
+      "slope": 0.9983179103593731
+    },
+    "pfa": {
+      "intercept": -0.16370179552668807,
+      "slope": 1.0463892821298524
+    },
+    "risk_head": {
+      "intercept": 0.014301112994882445,
+      "slope": 0.9934282062365487
+    }
+  },
+  "primary_risk_method": "bkt"
+}
