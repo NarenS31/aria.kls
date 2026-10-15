@@ -23,7 +23,9 @@ Targets (from the brief): 0 leaks, 0 math errors, 0 crashes, p95 < 5 s.  `--stri
 Backends
     legacy            the shipping think_aloud_turn product path (no LLM needed; baseline "before")
     ollama:<tag>      raw LLM tutor, e.g. ollama:llama3.2:3b / ollama:llama3.1:8b (needs a local Ollama)
-    demo              the summit DemoTutor (agent/demo_tutor.py; step C)
+    demo              the summit DemoTutor (agent/demo_tutor.py; step C), templates only
+    demo-llm[:<tag>]  the same tutor with the gated LLM path ON (needs a local Ollama; model is warmed up first,
+                      untimed, exactly as ui/demo_app.py --llm-path does); default tag llama3.2:3b
     selftest-*        deliberately flawed fakes that prove this harness can see leaks / lies / crashes
 
 Examples
@@ -180,11 +182,19 @@ class DemoBackend(Backend):
         except ImportError as e:                                   # pragma: no cover
             raise SystemExit(f"--backend demo needs agent/demo_tutor.py (Step C): {e}")
         self.tutor = DemoTutor(**kw)
+        self.outcomes = {}
+        if kw.get("llm_path"):
+            self.name = f"demo-llm:{self.tutor.llm_model}"
+            ok = self.tutor.warm_up()
+            print(f"  {self.name}: warm-up {'ok' if ok else 'FAILED (Ollama unreachable): LLM path will fall back to templates'}", file=sys.stderr)
 
     def turn(self, p: DemoProblem, text: str) -> Reply:
         s = self.tutor.new_session(p.id)
         r = s.turn(text)
-        return Reply(r.reply, bool(r.intervened), getattr(r, "accepted", None), getattr(r, "meta", {}) or {})
+        meta = getattr(r, "meta", {}) or {}
+        if meta.get("llm_outcome"):
+            self.outcomes[meta["llm_outcome"]] = self.outcomes.get(meta["llm_outcome"], 0) + 1
+        return Reply(r.reply, bool(r.intervened), getattr(r, "accepted", None), meta)
 
 
 # --- self-test fakes: prove the harness can see each failure class -------------------------
@@ -220,6 +230,8 @@ def make_backend(spec: str) -> Backend:
         return LegacyBackend()
     if spec == "demo":
         return DemoBackend()
+    if spec.startswith("demo-llm"):
+        return DemoBackend(llm_path=True, llm_model=spec.split(":", 1)[1] if ":" in spec else "llama3.2:3b")
     if spec.startswith("ollama:"):
         return OllamaBackend(spec.split(":", 1)[1])
     if spec.startswith("selftest-"):
@@ -405,6 +417,8 @@ def main(argv=None) -> int:
         be = make_backend(spec)
         res = run(be, problems, log)
         s, t = print_report(be.name, res)
+        if getattr(be, "outcomes", None):
+            print(f"  LLM outcomes on free-form questions: {be.outcomes}")
         summary[be.name] = {**s, "targets": t}
         missed |= not all(t.values())
     if a.json:
