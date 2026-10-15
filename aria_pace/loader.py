@@ -56,6 +56,9 @@ class Sequence:
     correct: np.ndarray  # int8, ordered by order_id; index 0 is opportunity 1
     n: int
     m: float           # first mastery opportunity (1-based), np.inf if none
+    # Inferred (undocumented) codes: 0 answer attempt, 1 hint request, 2 other. Used ONLY to define the
+    # primary vs hint-first-inclusive verified error (SPEC A1.3); never by a risk model.
+    first_action: np.ndarray = None
 
 
 def build_sequences(df):
@@ -64,5 +67,6 @@ def build_sequences(df):
     for (u, a), g in df.groupby(["user_id", "assignment_id"], sort=False):
         g = g.sort_values("order_id", kind="stable")
         c = g.correct.to_numpy(dtype=np.int8)
-        seqs.append(Sequence(int(u), int(a), str(g.skill_id.iloc[0]), c, len(c), first_mastery(c)))
+        seqs.append(Sequence(int(u), int(a), str(g.skill_id.iloc[0]), c, len(c), first_mastery(c),
+                             g.first_action.to_numpy(dtype=np.int8)))
     return seqs
