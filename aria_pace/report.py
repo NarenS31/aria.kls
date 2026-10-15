@@ -56,7 +56,7 @@ def frontier(res, cfg, title, path, optimistic):
     axes[0].legend(frameon=False, fontsize=8.5, loc="upper right")
     sub = "VALIDATION (optimistic: calibrator and tau were chosen on this split)" if optimistic else "TEST (frozen validation values; curves are descriptive)"
     fig.suptitle(f"{title}\n{sub}. Open markers = frozen BKT operating points.", color=INK, fontsize=11, x=0.01, ha="left")
-    fig.tight_layout(rect=(0, 0, 1, 0.9))
+    fig.tight_layout(rect=(0, 0, 1, 0.95))
     fig.savefig(path, dpi=140, facecolor="#fcfcfb"); plt.close(fig)
 
 
