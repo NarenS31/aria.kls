@@ -28,7 +28,7 @@ from agent.demo_bank import DemoProblem, load_problems
 from agent.demo_input import MAX_INPUT_CHARS, sanitize_input
 from agent.demo_log import TurnLog
 from agent.math_check import check_answer, equivalent, false_claims, matched_terms, normalize, prose_of, reveals_answer, student_exprs, to_expr
-from eval.metacognition.analyzer import CognitiveStateAnalyzer
+from eval.metacognition.analyzer import _MARKERS, CognitiveStateAnalyzer
 from eval.metacognition.jitai import (
     JITAI_INTERVENTION_BANK,
     JITAIContext,
@@ -69,12 +69,36 @@ def _trim_to_sentence(text: str) -> str:
     return text[:cut + 1] if cut >= 20 else text
 
 
-def _flags(analysis: dict, text: str) -> dict:
-    """Affect / help flags read off the analyzer's marker scores (never used for correctness)."""
+_QUESTION_OPENER = re.compile(r"\s*(?:why|what|how)\b", re.I)
+
+
+def _explicit_affect(state: str, words: str) -> float:
+    """Weight of analyzer markers for `state` that the student actually wrote as feeling words.
+
+    Not counted: the analyzer's structural scores (e.g. "circular repetition", which misfires once prose_of() has
+    removed the math from a restated problem) and question openers ("why do", "what is", "how does ...?"), which the
+    analyzer lists as FRUSTRATED/CONFUSED markers (eval/metacognition/analyzer.py:231,263) but which are just questions.
+    """
+    total = 0.0
+    for pat, weight in _MARKERS.get(state, ()):
+        m = pat.search(words)
+        if m and not _QUESTION_OPENER.match(m.group(0)):
+            total += weight
+    return total
+
+
+def _flags(analysis: dict, text: str, status: str = "none") -> dict:
+    """Affect / help flags read off the analyzer's marker scores (never used for correctness).
+
+    A frustrated/confused flag needs the analyzer's verdict AND at least one explicit feeling word in the student's own
+    words; a restatement of the problem never raises an affect flag."""
     scores = analysis.get("state_scores") or {}
     st, conf = analysis.get("state"), float(analysis.get("confidence") or 0)
-    frustrated = (st == "FRUSTRATED" and conf >= 0.6) or scores.get("FRUSTRATED", 0) >= 2.0
-    confused = (st == "CONFUSED" and conf >= 0.6) or scores.get("CONFUSED", 0) >= 2.0
+    words = prose_of(text)
+    frustrated = ((st == "FRUSTRATED" and conf >= 0.6) or scores.get("FRUSTRATED", 0) >= 2.0) and _explicit_affect("FRUSTRATED", words) > 0
+    confused = ((st == "CONFUSED" and conf >= 0.6) or scores.get("CONFUSED", 0) >= 2.0) and _explicit_affect("CONFUSED", words) > 0
+    if status == "restate":
+        frustrated = confused = False
     ask_answer = bool(_ASK_ANSWER.search(text))
     # analyzer STUCK / gave_up are its help-seeking evidence; the regex only adds explicit requests
     help_seeking = st == "STUCK" or bool(analysis.get("gave_up")) or bool(_HELP.search(text)) or ask_answer
@@ -149,7 +173,7 @@ class DemoSession:
         verdict = check_answer(text, p.truth)
         words = prose_of(text)                      # the analyzer scores language, not symbols
         analysis = tut.analyzer.analyze(words) if words.strip() else {}
-        flags = _flags(analysis, text)
+        flags = _flags(analysis, text, verdict.status)
         terms = (matched_terms(text, p.truth) + student_exprs(text)) if verdict.status in ("partial", "step", "correct") else []
         return verdict, analysis, flags, terms
 
