@@ -67,6 +67,7 @@ WATCHING = {
     "unclear": ["Watching. Take your time. Write a step or ask me something when you're ready.",
                 "Watching. Try writing your next step, or ask me a question."],
     "empty": ["Watching. I'm here when you're ready."],
+    "error": ["Watching. I couldn't read that one. Try writing your next step as plain math."],
 }
 
 

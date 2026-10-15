@@ -2,6 +2,9 @@
 
     python -m ui.demo_app                 # templates only (default), http://127.0.0.1:7861
     python -m ui.demo_app --llm-path      # also let the gated LLM path answer free-form questions
+                                          # (model is loaded once at startup and kept warm; falls back to
+                                          #  templates on any timeout/error)
+The per-turn log (no student text) goes to data/demo_logs/turns.jsonl unless --no-log.
 
 The point of the demo is timing, so the state badge is the main thing on screen:
     WATCHING        ARIA read the student's work and chose to say nothing
@@ -16,6 +19,8 @@ import html
 import gradio as gr
 
 from agent.demo_bank import load_problems
+from agent.demo_input import sanitize_input
+from agent.demo_log import DEFAULT_PATH as LOG_PATH
 from agent.demo_tutor import DemoSession, DemoTutor
 
 STATE_LABELS = {
@@ -77,8 +82,9 @@ def make_handlers(tutor: DemoTutor, problems: list):
         if session is None:
             return history, None, chat_html(history), badge_html("idle", "Pick a problem first."), ""
         r = session.turn(text)
-        if (text or "").strip():
-            history.append({"role": "user", "content": text[:500]})
+        shown = sanitize_input(text)[0]
+        if shown:
+            history.append({"role": "user", "content": shown[:500]})
         state = STATE_LABELS.get(r.state, r.state.lower())
         why = RULE_TEXT.get(r.meta["rule_id"], r.meta["rule_id"])
         if r.intervened:
@@ -123,8 +129,12 @@ def main():
     ap.add_argument("--llm-path", action="store_true", help="enable the gated LLM path for free-form questions (default off)")
     ap.add_argument("--llm-model", default="llama3.2:3b")
     ap.add_argument("--port", type=int, default=7861)
+    ap.add_argument("--no-log", action="store_true", help="do not write the local per-turn log (default: data/demo_logs/turns.jsonl)")
     a = ap.parse_args()
-    tutor = DemoTutor(llm_path=a.llm_path, llm_model=a.llm_model)
+    tutor = DemoTutor(llm_path=a.llm_path, llm_model=a.llm_model, log_path=None if a.no_log else LOG_PATH)
+    if a.llm_path:
+        ok = tutor.warm_up()          # load the model once, keep it resident
+        print(f"LLM path: {'warm (' + a.llm_model + ')' if ok else 'Ollama not reachable, using templates only'}")
     build_demo_ui(tutor).launch(server_name="127.0.0.1", server_port=a.port)
 
 

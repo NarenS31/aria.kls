@@ -25,6 +25,7 @@ Design rules
 """
 from __future__ import annotations
 
+import functools
 import itertools
 import re
 from dataclasses import dataclass, field
@@ -40,6 +41,7 @@ from sympy.parsing.sympy_parser import (
 
 MAX_INPUT_CHARS = 400          # per candidate expression
 MAX_OPS = 400                  # parsed expression size cap
+MAX_CANDIDATES = 12            # expressions/equations examined per message (more is not a real student step)
 _SYMS = {c: sp.Symbol(c, real=True) for c in "xyzt"}
 _FUNCS = {
     "sin": sp.sin, "cos": sp.cos, "tan": sp.tan, "ln": sp.log, "log": sp.log,
@@ -243,10 +245,23 @@ def _parse_values(rhs: str) -> Optional[tuple]:
 
 
 def extract_candidates(text: str) -> list[Cand]:
+    return list(_extract_cached(text))
+
+
+@functools.lru_cache(maxsize=256)
+def _extract_cached(text: str) -> tuple:
+    """Pure function of the message, and the same message is examined several times per turn (verdict, terms,
+    leak-check context), so it is cached. Candidates are read-only."""
+    return tuple(_extract(text))
+
+
+def _extract(text: str) -> list[Cand]:
     s = normalize(text)
     runs, whole = _math_runs(s)
     cands: list[Cand] = []
     for run in runs:
+        if len(cands) >= MAX_CANDIDATES:
+            break
         labeled = run.startswith("ans=")
         defn = run.startswith("def=")
         body = run[4:].strip() if (labeled or defn) else run
@@ -273,6 +288,8 @@ def extract_candidates(text: str) -> list[Cand]:
                 cands.append(Cand("assign", True, var=parts[0], values=vals, raw=run))
                 continue
         for (a, b), (pa, pb) in zip(zip(sides, sides[1:]), zip(parts, parts[1:])):
+            if len(cands) >= MAX_CANDIDATES:
+                break
             if a is not None and b is not None:
                 cands.append(Cand("eq", True, lhs=a, rhs=b, raw=f"{pa} = {pb}", lraw=pa, rraw=pb))
     return cands
@@ -570,7 +587,7 @@ class LeakResult:
     matches: list = field(default_factory=list)
 
 
-_NUM_RE = re.compile(r"\d+(?:\.\d+)?")
+_NUM_RE = re.compile(r"[0-9]+(?:\.[0-9]+)?")       # ASCII only: \d would match other scripts' digits
 
 
 def _context_numbers(context: Iterable[str]) -> set:
