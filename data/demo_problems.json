@@ -1,6 +1,7 @@
 [
  {
   "id": "alg-01",
+  "featured": true,
   "level": "intro",
   "topic": "algebra",
   "prompt": "Solve for x: 3(x - 4) = 2x + 5",
@@ -69,6 +70,7 @@
  },
  {
   "id": "alg-05",
+  "featured": true,
   "level": "core",
   "topic": "algebra",
   "prompt": "Solve for x: x^2 - 5x + 6 = 0",
@@ -209,6 +211,7 @@
  },
  {
   "id": "trig-01",
+  "featured": true,
   "level": "intro",
   "topic": "trig",
   "prompt": "Evaluate sin(pi/6) + cos(pi/3)",
@@ -290,6 +293,7 @@
  },
  {
   "id": "trig-04",
+  "featured": true,
   "level": "core",
   "topic": "trig",
   "prompt": "Simplify sin(x)cos(x)/(1 - sin(x)^2)",
@@ -442,6 +446,7 @@
  },
  {
   "id": "calc-01",
+  "featured": true,
   "level": "core",
   "topic": "calculus",
   "prompt": "Differentiate f(x) = 3x^4 - 5x^2 + 7x - 9",
@@ -475,6 +480,7 @@
  },
  {
   "id": "calc-02",
+  "featured": true,
   "level": "advanced",
   "topic": "calculus",
   "prompt": "Differentiate f(x) = x^2 cos(2x)",
@@ -580,6 +586,7 @@
  },
  {
   "id": "calc-06",
+  "featured": true,
   "level": "advanced",
   "topic": "calculus",
   "prompt": "Differentiate f(x) = (x^2 + 1)^3",
@@ -607,6 +614,7 @@
  },
  {
   "id": "calc-07",
+  "featured": true,
   "level": "core",
   "topic": "calculus",
   "prompt": "Find the integral of 6x^2 - 4x + 1 dx",

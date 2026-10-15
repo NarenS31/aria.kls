@@ -1,6 +1,7 @@
 """Minimal Gradio page for the summit demo: chat + a *visible* ARIA state.
 
-    python -m ui.demo_app                 # templates only (default), http://127.0.0.1:7861
+    python -m ui.demo_app                 # templates only (default), the 8 featured problems, http://127.0.0.1:7861
+    python -m ui.demo_app --all-problems  # the full 30-problem bank
     python -m ui.demo_app --llm-path      # also let the gated LLM path answer free-form questions
                                           # (model is loaded once at startup and kept warm; falls back to
                                           #  templates on any timeout/error)
@@ -198,9 +199,11 @@ def main():
     ap.add_argument("--llm-path", action="store_true", help="enable the gated LLM path for free-form questions (default off)")
     ap.add_argument("--llm-model", default="llama3.2:3b")
     ap.add_argument("--port", type=int, default=7861)
+    ap.add_argument("--all-problems", action="store_true", help="list all 30 bank problems instead of the 8 featured ones")
     ap.add_argument("--no-log", action="store_true", help="do not write the local per-turn log (default: data/demo_logs/turns.jsonl)")
     a = ap.parse_args()
-    tutor = DemoTutor(llm_path=a.llm_path, llm_model=a.llm_model, log_path=None if a.no_log else LOG_PATH)
+    tutor = DemoTutor(problems=load_problems(featured_only=not a.all_problems), llm_path=a.llm_path, llm_model=a.llm_model,
+                      log_path=None if a.no_log else LOG_PATH)
     if a.llm_path:
         ok = tutor.warm_up()          # load the model once, keep it resident
         print(f"LLM path: {'warm (' + a.llm_model + ')' if ok else 'Ollama not reachable, using templates only'}")
