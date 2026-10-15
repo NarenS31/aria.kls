@@ -1,0 +1,1230 @@
+{
+  "bootstrap_seed": 20261016,
+  "n_bootstrap": 1000,
+  "results": {
+    "variantA_k3": {
+      "always_help": {
+        "auc": 0.5,
+        "auc_ci95_student_bootstrap": null,
+        "base_rate": 0.17210048102618922,
+        "brier": 0.8278995189738108,
+        "calibration_line": null,
+        "ece_10bin": 0.8278995189738108,
+        "logloss": 11.437854717392984,
+        "n": 3742,
+        "n_distinct_scores": 1,
+        "n_students": 596,
+        "positives": 644,
+        "reliability": [
+          {
+            "mean_score": 1.0,
+            "n": 3742,
+            "obs_rate": 0.17210048102618922
+          }
+        ],
+        "score_mean": 1.0
+      },
+      "bkt": {
+        "auc": 0.8125451102494498,
+        "auc_ci95_student_bootstrap": [
+          0.7935100064562066,
+          0.8328768564127231
+        ],
+        "base_rate": 0.17210048102618922,
+        "bootstrap_resamples_used": 1000,
+        "brier": 0.11653807012180256,
+        "calibration_line": {
+          "intercept": -0.3991682063599647,
+          "slope": 0.9397830929072739
+        },
+        "ece_10bin": 0.04141633077829858,
+        "logloss": 0.3712728170879315,
+        "n": 3742,
+        "n_distinct_scores": 574,
+        "n_students": 596,
+        "positives": 644,
+        "reliability": [
+          {
+            "mean_score": 0.017205919325482162,
+            "n": 375,
+            "obs_rate": 0.013333333333333334
+          },
+          {
+            "mean_score": 0.035113894607901944,
+            "n": 375,
+            "obs_rate": 0.024
+          },
+          {
+            "mean_score": 0.062019062213215036,
+            "n": 374,
+            "obs_rate": 0.0481283422459893
+          },
+          {
+            "mean_score": 0.08103708396840131,
+            "n": 374,
+            "obs_rate": 0.05614973262032086
+          },
+          {
+            "mean_score": 0.10807955842931206,
+            "n": 374,
+            "obs_rate": 0.08021390374331551
+          },
+          {
+            "mean_score": 0.1533913858962119,
+            "n": 374,
+            "obs_rate": 0.13636363636363635
+          },
+          {
+            "mean_score": 0.21903460721118925,
+            "n": 374,
+            "obs_rate": 0.20855614973262032
+          },
+          {
+            "mean_score": 0.3365032908294111,
+            "n": 374,
+            "obs_rate": 0.20855614973262032
+          },
+          {
+            "mean_score": 0.4572002435325373,
+            "n": 374,
+            "obs_rate": 0.3877005347593583
+          },
+          {
+            "mean_score": 0.666584980613236,
+            "n": 374,
+            "obs_rate": 0.5588235294117647
+          }
+        ],
+        "score_mean": 0.21351681180448778
+      },
+      "pfa": {
+        "auc": 0.8045400458721115,
+        "auc_ci95_student_bootstrap": [
+          0.7853658205379364,
+          0.824359844349717
+        ],
+        "base_rate": 0.17210048102618922,
+        "bootstrap_resamples_used": 1000,
+        "brier": 0.11920184687365351,
+        "calibration_line": {
+          "intercept": -0.33736084290111956,
+          "slope": 1.0426087148704708
+        },
+        "ece_10bin": 0.04839555584471092,
+        "logloss": 0.3802070605419022,
+        "n": 3742,
+        "n_distinct_scores": 532,
+        "n_students": 596,
+        "positives": 644,
+        "reliability": [
+          {
+            "mean_score": 0.015239202684709512,
+            "n": 375,
+            "obs_rate": 0.018666666666666668
+          },
+          {
+            "mean_score": 0.042928843135952084,
+            "n": 375,
+            "obs_rate": 0.016
+          },
+          {
+            "mean_score": 0.07633528605036666,
+            "n": 374,
+            "obs_rate": 0.0427807486631016
+          },
+          {
+            "mean_score": 0.10440630270892871,
+            "n": 374,
+            "obs_rate": 0.07219251336898395
+          },
+          {
+            "mean_score": 0.13452297899218277,
+            "n": 374,
+            "obs_rate": 0.0962566844919786
+          },
+          {
+            "mean_score": 0.19176491729031658,
+            "n": 374,
+            "obs_rate": 0.13368983957219252
+          },
+          {
+            "mean_score": 0.26092717358280904,
+            "n": 374,
+            "obs_rate": 0.17914438502673796
+          },
+          {
+            "mean_score": 0.3294343322771995,
+            "n": 374,
+            "obs_rate": 0.2540106951871658
+          },
+          {
+            "mean_score": 0.43680863310150697,
+            "n": 374,
+            "obs_rate": 0.3770053475935829
+          },
+          {
+            "mean_score": 0.6067430358942628,
+            "n": 374,
+            "obs_rate": 0.5320855614973262
+          }
+        ],
+        "score_mean": 0.2198090785634528
+      },
+      "three_wrong_rule": {
+        "auc": 0.6656889437785949,
+        "auc_ci95_student_bootstrap": [
+          0.6416016535266512,
+          0.6900586389315189
+        ],
+        "base_rate": 0.17210048102618922,
+        "bootstrap_resamples_used": 1000,
+        "brier": 0.16862640299305184,
+        "calibration_line": null,
+        "ece_10bin": 0.16862640299305184,
+        "logloss": 2.329660682274115,
+        "n": 3742,
+        "n_distinct_scores": 2,
+        "n_students": 596,
+        "positives": 644,
+        "reliability": [
+          {
+            "mean_score": 0.0,
+            "n": 3223,
+            "obs_rate": 0.11728203537077257
+          },
+          {
+            "mean_score": 1.0,
+            "n": 519,
+            "obs_rate": 0.51252408477842
+          }
+        ],
+        "score_mean": 0.1386958845537146
+      }
+    },
+    "variantA_k5": {
+      "always_help": {
+        "auc": 0.5,
+        "auc_ci95_student_bootstrap": null,
+        "base_rate": 0.3640474844544941,
+        "brier": 0.6359525155455059,
+        "calibration_line": null,
+        "ece_10bin": 0.6359525155455059,
+        "logloss": 8.786009056912253,
+        "n": 1769,
+        "n_distinct_scores": 1,
+        "n_students": 429,
+        "positives": 644,
+        "reliability": [
+          {
+            "mean_score": 1.0,
+            "n": 1769,
+            "obs_rate": 0.3640474844544941
+          }
+        ],
+        "score_mean": 1.0
+      },
+      "bkt": {
+        "auc": 0.8054727398205659,
+        "auc_ci95_student_bootstrap": [
+          0.7836336621031599,
+          0.8277726303899382
+        ],
+        "base_rate": 0.3640474844544941,
+        "bootstrap_resamples_used": 1000,
+        "brier": 0.16978540498651182,
+        "calibration_line": {
+          "intercept": -0.034098171860328104,
+          "slope": 0.9504911286977584
+        },
+        "ece_10bin": 0.029419867230355425,
+        "logloss": 0.5104350280093073,
+        "n": 1769,
+        "n_distinct_scores": 868,
+        "n_students": 429,
+        "positives": 644,
+        "reliability": [
+          {
+            "mean_score": 0.04820735320759889,
+            "n": 177,
+            "obs_rate": 0.03389830508474576
+          },
+          {
+            "mean_score": 0.09439242831340985,
+            "n": 177,
+            "obs_rate": 0.06779661016949153
+          },
+          {
+            "mean_score": 0.13596981781758077,
+            "n": 177,
+            "obs_rate": 0.1807909604519774
+          },
+          {
+            "mean_score": 0.19570341170482472,
+            "n": 177,
+            "obs_rate": 0.23728813559322035
+          },
+          {
+            "mean_score": 0.255061908054948,
+            "n": 177,
+            "obs_rate": 0.2655367231638418
+          },
+          {
+            "mean_score": 0.35228145873218314,
+            "n": 177,
+            "obs_rate": 0.2937853107344633
+          },
+          {
+            "mean_score": 0.4642475491364038,
+            "n": 177,
+            "obs_rate": 0.5028248587570622
+          },
+          {
+            "mean_score": 0.5744433383601841,
+            "n": 177,
+            "obs_rate": 0.5706214689265536
+          },
+          {
+            "mean_score": 0.7081256464159396,
+            "n": 177,
+            "obs_rate": 0.6949152542372882
+          },
+          {
+            "mean_score": 0.8378351752763916,
+            "n": 176,
+            "obs_rate": 0.7954545454545454
+          }
+        ],
+        "score_mean": 0.3663604387943295
+      },
+      "pfa": {
+        "auc": 0.7996149068322982,
+        "auc_ci95_student_bootstrap": [
+          0.7763527027431918,
+          0.8228282249562251
+        ],
+        "base_rate": 0.3640474844544941,
+        "bootstrap_resamples_used": 1000,
+        "brier": 0.17248886435349423,
+        "calibration_line": {
+          "intercept": -0.12558926608840973,
+          "slope": 1.00238664547539
+        },
+        "ece_10bin": 0.031042676461988297,
+        "logloss": 0.5186997105064937,
+        "n": 1769,
+        "n_distinct_scores": 624,
+        "n_students": 429,
+        "positives": 644,
+        "reliability": [
+          {
+            "mean_score": 0.0463472086327581,
+            "n": 177,
+            "obs_rate": 0.062146892655367235
+          },
+          {
+            "mean_score": 0.11601414284753456,
+            "n": 177,
+            "obs_rate": 0.0847457627118644
+          },
+          {
+            "mean_score": 0.1728276441106804,
+            "n": 177,
+            "obs_rate": 0.12429378531073447
+          },
+          {
+            "mean_score": 0.23814284743806288,
+            "n": 177,
+            "obs_rate": 0.2655367231638418
+          },
+          {
+            "mean_score": 0.303624688418353,
+            "n": 177,
+            "obs_rate": 0.24293785310734464
+          },
+          {
+            "mean_score": 0.391766514197466,
+            "n": 177,
+            "obs_rate": 0.3728813559322034
+          },
+          {
+            "mean_score": 0.4936564109303164,
+            "n": 177,
+            "obs_rate": 0.4576271186440678
+          },
+          {
+            "mean_score": 0.5776281416475519,
+            "n": 177,
+            "obs_rate": 0.5480225988700564
+          },
+          {
+            "mean_score": 0.695668331519953,
+            "n": 177,
+            "obs_rate": 0.655367231638418
+          },
+          {
+            "mean_score": 0.8277878696257148,
+            "n": 176,
+            "obs_rate": 0.8295454545454546
+          }
+        ],
+        "score_mean": 0.38609683698054237
+      },
+      "three_wrong_rule": {
+        "auc": 0.6219889579020013,
+        "auc_ci95_student_bootstrap": [
+          0.5972704383795945,
+          0.6499300859032957
+        ],
+        "base_rate": 0.3640474844544941,
+        "bootstrap_resamples_used": 1000,
+        "brier": 0.34821933295647256,
+        "calibration_line": null,
+        "ece_10bin": 0.34821933295647256,
+        "logloss": 4.810828522723507,
+        "n": 1769,
+        "n_distinct_scores": 2,
+        "n_students": 429,
+        "positives": 644,
+        "reliability": [
+          {
+            "mean_score": 0.0,
+            "n": 1137,
+            "obs_rate": 0.27616534740545295
+          },
+          {
+            "mean_score": 1.0,
+            "n": 632,
+            "obs_rate": 0.5221518987341772
+          }
+        ],
+        "score_mean": 0.357263990955342
+      }
+    },
+    "variantA_k8": {
+      "always_help": {
+        "auc": 0.5,
+        "auc_ci95_student_bootstrap": null,
+        "base_rate": 0.7523364485981309,
+        "brier": 0.24766355140186916,
+        "calibration_line": null,
+        "ece_10bin": 0.24766355140186913,
+        "logloss": 3.4215991615451538,
+        "n": 856,
+        "n_distinct_scores": 1,
+        "n_students": 301,
+        "positives": 644,
+        "reliability": [
+          {
+            "mean_score": 1.0,
+            "n": 856,
+            "obs_rate": 0.7523364485981309
+          }
+        ],
+        "score_mean": 1.0
+      },
+      "bkt": {
+        "auc": 0.9105201863354037,
+        "auc_ci95_student_bootstrap": [
+          0.8876663692831105,
+          0.9312960271885131
+        ],
+        "base_rate": 0.7523364485981309,
+        "bootstrap_resamples_used": 1000,
+        "brier": 0.10450566497909879,
+        "calibration_line": {
+          "intercept": 0.15723178483881547,
+          "slope": 0.7516468752452939
+        },
+        "ece_10bin": 0.02851210519004209,
+        "logloss": 0.2970148145295488,
+        "n": 856,
+        "n_distinct_scores": 353,
+        "n_students": 301,
+        "positives": 644,
+        "reliability": [
+          {
+            "mean_score": 0.1861989655799891,
+            "n": 86,
+            "obs_rate": 0.313953488372093
+          },
+          {
+            "mean_score": 0.2783387416458568,
+            "n": 86,
+            "obs_rate": 0.27906976744186046
+          },
+          {
+            "mean_score": 0.39480801861484965,
+            "n": 86,
+            "obs_rate": 0.45348837209302323
+          },
+          {
+            "mean_score": 0.5438792670296845,
+            "n": 86,
+            "obs_rate": 0.627906976744186
+          },
+          {
+            "mean_score": 0.873066411971264,
+            "n": 86,
+            "obs_rate": 0.8604651162790697
+          },
+          {
+            "mean_score": 0.9999999999999999,
+            "n": 86,
+            "obs_rate": 1.0
+          },
+          {
+            "mean_score": 1.0,
+            "n": 85,
+            "obs_rate": 1.0
+          },
+          {
+            "mean_score": 1.0,
+            "n": 85,
+            "obs_rate": 1.0
+          },
+          {
+            "mean_score": 1.0,
+            "n": 85,
+            "obs_rate": 1.0
+          },
+          {
+            "mean_score": 1.0,
+            "n": 85,
+            "obs_rate": 1.0
+          }
+        ],
+        "score_mean": 0.7263563794583895
+      },
+      "pfa": {
+        "auc": 0.9059423707957341,
+        "auc_ci95_student_bootstrap": [
+          0.8820592343268829,
+          0.9286292291836978
+        ],
+        "base_rate": 0.7523364485981309,
+        "bootstrap_resamples_used": 1000,
+        "brier": 0.10545824419234061,
+        "calibration_line": {
+          "intercept": -0.04067774856983492,
+          "slope": 0.6444252230868887
+        },
+        "ece_10bin": 0.024116314020047613,
+        "logloss": 0.2999136015037641,
+        "n": 856,
+        "n_distinct_scores": 247,
+        "n_students": 301,
+        "positives": 644,
+        "reliability": [
+          {
+            "mean_score": 0.20431892228402884,
+            "n": 86,
+            "obs_rate": 0.29069767441860467
+          },
+          {
+            "mean_score": 0.3345917739065017,
+            "n": 86,
+            "obs_rate": 0.38372093023255816
+          },
+          {
+            "mean_score": 0.46222677677859114,
+            "n": 86,
+            "obs_rate": 0.4186046511627907
+          },
+          {
+            "mean_score": 0.6145808590759068,
+            "n": 86,
+            "obs_rate": 0.5813953488372093
+          },
+          {
+            "mean_score": 0.8881910231402275,
+            "n": 86,
+            "obs_rate": 0.8604651162790697
+          },
+          {
+            "mean_score": 1.0,
+            "n": 86,
+            "obs_rate": 1.0
+          },
+          {
+            "mean_score": 1.0,
+            "n": 85,
+            "obs_rate": 1.0
+          },
+          {
+            "mean_score": 1.0,
+            "n": 85,
+            "obs_rate": 1.0
+          },
+          {
+            "mean_score": 1.0,
+            "n": 85,
+            "obs_rate": 1.0
+          },
+          {
+            "mean_score": 1.0,
+            "n": 85,
+            "obs_rate": 1.0
+          }
+        ],
+        "score_mean": 0.7492245380209486
+      },
+      "three_wrong_rule": {
+        "auc": 0.6309621469588655,
+        "auc_ci95_student_bootstrap": [
+          0.5915608542718872,
+          0.6684797359822133
+        ],
+        "base_rate": 0.7523364485981309,
+        "bootstrap_resamples_used": 1000,
+        "brier": 0.34579439252336447,
+        "calibration_line": null,
+        "ece_10bin": 0.34579439252336447,
+        "logloss": 4.777326734994363,
+        "n": 856,
+        "n_distinct_scores": 2,
+        "n_students": 301,
+        "positives": 644,
+        "reliability": [
+          {
+            "mean_score": 0.0,
+            "n": 332,
+            "obs_rate": 0.6265060240963856
+          },
+          {
+            "mean_score": 1.0,
+            "n": 524,
+            "obs_rate": 0.8320610687022901
+          }
+        ],
+        "score_mean": 0.6121495327102804
+      }
+    },
+    "variantB_k3": {
+      "always_help": {
+        "auc": 0.5,
+        "auc_ci95_student_bootstrap": null,
+        "base_rate": 0.15216201423097975,
+        "brier": 0.8478379857690203,
+        "calibration_line": null,
+        "ece_10bin": 0.8478379857690203,
+        "logloss": 11.713314795972769,
+        "n": 3654,
+        "n_distinct_scores": 1,
+        "n_students": 588,
+        "positives": 556,
+        "reliability": [
+          {
+            "mean_score": 1.0,
+            "n": 3654,
+            "obs_rate": 0.15216201423097975
+          }
+        ],
+        "score_mean": 1.0
+      },
+      "bkt": {
+        "auc": 0.812984183344093,
+        "auc_ci95_student_bootstrap": [
+          0.7924522037893553,
+          0.8331502586909284
+        ],
+        "base_rate": 0.15216201423097975,
+        "bootstrap_resamples_used": 1000,
+        "brier": 0.1094952793386762,
+        "calibration_line": {
+          "intercept": -0.5481922765156194,
+          "slope": 0.9424506454120735
+        },
+        "ece_10bin": 0.05691330735382988,
+        "logloss": 0.3528999128157788,
+        "n": 3654,
+        "n_distinct_scores": 569,
+        "n_students": 588,
+        "positives": 556,
+        "reliability": [
+          {
+            "mean_score": 0.01700175704208475,
+            "n": 366,
+            "obs_rate": 0.01092896174863388
+          },
+          {
+            "mean_score": 0.03453600687902127,
+            "n": 366,
+            "obs_rate": 0.01366120218579235
+          },
+          {
+            "mean_score": 0.06059226129518226,
+            "n": 366,
+            "obs_rate": 0.05191256830601093
+          },
+          {
+            "mean_score": 0.07989203308848508,
+            "n": 366,
+            "obs_rate": 0.0546448087431694
+          },
+          {
+            "mean_score": 0.1048618966988249,
+            "n": 365,
+            "obs_rate": 0.06301369863013699
+          },
+          {
+            "mean_score": 0.1480766182116757,
+            "n": 365,
+            "obs_rate": 0.1095890410958904
+          },
+          {
+            "mean_score": 0.21096964236470248,
+            "n": 365,
+            "obs_rate": 0.1643835616438356
+          },
+          {
+            "mean_score": 0.32872332226463075,
+            "n": 365,
+            "obs_rate": 0.20273972602739726
+          },
+          {
+            "mean_score": 0.4471151357416744,
+            "n": 365,
+            "obs_rate": 0.3232876712328767
+          },
+          {
+            "mean_score": 0.6607496908317723,
+            "n": 365,
+            "obs_rate": 0.5287671232876713
+          }
+        ],
+        "score_mean": 0.20907532158480965
+      },
+      "pfa": {
+        "auc": 0.8058230304071784,
+        "auc_ci95_student_bootstrap": [
+          0.786457988140112,
+          0.8258324666040009
+        ],
+        "base_rate": 0.15216201423097975,
+        "bootstrap_resamples_used": 1000,
+        "brier": 0.1122230984441942,
+        "calibration_line": {
+          "intercept": -0.48373509589485136,
+          "slope": 1.0445011639571185
+        },
+        "ece_10bin": 0.06389838045580544,
+        "logloss": 0.36224278861895154,
+        "n": 3654,
+        "n_distinct_scores": 527,
+        "n_students": 588,
+        "positives": 556,
+        "reliability": [
+          {
+            "mean_score": 0.014832835770120675,
+            "n": 366,
+            "obs_rate": 0.01639344262295082
+          },
+          {
+            "mean_score": 0.04224207914693039,
+            "n": 366,
+            "obs_rate": 0.01092896174863388
+          },
+          {
+            "mean_score": 0.07473365198969933,
+            "n": 366,
+            "obs_rate": 0.02459016393442623
+          },
+          {
+            "mean_score": 0.10270566718706135,
+            "n": 366,
+            "obs_rate": 0.06830601092896176
+          },
+          {
+            "mean_score": 0.13104605575662417,
+            "n": 365,
+            "obs_rate": 0.09041095890410959
+          },
+          {
+            "mean_score": 0.18627309692311803,
+            "n": 365,
+            "obs_rate": 0.12054794520547946
+          },
+          {
+            "mean_score": 0.25554052208655337,
+            "n": 365,
+            "obs_rate": 0.14520547945205478
+          },
+          {
+            "mean_score": 0.3225655182689116,
+            "n": 365,
+            "obs_rate": 0.2191780821917808
+          },
+          {
+            "mean_score": 0.4267891884640589,
+            "n": 365,
+            "obs_rate": 0.33424657534246577
+          },
+          {
+            "mean_score": 0.6024708466949977,
+            "n": 365,
+            "obs_rate": 0.4931506849315068
+          }
+        ],
+        "score_mean": 0.21574776080165334
+      },
+      "three_wrong_rule": {
+        "auc": 0.6642031758711817,
+        "auc_ci95_student_bootstrap": [
+          0.6406336350992479,
+          0.6892488287518947
+        ],
+        "base_rate": 0.15216201423097975,
+        "bootstrap_resamples_used": 1000,
+        "brier": 0.15900383141762453,
+        "calibration_line": null,
+        "ece_10bin": 0.15900383141762453,
+        "logloss": 2.196719952701561,
+        "n": 3654,
+        "n_distinct_scores": 2,
+        "n_students": 588,
+        "positives": 556,
+        "reliability": [
+          {
+            "mean_score": 0.0,
+            "n": 3173,
+            "obs_rate": 0.10337220296249607
+          },
+          {
+            "mean_score": 1.0,
+            "n": 481,
+            "obs_rate": 0.47401247401247404
+          }
+        ],
+        "score_mean": 0.13163656267104543
+      }
+    },
+    "variantB_k5": {
+      "always_help": {
+        "auc": 0.5,
+        "auc_ci95_student_bootstrap": null,
+        "base_rate": 0.330755502676978,
+        "brier": 0.669244497323022,
+        "calibration_line": null,
+        "ece_10bin": 0.669244497323022,
+        "logloss": 9.245954749362125,
+        "n": 1681,
+        "n_distinct_scores": 1,
+        "n_students": 415,
+        "positives": 556,
+        "reliability": [
+          {
+            "mean_score": 1.0,
+            "n": 1681,
+            "obs_rate": 0.330755502676978
+          }
+        ],
+        "score_mean": 1.0
+      },
+      "bkt": {
+        "auc": 0.8059664268585132,
+        "auc_ci95_student_bootstrap": [
+          0.7828971609629831,
+          0.8295936586769747
+        ],
+        "base_rate": 0.330755502676978,
+        "bootstrap_resamples_used": 1000,
+        "brier": 0.16444126520966101,
+        "calibration_line": {
+          "intercept": -0.18674964425193483,
+          "slope": 0.9472118102800093
+        },
+        "ece_10bin": 0.03327686511517065,
+        "logloss": 0.49696978375251794,
+        "n": 1681,
+        "n_distinct_scores": 837,
+        "n_students": 415,
+        "positives": 556,
+        "reliability": [
+          {
+            "mean_score": 0.04695975549562805,
+            "n": 169,
+            "obs_rate": 0.03550295857988166
+          },
+          {
+            "mean_score": 0.09195464314934566,
+            "n": 168,
+            "obs_rate": 0.047619047619047616
+          },
+          {
+            "mean_score": 0.13171071843390245,
+            "n": 168,
+            "obs_rate": 0.15476190476190477
+          },
+          {
+            "mean_score": 0.18797419673106364,
+            "n": 168,
+            "obs_rate": 0.19642857142857142
+          },
+          {
+            "mean_score": 0.24438827145189398,
+            "n": 168,
+            "obs_rate": 0.22023809523809523
+          },
+          {
+            "mean_score": 0.33712495799989445,
+            "n": 168,
+            "obs_rate": 0.30952380952380953
+          },
+          {
+            "mean_score": 0.44527319937680093,
+            "n": 168,
+            "obs_rate": 0.42857142857142855
+          },
+          {
+            "mean_score": 0.5600404393521455,
+            "n": 168,
+            "obs_rate": 0.48214285714285715
+          },
+          {
+            "mean_score": 0.6994097527375309,
+            "n": 168,
+            "obs_rate": 0.6547619047619048
+          },
+          {
+            "mean_score": 0.834363958120216,
+            "n": 168,
+            "obs_rate": 0.7797619047619048
+          }
+        ],
+        "score_mean": 0.3577350040178646
+      },
+      "pfa": {
+        "auc": 0.8012845723421264,
+        "auc_ci95_student_bootstrap": [
+          0.7781028959879407,
+          0.8255854707092024
+        ],
+        "base_rate": 0.330755502676978,
+        "bootstrap_resamples_used": 1000,
+        "brier": 0.16789915782263867,
+        "calibration_line": {
+          "intercept": -0.27264037567732397,
+          "slope": 1.0095488558722927
+        },
+        "ece_10bin": 0.04994845573796912,
+        "logloss": 0.5073126676931509,
+        "n": 1681,
+        "n_distinct_scores": 606,
+        "n_students": 415,
+        "positives": 556,
+        "reliability": [
+          {
+            "mean_score": 0.0448196777166659,
+            "n": 169,
+            "obs_rate": 0.05917159763313609
+          },
+          {
+            "mean_score": 0.11199974395392945,
+            "n": 168,
+            "obs_rate": 0.05952380952380952
+          },
+          {
+            "mean_score": 0.16870102139260296,
+            "n": 168,
+            "obs_rate": 0.10714285714285714
+          },
+          {
+            "mean_score": 0.2303650742818392,
+            "n": 168,
+            "obs_rate": 0.20833333333333334
+          },
+          {
+            "mean_score": 0.2932798577118703,
+            "n": 168,
+            "obs_rate": 0.24404761904761904
+          },
+          {
+            "mean_score": 0.37997060277917,
+            "n": 168,
+            "obs_rate": 0.30952380952380953
+          },
+          {
+            "mean_score": 0.48014395976231244,
+            "n": 168,
+            "obs_rate": 0.40476190476190477
+          },
+          {
+            "mean_score": 0.5644169856460319,
+            "n": 168,
+            "obs_rate": 0.5
+          },
+          {
+            "mean_score": 0.6835604215369715,
+            "n": 168,
+            "obs_rate": 0.6130952380952381
+          },
+          {
+            "mean_score": 0.8229068545402879,
+            "n": 168,
+            "obs_rate": 0.8035714285714286
+          }
+        ],
+        "score_mean": 0.37781820652216486
+      },
+      "three_wrong_rule": {
+        "auc": 0.6256698641087131,
+        "auc_ci95_student_bootstrap": [
+          0.5989959796838603,
+          0.653501278068944
+        ],
+        "base_rate": 0.330755502676978,
+        "bootstrap_resamples_used": 1000,
+        "brier": 0.33848899464604404,
+        "calibration_line": null,
+        "ece_10bin": 0.33848899464604404,
+        "logloss": 4.6763989407933035,
+        "n": 1681,
+        "n_distinct_scores": 2,
+        "n_students": 415,
+        "positives": 556,
+        "reliability": [
+          {
+            "mean_score": 0.0,
+            "n": 1090,
+            "obs_rate": 0.24495412844036699
+          },
+          {
+            "mean_score": 1.0,
+            "n": 591,
+            "obs_rate": 0.4890016920473773
+          }
+        ],
+        "score_mean": 0.35157644259369425
+      }
+    },
+    "variantB_k8": {
+      "always_help": {
+        "auc": 0.5,
+        "auc_ci95_student_bootstrap": null,
+        "base_rate": 0.7239583333333334,
+        "brier": 0.2760416666666667,
+        "calibration_line": null,
+        "ece_10bin": 0.27604166666666663,
+        "logloss": 3.8136572842221454,
+        "n": 768,
+        "n_distinct_scores": 1,
+        "n_students": 275,
+        "positives": 556,
+        "reliability": [
+          {
+            "mean_score": 1.0,
+            "n": 768,
+            "obs_rate": 0.7239583333333334
+          }
+        ],
+        "score_mean": 1.0
+      },
+      "bkt": {
+        "auc": 0.9064663363648704,
+        "auc_ci95_student_bootstrap": [
+          0.8837264817285244,
+          0.9289434621385733
+        ],
+        "base_rate": 0.7239583333333334,
+        "bootstrap_resamples_used": 1000,
+        "brier": 0.10879891444774738,
+        "calibration_line": {
+          "intercept": 0.021730822960438795,
+          "slope": 0.7106026444540386
+        },
+        "ece_10bin": 0.03852069896927079,
+        "logloss": 0.31016064769289725,
+        "n": 768,
+        "n_distinct_scores": 333,
+        "n_students": 275,
+        "positives": 556,
+        "reliability": [
+          {
+            "mean_score": 0.18206089747058232,
+            "n": 77,
+            "obs_rate": 0.3246753246753247
+          },
+          {
+            "mean_score": 0.2670418892746825,
+            "n": 77,
+            "obs_rate": 0.2077922077922078
+          },
+          {
+            "mean_score": 0.36925040311850293,
+            "n": 77,
+            "obs_rate": 0.42857142857142855
+          },
+          {
+            "mean_score": 0.5041167847596988,
+            "n": 77,
+            "obs_rate": 0.5714285714285714
+          },
+          {
+            "mean_score": 0.7699952455338412,
+            "n": 77,
+            "obs_rate": 0.7142857142857143
+          },
+          {
+            "mean_score": 0.9999999999999998,
+            "n": 77,
+            "obs_rate": 1.0
+          },
+          {
+            "mean_score": 1.0,
+            "n": 77,
+            "obs_rate": 1.0
+          },
+          {
+            "mean_score": 1.0,
+            "n": 77,
+            "obs_rate": 1.0
+          },
+          {
+            "mean_score": 1.0,
+            "n": 76,
+            "obs_rate": 1.0
+          },
+          {
+            "mean_score": 1.0,
+            "n": 76,
+            "obs_rate": 1.0
+          }
+        ],
+        "score_mean": 0.7084893515001468
+      },
+      "pfa": {
+        "auc": 0.9021268833989412,
+        "auc_ci95_student_bootstrap": [
+          0.8775793846810006,
+          0.9259709197497275
+        ],
+        "base_rate": 0.7239583333333334,
+        "bootstrap_resamples_used": 1000,
+        "brier": 0.11084191796858596,
+        "calibration_line": {
+          "intercept": -0.16679461160236916,
+          "slope": 0.6164478047526738
+        },
+        "ece_10bin": 0.027003064036745794,
+        "logloss": 0.3157044915356434,
+        "n": 768,
+        "n_distinct_scores": 235,
+        "n_students": 275,
+        "positives": 556,
+        "reliability": [
+          {
+            "mean_score": 0.1960634976539808,
+            "n": 77,
+            "obs_rate": 0.2857142857142857
+          },
+          {
+            "mean_score": 0.3221613738406776,
+            "n": 77,
+            "obs_rate": 0.2987012987012987
+          },
+          {
+            "mean_score": 0.4393341740267855,
+            "n": 77,
+            "obs_rate": 0.37662337662337664
+          },
+          {
+            "mean_score": 0.5741392872201753,
+            "n": 77,
+            "obs_rate": 0.5714285714285714
+          },
+          {
+            "mean_score": 0.805082599971807,
+            "n": 77,
+            "obs_rate": 0.7142857142857143
+          },
+          {
+            "mean_score": 1.0,
+            "n": 77,
+            "obs_rate": 1.0
+          },
+          {
+            "mean_score": 1.0,
+            "n": 77,
+            "obs_rate": 1.0
+          },
+          {
+            "mean_score": 1.0,
+            "n": 77,
+            "obs_rate": 1.0
+          },
+          {
+            "mean_score": 1.0,
+            "n": 76,
+            "obs_rate": 1.0
+          },
+          {
+            "mean_score": 1.0,
+            "n": 76,
+            "obs_rate": 1.0
+          }
+        ],
+        "score_mean": 0.7329845466392367
+      },
+      "three_wrong_rule": {
+        "auc": 0.6314816071670966,
+        "auc_ci95_student_bootstrap": [
+          0.5930011856052824,
+          0.6710144104692811
+        ],
+        "base_rate": 0.7239583333333334,
+        "bootstrap_resamples_used": 1000,
+        "brier": 0.34765625,
+        "calibration_line": null,
+        "ece_10bin": 0.34765625,
+        "logloss": 4.803049244758048,
+        "n": 768,
+        "n_distinct_scores": 2,
+        "n_students": 275,
+        "positives": 556,
+        "reliability": [
+          {
+            "mean_score": 0.0,
+            "n": 303,
+            "obs_rate": 0.5907590759075908
+          },
+          {
+            "mean_score": 1.0,
+            "n": 465,
+            "obs_rate": 0.810752688172043
+          }
+        ],
+        "score_mean": 0.60546875
+      }
+    }
+  },
+  "selection": {
+    "bkt_kcs_total_in_train": 141,
+    "bkt_kcs_with_own_fit": 125,
+    "bkt_min_seq": {
+      "10": 0.5752360545052483,
+      "30": 0.5756960114716121
+    },
+    "bkt_pooled_params": {
+      "guess": 0.21145065486693454,
+      "learn": 0.08935045476163825,
+      "prior": 0.8211508544355045,
+      "slip": 0.20462863992921038
+    },
+    "chosen": {
+      "bkt_min_seq": 10,
+      "pfa_C": 0.1
+    },
+    "pfa_C": {
+      "0.01": 0.5895977994781754,
+      "0.1": 0.5883300891016268,
+      "1.0": 0.5884491465512104,
+      "10.0": 0.5885076786882125
+    },
+    "pfa_global_beta_gamma_rho": [
+      0.6519642913553645,
+      0.28910596886796275,
+      -0.1660175581799329
+    ]
+  },
+  "split": "val"
+}
