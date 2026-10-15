@@ -107,4 +107,43 @@ Sequence neural models (Stage 4 only if they clearly beat logistic regression on
 
 ## 12. Amendments
 
-(none)
+### Amendment 1 — Stage 4 policy definitions (2026-10-15, before any Stage 4 modelling)
+
+Reason: SPEC Section 7 left profile weights, scope, and several operational details open. This amendment fixes them before the risk head is trained or any policy is evaluated. Nothing in Sections 1–11 is changed. The test split is not touched in Stage 4.
+
+**A1.1 Scope.** Policy replay uses sequences with `m > 3` and `n >= 3` (at least one decision point). Primary: **labelled sequences only (variant A), unlabelled leavers dropped**. Sensitivity ("leavers as non-wheel-spinning"): the unlabelled variant-A leavers (`m > 10`, `n < 10`) are added with `y = 0`. A leaver's decision points stop at `min(9, n)`. Policy replay uses variant A only; variant B is not run for policies.
+
+**A1.2 Decision points and firing rule.** Decision point `i` in `3..min(9, n)` exists iff `m > i`. The policy **fires at `i`** iff (a) opportunity `i` is a *verified error* and (b) risk at `i` >= `tau`, where risk at `i` is computed from opportunities `1..i` only. **At most one intervention per sequence**: the first firing; later decision points of that sequence are ignored. Always-help fires at the first verified error at a decision point. The three-wrong rule fires at the first `i` where opportunities `i-2, i-1, i` are all verified errors (verified-error definition below).
+
+**A1.3 Verified error.** *Inferred, not documented:* `first_action` code 0 = first action was an answer attempt, 1 = hint request, 2 = unknown "other". These meanings are inferred from cross-tabulation with `correct` and `hint_count` (DATA.md 3.1); no source documents them.
+- **Primary:** `correct = 0` **and** `first_action = 0` (a wrong first answer; hint-first rows, code 1, are excluded, and so are code-2 rows, whose meaning is unknown).
+- **Sensitivity ("including hint-first"):** `correct = 0` (all first-attempt-wrong rows, i.e. codes 0, 1 and 2).
+- Risk models use `correct` only, never `first_action`.
+
+**A1.4 Unnecessary interruption is a proxy.** The logs contain no tutor interventions. "Unnecessary" is defined as: an intervention in a sequence with `y = 0`, i.e. a sequence that **later masters within 10 opportunities without any logged help**. This is a proxy: the student may have mastered because of help the log does not show, an interruption might have helped or harmed, and a `y = 1` sequence might not have benefited. It is not a measurement of harm.
+
+**A1.5 Quantities (all in opportunities, per SPEC 7).** `T = 10`. For a `y = 1` sequence, `i_err` = its first verified error at a decision point; the sequence has **no help opportunity** (excluded from delay, count reported) if none exists. Help delay `d = i_first - i_err` if fired, else censored `d = T - i_err` (counted as missed help). Lead time = `T - i_first` for fired `y = 1` sequences. Missed help = `y = 1` sequence with a help opportunity and no firing. Reported: interventions per student; unnecessary interventions per student and share of interventions; missed-help count and share of `y = 1` sequences with a help opportunity; mean lead time; mean delay including and excluding censored; N of sequences without a help opportunity.
+
+**A1.6 Profiles (explicit cost weights, interruption : delayed-help).**
+
+| Profile | `w_I` (per unnecessary interruption) | `w_D` (per opportunity of help delay) | Ratio |
+|---|---|---|---|
+| quiet | 3 | 1 | 3:1 |
+| balanced | 1 | 1 | 1:1 |
+| supportive | 1 | 3 | 1:3 |
+
+Cost `J(tau) = w_I * U + w_D * D`, where `U` = number of unnecessary interruptions and `D` = total help delay in opportunities over `y = 1` sequences (missed help contributes its censored delay). These are cost settings, not clinical or demographic categories.
+
+**A1.7 Choosing tau.** On the **validation split only**, after recalibration (A1.9), over the grid `tau in {0.00, 0.01, ..., 1.00}` plus a never-fire value (`tau = 1.01`); the minimiser of `J` per profile; ties go to the larger `tau`. Methods without `tau` (always-help, three-wrong) have none.
+
+**A1.8 Risk head.** Logistic regression (L2) on windowed features of the first `i` responses only: `i`, number correct, fraction correct, last three responses (`c_i`, `c_{i-1}`, `c_{i-2}`), number wrong in the last 3 and last 5, current correct run, current wrong run, longest wrong run. Features are standardised with training statistics. One model across decision points `i = 3..9`, trained on training-split labelled variant-A rows `(sequence, i)` with `m > i`, `n >= i`. `C` chosen from {0.01, 0.1, 1, 10} by validation log-loss on the same row type. **Beat rule (fixed now):** the head replaces PFA/BKT as the risk score only if its mean validation AUC over `k in {3, 5, 8}` (variant A, the Stage 3 scored sets) exceeds that of **both** BKT and PFA, and the margin over the better of them is **>= 0.005**. Otherwise the BKT or PFA with the higher mean AUC is the primary risk score. Either way, all three risk scores are reported. PFA uses `C = 0.1` and BKT `min_seq = 10`, as chosen in Stage 3 (not reselected). A paired student-bootstrap interval for the AUC difference is reported but does not change the rule.
+
+**A1.9 Recalibration.** Each risk score is recalibrated by Platt scaling (logistic regression of `y` on the logit of the raw score, two parameters) fitted on **validation** decision rows (all `(sequence, i)` rows in scope, `i = 3..9`, `m > i`), then used for tau selection. Calibrator and `tau` therefore share the validation split, so validation costs are optimistic; that is stated wherever they are reported. Only the Platt line is fitted; no other validation-based tuning.
+
+**A1.10 Random baseline with matched intervention rate.** For each (risk method, profile) operating point, a random policy: i.i.d. uniform scores per `(sequence, i)`, fires at verified errors with score >= `t`, where `t` is found by bisection so the number of intervened sequences equals the policy's number (nearest achievable); 200 draws, seed `20261017`; mean and standard deviation of every metric are reported.
+
+**A1.11 Leaver sensitivity reporting.** Primary tau is chosen with leavers dropped. The sensitivity table reports (a) the same tau applied with leavers added, and (b) tau re-chosen with leavers added. The hint-first sensitivity (A1.3) is reported the same way for the primary-scope sample, with tau re-chosen under that error definition and also the primary tau carried over.
+
+**A1.12 Reporting rule.** Calibration metrics (ECE, calibration intercept, slope) are shown as `n/a` for 0/1 methods (three-wrong rule, always-help); AUC for them is shown as the AUC of the single binary score.
+
+**A1.13 Output.** `results/policy_val.json`, `results/riskhead_val.json`. No `RESULTS.md` until Stage 5. No test-split file is read.
