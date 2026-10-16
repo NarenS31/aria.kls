@@ -114,7 +114,9 @@ def summary_html(summary: dict | None) -> str:
         def target(h):
             if h["step"]:
                 return h["step"]
-            return "after the correct answer" if h["type"] == "reflection" else "a free-form question"
+            if h["type"] == "reflection":
+                return "after the correct answer"
+            return "a free-form question" if h["source"] == "llm" else "a general prompt (every authored step was already done)"
         hrows = "".join(f'<tr><td>{h["turn"]}</td><td>{_esc(h["type_label"])}</td><td>{_esc(target(h))}</td></tr>'
                         for h in summary["hints"])
         hints = ('<div>Every time ARIA spoke. Hints and smaller steps count as hints; the rest are encouragement, a pause, or reflection.</div>'

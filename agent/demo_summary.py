@@ -71,7 +71,8 @@ def summarize(session) -> dict:
         })
         if acted:
             hints.append({"turn": row["turn"], "type": itype, "type_label": ACTION_LABELS.get(itype, itype),
-                          "step_index": row.get("move_index", -1), "step": step, "hint_level_after": row.get("hint_level")})
+                          "step_index": row.get("move_index", -1), "step": step, "hint_level_after": row.get("hint_level"),
+                          "source": "llm" if row.get("llm_used") else "template"})
     stretches, cur = [], None
     for t in timeline:
         if t["state"] in STUCK_STATES:
