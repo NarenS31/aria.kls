@@ -36,6 +36,13 @@ The default launch shows **only the 8 featured problems** and has the **LLM path
 The page has two tabs: **Student** (badge, chat, text box, Reset) and **Teacher summary** (state timeline, hints given, where the student got stuck; no chat transcript).
 Badge meanings: READY (nothing yet), WATCHING (ARIA read the work and chose to say nothing), STEPPING IN (ARIA is speaking; the line under it says which policy rule decided).
 
+## 2a. Keep the Mac awake
+
+Before the event, in a second Terminal window: `caffeinate -dimsu` (leave it running; Ctrl-C ends it). Per `caffeinate -h` on this Mac: `-d` stops display sleep, `-i` idle sleep, `-m` disk idle sleep,
+`-s` system sleep (**valid only on AC power, so keep the charger plugged in**), `-u` declares the user active.
+Why: the build machine really did go to sleep during testing (kernel sleep time 20:58:32, wake 21:03:34, about 5 minutes), and a sleeping laptop stops the server. Also check *System Settings → Lock Screen*
+so the screen does not lock mid-visit.
+
 ## 3. Wi-Fi off
 
 Nothing in the demo needs the internet: no model download, no remote API, no CDN script. With the LLM path off it does not even need Ollama.
@@ -58,7 +65,9 @@ Do this at the venue, in this order: switch Wi-Fi off (menu bar) → `curl -m 3 
 - Click **Reset (new attempt)** on the Student tab. The badge returns to READY, the chat empties, the Teacher summary shows "No attempt to summarise yet", and ARIA forgets
   the attempt (hints, steps achieved, state). The problem stays selected. Takes under a second.
 - To switch problem, use the dropdown; that also starts a fresh session.
-- If the page looks wrong or frozen: reload the browser tab (F5; new session). Last resort: stop the server (Ctrl-C in its terminal, or `kill $(lsof -ti tcp:7861)`) and relaunch (about 5 s).
+- If the page looks wrong or frozen: reload the browser tab (F5; new session).
+- **If the server will not stop with Ctrl-C**, run `kill $(lsof -ti tcp:7861)` in another terminal (add `-9` only if that also fails), then relaunch (about 5 s). Check with `lsof -ti tcp:7861`: no output means the port is free.
+- **Restart the server between visitors if it feels sluggish after a hostile or very odd input** (a huge paste, a wall of symbols, many equations). The 3 s symbolic budget stops the *reply* waiting, but the abandoned check can keep running in the background; once, during testing, a test process stayed busy after it had finished its work (cause not confirmed). A restart takes about 5 s and clears it.
 
 ## 5. The LLM flag, and what happens when a model hangs
 
@@ -140,7 +149,11 @@ message in view after 6 turns, (c) the Teacher summary tab is readable, (d) Rese
 - Do not edit `data/demo_problems.json` or any code at the venue. If a problem fails to load the server stops at launch with a message naming it.
 - Do not run `git pull`/`git checkout` at the venue, and do not leave the `aria-pace` branch checked out; `summit-demo` at the tag is the build.
 - Do not rely on the screenshots as a live backup for Safari; they are Chrome.
+- **Never type hostile inputs on stage**: no huge pastes, no walls of symbols, no dozens of equations, no deeply nested brackets. The tests cover them and the demo survives them, but they are what can leave the server busy afterwards (section 4).
 
 ## 10. Change log after the tag
 
-(none yet; each entry: date, symptom, fix, commit)
+Entries are doc-only unless a crash fix is listed. The tagged build `summit-2026-10-24` (e09218c) is unchanged by all of them.
+
+- 2026-10-16, doc-only: added the kill-by-port fallback (section 4), restart-if-sluggish (section 4), `caffeinate -dimsu` (section 2a) and the no-hostile-input rule (section 9).
+  Lives on branch `summit-testfix`, not on `summit-demo`; fast-forward `summit-demo` to it only if you want these notes there.
