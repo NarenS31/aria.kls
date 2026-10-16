@@ -25,9 +25,9 @@
   },
   {
     "id": "M4",
-    "problem_id": "alg-08",
+    "problem_id": "alg-05",
     "history": [],
-    "message": "x^2 + 3x + 9"
+    "message": "I think I'll try factoring first"
   },
   {
     "id": "M5",
@@ -50,9 +50,7 @@
   {
     "id": "M8",
     "problem_id": "alg-02",
-    "history": [
-      "2x = 8"
-    ],
+    "history": [],
     "message": "x = 11"
   }
 ]

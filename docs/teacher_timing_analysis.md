@@ -91,3 +91,17 @@ Every number in any write-up must come from that command's output.
 
 The owner fixed the type mapping: `hint` -> hint, **`task_chunking` -> hint** (was: prompt), `reflection` -> prompt, `encouragement` -> encouragement, `break_suggestion` -> break.
 Only the `task_chunking` row changes. The table in section 2 above shows the amended mapping; nothing else in this plan changes. No data existed when this was decided, so it cannot depend on responses.
+
+## Amendment 2 (2026-10-16, before any teacher response was collected)
+
+The owner replaced two turns: **M4** is now `alg-05`, no history, "I think I'll try factoring first"; **M8** is now `alg-02` with no history, "x = 11". All 8 moments were regenerated through the tagged tutor
+(`summit-2026-10-24`, e09218c) and ARIA's decisions re-recorded in `data/teacher_moments.json`. Consequences for this plan:
+
+- **Verified-wrong moments (section 5d) are M3 and M8.** Words-only moments (section 5c) are **M4, M5, M6, M7**.
+- **The ARIA-vs-teacher-majority comparison (5b) has 6 moments in scope: M1, M2, M4, M5, M6, M7.** ARIA stays quiet on four of them (M1, M2, M4, M5) and steps in on two (M6, M7). Six moments cannot support
+  generalisation; every number is a description of these six, and no moment-level result is a rate with a claimed population.
+- **M4 is quiet, but ARIA reads it as UNKNOWN, not PLANNING**: the analyzer's planning markers do not fire on this wording, so the quiet comes from the "no reason to interrupt" rule.
+- **Kind of help (5e) is descriptive this round.** Among the moments where ARIA steps in, only `hint` (M3, M7, M8) and `encouragement` (M6) occur; `prompt` and `break` never do, so no match proportion is
+  computed or interpreted. The report shows, per moment, the distribution of the categories teachers chose, next to ARIA's category.
+- Nothing else in the plan changes. The n >= 15 gate, the seeds and the separate treatment of words-only and verified-wrong moments stand.
+

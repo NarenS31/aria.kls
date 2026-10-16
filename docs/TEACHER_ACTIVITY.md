@@ -13,14 +13,14 @@ decisions depend on is byte-identical to the tag; a test fails if it is not). AR
 | M1 | calc-01 | `12x^3 - 10x` (after "first I'll differentiate term by term") | partial | stays quiet |
 | M2 | alg-03 | `3x - 3 = 9` (after "move the 2x over") | correct step | stays quiet |
 | M3 | calc-02 | `2x cos(2x) + 2x^2 sin(2x)` (after "product rule") | wrong | steps in: hint |
-| M4 | alg-08 | `x^2 + 3x + 9` | wrong | steps in: hint |
+| M4 | alg-05 | "I think I'll try factoring first" | words only | stays quiet (state UNKNOWN) |
 | M5 | trig-01 | "so I need sin of pi over 6 plus cos of pi over 3" | words only | stays quiet |
 | M6 | calc-07 | "ugh I hate integrals" | words only | steps in: encouragement |
 | M7 | alg-05 | "can you just tell me the answer" | words only | steps in: hint |
-| M8 | alg-02 | `x = 11` (after `2x = 8`) | wrong | steps in: hint |
+| M8 | alg-02 | `x = 11` | wrong | steps in: hint |
 
-Words-only: M5, M6, M7. Verified-wrong (ARIA never stays quiet there): M3, M4, M8. **Known quirk in M8:** the student already wrote `2x = 8`, yet ARIA's reply says "subtract 7 from both sides"; the tutor
-cannot tell that an equation step is already done (only expression steps are tracked). Teachers who read the reveal will see it.
+Words-only: M4, M5, M6, M7. Verified-wrong (ARIA never stays quiet there): M3, M8. In the ARIA-vs-majority comparison: M1, M2, M4, M5, M6, M7 (six). Only `hint` and `encouragement` occur, so the
+kind-of-help question is descriptive this round (see Amendment 2 in the analysis plan).
 
 ## Launch
 
