@@ -3,6 +3,10 @@
 Branch `aria-pace`. Checked 2026-10-16. Docs only: no model code, no training. Numbers come from running descriptive code on the downloaded file
 (results: `docs/aria_pace/data_profile_2012.json`; the two profiling scripts are in the appendix).
 
+> **LICENCE HOLD (owner, 2026-10-16): confirmation of the data licence from ASSISTments is PENDING.** Until it arrives, nothing derived from the 2012-13 file (results, figures, the summit slide)
+> is to be published or shared outside the team; `RESULTS_v2.md` and the slide carry the same notice (SPEC Amendment 3, A3.11). The dataset page states no licence (section 2); this note records the
+> owner's statement, not something verified from a source.
+
 **Labels.** **VERIFIED** = read from the primary source or from the file itself in this session. **UNVERIFIED** = not opened, or only seen as a search snippet, or inferred.
 (Companion to `DATA.md`, which covers the 2009-10 file and the ASSISTments terms.)
 
@@ -14,6 +18,7 @@ Branch `aria-pace`. Checked 2026-10-16. Docs only: no model code, no training. N
 | Affect columns present? | **Yes: four, with no missing values.** So **C4 continues**. They are *detector-predicted*, not human labels. |
 | Human BROMP observations obtainable? | **Not from this file.** No label column exists, and no public source for them was found (section 5). Availability on request: **UNVERIFIED**. |
 | Grade level | **UNVERIFIED for this file.** The detector-training population was middle school (section 4). |
+| Licence confirmation | **PENDING** from ASSISTments (owner, 2026-10-16). **No publication of 2012-13 results until it arrives.** |
 
 ## 2. License, terms, access  (VERIFIED unless marked)
 
