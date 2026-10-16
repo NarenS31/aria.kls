@@ -138,6 +138,19 @@ class NeverATranscript(unittest.TestCase):
                 self.assertNotIn(r, ui.summary_html(sm).replace("&#x27;", "'"))
         self.assertNotIn("student_chars", blob)
 
+    def test_hint_label_when_no_authored_step_is_left(self):
+        ui = load_ui()
+        s, _ = play("calc-02", ["I don't know", "2x cos(2x)", "2x cos(2x) + 2x^2 sin(2x)"])     # the only authored step is done by turn 2
+        sm = S.summarize(s)
+        h = sm["hints"][-1]
+        self.assertEqual((h["step"], h["source"]), (None, "template"))
+        page = ui.summary_html(sm)
+        self.assertIn("a general prompt (every authored step was already done)", page)
+        self.assertNotIn("a free-form question", page)
+        t = DT.DemoTutor(problems=PROBS, llm_path=True, llm_fn=lambda *_: "Because the derivative of cos is minus sin.")
+        s, _ = play("calc-02", ["why is there a minus sign?"], tutor=t)
+        self.assertIn("a free-form question", ui.summary_html(S.summarize(s)))
+
     def test_html_sections_and_escaping(self):
         ui = load_ui()
         s, _ = play("calc-01", SCRIPT)
