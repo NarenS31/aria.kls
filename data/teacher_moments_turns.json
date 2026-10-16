@@ -1,0 +1,58 @@
+[
+  {
+    "id": "M1",
+    "problem_id": "calc-01",
+    "history": [
+      "first I'll differentiate term by term"
+    ],
+    "message": "12x^3 - 10x"
+  },
+  {
+    "id": "M2",
+    "problem_id": "alg-03",
+    "history": [
+      "move the 2x over"
+    ],
+    "message": "3x - 3 = 9"
+  },
+  {
+    "id": "M3",
+    "problem_id": "calc-02",
+    "history": [
+      "product rule"
+    ],
+    "message": "2x cos(2x) + 2x^2 sin(2x)"
+  },
+  {
+    "id": "M4",
+    "problem_id": "alg-08",
+    "history": [],
+    "message": "x^2 + 3x + 9"
+  },
+  {
+    "id": "M5",
+    "problem_id": "trig-01",
+    "history": [],
+    "message": "so I need sin of pi over 6 plus cos of pi over 3"
+  },
+  {
+    "id": "M6",
+    "problem_id": "calc-07",
+    "history": [],
+    "message": "ugh I hate integrals"
+  },
+  {
+    "id": "M7",
+    "problem_id": "alg-05",
+    "history": [],
+    "message": "can you just tell me the answer"
+  },
+  {
+    "id": "M8",
+    "problem_id": "alg-02",
+    "history": [
+      "2x = 8"
+    ],
+    "message": "x = 11"
+  }
+]

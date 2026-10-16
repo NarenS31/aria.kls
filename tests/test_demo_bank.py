@@ -146,9 +146,10 @@ class LiveDemoUsesTheShortList(unittest.TestCase):
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
         demo = mod.build_demo_ui(DemoTutor(problems=FEATURED))
-        dd = [b for b in demo.blocks.values() if isinstance(b, gr.Dropdown)]
-        self.assertEqual(len(dd), 1)
-        self.assertEqual([c[0] if isinstance(c, (list, tuple)) else c for c in dd[0].choices], [p.prompt for p in FEATURED])
+        labels = lambda dd: [c[0] if isinstance(c, (list, tuple)) else c for c in dd.choices]          # noqa: E731
+        # other tabs may add their own dropdowns (the teacher activity has role / years / grade), so find the problem list by its content
+        problem_lists = [b for b in demo.blocks.values() if isinstance(b, gr.Dropdown) and labels(b) == [p.prompt for p in FEATURED]]
+        self.assertEqual(len(problem_lists), 1)
 
 
 if __name__ == "__main__":

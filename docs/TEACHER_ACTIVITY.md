@@ -2,21 +2,25 @@
 
 Branch `summit-activity` (from the tag `summit-2026-10-24`; the tagged demo build is untouched). Analysis plan, written and committed first: `docs/teacher_timing_analysis.md`.
 
-## What is NOT here yet: the 8 real moments
+## The 8 moments
 
-`data/teacher_moments.json` does not exist. It must be generated from **your** turns; nothing in this repository was invented to stand in for them. Until it exists the tab says
-"The teacher activity is not set up on this laptop" and the rest of the demo is unaffected.
+`data/teacher_moments_turns.json` holds the owner's 8 turns verbatim (M1 to M8) and `data/teacher_moments.json` is generated from them by running the unmodified tutor of the tag
+`summit-2026-10-24` (e09218c): `/usr/bin/python3 scripts/make_teacher_moments.py --turns data/teacher_moments_turns.json`. Each moment carries a `build` stamp (tag, commit, and whether every file the tutor's
+decisions depend on is byte-identical to the tag; a test fails if it is not). ARIA's recorded decision is the ground truth for each moment:
 
-1. Write `data/teacher_moments_turns.json`, a list of exactly 8 objects:
-   ```json
-   [{"id": "m1", "problem_id": "calc-01", "history": ["I don't know", "12x^3"], "message": "12x^3 - 10x - 9"}, ...]
-   ```
-   `problem_id` is one of the bank ids (the 8 featured ones are listed in `docs/DEMO_RUNBOOK.md` section 6); `history` is the student's earlier messages (may be empty); `message` is the moment.
-2. `cd ~/aria && /usr/bin/python3 scripts/make_teacher_moments.py --turns data/teacher_moments_turns.json`
-   It replays each moment through the unmodified `DemoTutor` (LLM path off) and records ARIA's decision on `message` as the ground truth, plus `words_only` and `verified_wrong`
-   computed from SymPy. It prints one line per moment: **read it before the event**, because it shows exactly what ARIA decides on each one.
-3. Check the mix. The analysis plan reports words-only moments separately and treats verified-wrong moments specially (ARIA never stays quiet on a verified wrong step), so a set made only
-   of one kind will leave parts of the analysis empty.
+| Moment | Problem | Student's new message | Verdict | ARIA |
+|---|---|---|---|---|
+| M1 | calc-01 | `12x^3 - 10x` (after "first I'll differentiate term by term") | partial | stays quiet |
+| M2 | alg-03 | `3x - 3 = 9` (after "move the 2x over") | correct step | stays quiet |
+| M3 | calc-02 | `2x cos(2x) + 2x^2 sin(2x)` (after "product rule") | wrong | steps in: hint |
+| M4 | alg-08 | `x^2 + 3x + 9` | wrong | steps in: hint |
+| M5 | trig-01 | "so I need sin of pi over 6 plus cos of pi over 3" | words only | stays quiet |
+| M6 | calc-07 | "ugh I hate integrals" | words only | steps in: encouragement |
+| M7 | alg-05 | "can you just tell me the answer" | words only | steps in: hint |
+| M8 | alg-02 | `x = 11` (after `2x = 8`) | wrong | steps in: hint |
+
+Words-only: M5, M6, M7. Verified-wrong (ARIA never stays quiet there): M3, M4, M8. **Known quirk in M8:** the student already wrote `2x = 8`, yet ARIA's reply says "subtract 7 from both sides"; the tutor
+cannot tell that an equation step is already done (only expression steps are tracked). Teachers who read the reveal will see it.
 
 ## Launch
 
@@ -45,10 +49,11 @@ exact statistics.
 
 ## Tests
 
-`/usr/bin/python3 -m unittest tests.test_teacher_activity` (18 tests: state machine, CSV validation, moment generation against the real tutor, Fleiss' kappa against a hand-computed value,
-n >= 15 gating, UI group visibility, HTML escaping). The moments in that test file are **fixtures**, not the real set.
+`/usr/bin/python3 -m unittest tests.test_teacher_activity` (23 tests: state machine, CSV validation, moment generation, a golden snapshot of the 8 real decisions, Fleiss' kappa against a hand-computed value,
+n >= 15 gating, UI group visibility, HTML escaping). The moments used by most of those tests are **fixtures**; the `RealMoments` class checks the real set.
 
 ## Checked in a real browser
 
-A fixture set was driven through the tab in Chrome (consent → 8 moments with both decisions and all four help types → Agree/Disagree → done → next visitor → Skip): 8 rows with the exact
-columns, no moment text or ARIA reply in the CSV, Skip added no rows. **Not checked:** Safari; the real moments; a real Wi-Fi-off run; more than one visitor at a time.
+The real moments were driven through the tab in Chrome (consent → all 8 moments, answering the opposite of ARIA each time → Disagree → done): every moment displayed correctly, nothing about ARIA appeared before
+the answer, every reveal matched the recorded decision, the CSV had 8 rows with the exact columns and ARIA's decision/type, and no moment text or ARIA reply was in the file. A fixture run also checked Skip (adds no rows).
+**Not checked:** Safari; a real Wi-Fi-off run; more than one visitor at a time.

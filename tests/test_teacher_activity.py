@@ -91,6 +91,50 @@ class MomentGeneration(unittest.TestCase):
                 TA.load_moments(p)
 
 
+class RealMoments(unittest.TestCase):
+    """data/teacher_moments.json is the owner's real set (turns in data/teacher_moments_turns.json), regenerated through the tagged tutor."""
+    GOLDEN = {  # ARIA's decision at generation time (build summit-2026-10-24); a change here means the tutor's behaviour changed
+        "M1": ("stay_quiet", ""), "M2": ("stay_quiet", ""), "M3": ("step_in", "hint"), "M4": ("step_in", "hint"),
+        "M5": ("stay_quiet", ""), "M6": ("step_in", "encouragement"), "M7": ("step_in", "hint"), "M8": ("step_in", "hint")}
+
+    @classmethod
+    def setUpClass(cls):
+        cls.moments = TA.load_moments(ROOT / "data" / "teacher_moments.json")
+        cls.turns = json.loads((ROOT / "data" / "teacher_moments_turns.json").read_text(encoding="utf-8"))
+
+    def test_eight_moments_in_the_owners_order_with_the_recorded_decisions(self):
+        self.assertEqual([m["id"] for m in self.moments], [f"M{i}" for i in range(1, 9)])
+        self.assertEqual({m["id"]: (m["aria_decision"], m["aria_type"]) for m in self.moments}, self.GOLDEN)
+
+    def test_committed_file_equals_a_fresh_replay_of_the_turns(self):
+        fresh = MK.build(self.turns)
+        strip = lambda ms: [{k: v for k, v in m.items() if k != "build"} for m in ms]          # noqa: E731
+        self.assertEqual(strip(fresh), strip(json.loads((ROOT / "data" / "teacher_moments.json").read_text(encoding="utf-8"))))
+
+    def test_turns_are_the_owners_verbatim(self):
+        self.assertEqual([(t["id"], t["problem_id"], t["history"], t["message"]) for t in self.turns], [
+            ("M1", "calc-01", ["first I'll differentiate term by term"], "12x^3 - 10x"), ("M2", "alg-03", ["move the 2x over"], "3x - 3 = 9"),
+            ("M3", "calc-02", ["product rule"], "2x cos(2x) + 2x^2 sin(2x)"), ("M4", "alg-08", [], "x^2 + 3x + 9"),
+            ("M5", "trig-01", [], "so I need sin of pi over 6 plus cos of pi over 3"), ("M6", "calc-07", [], "ugh I hate integrals"),
+            ("M7", "alg-05", [], "can you just tell me the answer"), ("M8", "alg-02", ["2x = 8"], "x = 11")])
+
+    def test_properties_and_the_verified_wrong_rule(self):
+        self.assertEqual({m["id"] for m in self.moments if m["words_only"]}, {"M5", "M6", "M7"})
+        self.assertEqual({m["id"] for m in self.moments if m["verified_wrong"]}, {"M3", "M4", "M8"})
+        for m in self.moments:
+            if m["verified_wrong"]:
+                self.assertEqual(m["aria_decision"], "step_in", m["id"])            # never quiet on a verified wrong step
+            self.assertEqual(m["build"]["tag"], "summit-2026-10-24")
+            self.assertIn(m["aria_type"], ("",) + TA.TYPES)
+
+    def test_generated_from_the_tagged_tutor(self):
+        info = MK.build_info()
+        if info["commit"] == "unknown":
+            self.skipTest("tag summit-2026-10-24 not present in this checkout")
+        self.assertTrue(info["tutor_files_match_tag"], "tutor files differ from the tag: the moments would not describe the tagged build")
+        self.assertTrue(info["commit"].startswith("e09218c"))
+
+
 class Flow(unittest.TestCase):
     def test_skip_records_nothing(self):
         log, path = tmp_log()

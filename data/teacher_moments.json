@@ -1,0 +1,178 @@
+[
+  {
+    "id": "M1",
+    "problem_id": "calc-01",
+    "problem_prompt": "Differentiate f(x) = 3x^4 - 5x^2 + 7x - 9",
+    "history": [
+      "first I'll differentiate term by term"
+    ],
+    "message": "12x^3 - 10x",
+    "aria_decision": "stay_quiet",
+    "aria_type": "",
+    "aria_intervention_type": "",
+    "aria_reason": "productive work: stay quiet",
+    "aria_reply": "",
+    "aria_state": "FLOW",
+    "verdict": "partial",
+    "words_only": false,
+    "verified_wrong": false,
+    "build": {
+      "tag": "summit-2026-10-24",
+      "commit": "e09218c14242707cf6198efe7a3ae37b8382a1db",
+      "tutor_files_match_tag": true
+    }
+  },
+  {
+    "id": "M2",
+    "problem_id": "alg-03",
+    "problem_prompt": "Solve for x: 5x - 3 = 2x + 9",
+    "history": [
+      "move the 2x over"
+    ],
+    "message": "3x - 3 = 9",
+    "aria_decision": "stay_quiet",
+    "aria_type": "",
+    "aria_intervention_type": "",
+    "aria_reason": "productive work: stay quiet",
+    "aria_reply": "",
+    "aria_state": "FLOW",
+    "verdict": "step",
+    "words_only": false,
+    "verified_wrong": false,
+    "build": {
+      "tag": "summit-2026-10-24",
+      "commit": "e09218c14242707cf6198efe7a3ae37b8382a1db",
+      "tutor_files_match_tag": true
+    }
+  },
+  {
+    "id": "M3",
+    "problem_id": "calc-02",
+    "problem_prompt": "Differentiate f(x) = x^2 cos(2x)",
+    "history": [
+      "product rule"
+    ],
+    "message": "2x cos(2x) + 2x^2 sin(2x)",
+    "aria_decision": "step_in",
+    "aria_type": "hint",
+    "aria_intervention_type": "hint",
+    "aria_reason": "student needs support: one small prompt",
+    "aria_reply": "Not quite yet. Try this: use the product rule, so differentiate x^2 and keep cos(2x). What do you get?",
+    "aria_state": "STUCK",
+    "verdict": "wrong",
+    "words_only": false,
+    "verified_wrong": true,
+    "build": {
+      "tag": "summit-2026-10-24",
+      "commit": "e09218c14242707cf6198efe7a3ae37b8382a1db",
+      "tutor_files_match_tag": true
+    }
+  },
+  {
+    "id": "M4",
+    "problem_id": "alg-08",
+    "problem_prompt": "Expand (x + 3)^2",
+    "history": [],
+    "message": "x^2 + 3x + 9",
+    "aria_decision": "step_in",
+    "aria_type": "hint",
+    "aria_intervention_type": "hint",
+    "aria_reason": "student needs support: one small prompt",
+    "aria_reply": "Not quite yet. Try this: write (x + 3)(x + 3) and multiply each term. What do you get?",
+    "aria_state": "STUCK",
+    "verdict": "wrong",
+    "words_only": false,
+    "verified_wrong": true,
+    "build": {
+      "tag": "summit-2026-10-24",
+      "commit": "e09218c14242707cf6198efe7a3ae37b8382a1db",
+      "tutor_files_match_tag": true
+    }
+  },
+  {
+    "id": "M5",
+    "problem_id": "trig-01",
+    "problem_prompt": "Evaluate sin(pi/6) + cos(pi/3)",
+    "history": [],
+    "message": "so I need sin of pi over 6 plus cos of pi over 3",
+    "aria_decision": "stay_quiet",
+    "aria_type": "",
+    "aria_intervention_type": "",
+    "aria_reason": "no reason to interrupt: stay quiet",
+    "aria_reply": "",
+    "aria_state": "UNKNOWN",
+    "verdict": "none",
+    "words_only": true,
+    "verified_wrong": false,
+    "build": {
+      "tag": "summit-2026-10-24",
+      "commit": "e09218c14242707cf6198efe7a3ae37b8382a1db",
+      "tutor_files_match_tag": true
+    }
+  },
+  {
+    "id": "M6",
+    "problem_id": "calc-07",
+    "problem_prompt": "Find the integral of 6x^2 - 4x + 1 dx",
+    "history": [],
+    "message": "ugh I hate integrals",
+    "aria_decision": "step_in",
+    "aria_type": "encouragement",
+    "aria_intervention_type": "encouragement",
+    "aria_reason": "student needs support: one small prompt",
+    "aria_reply": "This is a hard moment. What is one part you do understand?",
+    "aria_state": "FRUSTRATED",
+    "verdict": "none",
+    "words_only": true,
+    "verified_wrong": false,
+    "build": {
+      "tag": "summit-2026-10-24",
+      "commit": "e09218c14242707cf6198efe7a3ae37b8382a1db",
+      "tutor_files_match_tag": true
+    }
+  },
+  {
+    "id": "M7",
+    "problem_id": "alg-05",
+    "problem_prompt": "Solve for x: x^2 - 5x + 6 = 0",
+    "history": [],
+    "message": "can you just tell me the answer",
+    "aria_decision": "step_in",
+    "aria_type": "hint",
+    "aria_intervention_type": "hint",
+    "aria_reason": "student needs support: one small prompt",
+    "aria_reply": "I won't hand over the answer, but I'll help you get there. Try this: factor the left side. What do you get?",
+    "aria_state": "STUCK",
+    "verdict": "none",
+    "words_only": true,
+    "verified_wrong": false,
+    "build": {
+      "tag": "summit-2026-10-24",
+      "commit": "e09218c14242707cf6198efe7a3ae37b8382a1db",
+      "tutor_files_match_tag": true
+    }
+  },
+  {
+    "id": "M8",
+    "problem_id": "alg-02",
+    "problem_prompt": "Solve for x: 2x + 7 = 15",
+    "history": [
+      "2x = 8"
+    ],
+    "message": "x = 11",
+    "aria_decision": "step_in",
+    "aria_type": "hint",
+    "aria_intervention_type": "hint",
+    "aria_reason": "student needs support: one small prompt",
+    "aria_reply": "Not quite yet. Try this: subtract 7 from both sides. What do you get?",
+    "aria_state": "STUCK",
+    "verdict": "wrong",
+    "words_only": false,
+    "verified_wrong": true,
+    "build": {
+      "tag": "summit-2026-10-24",
+      "commit": "e09218c14242707cf6198efe7a3ae37b8382a1db",
+      "tutor_files_match_tag": true
+    }
+  }
+]
