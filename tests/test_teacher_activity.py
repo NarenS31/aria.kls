@@ -94,7 +94,7 @@ class MomentGeneration(unittest.TestCase):
 class RealMoments(unittest.TestCase):
     """data/teacher_moments.json is the owner's real set (turns in data/teacher_moments_turns.json), regenerated through the tagged tutor."""
     GOLDEN = {  # ARIA's decision at generation time (build summit-2026-10-24); a change here means the tutor's behaviour changed
-        "M1": ("stay_quiet", ""), "M2": ("stay_quiet", ""), "M3": ("step_in", "hint"), "M4": ("step_in", "hint"),
+        "M1": ("stay_quiet", ""), "M2": ("stay_quiet", ""), "M3": ("step_in", "hint"), "M4": ("stay_quiet", ""),
         "M5": ("stay_quiet", ""), "M6": ("step_in", "encouragement"), "M7": ("step_in", "hint"), "M8": ("step_in", "hint")}
 
     @classmethod
@@ -114,18 +114,24 @@ class RealMoments(unittest.TestCase):
     def test_turns_are_the_owners_verbatim(self):
         self.assertEqual([(t["id"], t["problem_id"], t["history"], t["message"]) for t in self.turns], [
             ("M1", "calc-01", ["first I'll differentiate term by term"], "12x^3 - 10x"), ("M2", "alg-03", ["move the 2x over"], "3x - 3 = 9"),
-            ("M3", "calc-02", ["product rule"], "2x cos(2x) + 2x^2 sin(2x)"), ("M4", "alg-08", [], "x^2 + 3x + 9"),
+            ("M3", "calc-02", ["product rule"], "2x cos(2x) + 2x^2 sin(2x)"), ("M4", "alg-05", [], "I think I'll try factoring first"),
             ("M5", "trig-01", [], "so I need sin of pi over 6 plus cos of pi over 3"), ("M6", "calc-07", [], "ugh I hate integrals"),
-            ("M7", "alg-05", [], "can you just tell me the answer"), ("M8", "alg-02", ["2x = 8"], "x = 11")])
+            ("M7", "alg-05", [], "can you just tell me the answer"), ("M8", "alg-02", [], "x = 11")])
 
     def test_properties_and_the_verified_wrong_rule(self):
-        self.assertEqual({m["id"] for m in self.moments if m["words_only"]}, {"M5", "M6", "M7"})
-        self.assertEqual({m["id"] for m in self.moments if m["verified_wrong"]}, {"M3", "M4", "M8"})
+        self.assertEqual({m["id"] for m in self.moments if m["words_only"]}, {"M4", "M5", "M6", "M7"})
+        self.assertEqual({m["id"] for m in self.moments if m["verified_wrong"]}, {"M3", "M8"})
         for m in self.moments:
             if m["verified_wrong"]:
                 self.assertEqual(m["aria_decision"], "step_in", m["id"])            # never quiet on a verified wrong step
             self.assertEqual(m["build"]["tag"], "summit-2026-10-24")
             self.assertIn(m["aria_type"], ("",) + TA.TYPES)
+
+    def test_six_moments_are_in_the_aria_comparison_and_only_hint_and_encouragement_occur(self):
+        in_scope = [m["id"] for m in self.moments if not m["verified_wrong"]]
+        self.assertEqual(in_scope, ["M1", "M2", "M4", "M5", "M6", "M7"])
+        self.assertEqual(sorted({m["aria_type"] for m in self.moments if m["aria_decision"] == "step_in"}), ["encouragement", "hint"])
+        self.assertEqual(sum(m["aria_decision"] == "step_in" for m in self.moments if not m["verified_wrong"]), 2)       # M6, M7
 
     def test_generated_from_the_tagged_tutor(self):
         info = MK.build_info()
