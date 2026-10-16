@@ -28,7 +28,7 @@ outcome, no student data, no clinical or demographic claim about students, and A
   | ARIA intervention type | Activity category |
   |---|---|
   | `hint` | hint |
-  | `task_chunking` | prompt (a smaller step to try) |
+  | `task_chunking` | hint (a smaller step to try; amended, see Amendment 1) |
   | `reflection` | prompt (a question about what made it click) |
   | `encouragement` | encouragement |
   | `break_suggestion` | break |
@@ -86,3 +86,8 @@ simplification of a continuum. ARIA's decision is a rule-based policy over verif
 ```
 
 Every number in any write-up must come from that command's output.
+
+## Amendment 1 (2026-10-16, before any teacher response was collected)
+
+The owner fixed the type mapping: `hint` -> hint, **`task_chunking` -> hint** (was: prompt), `reflection` -> prompt, `encouragement` -> encouragement, `break_suggestion` -> break.
+Only the `task_chunking` row changes. The table in section 2 above shows the amended mapping; nothing else in this plan changes. No data existed when this was decided, so it cannot depend on responses.

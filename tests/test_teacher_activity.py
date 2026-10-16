@@ -69,7 +69,7 @@ class MomentGeneration(unittest.TestCase):
 
     def test_type_mapping(self):
         self.assertEqual([TA.aria_category(t) for t in ("hint", "task_chunking", "reflection", "encouragement", "break_suggestion", "zzz")],
-                         ["hint", "prompt", "prompt", "encouragement", "break", "other"])
+                         ["hint", "hint", "prompt", "encouragement", "break", "other"])
 
     def test_loader_validates(self):
         with tempfile.TemporaryDirectory() as d:
