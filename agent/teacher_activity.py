@@ -33,8 +33,8 @@ ROLE_LABELS = {"teacher": "Teacher", "aide_or_tutor": "Aide or tutor", "administ
                "other": "Other", PREFER_NOT: "Prefer not to say"}
 BAND_LABELS = {PREFER_NOT: "Prefer not to say", "elementary_K-5": "Elementary (K-5)", "middle_6-8": "Middle (6-8)", "high_9-12": "High school (9-12)",
                "college_or_adult": "College or adult", "mixed": "Mixed grades"}
-# ARIA's intervention types -> the activity's five answer choices (documented in docs/teacher_timing_analysis.md section 2)
-TYPE_MAP = {"hint": "hint", "task_chunking": "prompt", "reflection": "prompt", "encouragement": "encouragement", "break_suggestion": "break"}
+# ARIA's intervention types -> the activity's five answer choices (docs/teacher_timing_analysis.md section 2, as amended by Amendment 1: owner's mapping)
+TYPE_MAP = {"hint": "hint", "task_chunking": "hint", "reflection": "prompt", "encouragement": "encouragement", "break_suggestion": "break"}
 
 
 def aria_category(intervention_type: str) -> str:
