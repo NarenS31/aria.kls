@@ -24,6 +24,8 @@ from agent.demo_input import sanitize_input
 from agent.demo_summary import RULE_TEXT, STATE_LABELS, headline, summarize
 from agent.demo_log import DEFAULT_PATH as LOG_PATH
 from agent.demo_tutor import DemoSession, DemoTutor
+from agent.teacher_activity import (BAND_LABELS, GRADES, LABELS, MOMENTS_PATH, PREFER_NOT, ROLE_LABELS, ROLES, TAPS_PATH, TYPES, YEARS, Activity,
+                                    TapLog, load_moments)
 
 CSS = """
 /* Every card sets its own background AND its own text colour (with !important): Gradio's dark theme otherwise paints
@@ -62,6 +64,15 @@ CSS = """
 .aria-sum .pill.bad{border-color:#d97706;background:#fffbeb}.aria-sum .pill.good{border-color:#16a34a;background:#f0fdf4}
 .aria-sum .note{margin-top:14px;font-size:.82rem}
 .aria-sum .note{color:#475569 !important}
+.aria-act{font-family:system-ui,sans-serif;line-height:1.45;background:#fcfcfb;border:1px solid #cbd5e1;border-radius:12px;padding:16px;margin:6px 0}
+.aria-act, .aria-act *{color:#0f172a !important}
+.aria-act .step{font-size:.85rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.aria-act .prob{font-size:1.1rem;font-weight:600;margin:6px 0 10px}
+.aria-act .work{margin:4px 0;padding:6px 10px;border-radius:8px;background:#f1f5f9}
+.aria-act .work.now{background:#fffbeb;border:1px solid #f59e0b;font-weight:600}
+.aria-act .q{margin-top:12px;font-weight:600}
+.aria-act .you{margin:2px 0}.aria-act .aria-says{margin-top:8px;padding:8px 12px;border-radius:10px;background:#fef3c7;border:1px solid #f59e0b}
+.aria-act .quietbox{margin-top:8px;padding:8px 12px;border-radius:10px;background:#eff6ff;border:1px solid #2563eb}
 """
 
 
@@ -137,6 +148,106 @@ def summary_html(summary: dict | None) -> str:
             f'<h3>Authored steps</h3>{steps}<div class="note">{_esc(summary["note"])}</div></div>')
 
 
+def activity_card(act: Activity) -> str:
+    m = act.moment
+    if m is None:
+        return ""
+    work = "".join(f'<div class="work">{_esc(h)}</div>' for h in m["history"]) + f'<div class="work now">{_esc(m["message"])}</div>'
+    return (f'<div class="aria-act"><div class="step">Moment {act.i + 1} of {len(act.moments)}</div><div class="prob">{_esc(m["problem_prompt"])}</div>'
+            f'<div>What the student has written, newest last:</div>{work}<div class="q">{"Would you step in here?" if act.phase == "decision" else "What kind of help?"}</div></div>')
+
+
+def activity_reveal(act: Activity) -> str:
+    r = act.reveal()
+    if r is None:
+        return ""
+    mine = LABELS[r["teacher_decision"]] + (f" ({LABELS[r['teacher_type']].lower()})" if r["teacher_type"] else "")
+    if r["aria_decision"] == "step_in":
+        theirs = (f'<div class="aria-says"><b>ARIA would step in</b> with {LABELS[r["aria_type"]].lower()}. Why: {_esc(r["reason"])}.<br>'
+                  f'It would say: "{_esc(r["reply"])}"</div>')
+    else:
+        theirs = f'<div class="quietbox"><b>ARIA would stay quiet.</b> Why: {_esc(r["reason"])}.</div>'
+    return f'<div class="aria-act"><div class="you">You chose: <b>{_esc(mine)}</b></div>{theirs}<div class="q">Do you agree with ARIA?</div></div>'
+
+
+def activity_render(act: Activity | None):
+    """-> updates for [state, consent, decide, type, reveal, done, card, reveal_html, done_md]."""
+    vis = lambda *phases: gr.update(visible=bool(act and act.phase in phases))  # noqa: E731
+    done_md = ""
+    if act and act.phase == "skipped":
+        done_md = "No problem. Nothing was recorded."
+    elif act and act.phase == "done":
+        done_md = f"Thank you. {act.rows_written} answers were saved on this laptop only. Pass the laptop to the next visitor."
+    return (act, vis("consent"), vis("decision"), vis("type"), vis("reveal"), vis("done", "skipped"),
+            gr.update(value=activity_card(act) if act else "", visible=bool(act and act.phase in ("decision", "type"))),
+            gr.update(value=activity_reveal(act) if act else ""), gr.update(value=done_md))
+
+
+def make_activity_handlers(moments: list, log: TapLog):
+    def new():
+        return activity_render(Activity(moments, log))
+
+    def proceed(act, role, years, grade, accept):
+        act = act or Activity(moments, log)
+        act.set_profile(role, years, grade)
+        act.consent(accept)
+        return activity_render(act)
+
+    def act_on(method):
+        def fn(act, value):
+            if act is not None:
+                getattr(act, method)(value)
+            return activity_render(act)
+        return fn
+
+    return new, proceed, act_on("decide"), act_on("choose_type"), act_on("agree")
+
+
+def build_activity_tab(moments_path=MOMENTS_PATH, taps_path=TAPS_PATH):
+    """The 'Would you step in?' tab. Needs data/teacher_moments.json (scripts/make_teacher_moments.py); without it the tab says so."""
+    try:
+        moments = load_moments(moments_path)
+    except (OSError, ValueError) as e:
+        gr.Markdown(f"The teacher activity is not set up on this laptop ({type(e).__name__}). Run `scripts/make_teacher_moments.py` first.")
+        return None
+    new, proceed, decide, choose_type, agree = make_activity_handlers(moments, TapLog(taps_path))
+    act = gr.State(None)
+    with gr.Group(visible=True) as consent:
+        gr.Markdown("### Would you step in?\nYou will see 8 short moments from a student's work. For each one, decide whether a tutor should **step in** or **stay quiet**, "
+                    "then see what ARIA decided and say whether you agree.\n\n"
+                    "**What is saved:** your choices only (step in or stay quiet, the kind of help, agree or disagree), plus the three optional answers below. "
+                    "No names, no typed text, no network; the file stays on this laptop. **Skip** saves nothing.")
+        role = gr.Dropdown([(ROLE_LABELS[r], r) for r in ROLES], value=PREFER_NOT, label="Your role (optional)")
+        years = gr.Dropdown([(("Prefer not to say" if y == PREFER_NOT else y), y) for y in YEARS], value=PREFER_NOT, label="Years of experience (optional)")
+        grade = gr.Dropdown([(BAND_LABELS[g], g) for g in GRADES], value=PREFER_NOT, label="Grade band you work with (optional)")
+        with gr.Row():
+            go = gr.Button("Continue", variant="primary")
+            skip = gr.Button("Skip")
+    card = gr.HTML("", visible=False)
+    with gr.Row(visible=False) as decide_row:
+        step_in, stay = gr.Button("Step in", variant="primary"), gr.Button("Stay quiet")
+    with gr.Row(visible=False) as type_row:
+        type_btns = [(gr.Button(LABELS[t]), t) for t in TYPES]
+    with gr.Group(visible=False) as reveal:
+        reveal_html = gr.HTML("")
+        with gr.Row():
+            yes, no = gr.Button("Agree", variant="primary"), gr.Button("Disagree")
+    with gr.Group(visible=False) as done:
+        done_md = gr.Markdown("")
+        again = gr.Button("Start for the next visitor")
+    outs = [act, consent, decide_row, type_row, reveal, done, card, reveal_html, done_md]
+    go.click(lambda a, r, y, g: proceed(a, r, y, g, True), [act, role, years, grade], outs)
+    skip.click(lambda a, r, y, g: proceed(a, r, y, g, False), [act, role, years, grade], outs)
+    step_in.click(lambda a: decide(a, "step_in"), [act], outs)
+    stay.click(lambda a: decide(a, "stay_quiet"), [act], outs)
+    for btn, t in type_btns:
+        btn.click(lambda a, _t=t: choose_type(a, _t), [act], outs)
+    yes.click(lambda a: agree(a, "agree"), [act], outs)
+    no.click(lambda a: agree(a, "disagree"), [act], outs)
+    again.click(new, None, outs)
+    return new, outs
+
+
 def make_summary_handler():
     def show(session):
         return summary_html(summarize(session) if session is not None else None)
@@ -176,7 +287,7 @@ def make_handlers(tutor: DemoTutor, problems: list):
     return start, send, reset
 
 
-def build_demo_ui(tutor: DemoTutor | None = None) -> gr.Blocks:
+def build_demo_ui(tutor: DemoTutor | None = None, moments_path=MOMENTS_PATH, taps_path=TAPS_PATH) -> gr.Blocks:
     problems = (tutor.problems.values() if tutor else load_problems())
     tutor = tutor or DemoTutor()
     problems = list(tutor.problems.values())
@@ -186,9 +297,9 @@ def build_demo_ui(tutor: DemoTutor | None = None) -> gr.Blocks:
         gr.HTML(f"<style>{CSS}</style>")
         gr.Markdown("## ARIA\nOther tutors speak every turn. ARIA decides **whether** to.")
         session, history = gr.State(None), gr.State([])
-        problem = gr.Dropdown([p.prompt for p in problems], value=problems[0].prompt, label="Problem")
         with gr.Tabs():
             with gr.Tab("Student"):
+                problem = gr.Dropdown([p.prompt for p in problems], value=problems[0].prompt, label="Problem")
                 badge = gr.HTML(badge_html("idle", "Type a step or an answer. ARIA will decide whether to speak."))
                 chat = gr.HTML(chat_html([]))
                 box = gr.Textbox(placeholder="Type your next step or answer, then press Enter", show_label=False)
@@ -196,10 +307,14 @@ def build_demo_ui(tutor: DemoTutor | None = None) -> gr.Blocks:
             with gr.Tab("Teacher summary") as teacher_tab:
                 refresh = gr.Button("Refresh summary")
                 summary = gr.HTML(summary_html(None))
+            with gr.Tab("Would you step in?"):
+                activity = build_activity_tab(moments_path, taps_path)
         reset_btn.click(reset, [session], [history, session, chat, badge, box]).then(show_summary, [session], [summary])
         problem.change(start, [problem], [session, history, chat, badge, box]).then(show_summary, [session], [summary])
         box.submit(send, [box, history, session], [history, session, chat, badge, box]).then(show_summary, [session], [summary])
         demo.load(start, [problem], [session, history, chat, badge, box])
+        if activity:
+            demo.load(activity[0], None, activity[1])
         teacher_tab.select(show_summary, [session], [summary])
         refresh.click(show_summary, [session], [summary])
     return demo
@@ -212,13 +327,15 @@ def main():
     ap.add_argument("--port", type=int, default=7861)
     ap.add_argument("--all-problems", action="store_true", help="list all 30 bank problems instead of the 8 featured ones")
     ap.add_argument("--no-log", action="store_true", help="do not write the local per-turn log (default: data/demo_logs/turns.jsonl)")
+    ap.add_argument("--moments", default=str(MOMENTS_PATH), help="teacher-activity moments (scripts/make_teacher_moments.py)")
+    ap.add_argument("--taps-csv", default=str(TAPS_PATH), help="where the activity answers go (data/demo_logs/teacher_taps.csv)")
     a = ap.parse_args()
     tutor = DemoTutor(problems=load_problems(featured_only=not a.all_problems), llm_path=a.llm_path, llm_model=a.llm_model,
                       log_path=None if a.no_log else LOG_PATH)
     if a.llm_path:
         ok = tutor.warm_up()          # load the model once, keep it resident
         print(f"LLM path: {'warm (' + a.llm_model + ')' if ok else 'Ollama not reachable, using templates only'}")
-    build_demo_ui(tutor).launch(server_name="127.0.0.1", server_port=a.port)
+    build_demo_ui(tutor, a.moments, None if a.no_log else a.taps_csv).launch(server_name="127.0.0.1", server_port=a.port)
 
 
 if __name__ == "__main__":
