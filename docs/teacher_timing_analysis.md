@@ -22,7 +22,7 @@ outcome, no student data, no clinical or demographic claim about students, and A
 - **ARIA never stays quiet on a verified wrong step.** `derive_state` maps `status == "wrong"` to STUCK (`agent/demo_tutor.py:111-112`), and the test suite asserts that every wrong answer is met with an
   intervention (`tests/test_demo_tutor.py:34-36`). So on `verified_wrong` moments ARIA's decision is fixed by design; agreement there says nothing about ARIA's timing judgement and those moments
   are reported separately (section 5d).
-- Type mapping used to compare what kind of help (ARIA's five intervention types, `eval/metacognition/jitai.py:419-440`, to the activity's five answer choices). This mapping is a judgement call and is
+- Type mapping used to compare what kind of help (ARIA's five intervention types, `eval/metacognition/jitai.py:419-448`, to the activity's five answer choices). This mapping is a judgement call and is
   stated here so it can be challenged before data arrive:
 
   | ARIA intervention type | Activity category |
