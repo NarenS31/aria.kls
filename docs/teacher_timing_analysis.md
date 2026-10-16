@@ -100,7 +100,7 @@ The owner replaced two turns: **M4** is now `alg-05`, no history, "I think I'll 
 - **Verified-wrong moments (section 5d) are M3 and M8.** Words-only moments (section 5c) are **M4, M5, M6, M7**.
 - **The ARIA-vs-teacher-majority comparison (5b) has 6 moments in scope: M1, M2, M4, M5, M6, M7.** ARIA stays quiet on four of them (M1, M2, M4, M5) and steps in on two (M6, M7). Six moments cannot support
   generalisation; every number is a description of these six, and no moment-level result is a rate with a claimed population.
-- **M4 is quiet, but ARIA reads it as UNKNOWN, not PLANNING**: the analyzer's planning markers do not fire on this wording, so the quiet comes from the "no reason to interrupt" rule.
+- **M4: ARIA stayed quiet (state UNKNOWN).** It did **not** recognise planning: the analyzer's planning markers do not fire on this wording, so the quiet comes from the "no reason to interrupt" rule, not from reading the student as planning. (Wording corrected 2026-10-16 before any response was collected; the analysis is unchanged.)
 - **Kind of help (5e) is descriptive this round.** Among the moments where ARIA steps in, only `hint` (M3, M7, M8) and `encouragement` (M6) occur; `prompt` and `break` never do, so no match proportion is
   computed or interpreted. The report shows, per moment, the distribution of the categories teachers chose, next to ARIA's category.
 - Nothing else in the plan changes. The n >= 15 gate, the seeds and the separate treatment of words-only and verified-wrong moments stand.
