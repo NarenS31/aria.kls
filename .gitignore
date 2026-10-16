@@ -25,6 +25,8 @@ venv/
 !/data/synthetic_profile.json
 !/data/synthetic_history.jsonl
 !/data/demo_problems.json
+!/data/teacher_moments_turns.json
+!/data/teacher_moments.json
 !/data/real_sessions.jsonl
 !/data/checkpoints/
 !/data/checkpoints/*.json

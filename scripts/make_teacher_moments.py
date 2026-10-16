@@ -27,11 +27,29 @@ from agent.math_check import check_answer  # noqa: E402
 from agent.teacher_activity import N_MOMENTS, aria_category  # noqa: E402
 
 
+TAG = "summit-2026-10-24"
+TUTOR_FILES = ["agent/demo_tutor.py", "agent/demo_bank.py", "agent/demo_input.py", "agent/demo_log.py", "agent/demo_summary.py", "agent/demo_templates.py",
+               "agent/math_check.py", "eval/metacognition", "data/demo_problems.json"]
+
+
+def build_info() -> dict:
+    """Which build produced the moments: the tag, its commit, and whether every file the tutor's decisions depend on is byte-identical to the tag."""
+    import subprocess
+    def git(*a):
+        return subprocess.run(["git", *a], cwd=ROOT, capture_output=True, text=True)
+    commit = git("rev-parse", f"{TAG}^{{commit}}")
+    if commit.returncode != 0:
+        return {"tag": TAG, "commit": "unknown", "tutor_files_match_tag": None}
+    same = git("diff", "--quiet", TAG, "--", *TUTOR_FILES).returncode == 0
+    return {"tag": TAG, "commit": commit.stdout.strip(), "tutor_files_match_tag": same}
+
+
 def build(turns: list, expect: int | None = N_MOMENTS) -> list:
     if expect is not None and len(turns) != expect:
         raise SystemExit(f"need exactly {expect} moments, got {len(turns)}")
     problems = {p.id: p for p in load_problems()}
     tutor = DemoTutor(problems=list(problems.values()))
+    info = build_info()
     out, seen = [], set()
     for t in turns:
         pid, mid = t["problem_id"], t["id"]
@@ -55,7 +73,7 @@ def build(turns: list, expect: int | None = N_MOMENTS) -> list:
             "aria_reason": RULE_TEXT.get(r.meta["rule_id"], r.meta["rule_id"]),
             "aria_reply": r.reply if stepped else "",
             "aria_state": r.state, "verdict": verdict,
-            "words_only": verdict == "none", "verified_wrong": verdict == "wrong",
+            "words_only": verdict == "none", "verified_wrong": verdict == "wrong", "build": info,
         })
     return out
 
@@ -69,7 +87,7 @@ def main() -> int:
     Path(a.out).write_text(json.dumps(moments, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     for m in moments:
         print(f"{m['id']:6s} {m['problem_id']:8s} ARIA {m['aria_decision']:10s} {m['aria_type']:13s} words_only={m['words_only']!s:5s} verified_wrong={m['verified_wrong']!s:5s} | {m['message'][:50]!r}")
-    print(f"wrote {a.out} ({len(moments)} moments)")
+    print(f"wrote {a.out} ({len(moments)} moments); build {moments[0]['build']}")
     return 0
 
 
