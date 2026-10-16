@@ -156,4 +156,5 @@ message in view after 6 turns, (c) the Teacher summary tab is readable, (d) Rese
 Entries are doc-only unless a crash fix is listed. The tagged build `summit-2026-10-24` (e09218c) is unchanged by all of them.
 
 - 2026-10-16, doc-only: added the kill-by-port fallback (section 4), restart-if-sluggish (section 4), `caffeinate -dimsu` (section 2a) and the no-hostile-input rule (section 9).
-  Lives on branch `summit-testfix`, not on `summit-demo`; fast-forward `summit-demo` to it only if you want these notes there.
+  Merged into `summit-demo` on 2026-10-16 (fast-forward of the single docs-only commit; every code and data file is identical to the tag `summit-2026-10-24`, e09218c).
+  The deterministic version of the over-budget test (a test-only change) is on branch `summit-testfix` and is not part of `summit-demo`.
