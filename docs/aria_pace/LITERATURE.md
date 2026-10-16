@@ -174,3 +174,15 @@ Do **not** claim: novelty of early wheel-spinning prediction; novelty of risk-tr
 - DICE full text: arxiv.org/html/2610.04825
 - DICE: arxiv.org/abs/2610.04825
 - Ahtisham et al.: arxiv.org/abs/2609.38346
+
+---
+
+## Addendum (Stage 6, 2026-10-16): knowledge-tracing models used as candidates
+
+- **Piech, C., Spencer, J., Huang, J., Ganguli, S., Sahami, M., Guibas, L., & Sohl-Dickstein, J. (2015). Deep Knowledge Tracing. arXiv:1506.05908** (submitted 19 June 2015; the arXiv page names no venue). **VERIFIED**
+  (arXiv abstract page opened). Paraphrase: recurrent neural networks model how a student's knowledge evolves and are reported to predict better than earlier methods on several datasets without hand-encoded domain knowledge.
+- **Pandey, S., & Karypis, G. (2019). A Self-Attentive model for Knowledge Tracing. arXiv:1907.06837** (submitted 16 July 2019; the arXiv listing names the International Conference on Educational Data Mining). **VERIFIED**
+  (arXiv abstract page opened). Paraphrase: SAKT uses self-attention to weight the most relevant past activities, and is reported to handle sparse data better than RNN-based trackers, with about 4.4% average AUC improvement across datasets.
+  Venue and exact published form beyond the arXiv page: **UNVERIFIED**. The full papers were not read.
+- **How they are used here, and what that does not claim.** `aria_pace/dkt.py` and `aria_pace/sakt.py` are small, simplified versions written for this study (every step of a sequence uses the sequence's single KC; one LSTM layer or one attention block; first 100
+  opportunities; architectures fixed in SPEC Amendments 3 and 3a). They are **not reproductions** of the published models, and a result here says nothing about the published models' performance on their own datasets.
