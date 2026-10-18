@@ -1,0 +1,46 @@
+{
+  "cross_dataset_a": {
+    "bootstrap_seed": 20261025,
+    "dkt": {
+      "meta": "results/dkt_2009_meta.json",
+      "meta_sha256": "202ea56f9d644af1432abf01e2d73964303018674863428cc0806c031ed164e1",
+      "sha256": "08b91602650675e4880ef5c8c420b9e478c6acad86967072721bf6d9e9c46142",
+      "weights": "results/dkt_2009.pt"
+    },
+    "dkt_sakt_promotion_decision": "keep BKT (neither promoted; results/dkt_val.json, results/sakt_val.json)",
+    "frozen_val_sha256": "057f4389adbc0163a54205607947ec3515be62d8cd6ca09f1bbbb4353a847dce",
+    "kc_mapping": "2012 skill_id as integer string; missing -> UNK; KCs unseen in 2009 use pooled parameters (BKT/PFA) or the UNK id (DKT/SAKT)",
+    "models_fitted_on": "2009 train split only (as in run_test.py); PFA/BKT/head hyperparameters from frozen_val.json",
+    "policy_and_calibration_source": "results/frozen_val.json",
+    "primary_risk_score": "bkt",
+    "sakt": {
+      "meta": "results/sakt_2009_meta.json",
+      "meta_sha256": "7271f0278e9fa0f481af2583412529baee4d2d5b3b4e8c5bcd99f3d3533d6ebc",
+      "sha256": "d48c84df2f617f191ba4fc7e5aeb51a4405b4fb29484f9e2629195d9ffc6fbd5",
+      "weights": "results/sakt_2009.pt"
+    }
+  },
+  "note": "Frozen before any 2012 test row is read (SPEC A3.6). Do not edit.",
+  "pre_registered_endpoints": [
+    "a-P1 AUC of BKT at k=3,5,8",
+    "a-P2 quiet-profile intervention reduction vs always-help and missed-help share",
+    "a-P3 J difference to always-help in three profiles",
+    "b-P1 as above"
+  ],
+  "within_dataset_b": {
+    "affect_val_sha256": "b7f6e21a23e2dd0fcea13f96bb73808559dea207c8cba20e4f0cec503af1444d",
+    "bootstrap_draws": 1000,
+    "bootstrap_seed": 20261026,
+    "head_C": {
+      "with_lagged": 10.0,
+      "with_primary": 10.0,
+      "without": 10.0
+    },
+    "primary_endpoint": "mean over k in {3,5,8} of AUC(with) - AUC(without), variant A, rows <= k; lagged (rows <= k-1) as sensitivity",
+    "rank_transform": "per-column mid-rank ECDF fitted on 2012-train skill-builder rows",
+    "rule": "affect adds information only if CI lower bound > 0 AND point estimate >= 0.005; primary/lagged disagreement = not robust",
+    "split": "results/split_2012.json",
+    "split_sha256": "a0ec63c7794c7454b62f44665e7faab8058b92fa56aa6cd7ad2a6da7d2ee390d",
+    "validation_selection": "results/affect_val.json"
+  }
+}
