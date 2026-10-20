@@ -4,7 +4,7 @@
     /usr/bin/python3 scripts/demo_screens.py --out docs/demo_screens            # starts the UI itself on --port
     /usr/bin/python3 scripts/demo_screens.py --url http://127.0.0.1:7861 --out /tmp/shots
 
-Scripted flow on the first featured problem (alg-01): 6 turns, then the Teacher summary tab, then Reset.
+Scripted flow on the first featured problem (alg-01), default profile Balanced: 5 turns (correct step x2, wrong answer x3), then the Teacher summary tab, then Reset.
 Only the scripted turns below ever appear in a screenshot. Console errors and failed requests are printed so
 rendering problems are visible, not just pretty pictures. Chrome only: Safari has no scriptable equivalent that
 works without an interactive permission prompt (see docs/DEMO_RUNBOOK.md).
@@ -27,7 +27,7 @@ from websockets.sync.client import connect
 
 ROOT = Path(__file__).resolve().parent.parent
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-TURNS = ["I don't know", "x - 12 = 5", "x = 7", "ugh this makes no sense", "x = 17", "x = 34/2"]
+TURNS = ["x - 12 = 5", "x - 12 = 5", "x = 7", "x = 7", "x = 7"]     # same student: the correct step twice, then one wrong answer three times (Balanced)
 
 
 class Cdp:
@@ -155,14 +155,14 @@ def main() -> int:
             c.wait_for(f"(document.querySelector('.aria-chat')||{{}}).innerText !== {json.dumps(wait_for_change_from)}", 20)
             c.pump(0.6)
 
-        names = {1: "02_stepping_in", 2: "03_watching"}
+        names = {3: "03_watching", 4: "02_stepping_in"}      # turn 3: wrong answer at 15% risk, below Balanced's 19% bar; turn 4: 25%, steps in
         for i, t in enumerate(TURNS, 1):
             before = c.js("(document.querySelector('.aria-chat')||{}).innerText || ''") or ""
             say(t, before)
             print(f"turn {i}: {badge(c).splitlines()[0] if badge(c) else '?'}")
             if i in names:
                 c.shot(out / f"{names[i]}.png")
-        c.shot(out / "04_after_6_turns.png")
+        c.shot(out / "04_after_5_turns.png")
         assert c.click_text("button[role=tab], .tab-nav button, button", "Teacher summary"), "Teacher summary tab not found"
         c.wait_for("document.body.innerText.includes('State timeline')", 15)
         c.pump(0.8)
