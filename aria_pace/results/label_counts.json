@@ -1,0 +1,200 @@
+{
+  "variantA_k3": {
+    "test_label_free": {
+      "eligible": 4694,
+      "mastered_by_k": 1421,
+      "n_lt_k": 6340,
+      "sequences": 12455,
+      "students": 832
+    },
+    "train": {
+      "eligible": 14561,
+      "eligible_unlabelled_leavers": 3663,
+      "label_rate": 0.1726922371077262,
+      "mastered_by_k": 4581,
+      "n_lt_k": 20059,
+      "positives": 1882,
+      "scored_sequences": 10898,
+      "scored_students": 1753,
+      "sequences": 39201,
+      "students": 2498
+    },
+    "val": {
+      "eligible": 5033,
+      "eligible_unlabelled_leavers": 1291,
+      "label_rate": 0.17210048102618922,
+      "mastered_by_k": 1524,
+      "n_lt_k": 6605,
+      "positives": 644,
+      "scored_sequences": 3742,
+      "scored_students": 596,
+      "sequences": 13162,
+      "students": 833
+    }
+  },
+  "variantA_k5": {
+    "test_label_free": {
+      "eligible": 2485,
+      "mastered_by_k": 1857,
+      "n_lt_k": 8113,
+      "sequences": 12455,
+      "students": 832
+    },
+    "train": {
+      "eligible": 7485,
+      "eligible_unlabelled_leavers": 2385,
+      "label_rate": 0.36901960784313725,
+      "mastered_by_k": 5899,
+      "n_lt_k": 25817,
+      "positives": 1882,
+      "scored_sequences": 5100,
+      "scored_students": 1229,
+      "sequences": 39201,
+      "students": 2498
+    },
+    "val": {
+      "eligible": 2629,
+      "eligible_unlabelled_leavers": 860,
+      "label_rate": 0.3640474844544941,
+      "mastered_by_k": 2050,
+      "n_lt_k": 8483,
+      "positives": 644,
+      "scored_sequences": 1769,
+      "scored_students": 429,
+      "sequences": 13162,
+      "students": 833
+    }
+  },
+  "variantA_k8": {
+    "test_label_free": {
+      "eligible": 915,
+      "mastered_by_k": 774,
+      "n_lt_k": 10766,
+      "sequences": 12455,
+      "students": 832
+    },
+    "train": {
+      "eligible": 2951,
+      "eligible_unlabelled_leavers": 434,
+      "label_rate": 0.7477155343663091,
+      "mastered_by_k": 2623,
+      "n_lt_k": 33627,
+      "positives": 1882,
+      "scored_sequences": 2517,
+      "scored_students": 804,
+      "sequences": 39201,
+      "students": 2498
+    },
+    "val": {
+      "eligible": 995,
+      "eligible_unlabelled_leavers": 139,
+      "label_rate": 0.7523364485981309,
+      "mastered_by_k": 895,
+      "n_lt_k": 11272,
+      "positives": 644,
+      "scored_sequences": 856,
+      "scored_students": 301,
+      "sequences": 13162,
+      "students": 833
+    }
+  },
+  "variantB_k3": {
+    "test_label_free": {
+      "eligible": 4694,
+      "mastered_by_k": 1421,
+      "n_lt_k": 6340,
+      "sequences": 12455,
+      "students": 832
+    },
+    "train": {
+      "eligible": 14561,
+      "eligible_unlabelled_leavers": 3902,
+      "label_rate": 0.154142039590956,
+      "mastered_by_k": 4581,
+      "n_lt_k": 20059,
+      "positives": 1643,
+      "scored_sequences": 10659,
+      "scored_students": 1731,
+      "sequences": 39201,
+      "students": 2498
+    },
+    "val": {
+      "eligible": 5033,
+      "eligible_unlabelled_leavers": 1379,
+      "label_rate": 0.15216201423097975,
+      "mastered_by_k": 1524,
+      "n_lt_k": 6605,
+      "positives": 556,
+      "scored_sequences": 3654,
+      "scored_students": 588,
+      "sequences": 13162,
+      "students": 833
+    }
+  },
+  "variantB_k5": {
+    "test_label_free": {
+      "eligible": 2485,
+      "mastered_by_k": 1857,
+      "n_lt_k": 8113,
+      "sequences": 12455,
+      "students": 832
+    },
+    "train": {
+      "eligible": 7485,
+      "eligible_unlabelled_leavers": 2624,
+      "label_rate": 0.3379962970582185,
+      "mastered_by_k": 5899,
+      "n_lt_k": 25817,
+      "positives": 1643,
+      "scored_sequences": 4861,
+      "scored_students": 1189,
+      "sequences": 39201,
+      "students": 2498
+    },
+    "val": {
+      "eligible": 2629,
+      "eligible_unlabelled_leavers": 948,
+      "label_rate": 0.330755502676978,
+      "mastered_by_k": 2050,
+      "n_lt_k": 8483,
+      "positives": 556,
+      "scored_sequences": 1681,
+      "scored_students": 415,
+      "sequences": 13162,
+      "students": 833
+    }
+  },
+  "variantB_k8": {
+    "test_label_free": {
+      "eligible": 915,
+      "mastered_by_k": 774,
+      "n_lt_k": 10766,
+      "sequences": 12455,
+      "students": 832
+    },
+    "train": {
+      "eligible": 2951,
+      "eligible_unlabelled_leavers": 673,
+      "label_rate": 0.7212467076382791,
+      "mastered_by_k": 2623,
+      "n_lt_k": 33627,
+      "positives": 1643,
+      "scored_sequences": 2278,
+      "scored_students": 741,
+      "sequences": 39201,
+      "students": 2498
+    },
+    "val": {
+      "eligible": 995,
+      "eligible_unlabelled_leavers": 227,
+      "label_rate": 0.7239583333333334,
+      "mastered_by_k": 895,
+      "n_lt_k": 11272,
+      "positives": 556,
+      "scored_sequences": 768,
+      "scored_students": 275,
+      "sequences": 13162,
+      "students": 833
+    }
+  }
+}

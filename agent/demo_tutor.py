@@ -6,6 +6,10 @@ Per student turn
        (flags can ADD Frustrated/Confused/help-seeking; they can never override correctness:
         a correct step is never Stuck, a wrong step is never Flow)
     3. the resulting state goes, unchanged, through RuleBasedJITAIPolicy      -> intervene or stay quiet
+       ARIA-Pace gate (agent/demo_pace.py): a verified WRONG step updates a per-session BKT tracker. At attempts 3-9 (the frozen
+       policy's decision points) ARIA gives a hint only when risk >= tau of the chosen profile; at attempts 1-2 (and 10+) the old
+       rule holds: a verified wrong step always gets a hint. Below tau the wrong step is still never ignored: a short "not quite
+       yet, no hint yet" notice is shown (no hint, no answer). Help requests, restatements and correct answers are unchanged.
     4. words come from templates with SymPy-verified slots; every reply is re-checked with the
        symbolic leak / false-claim checkers before it is shown.
     5. an optional LLM path (flag, default OFF) answers free-form questions only, behind the same checks.
@@ -23,6 +27,7 @@ from concurrent.futures import ThreadPoolExecutor, TimeoutError as FutureTimeout
 from dataclasses import dataclass, field
 from typing import Callable, Optional
 
+from agent import demo_pace as PACE
 from agent import demo_templates as T
 from agent.demo_bank import DemoProblem, load_problems
 from agent.demo_input import MAX_INPUT_CHARS, sanitize_input
@@ -141,7 +146,13 @@ class DemoSession:
         self.tutor, self.problem = tutor, problem
         self.session_id = uuid.uuid4().hex[:12]
         self.attempt = 0
+        self.profile = tutor.pace_profile            # a cost-weight setting, kept across Reset; changed with set_profile()
         self.reset()
+
+    def set_profile(self, key: str) -> None:
+        if key not in PACE.PROFILE_ORDER:
+            raise ValueError(f"unknown profile {key!r}")
+        self.profile = key
 
     def reset(self):
         """One-click new attempt: all per-attempt state is cleared; the per-turn file log keeps going."""
@@ -156,6 +167,8 @@ class DemoSession:
         self.consecutive = 0
         self.t_last: Optional[float] = None
         self.achieved: list = []          # sympy exprs the student has already got right (terms / steps)
+        self.pace = PACE.PaceTracker(self.tutor.pace_cfg) if self.tutor.pace_cfg else None
+        self._pace_dec = None
 
     # ----------------------------------------------------------------------------------
     def turn(self, text) -> TurnResult:
@@ -181,6 +194,7 @@ class DemoSession:
         p, tut = self.problem, self.tutor
         self._llm_outcome = ""
         self._move_idx = -1
+        self._pace_dec = None
         if not text.strip():
             return self._finish(t0, text, "none", "UNKNOWN", {}, None, None, "empty", "", False, None, in_flags=in_flags)
 
@@ -200,12 +214,24 @@ class DemoSession:
         accepted = True if verdict.status == "correct" else None
         self.achieved += terms
 
+        # ARIA-Pace: the verdict updates the BKT tracker; a verified wrong step speaks only if risk >= tau (never silently ignored)
+        pace = self.pace.decide(verdict.status, self.profile) if self.pace else None
+        self._pace_dec = pace
+        flagged = bool(pace and pace.verified_wrong and not pace.speak)
+        if pace and pace.speak and not decision.should_intervene:
+            # a verified wrong step above tau always gets a hint, whatever the language-based rules said
+            decision = tut.policy.decide(JITAIContext(
+                profile_id="demo-student", topic=p.topic, cognitive_state="STUCK", state_confidence=conf,
+                consecutive_state_count=max(self.consecutive, 2), allow_positive_reflection=False))
+
         reply, tpl, llm_used = "", "", False
-        if decision.should_intervene:
+        if flagged:
+            decision = None
+        elif decision.should_intervene:
             intervention = build_jitai_intervention(decision, state)
             reply, tpl, llm_used = self._speak(decision.intervention_type, intervention, state, kind, verdict.status, text)
         return self._finish(t0, text, verdict.status, state, analysis, flags, decision, kind, reply, bool(reply), accepted,
-                            tpl=tpl, llm_used=llm_used, in_flags=in_flags)
+                            tpl=tpl, llm_used=llm_used, in_flags=in_flags, flagged=flagged)
 
     def _fallback(self, t0: float, text: str, in_flags: list, reason: str) -> TurnResult:
         """Could not read / check the message in time: stay quiet and say so, never crash, never guess a verdict."""
@@ -251,6 +277,13 @@ class DemoSession:
             self.hint_level += 1
         return reply, f"{itype}:{idx}", False
 
+    def _screened(self, note: str, text: str) -> str:
+        """The same symbolic leak / false-claim checks as every spoken reply (the notice has no math, so this should never fire)."""
+        ctx = [self.problem.prompt, text]
+        if reveals_answer(note, self.problem.truth, ctx).leaked or false_claims(note, self.problem.truth, ctx):
+            return "Watching."
+        return note
+
     def _next_move(self) -> Optional[dict]:
         """First authored move whose verified result the student has not produced yet."""
         moves = self.problem.moves
@@ -263,16 +296,22 @@ class DemoSession:
         return None if moves else {}
 
     def _finish(self, t0, text, status, state, analysis, flags, decision, kind, reply, intervened, accepted, tpl="",
-                llm_used=False, in_flags=None, fallback=""):
+                llm_used=False, in_flags=None, fallback="", flagged=False):
         watching = not intervened
         note = ""
         if watching:
             key = {"progress": "progress", "planning": "planning", "empty": "empty", "error": "error"}.get(kind, "unclear")
             if status in ("partial", "step"):
                 key = "progress"
+            if flagged:
+                key = "flagged"
             note = self.rotor.pick(f"watch-{key}", T.WATCHING[key], lambda s: s)[0]
+            if flagged:
+                reply = note = self._screened(note, text)       # the wrong step is acknowledged; the leak check still runs
         ms = (time.perf_counter() - t0) * 1000
         rule = getattr(decision, "rule_id", {"empty": "input.empty", "error": "system.fallback"}.get(kind, "none"))
+        if flagged:
+            rule = "pace.wrong_below_tau"
         meta = {
             "turn": len(self.log) + 1, "latency_ms": round(ms, 2), "correctness": status, "derived_state": state,
             "kind": kind, "analyzer_state": (analysis or {}).get("state"),
@@ -283,6 +322,10 @@ class DemoSession:
             "student_chars": len(text), "reply_chars": len(reply), "input_flags": list(in_flags or []), "fallback": fallback,
             "intervened": bool(intervened), "move_index": self._move_idx if intervened else -1, "t_s": round(time.time() - self.t_start, 1),
         }
+        pace = self._pace_dec or (self.pace.snapshot(self.profile) if self.pace else None)
+        if pace:
+            meta.update({"pace_profile": pace.profile, "pace_tau": pace.tau, "pace_risk": None if pace.risk is None else round(pace.risk, 4),
+                         "pace_n_obs": pace.n_obs, "pace_updated": pace.updated, "pace_reason": pace.reason})
         self.log.append(meta)
         self.tutor.turn_log.write({**meta, "session_id": self.session_id, "attempt": self.attempt, "problem_id": self.problem.id,
                                    "intervened": intervened, "analyzer_state": meta["analyzer_state"] or ""})
@@ -291,7 +334,7 @@ class DemoSession:
 
 class DemoTutor:
     def __init__(self, problems=None, llm_path: bool = False, llm_fn: Optional[Callable[[str, str], str]] = None,
-                 llm_model: str = "llama3.2:3b", log_path=None):
+                 llm_model: str = "llama3.2:3b", log_path=None, pace=True, pace_profile: str = PACE.DEFAULT_PROFILE):
         self.problems = {p.id: p for p in (problems or load_problems())}
         self.analyzer = CognitiveStateAnalyzer(use_llm=False)          # heuristic-only: no LLM in the state path
         self.policy = RuleBasedJITAIPolicy()
@@ -308,6 +351,10 @@ class DemoTutor:
         self.llm_ready = False
         self.last_llm_outcome = ""
         self.turn_log = TurnLog(log_path)                              # path None = no file log
+        self.pace_cfg = (PACE.load_config() if pace is True else pace) or None     # ARIA-Pace; False/None = old behaviour
+        if pace_profile not in PACE.PROFILE_ORDER:
+            raise ValueError(f"unknown profile {pace_profile!r}")
+        self.pace_profile = pace_profile
 
     def new_session(self, problem_id: str) -> DemoSession:
         return DemoSession(self, self.problems[problem_id])

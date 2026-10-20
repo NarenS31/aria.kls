@@ -47,6 +47,27 @@ class HarnessSelfCheck(unittest.TestCase):
         self.assertTrue(all(r.sympy_status == "correct" for r in res if r.turn in ("T1", "T6")))
         self.assertTrue(all(r.sympy_status == "wrong" for r in res if r.turn == "T2"))
 
+    def test_silence_on_a_verified_wrong_step_is_seen(self):
+        res = H.run(H.make_backend("selftest-mute"), PROBS, progress=False)
+        s = H.summarize(res)
+        self.assertGreater(s["silent_wrong"], 0)
+        self.assertFalse(H.targets_met(s, pace=True)["wrong_never_silent"])
+        s_ok = H.summarize(H.run(H.make_backend("selftest-oracle"), PROBS, progress=False))
+        self.assertEqual(s_ok["silent_wrong"], 0)
+        self.assertTrue(all(H.targets_met(s_ok, pace=True).values()))
+
+    def test_profiles_all_runs_three_backends_with_flows_and_strict_exit(self):
+        rc = H.main(["--backend", "demo", "--profiles", "all", "--featured", "--limit", "2", "--strict"])
+        self.assertEqual(rc, 0)
+        be = H.make_backend("demo@quiet")
+        res = H.run(be, load_problems(featured_only=True)[:1], progress=False)
+        self.assertEqual({r.turn for r in res} & {f"S{i}" for i in range(1, 8)}, {f"S{i}" for i in range(1, 8)})
+        self.assertEqual(be.tutor.pace_profile, "quiet")
+        self.assertTrue(all(r.pace_tau == be.tutor.pace_cfg.taus["quiet"] for r in res if r.turn.startswith("S")))
+        flagged = [r for r in res if r.turn in ("S4", "S5", "S6")]                 # quiet: attempts 3-5 stay below its bar
+        self.assertTrue(all(not r.intervened and r.reply.strip() for r in flagged))
+        self.assertEqual(H.main(["--backend", "selftest-leaker", "--limit", "1", "--strict"]), 1)
+
     def test_percentiles(self):
         self.assertAlmostEqual(H.pct([1, 2, 3, 4, 100], 0.5), 3)
         self.assertGreater(H.pct(list(range(100)), 0.95), 93)

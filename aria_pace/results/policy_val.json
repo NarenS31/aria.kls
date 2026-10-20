@@ -1,0 +1,2397 @@
+{
+  "main_leavers_dropped_primary_error": {
+    "methods": {
+      "bkt": {
+        "balanced": {
+          "cost_J": 905.0,
+          "cost_J_per_student": 1.5184563758389262,
+          "interventions": 1400,
+          "interventions_per_student": 2.348993288590604,
+          "mean_delay_excl_censored": 0.14655172413793102,
+          "mean_delay_incl_censored": 0.14655172413793102,
+          "mean_lead_time": 5.925862068965517,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "random_matched": {
+            "cost_J": {
+              "mean": 1222.325,
+              "sd": 36.622935095374324
+            },
+            "cost_J_per_student": {
+              "mean": 2.0508808724832215,
+              "sd": 0.06144787767680255
+            },
+            "draws": 200,
+            "interventions": {
+              "mean": 1400.0,
+              "sd": 0.0
+            },
+            "interventions_per_student": {
+              "mean": 2.3489932885906044,
+              "sd": 4.440892098500626e-16
+            },
+            "mean_delay_excl_censored": {
+              "mean": 0.501828719154242,
+              "sd": 0.04634746800689398
+            },
+            "mean_delay_incl_censored": {
+              "mean": 0.6569568965517242,
+              "sd": 0.059210867232748925
+            },
+            "mean_lead_time": {
+              "mean": 5.6218399935543495,
+              "sd": 0.05083285775524841
+            },
+            "missed_help": {
+              "mean": 21.29,
+              "sd": 3.798144283725936
+            },
+            "missed_help_share": {
+              "mean": 0.03670689655172414,
+              "sd": 0.006548524627113683
+            },
+            "n_sequences": {
+              "mean": 3742.0,
+              "sd": 0.0
+            },
+            "n_students": {
+              "mean": 596.0,
+              "sd": 0.0
+            },
+            "n_y1": {
+              "mean": 644.0,
+              "sd": 0.0
+            },
+            "n_y1_no_help_opportunity": {
+              "mean": 64.0,
+              "sd": 0.0
+            },
+            "n_y1_with_help_opportunity": {
+              "mean": 580.0,
+              "sd": 0.0
+            },
+            "share_unnecessary": {
+              "mean": 0.6009214285714286,
+              "sd": 0.002712960202661378
+            },
+            "total_delay_D": {
+              "mean": 381.035,
+              "sd": 34.342302994994384
+            },
+            "unnecessary": {
+              "mean": 841.29,
+              "sd": 3.7981442837259354
+            },
+            "unnecessary_per_student": {
+              "mean": 1.4115604026845636,
+              "sd": 0.006372725308264988
+            }
+          },
+          "share_unnecessary": 0.5857142857142857,
+          "tau": 0.19,
+          "tau_rechosen_here": 0.19,
+          "total_delay_D": 85.0,
+          "unnecessary": 820,
+          "unnecessary_per_student": 1.3758389261744965
+        },
+        "quiet": {
+          "cost_J": 1950.0,
+          "cost_J_per_student": 3.271812080536913,
+          "interventions": 807,
+          "interventions_per_student": 1.354026845637584,
+          "mean_delay_excl_censored": 1.8369565217391304,
+          "mean_delay_incl_censored": 2.043103448275862,
+          "mean_lead_time": 4.233695652173913,
+          "missed_help": 28,
+          "missed_help_share": 0.04827586206896552,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "random_matched": {
+            "cost_J": {
+              "mean": 2912.885,
+              "sd": 70.93293857581259
+            },
+            "cost_J_per_student": {
+              "mean": 4.887390939597315,
+              "sd": 0.11901499761042379
+            },
+            "draws": 200,
+            "interventions": {
+              "mean": 807.0,
+              "sd": 0.0
+            },
+            "interventions_per_student": {
+              "mean": 1.354026845637584,
+              "sd": 0.0
+            },
+            "mean_delay_excl_censored": {
+              "mean": 1.5746849876161715,
+              "sd": 0.08976119944722749
+            },
+            "mean_delay_incl_censored": {
+              "mean": 2.892163793103448,
+              "sd": 0.08923305760845908
+            },
+            "mean_lead_time": {
+              "mean": 4.667597777054653,
+              "sd": 0.09412477334050434
+            },
+            "missed_help": {
+              "mean": 184.81,
+              "sd": 8.143948673708596
+            },
+            "missed_help_share": {
+              "mean": 0.3186379310344828,
+              "sd": 0.014041290816738959
+            },
+            "n_sequences": {
+              "mean": 3742.0,
+              "sd": 0.0
+            },
+            "n_students": {
+              "mean": 596.0,
+              "sd": 0.0
+            },
+            "n_y1": {
+              "mean": 644.0,
+              "sd": 0.0
+            },
+            "n_y1_no_help_opportunity": {
+              "mean": 64.0,
+              "sd": 0.0
+            },
+            "n_y1_with_help_opportunity": {
+              "mean": 580.0,
+              "sd": 0.0
+            },
+            "share_unnecessary": {
+              "mean": 0.5102973977695168,
+              "sd": 0.010091634044248572
+            },
+            "total_delay_D": {
+              "mean": 1677.455,
+              "sd": 51.75517341290627
+            },
+            "unnecessary": {
+              "mean": 411.81,
+              "sd": 8.143948673708596
+            },
+            "unnecessary_per_student": {
+              "mean": 0.6909563758389262,
+              "sd": 0.013664343412262744
+            }
+          },
+          "share_unnecessary": 0.3159851301115242,
+          "tau": 0.57,
+          "tau_rechosen_here": 0.57,
+          "total_delay_D": 1185.0,
+          "unnecessary": 255,
+          "unnecessary_per_student": 0.4278523489932886
+        },
+        "supportive": {
+          "cost_J": 1013.0,
+          "cost_J_per_student": 1.6996644295302012,
+          "interventions": 1566,
+          "interventions_per_student": 2.62751677852349,
+          "mean_delay_excl_censored": 0.015517241379310345,
+          "mean_delay_incl_censored": 0.015517241379310345,
+          "mean_lead_time": 6.0568965517241375,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "random_matched": {
+            "cost_J": {
+              "mean": 1206.17,
+              "sd": 49.21403356767255
+            },
+            "cost_J_per_student": {
+              "mean": 2.023775167785235,
+              "sd": 0.08257388182495393
+            },
+            "draws": 200,
+            "interventions": {
+              "mean": 1566.0,
+              "sd": 0.0
+            },
+            "interventions_per_student": {
+              "mean": 2.6275167785234896,
+              "sd": 4.440892098500626e-16
+            },
+            "mean_delay_excl_censored": {
+              "mean": 0.10359324108533548,
+              "sd": 0.023122092785672267
+            },
+            "mean_delay_incl_censored": {
+              "mean": 0.12475,
+              "sd": 0.02778960441523577
+            },
+            "mean_lead_time": {
+              "mean": 5.97968840090246,
+              "sd": 0.024784809584950995
+            },
+            "missed_help": {
+              "mean": 3.105,
+              "sd": 1.7216198767439923
+            },
+            "missed_help_share": {
+              "mean": 0.0053534482758620695,
+              "sd": 0.0029683101323172284
+            },
+            "n_sequences": {
+              "mean": 3742.0,
+              "sd": 0.0
+            },
+            "n_students": {
+              "mean": 596.0,
+              "sd": 0.0
+            },
+            "n_y1": {
+              "mean": 644.0,
+              "sd": 0.0
+            },
+            "n_y1_no_help_opportunity": {
+              "mean": 64.0,
+              "sd": 0.0
+            },
+            "n_y1_with_help_opportunity": {
+              "mean": 580.0,
+              "sd": 0.0
+            },
+            "share_unnecessary": {
+              "mean": 0.6316123882503193,
+              "sd": 0.001099374123080466
+            },
+            "total_delay_D": {
+              "mean": 72.355,
+              "sd": 16.117970560836746
+            },
+            "unnecessary": {
+              "mean": 989.105,
+              "sd": 1.7216198767439923
+            },
+            "unnecessary_per_student": {
+              "mean": 1.6595721476510068,
+              "sd": 0.0028886239542684753
+            }
+          },
+          "share_unnecessary": 0.6296296296296297,
+          "tau": 0.09,
+          "tau_rechosen_here": 0.09,
+          "total_delay_D": 9.0,
+          "unnecessary": 986,
+          "unnecessary_per_student": 1.6543624161073827
+        }
+      },
+      "pfa": {
+        "balanced": {
+          "cost_J": 938.0,
+          "cost_J_per_student": 1.5738255033557047,
+          "interventions": 1368,
+          "interventions_per_student": 2.295302013422819,
+          "mean_delay_excl_censored": 0.25862068965517243,
+          "mean_delay_incl_censored": 0.25862068965517243,
+          "mean_lead_time": 5.813793103448276,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "random_matched": {
+            "cost_J": {
+              "mean": 1256.745,
+              "sd": 38.625897724195354
+            },
+            "cost_J_per_student": {
+              "mean": 2.1086325503355705,
+              "sd": 0.0648085532285157
+            },
+            "draws": 200,
+            "interventions": {
+              "mean": 1368.0,
+              "sd": 0.0
+            },
+            "interventions_per_student": {
+              "mean": 2.2953020134228193,
+              "sd": 4.440892098500626e-16
+            },
+            "mean_delay_excl_censored": {
+              "mean": 0.5738787907006754,
+              "sd": 0.04980936751650755
+            },
+            "mean_delay_incl_censored": {
+              "mean": 0.7633879310344827,
+              "sd": 0.06213740898303414
+            },
+            "mean_lead_time": {
+              "mean": 5.558037270870187,
+              "sd": 0.05425203764729411
+            },
+            "missed_help": {
+              "mean": 25.98,
+              "sd": 4.309245873699945
+            },
+            "missed_help_share": {
+              "mean": 0.04479310344827587,
+              "sd": 0.007429734264999904
+            },
+            "n_sequences": {
+              "mean": 3742.0,
+              "sd": 0.0
+            },
+            "n_students": {
+              "mean": 596.0,
+              "sd": 0.0
+            },
+            "n_y1": {
+              "mean": 644.0,
+              "sd": 0.0
+            },
+            "n_y1_no_help_opportunity": {
+              "mean": 64.0,
+              "sd": 0.0
+            },
+            "n_y1_with_help_opportunity": {
+              "mean": 580.0,
+              "sd": 0.0
+            },
+            "share_unnecessary": {
+              "mean": 0.595014619883041,
+              "sd": 0.003150033533406392
+            },
+            "total_delay_D": {
+              "mean": 442.765,
+              "sd": 36.0396972101598
+            },
+            "unnecessary": {
+              "mean": 813.98,
+              "sd": 4.309245873699945
+            },
+            "unnecessary_per_student": {
+              "mean": 1.3657382550335573,
+              "sd": 0.00723027831157708
+            }
+          },
+          "share_unnecessary": 0.5760233918128655,
+          "tau": 0.22,
+          "tau_rechosen_here": 0.22,
+          "total_delay_D": 150.0,
+          "unnecessary": 788,
+          "unnecessary_per_student": 1.3221476510067114
+        },
+        "quiet": {
+          "cost_J": 2018.0,
+          "cost_J_per_student": 3.3859060402684564,
+          "interventions": 961,
+          "interventions_per_student": 1.6124161073825503,
+          "mean_delay_excl_censored": 1.3044247787610619,
+          "mean_delay_incl_censored": 1.4310344827586208,
+          "mean_lead_time": 4.764601769911504,
+          "missed_help": 15,
+          "missed_help_share": 0.02586206896551724,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "random_matched": {
+            "cost_J": {
+              "mean": 2852.855,
+              "sd": 69.65410235585554
+            },
+            "cost_J_per_student": {
+              "mean": 4.786669463087248,
+              "sd": 0.11686929925479117
+            },
+            "draws": 200,
+            "interventions": {
+              "mean": 961.0,
+              "sd": 0.0
+            },
+            "interventions_per_student": {
+              "mean": 1.6124161073825503,
+              "sd": 0.0
+            },
+            "mean_delay_excl_censored": {
+              "mean": 1.354248447320092,
+              "sd": 0.08133595252837397
+            },
+            "mean_delay_incl_censored": {
+              "mean": 2.2843793103448276,
+              "sd": 0.09143323717817227
+            },
+            "mean_lead_time": {
+              "mean": 4.864011490942803,
+              "sd": 0.08616061610976535
+            },
+            "missed_help": {
+              "mean": 128.305,
+              "sd": 7.254100564508325
+            },
+            "missed_help_share": {
+              "mean": 0.2212155172413793,
+              "sd": 0.012507069938807458
+            },
+            "n_sequences": {
+              "mean": 3742.0,
+              "sd": 0.0
+            },
+            "n_students": {
+              "mean": 596.0,
+              "sd": 0.0
+            },
+            "n_y1": {
+              "mean": 644.0,
+              "sd": 0.0
+            },
+            "n_y1_no_help_opportunity": {
+              "mean": 64.0,
+              "sd": 0.0
+            },
+            "n_y1_with_help_opportunity": {
+              "mean": 580.0,
+              "sd": 0.0
+            },
+            "share_unnecessary": {
+              "mean": 0.5299739854318418,
+              "sd": 0.0075484917424644355
+            },
+            "total_delay_D": {
+              "mean": 1324.94,
+              "sd": 53.03127756333992
+            },
+            "unnecessary": {
+              "mean": 509.305,
+              "sd": 7.254100564508325
+            },
+            "unnecessary_per_student": {
+              "mean": 0.8545385906040269,
+              "sd": 0.012171309671993832
+            }
+          },
+          "share_unnecessary": 0.4120707596253902,
+          "tau": 0.46,
+          "tau_rechosen_here": 0.46,
+          "total_delay_D": 830.0,
+          "unnecessary": 396,
+          "unnecessary_per_student": 0.6644295302013423
+        },
+        "supportive": {
+          "cost_J": 1022.0,
+          "cost_J_per_student": 1.7147651006711409,
+          "interventions": 1524,
+          "interventions_per_student": 2.557046979865772,
+          "mean_delay_excl_censored": 0.04482758620689655,
+          "mean_delay_incl_censored": 0.04482758620689655,
+          "mean_lead_time": 6.027586206896552,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "random_matched": {
+            "cost_J": {
+              "mean": 1392.38,
+              "sd": 67.30828775121232
+            },
+            "cost_J_per_student": {
+              "mean": 2.336208053691275,
+              "sd": 0.11293336871008781
+            },
+            "draws": 200,
+            "interventions": {
+              "mean": 1524.0,
+              "sd": 0.0
+            },
+            "interventions_per_student": {
+              "mean": 2.5570469798657713,
+              "sd": 4.440892098500626e-16
+            },
+            "mean_delay_excl_censored": {
+              "mean": 0.20618767527368242,
+              "sd": 0.03308711061214267
+            },
+            "mean_delay_incl_censored": {
+              "mean": 0.25375,
+              "sd": 0.03812467714917589
+            },
+            "mean_lead_time": {
+              "mean": 5.888291108338621,
+              "sd": 0.03632533052234247
+            },
+            "missed_help": {
+              "mean": 6.855,
+              "sd": 2.331088801397321
+            },
+            "missed_help_share": {
+              "mean": 0.011818965517241377,
+              "sd": 0.00401911862309883
+            },
+            "n_sequences": {
+              "mean": 3742.0,
+              "sd": 0.0
+            },
+            "n_students": {
+              "mean": 596.0,
+              "sd": 0.0
+            },
+            "n_y1": {
+              "mean": 644.0,
+              "sd": 0.0
+            },
+            "n_y1_no_help_opportunity": {
+              "mean": 64.0,
+              "sd": 0.0
+            },
+            "n_y1_with_help_opportunity": {
+              "mean": 580.0,
+              "sd": 0.0
+            },
+            "share_unnecessary": {
+              "mean": 0.6239206036745406,
+              "sd": 0.001529585827688529
+            },
+            "total_delay_D": {
+              "mean": 147.175,
+              "sd": 22.112312746522015
+            },
+            "unnecessary": {
+              "mean": 950.855,
+              "sd": 2.331088801397321
+            },
+            "unnecessary_per_student": {
+              "mean": 1.5953942953020135,
+              "sd": 0.0039112228211364165
+            }
+          },
+          "share_unnecessary": 0.6194225721784777,
+          "tau": 0.1,
+          "tau_rechosen_here": 0.1,
+          "total_delay_D": 26.0,
+          "unnecessary": 944,
+          "unnecessary_per_student": 1.5838926174496644
+        }
+      },
+      "risk_head": {
+        "balanced": {
+          "cost_J": 947.0,
+          "cost_J_per_student": 1.5889261744966443,
+          "interventions": 1498,
+          "interventions_per_student": 2.5134228187919465,
+          "mean_delay_excl_censored": 0.05,
+          "mean_delay_incl_censored": 0.05,
+          "mean_lead_time": 6.022413793103448,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "random_matched": {
+            "cost_J": {
+              "mean": 1122.28,
+              "sd": 26.142333484216746
+            },
+            "cost_J_per_student": {
+              "mean": 1.8830201342281878,
+              "sd": 0.043862975644658964
+            },
+            "draws": 200,
+            "interventions": {
+              "mean": 1498.0,
+              "sd": 0.0
+            },
+            "interventions_per_student": {
+              "mean": 2.513422818791946,
+              "sd": 4.440892098500626e-16
+            },
+            "mean_delay_excl_censored": {
+              "mean": 0.2706884394192685,
+              "sd": 0.03722250164585457
+            },
+            "mean_delay_incl_censored": {
+              "mean": 0.33626724137931036,
+              "sd": 0.04304042893132168
+            },
+            "mean_lead_time": {
+              "mean": 5.829088210418824,
+              "sd": 0.03995233623562225
+            },
+            "missed_help": {
+              "mean": 9.245,
+              "sd": 2.4949899799397994
+            },
+            "missed_help_share": {
+              "mean": 0.015939655172413792,
+              "sd": 0.004301706861965171
+            },
+            "n_sequences": {
+              "mean": 3742.0,
+              "sd": 0.0
+            },
+            "n_students": {
+              "mean": 596.0,
+              "sd": 0.0
+            },
+            "n_y1": {
+              "mean": 644.0,
+              "sd": 0.0
+            },
+            "n_y1_no_help_opportunity": {
+              "mean": 64.0,
+              "sd": 0.0
+            },
+            "n_y1_with_help_opportunity": {
+              "mean": 580.0,
+              "sd": 0.0
+            },
+            "share_unnecessary": {
+              "mean": 0.6189886515353805,
+              "sd": 0.0016655473831373962
+            },
+            "total_delay_D": {
+              "mean": 195.035,
+              "sd": 24.963448780166573
+            },
+            "unnecessary": {
+              "mean": 927.245,
+              "sd": 2.4949899799397994
+            },
+            "unnecessary_per_student": {
+              "mean": 1.5557802013422821,
+              "sd": 0.004186224798556717
+            }
+          },
+          "share_unnecessary": 0.6128170894526035,
+          "tau": 0.3,
+          "tau_rechosen_here": 0.3,
+          "total_delay_D": 29.0,
+          "unnecessary": 918,
+          "unnecessary_per_student": 1.5402684563758389
+        },
+        "quiet": {
+          "cost_J": 2053.0,
+          "cost_J_per_student": 3.4446308724832213,
+          "interventions": 881,
+          "interventions_per_student": 1.4781879194630871,
+          "mean_delay_excl_censored": 1.7513321492007106,
+          "mean_delay_incl_censored": 1.8948275862068966,
+          "mean_lead_time": 4.303730017761989,
+          "missed_help": 17,
+          "missed_help_share": 0.029310344827586206,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "random_matched": {
+            "cost_J": {
+              "mean": 2879.095,
+              "sd": 72.36792089731472
+            },
+            "cost_J_per_student": {
+              "mean": 4.830696308724832,
+              "sd": 0.12142268606931997
+            },
+            "draws": 200,
+            "interventions": {
+              "mean": 881.0,
+              "sd": 0.0
+            },
+            "interventions_per_student": {
+              "mean": 1.4781879194630871,
+              "sd": 0.0
+            },
+            "mean_delay_excl_censored": {
+              "mean": 1.4722881629786366,
+              "sd": 0.08790542174813543
+            },
+            "mean_delay_incl_censored": {
+              "mean": 2.5976551724137926,
+              "sd": 0.09320907801037083
+            },
+            "mean_lead_time": {
+              "mean": 4.7586244772131465,
+              "sd": 0.09133251757106112
+            },
+            "missed_help": {
+              "mean": 156.485,
+              "sd": 7.803830790067145
+            },
+            "missed_help_share": {
+              "mean": 0.2698017241379311,
+              "sd": 0.013454880672529559
+            },
+            "n_sequences": {
+              "mean": 3742.0,
+              "sd": 0.0
+            },
+            "n_students": {
+              "mean": 596.0,
+              "sd": 0.0
+            },
+            "n_y1": {
+              "mean": 644.0,
+              "sd": 0.0
+            },
+            "n_y1_no_help_opportunity": {
+              "mean": 64.0,
+              "sd": 0.0
+            },
+            "n_y1_with_help_opportunity": {
+              "mean": 580.0,
+              "sd": 0.0
+            },
+            "share_unnecessary": {
+              "mean": 0.5192792281498297,
+              "sd": 0.00885792371176747
+            },
+            "total_delay_D": {
+              "mean": 1506.64,
+              "sd": 54.0612652460151
+            },
+            "unnecessary": {
+              "mean": 457.485,
+              "sd": 7.803830790067145
+            },
+            "unnecessary_per_student": {
+              "mean": 0.7675922818791946,
+              "sd": 0.013093675822260313
+            }
+          },
+          "share_unnecessary": 0.36095346197502837,
+          "tau": 0.55,
+          "tau_rechosen_here": 0.55,
+          "total_delay_D": 1099.0,
+          "unnecessary": 318,
+          "unnecessary_per_student": 0.5335570469798657
+        },
+        "supportive": {
+          "cost_J": 1005.0,
+          "cost_J_per_student": 1.686241610738255,
+          "interventions": 1498,
+          "interventions_per_student": 2.5134228187919465,
+          "mean_delay_excl_censored": 0.05,
+          "mean_delay_incl_censored": 0.05,
+          "mean_lead_time": 6.022413793103448,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "random_matched": {
+            "cost_J": {
+              "mean": 1512.35,
+              "sd": 76.00564123800285
+            },
+            "cost_J_per_student": {
+              "mean": 2.5375,
+              "sd": 0.12752624368792426
+            },
+            "draws": 200,
+            "interventions": {
+              "mean": 1498.0,
+              "sd": 0.0
+            },
+            "interventions_per_student": {
+              "mean": 2.513422818791946,
+              "sd": 4.440892098500626e-16
+            },
+            "mean_delay_excl_censored": {
+              "mean": 0.2706884394192685,
+              "sd": 0.03722250164585457
+            },
+            "mean_delay_incl_censored": {
+              "mean": 0.33626724137931036,
+              "sd": 0.04304042893132168
+            },
+            "mean_lead_time": {
+              "mean": 5.829088210418824,
+              "sd": 0.03995233623562225
+            },
+            "missed_help": {
+              "mean": 9.245,
+              "sd": 2.4949899799397994
+            },
+            "missed_help_share": {
+              "mean": 0.015939655172413792,
+              "sd": 0.004301706861965171
+            },
+            "n_sequences": {
+              "mean": 3742.0,
+              "sd": 0.0
+            },
+            "n_students": {
+              "mean": 596.0,
+              "sd": 0.0
+            },
+            "n_y1": {
+              "mean": 644.0,
+              "sd": 0.0
+            },
+            "n_y1_no_help_opportunity": {
+              "mean": 64.0,
+              "sd": 0.0
+            },
+            "n_y1_with_help_opportunity": {
+              "mean": 580.0,
+              "sd": 0.0
+            },
+            "share_unnecessary": {
+              "mean": 0.6189886515353805,
+              "sd": 0.0016655473831373962
+            },
+            "total_delay_D": {
+              "mean": 195.035,
+              "sd": 24.963448780166573
+            },
+            "unnecessary": {
+              "mean": 927.245,
+              "sd": 2.4949899799397994
+            },
+            "unnecessary_per_student": {
+              "mean": 1.5557802013422821,
+              "sd": 0.004186224798556717
+            }
+          },
+          "share_unnecessary": 0.6128170894526035,
+          "tau": 0.3,
+          "tau_rechosen_here": 0.3,
+          "total_delay_D": 29.0,
+          "unnecessary": 918,
+          "unnecessary_per_student": 1.5402684563758389
+        }
+      }
+    },
+    "sizes": 3742,
+    "zero_one": {
+      "always_help": {
+        "balanced": {
+          "cost_J": 1029.0,
+          "cost_J_per_student": 1.726510067114094,
+          "interventions": 1609,
+          "interventions_per_student": 2.6996644295302015,
+          "mean_delay_excl_censored": 0.0,
+          "mean_delay_incl_censored": 0.0,
+          "mean_lead_time": 6.072413793103448,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.6395276569297701,
+          "total_delay_D": 0.0,
+          "unnecessary": 1029,
+          "unnecessary_per_student": 1.726510067114094
+        },
+        "quiet": {
+          "cost_J": 3087.0,
+          "cost_J_per_student": 5.179530201342282,
+          "interventions": 1609,
+          "interventions_per_student": 2.6996644295302015,
+          "mean_delay_excl_censored": 0.0,
+          "mean_delay_incl_censored": 0.0,
+          "mean_lead_time": 6.072413793103448,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.6395276569297701,
+          "total_delay_D": 0.0,
+          "unnecessary": 1029,
+          "unnecessary_per_student": 1.726510067114094
+        },
+        "supportive": {
+          "cost_J": 1029.0,
+          "cost_J_per_student": 1.726510067114094,
+          "interventions": 1609,
+          "interventions_per_student": 2.6996644295302015,
+          "mean_delay_excl_censored": 0.0,
+          "mean_delay_incl_censored": 0.0,
+          "mean_lead_time": 6.072413793103448,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.6395276569297701,
+          "total_delay_D": 0.0,
+          "unnecessary": 1029,
+          "unnecessary_per_student": 1.726510067114094
+        }
+      },
+      "three_wrong_rule": {
+        "balanced": {
+          "cost_J": 2538.0,
+          "cost_J_per_student": 4.258389261744966,
+          "interventions": 468,
+          "interventions_per_student": 0.785234899328859,
+          "mean_delay_excl_censored": 1.8666666666666667,
+          "mean_delay_incl_censored": 4.008620689655173,
+          "mean_lead_time": 4.694117647058824,
+          "missed_help": 325,
+          "missed_help_share": 0.5603448275862069,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.4551282051282051,
+          "total_delay_D": 2325.0,
+          "unnecessary": 213,
+          "unnecessary_per_student": 0.3573825503355705
+        },
+        "quiet": {
+          "cost_J": 2964.0,
+          "cost_J_per_student": 4.973154362416107,
+          "interventions": 468,
+          "interventions_per_student": 0.785234899328859,
+          "mean_delay_excl_censored": 1.8666666666666667,
+          "mean_delay_incl_censored": 4.008620689655173,
+          "mean_lead_time": 4.694117647058824,
+          "missed_help": 325,
+          "missed_help_share": 0.5603448275862069,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.4551282051282051,
+          "total_delay_D": 2325.0,
+          "unnecessary": 213,
+          "unnecessary_per_student": 0.3573825503355705
+        },
+        "supportive": {
+          "cost_J": 7188.0,
+          "cost_J_per_student": 12.060402684563758,
+          "interventions": 468,
+          "interventions_per_student": 0.785234899328859,
+          "mean_delay_excl_censored": 1.8666666666666667,
+          "mean_delay_incl_censored": 4.008620689655173,
+          "mean_lead_time": 4.694117647058824,
+          "missed_help": 325,
+          "missed_help_share": 0.5603448275862069,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.4551282051282051,
+          "total_delay_D": 2325.0,
+          "unnecessary": 213,
+          "unnecessary_per_student": 0.3573825503355705
+        }
+      }
+    }
+  },
+  "note": "Validation split only; Platt calibrator and tau share the validation split, so costs are optimistic.",
+  "primary_risk_method": "bkt",
+  "profiles": {
+    "balanced": {
+      "w_delay": 1.0,
+      "w_interrupt": 1.0
+    },
+    "quiet": {
+      "w_delay": 1.0,
+      "w_interrupt": 3.0
+    },
+    "supportive": {
+      "w_delay": 3.0,
+      "w_interrupt": 1.0
+    }
+  },
+  "recalibration_platt_on_val": {
+    "bkt": {
+      "auc_rows": 0.8703453225881714,
+      "intercept": -0.08597486183739239,
+      "n_rows": 11867,
+      "slope": 0.9983179103593731
+    },
+    "pfa": {
+      "auc_rows": 0.8660062201026745,
+      "intercept": -0.16370179552668807,
+      "n_rows": 11867,
+      "slope": 1.0463892821298524
+    },
+    "risk_head": {
+      "auc_rows": 0.8673935259422544,
+      "intercept": 0.014301112994882445,
+      "n_rows": 11867,
+      "slope": 0.9934282062365487
+    }
+  },
+  "scope_counts": {
+    "decision_cells_valid": 11867,
+    "leavers_added": 1291,
+    "primary_scope_sequences": 3742,
+    "primary_scope_students": 596,
+    "primary_y1": 644,
+    "verified_error_cells_incl_hint_first": 4971,
+    "verified_error_cells_primary": 3631
+  },
+  "sens_incl_hint_first__tau_carried_over": {
+    "methods": {
+      "bkt": {
+        "balanced": {
+          "cost_J": 983.0,
+          "cost_J_per_student": 1.6493288590604027,
+          "interventions": 1546,
+          "interventions_per_student": 2.5939597315436242,
+          "mean_delay_excl_censored": 0.12577639751552794,
+          "mean_delay_incl_censored": 0.12577639751552794,
+          "mean_lead_time": 6.476708074534161,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.5834411384217335,
+          "tau": 0.19,
+          "tau_rechosen_here": 0.19,
+          "total_delay_D": 81.0,
+          "unnecessary": 902,
+          "unnecessary_per_student": 1.5134228187919463
+        },
+        "quiet": {
+          "cost_J": 2127.0,
+          "cost_J_per_student": 3.5687919463087248,
+          "interventions": 936,
+          "interventions_per_student": 1.570469798657718,
+          "mean_delay_excl_censored": 1.8746081504702194,
+          "mean_delay_incl_censored": 1.9145962732919255,
+          "mean_lead_time": 4.731974921630094,
+          "missed_help": 6,
+          "missed_help_share": 0.009316770186335404,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.31837606837606836,
+          "tau": 0.57,
+          "tau_rechosen_here": 0.49,
+          "total_delay_D": 1233.0,
+          "unnecessary": 298,
+          "unnecessary_per_student": 0.5
+        },
+        "supportive": {
+          "cost_J": 1106.0,
+          "cost_J_per_student": 1.8557046979865772,
+          "interventions": 1723,
+          "interventions_per_student": 2.890939597315436,
+          "mean_delay_excl_censored": 0.013975155279503106,
+          "mean_delay_incl_censored": 0.013975155279503106,
+          "mean_lead_time": 6.588509316770186,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.6262333139872316,
+          "tau": 0.09,
+          "tau_rechosen_here": 0.09,
+          "total_delay_D": 9.0,
+          "unnecessary": 1079,
+          "unnecessary_per_student": 1.8104026845637584
+        }
+      },
+      "pfa": {
+        "balanced": {
+          "cost_J": 1012.0,
+          "cost_J_per_student": 1.6979865771812082,
+          "interventions": 1515,
+          "interventions_per_student": 2.541946308724832,
+          "mean_delay_excl_censored": 0.21894409937888198,
+          "mean_delay_incl_censored": 0.21894409937888198,
+          "mean_lead_time": 6.383540372670807,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.574917491749175,
+          "tau": 0.22,
+          "tau_rechosen_here": 0.22,
+          "total_delay_D": 141.0,
+          "unnecessary": 871,
+          "unnecessary_per_student": 1.4614093959731544
+        },
+        "quiet": {
+          "cost_J": 2180.0,
+          "cost_J_per_student": 3.6577181208053693,
+          "interventions": 1088,
+          "interventions_per_student": 1.825503355704698,
+          "mean_delay_excl_censored": 1.2671875,
+          "mean_delay_incl_censored": 1.2981366459627328,
+          "mean_lead_time": 5.3375,
+          "missed_help": 4,
+          "missed_help_share": 0.006211180124223602,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.4117647058823529,
+          "tau": 0.46,
+          "tau_rechosen_here": 0.46,
+          "total_delay_D": 836.0,
+          "unnecessary": 448,
+          "unnecessary_per_student": 0.7516778523489933
+        },
+        "supportive": {
+          "cost_J": 1117.0,
+          "cost_J_per_student": 1.8741610738255035,
+          "interventions": 1677,
+          "interventions_per_student": 2.813758389261745,
+          "mean_delay_excl_censored": 0.043478260869565216,
+          "mean_delay_incl_censored": 0.043478260869565216,
+          "mean_lead_time": 6.559006211180124,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.6159809183064997,
+          "tau": 0.1,
+          "tau_rechosen_here": 0.08,
+          "total_delay_D": 28.0,
+          "unnecessary": 1033,
+          "unnecessary_per_student": 1.733221476510067
+        }
+      },
+      "risk_head": {
+        "balanced": {
+          "cost_J": 1035.0,
+          "cost_J_per_student": 1.7365771812080537,
+          "interventions": 1652,
+          "interventions_per_student": 2.771812080536913,
+          "mean_delay_excl_censored": 0.04192546583850932,
+          "mean_delay_incl_censored": 0.04192546583850932,
+          "mean_lead_time": 6.5605590062111805,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.6101694915254238,
+          "tau": 0.3,
+          "tau_rechosen_here": 0.3,
+          "total_delay_D": 27.0,
+          "unnecessary": 1008,
+          "unnecessary_per_student": 1.691275167785235
+        },
+        "quiet": {
+          "cost_J": 2242.0,
+          "cost_J_per_student": 3.761744966442953,
+          "interventions": 1006,
+          "interventions_per_student": 1.6879194630872483,
+          "mean_delay_excl_censored": 1.795031055900621,
+          "mean_delay_incl_censored": 1.795031055900621,
+          "mean_lead_time": 4.807453416149069,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.35984095427435386,
+          "tau": 0.55,
+          "tau_rechosen_here": 0.55,
+          "total_delay_D": 1156.0,
+          "unnecessary": 362,
+          "unnecessary_per_student": 0.6073825503355704
+        },
+        "supportive": {
+          "cost_J": 1089.0,
+          "cost_J_per_student": 1.8271812080536913,
+          "interventions": 1652,
+          "interventions_per_student": 2.771812080536913,
+          "mean_delay_excl_censored": 0.04192546583850932,
+          "mean_delay_incl_censored": 0.04192546583850932,
+          "mean_lead_time": 6.5605590062111805,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.6101694915254238,
+          "tau": 0.3,
+          "tau_rechosen_here": 0.3,
+          "total_delay_D": 27.0,
+          "unnecessary": 1008,
+          "unnecessary_per_student": 1.691275167785235
+        }
+      }
+    },
+    "sizes": 3742,
+    "zero_one": {
+      "always_help": {
+        "balanced": {
+          "cost_J": 1125.0,
+          "cost_J_per_student": 1.8875838926174497,
+          "interventions": 1769,
+          "interventions_per_student": 2.9681208053691277,
+          "mean_delay_excl_censored": 0.0,
+          "mean_delay_incl_censored": 0.0,
+          "mean_lead_time": 6.60248447204969,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.6359525155455059,
+          "total_delay_D": 0.0,
+          "unnecessary": 1125,
+          "unnecessary_per_student": 1.8875838926174497
+        },
+        "quiet": {
+          "cost_J": 3375.0,
+          "cost_J_per_student": 5.662751677852349,
+          "interventions": 1769,
+          "interventions_per_student": 2.9681208053691277,
+          "mean_delay_excl_censored": 0.0,
+          "mean_delay_incl_censored": 0.0,
+          "mean_lead_time": 6.60248447204969,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.6359525155455059,
+          "total_delay_D": 0.0,
+          "unnecessary": 1125,
+          "unnecessary_per_student": 1.8875838926174497
+        },
+        "supportive": {
+          "cost_J": 1125.0,
+          "cost_J_per_student": 1.8875838926174497,
+          "interventions": 1769,
+          "interventions_per_student": 2.9681208053691277,
+          "mean_delay_excl_censored": 0.0,
+          "mean_delay_incl_censored": 0.0,
+          "mean_lead_time": 6.60248447204969,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.6359525155455059,
+          "total_delay_D": 0.0,
+          "unnecessary": 1125,
+          "unnecessary_per_student": 1.8875838926174497
+        }
+      },
+      "three_wrong_rule": {
+        "balanced": {
+          "cost_J": 2022.0,
+          "cost_J_per_student": 3.3926174496644297,
+          "interventions": 775,
+          "interventions_per_student": 1.3003355704697988,
+          "mean_delay_excl_censored": 1.0977777777777777,
+          "mean_delay_incl_censored": 2.6350931677018634,
+          "mean_lead_time": 5.677777777777778,
+          "missed_help": 194,
+          "missed_help_share": 0.30124223602484473,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.41935483870967744,
+          "total_delay_D": 1697.0,
+          "unnecessary": 325,
+          "unnecessary_per_student": 0.5453020134228188
+        },
+        "quiet": {
+          "cost_J": 2672.0,
+          "cost_J_per_student": 4.483221476510067,
+          "interventions": 775,
+          "interventions_per_student": 1.3003355704697988,
+          "mean_delay_excl_censored": 1.0977777777777777,
+          "mean_delay_incl_censored": 2.6350931677018634,
+          "mean_lead_time": 5.677777777777778,
+          "missed_help": 194,
+          "missed_help_share": 0.30124223602484473,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.41935483870967744,
+          "total_delay_D": 1697.0,
+          "unnecessary": 325,
+          "unnecessary_per_student": 0.5453020134228188
+        },
+        "supportive": {
+          "cost_J": 5416.0,
+          "cost_J_per_student": 9.087248322147651,
+          "interventions": 775,
+          "interventions_per_student": 1.3003355704697988,
+          "mean_delay_excl_censored": 1.0977777777777777,
+          "mean_delay_incl_censored": 2.6350931677018634,
+          "mean_lead_time": 5.677777777777778,
+          "missed_help": 194,
+          "missed_help_share": 0.30124223602484473,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.41935483870967744,
+          "total_delay_D": 1697.0,
+          "unnecessary": 325,
+          "unnecessary_per_student": 0.5453020134228188
+        }
+      }
+    }
+  },
+  "sens_incl_hint_first__tau_rechosen": {
+    "methods": {
+      "bkt": {
+        "balanced": {
+          "cost_J": 983.0,
+          "cost_J_per_student": 1.6493288590604027,
+          "interventions": 1546,
+          "interventions_per_student": 2.5939597315436242,
+          "mean_delay_excl_censored": 0.12577639751552794,
+          "mean_delay_incl_censored": 0.12577639751552794,
+          "mean_lead_time": 6.476708074534161,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.5834411384217335,
+          "tau": 0.19,
+          "tau_rechosen_here": 0.19,
+          "total_delay_D": 81.0,
+          "unnecessary": 902,
+          "unnecessary_per_student": 1.5134228187919463
+        },
+        "quiet": {
+          "cost_J": 2113.0,
+          "cost_J_per_student": 3.545302013422819,
+          "interventions": 1044,
+          "interventions_per_student": 1.7516778523489933,
+          "mean_delay_excl_censored": 1.3925233644859814,
+          "mean_delay_incl_censored": 1.4083850931677018,
+          "mean_lead_time": 5.210280373831775,
+          "missed_help": 2,
+          "missed_help_share": 0.003105590062111801,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.3850574712643678,
+          "tau": 0.49,
+          "tau_rechosen_here": 0.49,
+          "total_delay_D": 907.0,
+          "unnecessary": 402,
+          "unnecessary_per_student": 0.674496644295302
+        },
+        "supportive": {
+          "cost_J": 1106.0,
+          "cost_J_per_student": 1.8557046979865772,
+          "interventions": 1723,
+          "interventions_per_student": 2.890939597315436,
+          "mean_delay_excl_censored": 0.013975155279503106,
+          "mean_delay_incl_censored": 0.013975155279503106,
+          "mean_lead_time": 6.588509316770186,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.6262333139872316,
+          "tau": 0.09,
+          "tau_rechosen_here": 0.09,
+          "total_delay_D": 9.0,
+          "unnecessary": 1079,
+          "unnecessary_per_student": 1.8104026845637584
+        }
+      },
+      "pfa": {
+        "balanced": {
+          "cost_J": 1012.0,
+          "cost_J_per_student": 1.6979865771812082,
+          "interventions": 1515,
+          "interventions_per_student": 2.541946308724832,
+          "mean_delay_excl_censored": 0.21894409937888198,
+          "mean_delay_incl_censored": 0.21894409937888198,
+          "mean_lead_time": 6.383540372670807,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.574917491749175,
+          "tau": 0.22,
+          "tau_rechosen_here": 0.22,
+          "total_delay_D": 141.0,
+          "unnecessary": 871,
+          "unnecessary_per_student": 1.4614093959731544
+        },
+        "quiet": {
+          "cost_J": 2180.0,
+          "cost_J_per_student": 3.6577181208053693,
+          "interventions": 1088,
+          "interventions_per_student": 1.825503355704698,
+          "mean_delay_excl_censored": 1.2671875,
+          "mean_delay_incl_censored": 1.2981366459627328,
+          "mean_lead_time": 5.3375,
+          "missed_help": 4,
+          "missed_help_share": 0.006211180124223602,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.4117647058823529,
+          "tau": 0.46,
+          "tau_rechosen_here": 0.46,
+          "total_delay_D": 836.0,
+          "unnecessary": 448,
+          "unnecessary_per_student": 0.7516778523489933
+        },
+        "supportive": {
+          "cost_J": 1114.0,
+          "cost_J_per_student": 1.8691275167785235,
+          "interventions": 1698,
+          "interventions_per_student": 2.848993288590604,
+          "mean_delay_excl_censored": 0.031055900621118012,
+          "mean_delay_incl_censored": 0.031055900621118012,
+          "mean_lead_time": 6.571428571428571,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.6207302709069493,
+          "tau": 0.08,
+          "tau_rechosen_here": 0.08,
+          "total_delay_D": 20.0,
+          "unnecessary": 1054,
+          "unnecessary_per_student": 1.7684563758389262
+        }
+      },
+      "risk_head": {
+        "balanced": {
+          "cost_J": 1035.0,
+          "cost_J_per_student": 1.7365771812080537,
+          "interventions": 1652,
+          "interventions_per_student": 2.771812080536913,
+          "mean_delay_excl_censored": 0.04192546583850932,
+          "mean_delay_incl_censored": 0.04192546583850932,
+          "mean_lead_time": 6.5605590062111805,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.6101694915254238,
+          "tau": 0.3,
+          "tau_rechosen_here": 0.3,
+          "total_delay_D": 27.0,
+          "unnecessary": 1008,
+          "unnecessary_per_student": 1.691275167785235
+        },
+        "quiet": {
+          "cost_J": 2242.0,
+          "cost_J_per_student": 3.761744966442953,
+          "interventions": 1006,
+          "interventions_per_student": 1.6879194630872483,
+          "mean_delay_excl_censored": 1.795031055900621,
+          "mean_delay_incl_censored": 1.795031055900621,
+          "mean_lead_time": 4.807453416149069,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.35984095427435386,
+          "tau": 0.55,
+          "tau_rechosen_here": 0.55,
+          "total_delay_D": 1156.0,
+          "unnecessary": 362,
+          "unnecessary_per_student": 0.6073825503355704
+        },
+        "supportive": {
+          "cost_J": 1089.0,
+          "cost_J_per_student": 1.8271812080536913,
+          "interventions": 1652,
+          "interventions_per_student": 2.771812080536913,
+          "mean_delay_excl_censored": 0.04192546583850932,
+          "mean_delay_incl_censored": 0.04192546583850932,
+          "mean_lead_time": 6.5605590062111805,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.6101694915254238,
+          "tau": 0.3,
+          "tau_rechosen_here": 0.3,
+          "total_delay_D": 27.0,
+          "unnecessary": 1008,
+          "unnecessary_per_student": 1.691275167785235
+        }
+      }
+    },
+    "sizes": 3742,
+    "zero_one": {
+      "always_help": {
+        "balanced": {
+          "cost_J": 1125.0,
+          "cost_J_per_student": 1.8875838926174497,
+          "interventions": 1769,
+          "interventions_per_student": 2.9681208053691277,
+          "mean_delay_excl_censored": 0.0,
+          "mean_delay_incl_censored": 0.0,
+          "mean_lead_time": 6.60248447204969,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.6359525155455059,
+          "total_delay_D": 0.0,
+          "unnecessary": 1125,
+          "unnecessary_per_student": 1.8875838926174497
+        },
+        "quiet": {
+          "cost_J": 3375.0,
+          "cost_J_per_student": 5.662751677852349,
+          "interventions": 1769,
+          "interventions_per_student": 2.9681208053691277,
+          "mean_delay_excl_censored": 0.0,
+          "mean_delay_incl_censored": 0.0,
+          "mean_lead_time": 6.60248447204969,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.6359525155455059,
+          "total_delay_D": 0.0,
+          "unnecessary": 1125,
+          "unnecessary_per_student": 1.8875838926174497
+        },
+        "supportive": {
+          "cost_J": 1125.0,
+          "cost_J_per_student": 1.8875838926174497,
+          "interventions": 1769,
+          "interventions_per_student": 2.9681208053691277,
+          "mean_delay_excl_censored": 0.0,
+          "mean_delay_incl_censored": 0.0,
+          "mean_lead_time": 6.60248447204969,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.6359525155455059,
+          "total_delay_D": 0.0,
+          "unnecessary": 1125,
+          "unnecessary_per_student": 1.8875838926174497
+        }
+      },
+      "three_wrong_rule": {
+        "balanced": {
+          "cost_J": 2022.0,
+          "cost_J_per_student": 3.3926174496644297,
+          "interventions": 775,
+          "interventions_per_student": 1.3003355704697988,
+          "mean_delay_excl_censored": 1.0977777777777777,
+          "mean_delay_incl_censored": 2.6350931677018634,
+          "mean_lead_time": 5.677777777777778,
+          "missed_help": 194,
+          "missed_help_share": 0.30124223602484473,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.41935483870967744,
+          "total_delay_D": 1697.0,
+          "unnecessary": 325,
+          "unnecessary_per_student": 0.5453020134228188
+        },
+        "quiet": {
+          "cost_J": 2672.0,
+          "cost_J_per_student": 4.483221476510067,
+          "interventions": 775,
+          "interventions_per_student": 1.3003355704697988,
+          "mean_delay_excl_censored": 1.0977777777777777,
+          "mean_delay_incl_censored": 2.6350931677018634,
+          "mean_lead_time": 5.677777777777778,
+          "missed_help": 194,
+          "missed_help_share": 0.30124223602484473,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.41935483870967744,
+          "total_delay_D": 1697.0,
+          "unnecessary": 325,
+          "unnecessary_per_student": 0.5453020134228188
+        },
+        "supportive": {
+          "cost_J": 5416.0,
+          "cost_J_per_student": 9.087248322147651,
+          "interventions": 775,
+          "interventions_per_student": 1.3003355704697988,
+          "mean_delay_excl_censored": 1.0977777777777777,
+          "mean_delay_incl_censored": 2.6350931677018634,
+          "mean_lead_time": 5.677777777777778,
+          "missed_help": 194,
+          "missed_help_share": 0.30124223602484473,
+          "n_sequences": 3742,
+          "n_students": 596,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 0,
+          "n_y1_with_help_opportunity": 644,
+          "share_unnecessary": 0.41935483870967744,
+          "total_delay_D": 1697.0,
+          "unnecessary": 325,
+          "unnecessary_per_student": 0.5453020134228188
+        }
+      }
+    }
+  },
+  "sens_leavers_as_non_ws__tau_carried_over": {
+    "methods": {
+      "bkt": {
+        "balanced": {
+          "cost_J": 1714.0,
+          "cost_J_per_student": 2.434659090909091,
+          "interventions": 2209,
+          "interventions_per_student": 3.137784090909091,
+          "mean_delay_excl_censored": 0.14655172413793102,
+          "mean_delay_incl_censored": 0.14655172413793102,
+          "mean_lead_time": 5.925862068965517,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.7374377546401086,
+          "tau": 0.19,
+          "tau_rechosen_here": 0.35,
+          "total_delay_D": 85.0,
+          "unnecessary": 1629,
+          "unnecessary_per_student": 2.3139204545454546
+        },
+        "quiet": {
+          "cost_J": 3240.0,
+          "cost_J_per_student": 4.6022727272727275,
+          "interventions": 1237,
+          "interventions_per_student": 1.7571022727272727,
+          "mean_delay_excl_censored": 1.8369565217391304,
+          "mean_delay_incl_censored": 2.043103448275862,
+          "mean_lead_time": 4.233695652173913,
+          "missed_help": 28,
+          "missed_help_share": 0.04827586206896552,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.5537590945836701,
+          "tau": 0.57,
+          "tau_rechosen_here": 0.85,
+          "total_delay_D": 1185.0,
+          "unnecessary": 685,
+          "unnecessary_per_student": 0.9730113636363636
+        },
+        "supportive": {
+          "cost_J": 1911.0,
+          "cost_J_per_student": 2.7144886363636362,
+          "interventions": 2464,
+          "interventions_per_student": 3.5,
+          "mean_delay_excl_censored": 0.015517241379310345,
+          "mean_delay_incl_censored": 0.015517241379310345,
+          "mean_lead_time": 6.0568965517241375,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.7646103896103896,
+          "tau": 0.09,
+          "tau_rechosen_here": 0.18,
+          "total_delay_D": 9.0,
+          "unnecessary": 1884,
+          "unnecessary_per_student": 2.6761363636363638
+        }
+      },
+      "pfa": {
+        "balanced": {
+          "cost_J": 1694.0,
+          "cost_J_per_student": 2.40625,
+          "interventions": 2124,
+          "interventions_per_student": 3.0170454545454546,
+          "mean_delay_excl_censored": 0.25862068965517243,
+          "mean_delay_incl_censored": 0.25862068965517243,
+          "mean_lead_time": 5.813793103448276,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.7269303201506592,
+          "tau": 0.22,
+          "tau_rechosen_here": 0.31,
+          "total_delay_D": 150.0,
+          "unnecessary": 1544,
+          "unnecessary_per_student": 2.1931818181818183
+        },
+        "quiet": {
+          "cost_J": 3614.0,
+          "cost_J_per_student": 5.1335227272727275,
+          "interventions": 1493,
+          "interventions_per_student": 2.1207386363636362,
+          "mean_delay_excl_censored": 1.3044247787610619,
+          "mean_delay_incl_censored": 1.4310344827586208,
+          "mean_lead_time": 4.764601769911504,
+          "missed_help": 15,
+          "missed_help_share": 0.02586206896551724,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.6215673141326189,
+          "tau": 0.46,
+          "tau_rechosen_here": 0.91,
+          "total_delay_D": 830.0,
+          "unnecessary": 928,
+          "unnecessary_per_student": 1.3181818181818181
+        },
+        "supportive": {
+          "cost_J": 1888.0,
+          "cost_J_per_student": 2.6818181818181817,
+          "interventions": 2390,
+          "interventions_per_student": 3.3948863636363638,
+          "mean_delay_excl_censored": 0.04482758620689655,
+          "mean_delay_incl_censored": 0.04482758620689655,
+          "mean_lead_time": 6.027586206896552,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.7573221757322176,
+          "tau": 0.1,
+          "tau_rechosen_here": 0.1,
+          "total_delay_D": 26.0,
+          "unnecessary": 1810,
+          "unnecessary_per_student": 2.571022727272727
+        }
+      },
+      "risk_head": {
+        "balanced": {
+          "cost_J": 1789.0,
+          "cost_J_per_student": 2.5411931818181817,
+          "interventions": 2340,
+          "interventions_per_student": 3.3238636363636362,
+          "mean_delay_excl_censored": 0.05,
+          "mean_delay_incl_censored": 0.05,
+          "mean_lead_time": 6.022413793103448,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.7521367521367521,
+          "tau": 0.3,
+          "tau_rechosen_here": 0.45,
+          "total_delay_D": 29.0,
+          "unnecessary": 1760,
+          "unnecessary_per_student": 2.5
+        },
+        "quiet": {
+          "cost_J": 3448.0,
+          "cost_J_per_student": 4.8977272727272725,
+          "interventions": 1346,
+          "interventions_per_student": 1.9119318181818181,
+          "mean_delay_excl_censored": 1.7513321492007106,
+          "mean_delay_incl_censored": 1.8948275862068966,
+          "mean_lead_time": 4.303730017761989,
+          "missed_help": 17,
+          "missed_help_share": 0.029310344827586206,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.5817236255572066,
+          "tau": 0.55,
+          "tau_rechosen_here": 0.82,
+          "total_delay_D": 1099.0,
+          "unnecessary": 783,
+          "unnecessary_per_student": 1.1122159090909092
+        },
+        "supportive": {
+          "cost_J": 1847.0,
+          "cost_J_per_student": 2.6235795454545454,
+          "interventions": 2340,
+          "interventions_per_student": 3.3238636363636362,
+          "mean_delay_excl_censored": 0.05,
+          "mean_delay_incl_censored": 0.05,
+          "mean_lead_time": 6.022413793103448,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.7521367521367521,
+          "tau": 0.3,
+          "tau_rechosen_here": 0.3,
+          "total_delay_D": 29.0,
+          "unnecessary": 1760,
+          "unnecessary_per_student": 2.5
+        }
+      }
+    },
+    "sizes": 5033,
+    "zero_one": {
+      "always_help": {
+        "balanced": {
+          "cost_J": 1952.0,
+          "cost_J_per_student": 2.772727272727273,
+          "interventions": 2532,
+          "interventions_per_student": 3.596590909090909,
+          "mean_delay_excl_censored": 0.0,
+          "mean_delay_incl_censored": 0.0,
+          "mean_lead_time": 6.072413793103448,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.7709320695102686,
+          "total_delay_D": 0.0,
+          "unnecessary": 1952,
+          "unnecessary_per_student": 2.772727272727273
+        },
+        "quiet": {
+          "cost_J": 5856.0,
+          "cost_J_per_student": 8.318181818181818,
+          "interventions": 2532,
+          "interventions_per_student": 3.596590909090909,
+          "mean_delay_excl_censored": 0.0,
+          "mean_delay_incl_censored": 0.0,
+          "mean_lead_time": 6.072413793103448,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.7709320695102686,
+          "total_delay_D": 0.0,
+          "unnecessary": 1952,
+          "unnecessary_per_student": 2.772727272727273
+        },
+        "supportive": {
+          "cost_J": 1952.0,
+          "cost_J_per_student": 2.772727272727273,
+          "interventions": 2532,
+          "interventions_per_student": 3.596590909090909,
+          "mean_delay_excl_censored": 0.0,
+          "mean_delay_incl_censored": 0.0,
+          "mean_lead_time": 6.072413793103448,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.7709320695102686,
+          "total_delay_D": 0.0,
+          "unnecessary": 1952,
+          "unnecessary_per_student": 2.772727272727273
+        }
+      },
+      "three_wrong_rule": {
+        "balanced": {
+          "cost_J": 2788.0,
+          "cost_J_per_student": 3.960227272727273,
+          "interventions": 718,
+          "interventions_per_student": 1.0198863636363635,
+          "mean_delay_excl_censored": 1.8666666666666667,
+          "mean_delay_incl_censored": 4.008620689655173,
+          "mean_lead_time": 4.694117647058824,
+          "missed_help": 325,
+          "missed_help_share": 0.5603448275862069,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.6448467966573816,
+          "total_delay_D": 2325.0,
+          "unnecessary": 463,
+          "unnecessary_per_student": 0.6576704545454546
+        },
+        "quiet": {
+          "cost_J": 3714.0,
+          "cost_J_per_student": 5.275568181818182,
+          "interventions": 718,
+          "interventions_per_student": 1.0198863636363635,
+          "mean_delay_excl_censored": 1.8666666666666667,
+          "mean_delay_incl_censored": 4.008620689655173,
+          "mean_lead_time": 4.694117647058824,
+          "missed_help": 325,
+          "missed_help_share": 0.5603448275862069,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.6448467966573816,
+          "total_delay_D": 2325.0,
+          "unnecessary": 463,
+          "unnecessary_per_student": 0.6576704545454546
+        },
+        "supportive": {
+          "cost_J": 7438.0,
+          "cost_J_per_student": 10.565340909090908,
+          "interventions": 718,
+          "interventions_per_student": 1.0198863636363635,
+          "mean_delay_excl_censored": 1.8666666666666667,
+          "mean_delay_incl_censored": 4.008620689655173,
+          "mean_lead_time": 4.694117647058824,
+          "missed_help": 325,
+          "missed_help_share": 0.5603448275862069,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.6448467966573816,
+          "total_delay_D": 2325.0,
+          "unnecessary": 463,
+          "unnecessary_per_student": 0.6576704545454546
+        }
+      }
+    }
+  },
+  "sens_leavers_as_non_ws__tau_rechosen": {
+    "methods": {
+      "bkt": {
+        "balanced": {
+          "cost_J": 1662.0,
+          "cost_J_per_student": 2.3607954545454546,
+          "interventions": 1790,
+          "interventions_per_student": 2.5426136363636362,
+          "mean_delay_excl_censored": 0.705574912891986,
+          "mean_delay_incl_censored": 0.7689655172413793,
+          "mean_lead_time": 5.358885017421603,
+          "missed_help": 6,
+          "missed_help_share": 0.010344827586206896,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.6793296089385474,
+          "tau": 0.35,
+          "tau_rechosen_here": 0.35,
+          "total_delay_D": 446.0,
+          "unnecessary": 1216,
+          "unnecessary_per_student": 1.7272727272727273
+        },
+        "quiet": {
+          "cost_J": 2827.0,
+          "cost_J_per_student": 4.015625,
+          "interventions": 622,
+          "interventions_per_student": 0.8835227272727273,
+          "mean_delay_excl_censored": 3.9076305220883536,
+          "mean_delay_incl_censored": 4.232758620689655,
+          "mean_lead_time": 2.142570281124498,
+          "missed_help": 82,
+          "missed_help_share": 0.1413793103448276,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.19935691318327975,
+          "tau": 0.85,
+          "tau_rechosen_here": 0.85,
+          "total_delay_D": 2455.0,
+          "unnecessary": 124,
+          "unnecessary_per_student": 0.17613636363636365
+        },
+        "supportive": {
+          "cost_J": 1866.0,
+          "cost_J_per_student": 2.6505681818181817,
+          "interventions": 2233,
+          "interventions_per_student": 3.171875,
+          "mean_delay_excl_censored": 0.12241379310344827,
+          "mean_delay_incl_censored": 0.12241379310344827,
+          "mean_lead_time": 5.95,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.7402597402597403,
+          "tau": 0.18,
+          "tau_rechosen_here": 0.18,
+          "total_delay_D": 71.0,
+          "unnecessary": 1653,
+          "unnecessary_per_student": 2.3480113636363638
+        }
+      },
+      "pfa": {
+        "balanced": {
+          "cost_J": 1671.0,
+          "cost_J_per_student": 2.3735795454545454,
+          "interventions": 1907,
+          "interventions_per_student": 2.7088068181818183,
+          "mean_delay_excl_censored": 0.5580589254766031,
+          "mean_delay_incl_censored": 0.5879310344827586,
+          "mean_lead_time": 5.512998266897747,
+          "missed_help": 3,
+          "missed_help_share": 0.005172413793103448,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.6974305191400105,
+          "tau": 0.31,
+          "tau_rechosen_here": 0.31,
+          "total_delay_D": 341.0,
+          "unnecessary": 1330,
+          "unnecessary_per_student": 1.8892045454545454
+        },
+        "quiet": {
+          "cost_J": 2863.0,
+          "cost_J_per_student": 4.066761363636363,
+          "interventions": 552,
+          "interventions_per_student": 0.7840909090909091,
+          "mean_delay_excl_censored": 4.197478991596639,
+          "mean_delay_incl_censored": 4.543103448275862,
+          "mean_lead_time": 1.8634453781512605,
+          "missed_help": 104,
+          "missed_help_share": 0.1793103448275862,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.13768115942028986,
+          "tau": 0.91,
+          "tau_rechosen_here": 0.91,
+          "total_delay_D": 2635.0,
+          "unnecessary": 76,
+          "unnecessary_per_student": 0.10795454545454546
+        },
+        "supportive": {
+          "cost_J": 1888.0,
+          "cost_J_per_student": 2.6818181818181817,
+          "interventions": 2390,
+          "interventions_per_student": 3.3948863636363638,
+          "mean_delay_excl_censored": 0.04482758620689655,
+          "mean_delay_incl_censored": 0.04482758620689655,
+          "mean_lead_time": 6.027586206896552,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.7573221757322176,
+          "tau": 0.1,
+          "tau_rechosen_here": 0.1,
+          "total_delay_D": 26.0,
+          "unnecessary": 1810,
+          "unnecessary_per_student": 2.571022727272727
+        }
+      },
+      "risk_head": {
+        "balanced": {
+          "cost_J": 1701.0,
+          "cost_J_per_student": 2.4161931818181817,
+          "interventions": 1776,
+          "interventions_per_student": 2.522727272727273,
+          "mean_delay_excl_censored": 0.7996515679442509,
+          "mean_delay_incl_censored": 0.8603448275862069,
+          "mean_lead_time": 5.2665505226480835,
+          "missed_help": 6,
+          "missed_help_share": 0.010344827586206896,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.6768018018018018,
+          "tau": 0.45,
+          "tau_rechosen_here": 0.45,
+          "total_delay_D": 499.0,
+          "unnecessary": 1202,
+          "unnecessary_per_student": 1.7073863636363635
+        },
+        "quiet": {
+          "cost_J": 2947.0,
+          "cost_J_per_student": 4.186079545454546,
+          "interventions": 682,
+          "interventions_per_student": 0.96875,
+          "mean_delay_excl_censored": 3.6666666666666665,
+          "mean_delay_incl_censored": 4.067241379310345,
+          "mean_lead_time": 2.3930041152263373,
+          "missed_help": 94,
+          "missed_help_share": 0.16206896551724137,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.2873900293255132,
+          "tau": 0.82,
+          "tau_rechosen_here": 0.82,
+          "total_delay_D": 2359.0,
+          "unnecessary": 196,
+          "unnecessary_per_student": 0.2784090909090909
+        },
+        "supportive": {
+          "cost_J": 1847.0,
+          "cost_J_per_student": 2.6235795454545454,
+          "interventions": 2340,
+          "interventions_per_student": 3.3238636363636362,
+          "mean_delay_excl_censored": 0.05,
+          "mean_delay_incl_censored": 0.05,
+          "mean_lead_time": 6.022413793103448,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.7521367521367521,
+          "tau": 0.3,
+          "tau_rechosen_here": 0.3,
+          "total_delay_D": 29.0,
+          "unnecessary": 1760,
+          "unnecessary_per_student": 2.5
+        }
+      }
+    },
+    "sizes": 5033,
+    "zero_one": {
+      "always_help": {
+        "balanced": {
+          "cost_J": 1952.0,
+          "cost_J_per_student": 2.772727272727273,
+          "interventions": 2532,
+          "interventions_per_student": 3.596590909090909,
+          "mean_delay_excl_censored": 0.0,
+          "mean_delay_incl_censored": 0.0,
+          "mean_lead_time": 6.072413793103448,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.7709320695102686,
+          "total_delay_D": 0.0,
+          "unnecessary": 1952,
+          "unnecessary_per_student": 2.772727272727273
+        },
+        "quiet": {
+          "cost_J": 5856.0,
+          "cost_J_per_student": 8.318181818181818,
+          "interventions": 2532,
+          "interventions_per_student": 3.596590909090909,
+          "mean_delay_excl_censored": 0.0,
+          "mean_delay_incl_censored": 0.0,
+          "mean_lead_time": 6.072413793103448,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.7709320695102686,
+          "total_delay_D": 0.0,
+          "unnecessary": 1952,
+          "unnecessary_per_student": 2.772727272727273
+        },
+        "supportive": {
+          "cost_J": 1952.0,
+          "cost_J_per_student": 2.772727272727273,
+          "interventions": 2532,
+          "interventions_per_student": 3.596590909090909,
+          "mean_delay_excl_censored": 0.0,
+          "mean_delay_incl_censored": 0.0,
+          "mean_lead_time": 6.072413793103448,
+          "missed_help": 0,
+          "missed_help_share": 0.0,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.7709320695102686,
+          "total_delay_D": 0.0,
+          "unnecessary": 1952,
+          "unnecessary_per_student": 2.772727272727273
+        }
+      },
+      "three_wrong_rule": {
+        "balanced": {
+          "cost_J": 2788.0,
+          "cost_J_per_student": 3.960227272727273,
+          "interventions": 718,
+          "interventions_per_student": 1.0198863636363635,
+          "mean_delay_excl_censored": 1.8666666666666667,
+          "mean_delay_incl_censored": 4.008620689655173,
+          "mean_lead_time": 4.694117647058824,
+          "missed_help": 325,
+          "missed_help_share": 0.5603448275862069,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.6448467966573816,
+          "total_delay_D": 2325.0,
+          "unnecessary": 463,
+          "unnecessary_per_student": 0.6576704545454546
+        },
+        "quiet": {
+          "cost_J": 3714.0,
+          "cost_J_per_student": 5.275568181818182,
+          "interventions": 718,
+          "interventions_per_student": 1.0198863636363635,
+          "mean_delay_excl_censored": 1.8666666666666667,
+          "mean_delay_incl_censored": 4.008620689655173,
+          "mean_lead_time": 4.694117647058824,
+          "missed_help": 325,
+          "missed_help_share": 0.5603448275862069,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.6448467966573816,
+          "total_delay_D": 2325.0,
+          "unnecessary": 463,
+          "unnecessary_per_student": 0.6576704545454546
+        },
+        "supportive": {
+          "cost_J": 7438.0,
+          "cost_J_per_student": 10.565340909090908,
+          "interventions": 718,
+          "interventions_per_student": 1.0198863636363635,
+          "mean_delay_excl_censored": 1.8666666666666667,
+          "mean_delay_incl_censored": 4.008620689655173,
+          "mean_lead_time": 4.694117647058824,
+          "missed_help": 325,
+          "missed_help_share": 0.5603448275862069,
+          "n_sequences": 5033,
+          "n_students": 704,
+          "n_y1": 644,
+          "n_y1_no_help_opportunity": 64,
+          "n_y1_with_help_opportunity": 580,
+          "share_unnecessary": 0.6448467966573816,
+          "total_delay_D": 2325.0,
+          "unnecessary": 463,
+          "unnecessary_per_student": 0.6576704545454546
+        }
+      }
+    }
+  }
+}
