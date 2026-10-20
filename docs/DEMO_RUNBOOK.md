@@ -1,7 +1,7 @@
 # ARIA summit demo: runbook
 
-Build: branch `summit-demo`, tag `summit-2026-10-24` (Khan Lab School summit, 2026-10-24). After the tag the only allowed code change is a fix for a
-crash found in rehearsal; each one is listed in the change log at the bottom.
+Build: branch `summit-pace-mac`, tag `summit-2026-10-24-pace` (Khan Lab School summit, 2026-10-24; this is `summit-2026-10-24` plus ARIA-Pace, see section 10). The original tag `summit-2026-10-24`
+(branch `summit-demo`) is the build without ARIA-Pace and was not moved. After the pace tag the only allowed code change is a fix for a crash found in rehearsal; each one is listed in the change log at the bottom.
 
 ## 1. Launch (exact)
 
@@ -10,8 +10,8 @@ cd ~/aria
 GRADIO_ANALYTICS_ENABLED=False /usr/bin/python3 -m ui.demo_app
 ```
 
-Then open **http://127.0.0.1:7861** in Chrome. The terminal shows `Running on local URL: http://127.0.0.1:7861`; first paint takes about 4 s from a cold start
-(measured 3.8 s offline, see section 7). Port 7861 is the default (`ui/demo_app.py:210`), the server binds to 127.0.0.1 only (`ui/demo_app.py:219`).
+Then open **http://127.0.0.1:7861** in Chrome. The terminal shows `Running on local URL: http://127.0.0.1:7861`; first paint takes about 5 s from a cold start
+(2026-10-20, 5 launches, process start to first HTTP 200: min 4.70 s, median 4.83 s, max 5.16 s; 3.8 s was measured on 2026-10-15 before ARIA-Pace, and the offline-sandbox rehearsal in section 7 took 6.1 s). Port 7861 is the default (`ui/demo_app.py:308`), the server binds to 127.0.0.1 only (`ui/demo_app.py:318`).
 
 Why exactly this command:
 
@@ -26,7 +26,7 @@ Why exactly this command:
   and the tests do), never `import ui` after importing `agent.demo_tutor`.
 - `GRADIO_ANALYTICS_ENABLED=False` stops Gradio's usage telemetry when online. Startup works offline either way (3.3 s with it on, 4.1 s with it off, both measured offline).
 
-The default launch shows **only the 8 featured problems** and has the **LLM path OFF** (section 5).
+The default launch shows **only the 8 featured problems**, has the **LLM path OFF** (section 5) and starts on the **Balanced** pace profile (`--pace-profile quiet|balanced|supportive` changes only the starting choice; the page's selector changes it live).
 
 ## 2. Presenter checklist
 
@@ -62,10 +62,10 @@ Do this at the venue, in this order: switch Wi-Fi off (menu bar) → `curl -m 3 
 
 ## 5. The LLM flag, and what happens when a model hangs
 
-**Decision: leave `--llm-path` OFF for the summit** (it is off by default: `ui/demo_app.py:208`). Do not enable it unless the check below passes on the demo laptop *and*
+**Decision: leave `--llm-path` OFF for the summit** (it is off by default: `ui/demo_app.py:306`). Do not enable it unless the check below passes on the demo laptop *and*
 you decide you want free-form questions answered in the model's words.
 
-Rule applied: 50+ live calls on the demo laptop with p95 < 5 s and 0 leaks. Numbers measured on the build machine (Apple M4, macOS 26.4.1, `llama3.2:3b` through the local Ollama), 3 full
+Rule applied: 50+ live calls on the demo laptop with p95 < 5 s and 0 leaks. Numbers below were measured on the 2026-10-15 build (before ARIA-Pace) and **have not been re-run** with it; the LLM path only answers free-form questions, which the pace gate does not touch, but re-run the check before enabling it. Numbers measured on the build machine (Apple M4, macOS 26.4.1, `llama3.2:3b` through the local Ollama), 3 full
 harness runs, 90 free-form questions, 1,155 turns in total:
 
 | Measure | Result |
@@ -80,12 +80,12 @@ LLM outcomes (`ok` / `rejected`). To turn it on you must **restart**: `... -m ui
 
 If the model hangs or Ollama is not running (only matters with `--llm-path`):
 
-- **Warm-up fails at launch:** the terminal prints `LLM path: Ollama not reachable, using templates only` (`ui/demo_app.py:218`) and the demo carries on with templates.
-  The presenter sees nothing different. (Warm-up waits up to 60 s for a cold model load: `agent/demo_tutor.py:42`.)
-- **A call runs past 10 s** (`agent/demo_tutor.py:39`): that visitor waits up to 10 s once, then gets the normal template reply; the LLM is then skipped for 20 s (`:43`) so the next
-  visitors never wait. Replies are capped at 80 tokens (`:40`) and cut at the last full sentence.
+- **Warm-up fails at launch:** the terminal prints `LLM path: Ollama not reachable, using templates only` (`ui/demo_app.py:317`) and the demo carries on with templates.
+  The presenter sees nothing different. (Warm-up waits up to 60 s for a cold model load: `agent/demo_tutor.py:47`.)
+- **A call runs past 10 s** (`agent/demo_tutor.py:44`): that visitor waits up to 10 s once, then gets the normal template reply; the LLM is then skipped for 20 s (`:48`) so the next
+  visitors never wait. Replies are capped at 80 tokens (`:45`) and cut at the last full sentence.
 - **Any LLM answer that states the answer or a false identity** is dropped and replaced by a template (the 2 rejections above).
-- **Symbolic checker takes too long** (3 s budget, `agent/demo_tutor.py:44`): the presenter sees the quiet line *"Watching. I couldn't read that one. Try writing your next step as plain math."*
+- **Symbolic checker takes too long** (3 s budget, `agent/demo_tutor.py:49`): the presenter sees the quiet line *"Watching. I couldn't read that one. Try writing your next step as plain math."*
   (`agent/demo_templates.py:70`) and no verdict is guessed.
 
 ## 6. The 8 featured problems and the "same student, three wrong answers" flow
@@ -138,30 +138,30 @@ What this does **not** show: it measures nothing about learning. The bars were c
 ## 7. Rehearsal (cold start, network blocked): 2026-10-20
 
 `/usr/bin/python3 scripts/demo_rehearsal.py --offline --theme light` → raw results in `docs/rehearsal_results.json`, Teacher-summary screenshots in `docs/demo_screens/rehearsal/`.
-(The 2026-10-15 rehearsal covered the old flow; the screenshots in `docs/demo_screens/light/` and `dark/` are from that build and do not show the profile selector or the live line.)
+(The 2026-10-15 rehearsal covered the old flow. `docs/demo_screens/light/` and `dark/` were regenerated on 2026-10-20 with `scripts/demo_screens.py` from this build: they show the profile selector and the live line, and follow the same-student flow on `alg-01` under Balanced.)
 
-- Cold start to first answer: **5.9 s** (3.8 s on 2026-10-15). Loading the ARIA-Pace files adds under 0.1 s (measured), so this looks like machine variance; not investigated further.
-- **8/8 problems passed** (120 turns: 8 problems x 3 profiles x 5 messages). Browser round trip per message: median 225 ms, p95 261 ms.
+- Cold start to first answer under the offline sandbox: **6.1 s** (5.9 s in the first run of 2026-10-20; 3.8 s on 2026-10-15). Without the sandbox, 5 launches gave median 4.83 s (section 1). Loading the ARIA-Pace files adds under 0.1 s (measured); the rest of the difference to 2026-10-15 was not investigated.
+- **8/8 problems passed** (120 turns: 8 problems x 3 profiles x 5 messages). Browser round trip per message: median 226 ms, p95 406 ms.
 - Per problem and per profile, all of these had to hold: the badge sequence Quiet W W W W W, Balanced W W W S S, Supportive W W S S S; the live line shows the right risk % and "needs N% to step in"; a flagged wrong answer shows its
   visible note; Teacher summary says "Not solved yet", shows the problem, has the four sections, contains none of the student's messages; Reset returns to READY with an empty chat; the summary is cleared by Reset.
 - Console: the same cosmetic messages as before (two font preloads, "Too many arguments provided for the endpoint", "Attempted to select a non-interactive or hidden tab").
 
 **Browsers.** Chrome: verified (driven through the real UI; both themes). **Safari: NOT verified.** Driving Safari needs *Safari → Settings → Developer → Allow remote automation*, a setting only you can switch
 on, so I could not script it. Do this once by hand (2 minutes): open http://127.0.0.1:7861 in Safari, then check (a) the badge text is readable in READY / WATCHING / STEPPING IN, (b) the chat keeps the newest
-message in view after 6 turns, (c) the Teacher summary tab is readable, (d) Reset empties the chat. If anything is off, use Chrome. The page uses nothing newer than flex layout with `gap` (Safari 14.1+).
+message in view after the 5-message flow of section 6, (c) the Teacher summary tab is readable, (d) Reset empties the chat, (e) the profile selector (3 radio buttons) and the live line under the badge are readable and update when you click a profile, in light and dark mode. Run one problem per profile: correct step twice, the same wrong answer three times, Reset (section 6). Not verified on 2026-10-20 either: Safari's "Allow JavaScript from Apple Events" and screen capture are off on the build machine. If anything is off, use Chrome. The page uses nothing newer than flex layout with `gap` (Safari 14.1+).
 
 ## 8. The turn log
 
 - File: `data/demo_logs/turns.jsonl` (`agent/demo_log.py:16`), created on first turn, rotated to `turns.jsonl.1` at 5 MB (`:17`). It is git-ignored (`.gitignore:17`).
 - One line per tutor turn: time, random session id, attempt number, problem id, turn number, latency, correctness verdict, derived state, rule id, intervention type, template id,
-  LLM outcome, input flags, character counts, and the ARIA-Pace fields (profile, bar as a fraction, risk, number of right/wrong verdicts so far, whether this turn updated it, reason code). **No student text and no tutor text**; only short identifiers are accepted (`agent/demo_log.py:20-34`), and a test checks this with distinctive strings.
+  LLM outcome, input flags, character counts, and the ARIA-Pace fields (profile, bar as a fraction, risk, number of right/wrong verdicts so far, whether this turn updated it, reason code). **No student text and no tutor text**; only short identifiers are accepted (`agent/demo_log.py:19-42`), and a test checks this with distinctive strings.
 - **Wipe it:** `cd ~/aria && rm -f data/demo_logs/turns.jsonl data/demo_logs/turns.jsonl.1` (safe while the demo runs). Or start with `--no-log` and no file is written.
 
 ## 9. Do not
 
 - **Do not use `--all-problems`.** It lists all 30 bank problems; only the 8 above are rehearsed.
 - **Do not flip `--llm-path` live** (and do not run it at all unless you re-ran the check on the demo laptop). Changing it needs a restart anyway.
-- **Do not paste the problem's answer into the chat on stage** (message 4 in section 6, or the answer from this document), and do not read it out for the audience to type: ARIA would accept it and ask for reflection, which is correct, but it makes the demo look scripted and hides the point (ARIA decides *whether* to speak).
+- **Do not paste the problem's answer into the chat on stage** (message C in section 6, or the answer from this document), and do not read it out for the audience to type: ARIA would accept it and ask for reflection, which is correct, but it makes the demo look scripted and hides the point (ARIA decides *whether* to speak).
 - Do not start the demo with `python3`, from another folder, or with `python ui/demo_app.py` (section 1).
 - Do not edit `data/demo_problems.json` or any code at the venue. If a problem fails to load the server stops at launch with a message naming it.
 - Do not run `git pull`/`git checkout` at the venue, and do not leave the `aria-pace` branch checked out; the build for the summit is the branch you decide on (`summit-demo` at the tag has no ARIA-Pace; `summit-pace-mac` has it).
@@ -172,4 +172,5 @@ message in view after 6 turns, (c) the Teacher summary tab is readable, (d) Rese
 Not a rehearsal crash fix: ARIA-Pace was added on branches `summit-pace` / `summit-pace-mac` (from the tag, which was not moved). `summit-demo` at the tag is still the build without it.
 
 - 2026-10-20, feature: per-session BKT risk tracker, per-profile bar for hints on wrong steps at attempts 3-9, profile selector and live line, pace fields in the turn log; section 6 and `scripts/demo_rehearsal.py` rewritten to the "same student, three wrong answers" flow. Commit: see `git log summit-pace-mac`.
+- 2026-10-20, fix: the profile explanation under the selector was unreadable in dark mode (dark grey text, no card background); it is now a card like the others. Teacher-summary wording "threshold" became "bar". Screens in `docs/demo_screens/light|dark` regenerated. Final build = tag `summit-2026-10-24-pace` (`git show summit-2026-10-24-pace`).
 - Consequence to know about: at Quiet and Balanced a wrong answer after a correct step is often flagged without a hint (the old flow, wrong answer on message 3, no longer gets a hint there).

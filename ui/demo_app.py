@@ -44,8 +44,9 @@ CSS = """
 .aria-pace, .aria-pace *{color:#0f172a !important}
 .aria-pace.watching{--b:#2563eb;--bg:#eff6ff}.aria-pace.stepping{--b:#d97706;--bg:#fffbeb}.aria-pace.idle{--b:#94a3b8;--bg:#f1f5f9}
 .aria-pace .st{font-weight:700;letter-spacing:.05em}
-.aria-profiles{font-family:system-ui,sans-serif;font-size:.85rem;line-height:1.35}
-.aria-profiles, .aria-profiles *{color:#334155 !important}
+.aria-profiles{font-family:system-ui,sans-serif;font-size:.85rem;line-height:1.35;padding:10px 14px;border-radius:10px;
+  border:1px solid #cbd5e1;background:#f1f5f9}
+.aria-profiles, .aria-profiles *{color:#0f172a !important}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(1.25)}}
 /* column-reverse keeps the newest message in view without any script */
 .aria-chat{display:flex;flex-direction:column-reverse;min-height:300px;max-height:380px;overflow:auto;padding:8px;font-family:system-ui,sans-serif}
