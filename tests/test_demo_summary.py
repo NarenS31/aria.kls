@@ -11,7 +11,7 @@ from agent.demo_bank import load_problems
 
 PROBS = load_problems()
 BY_ID = {p.id: p for p in PROBS}
-TUTOR = DT.DemoTutor(problems=PROBS)
+TUTOR = DT.DemoTutor(problems=PROBS, pace=False)       # base policy + wording; the ARIA-Pace gate is tested in test_demo_pace.py
 SECRETS = ["zebra-quokka-7", "Priya Raman", "my cat Mr Whiskers"]
 
 

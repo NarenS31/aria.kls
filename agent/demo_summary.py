@@ -19,6 +19,7 @@ RULE_TEXT = {
     "jitai.repeated_confusion": "stuck for several turns: a smaller step",
     "jitai.frustration_reset": "frustration is building: lower the pressure",
     "jitai.escalate_after_ignored": "earlier nudge was ignored: suggest a reset",
+    "pace.wrong_below_tau": "wrong step, risk below this profile's threshold: flagged, no hint yet",
     "input.empty": "empty message: nothing to read",
     "system.fallback": "could not read that message: stayed quiet",
 }

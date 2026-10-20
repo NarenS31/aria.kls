@@ -68,6 +68,10 @@ WATCHING = {
                 "Watching. Try writing your next step, or ask me a question."],
     "empty": ["Watching. I'm here when you're ready."],
     "error": ["Watching. I couldn't read that one. Try writing your next step as plain math."],
+    # verified wrong step, risk below this profile's threshold: say so, give no hint, no answer
+    "flagged": ["Not quite yet. I'm holding the hint for now. Ask me if you want one.",
+                "That step doesn't check out yet. Watching for now; ask for a hint any time.",
+                "Not there yet. I'll give you room to try again, and I'm here if you want a hint."],
 }
 
 

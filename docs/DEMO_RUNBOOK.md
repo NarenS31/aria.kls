@@ -34,7 +34,7 @@ The default launch shows **only the 8 featured problems** and has the **LLM path
 5. Open the **Teacher summary** tab to show the timeline. 6. **Reset** before the next visitor (section 4).
 
 The page has two tabs: **Student** (badge, chat, text box, Reset) and **Teacher summary** (state timeline, hints given, where the student got stuck; no chat transcript).
-Badge meanings: READY (nothing yet), WATCHING (ARIA read the work and chose to say nothing), STEPPING IN (ARIA is speaking; the line under it says which policy rule decided).
+Badge meanings: READY (nothing yet), WATCHING (ARIA read the work and chose to say nothing), STEPPING IN (ARIA is speaking; the line under it says which policy rule decided). The page also has a **profile selector** (Quiet / Balanced / Supportive, default Balanced) and a **live line** under the badge: risk of getting stuck, the risk the profile needs to step in, and why (section 6).
 
 ## 3. Wi-Fi off
 
@@ -88,37 +88,63 @@ If the model hangs or Ollama is not running (only matters with `--llm-path`):
 - **Symbolic checker takes too long** (3 s budget, `agent/demo_tutor.py:44`): the presenter sees the quiet line *"Watching. I couldn't read that one. Try writing your next step as plain math."*
   (`agent/demo_templates.py:70`) and no verdict is guessed.
 
-## 6. The 8 featured problems and their scripted flows
+## 6. The 8 featured problems and the "same student, three wrong answers" flow
 
-Type these exactly (the answers were re-derived by SymPy at load time; a typo in the bank stops the server with a clear error). "ARIA speaks" = badge STEPPING IN with a reply; "Watching" =
-badge WATCHING, no reply.
+Type these exactly (the answers were re-derived by SymPy at load time; a typo in the bank stops the server with a clear error). **Type, never paste.**
 
-**On stage, use messages 1 to 3** (stuck, a correct step, a wrong answer): that is the timing contrast the demo is about (ARIA speaks, stays quiet, speaks). **Message 4 is the correct
-answer.** It is what the rehearsal types so the Teacher summary reads "Solved", and it makes ARIA ask the student to reflect. Type it only if a visitor has reached it themselves, or at the end
-for the Teacher summary; **type it, never paste it, and never read it out before the visitor has it.**
+**The point of the demo now:** the same wrong answers, typed three times, get a different reaction from each pace profile. Profiles are cost weights (how much an unnecessary
+interruption costs against a late hint), not learner types. ARIA-Pace keeps a running estimate of the risk that the student gets stuck on this problem (a BKT estimate from the right/wrong
+verdicts only) and a wrong step gets a hint only when that risk reaches the profile's bar: **Quiet 57%, Balanced 19%, Supportive 9%** (loaded from `aria_pace/results/frozen_val.json`).
+The bar applies at attempts 3 to 9 (an attempt = a message SymPy marked right or wrong; "I don't know" and restating the problem do not count). **Attempts 1 and 2 keep the old rule: a wrong step always gets a hint.**
+A wrong step below the bar is never ignored: ARIA shows a short "Not quite yet, holding the hint" note (badge WATCHING, no hint, no answer).
 
-| Id | Level | Problem | Flow | Rehearsal |
+**Flow, per problem** (the profile selector sits under the problem list; **Balanced is the default**):
+
+1. Type the **correct step** (message A below).
+2. Type the **same correct step again**. Both are WATCHING in every profile.
+3. Type the **wrong answer** (message B) **three times**. These are attempts 3, 4 and 5; the risk reads 15%, 25%, 46%.
+4. Repeat 1 to 3 after **Reset** with the next profile (Reset keeps the profile selection; changing the selector mid-attempt also works and applies from the next message).
+
+| Wrong answer # (attempt) | Risk of getting stuck | Quiet (needs 57%) | Balanced (needs 19%) | Supportive (needs 9%) |
 |---|---|---|---|---|
-| `alg-01` | intro | Solve for x: 3(x - 4) = 2x + 5 | `I don't know` (ARIA speaks) → `x - 12 = 5` (Watching) → `x = 7` (ARIA speaks) → `x = 17` (ARIA speaks) | PASS |
-| `alg-05` | core | Solve for x: x^2 - 5x + 6 = 0 | `I don't know` (ARIA speaks) → `(x - 2)(x - 3) = 0` (Watching) → `x = 1` (ARIA speaks) → `x = 2 or x = 3` (ARIA speaks) | PASS |
-| `trig-01` | intro | Evaluate sin(pi/6) + cos(pi/3) | `I don't know` (ARIA speaks) → `sin(pi/6) = 1/2` (Watching) → `My answer is 3/2` (ARIA speaks) → `My answer is 1` (ARIA speaks) | PASS |
-| `trig-04` | core | Simplify sin(x)cos(x)/(1 - sin(x)^2) | `I don't know` (ARIA speaks) → `1 - sin(x)^2 = cos(x)^2` (Watching) → `My answer is sin(x)` (ARIA speaks) → `My answer is tan(x)` (ARIA speaks) | PASS |
-| `calc-01` | core | Differentiate f(x) = 3x^4 - 5x^2 + 7x - 9 | `I don't know` (ARIA speaks) → `12x^3 - 10x` (Watching) → `My answer is 12x^3 - 10x - 9` (ARIA speaks) → `My answer is 12x^3 - 10x + 7` (ARIA speaks) | PASS |
-| `calc-02` | advanced | Differentiate f(x) = x^2 cos(2x) | `I don't know` (ARIA speaks) → `2x cos(2x)` (Watching) → `My answer is 2x cos(2x) + 2x^2 sin(2x)` (ARIA speaks) → `My answer is -2x^2 sin(2x) + 2x cos(2x)` (ARIA speaks) | PASS |
-| `calc-06` | advanced | Differentiate f(x) = (x^2 + 1)^3 | `I don't know` (ARIA speaks) → `the outer derivative is 3(x^2+1)^2` (Watching) → `My answer is 6x(x^2+1)^3` (ARIA speaks) → `My answer is 6x (x^2 + 1)^2` (ARIA speaks) | PASS |
-| `calc-07` | core | Find the integral of 6x^2 - 4x + 1 dx | `I don't know` (ARIA speaks) → `2x^3 - 2x^2` (Watching) → `My answer is 6x^3 - 4x^2 + x` (ARIA speaks) → `My answer is 2x^3 - 2x^2 + x` (ARIA speaks) | PASS |
+| 1st (attempt 3) | 15% | WATCHING | WATCHING | **STEPPING IN** |
+| 2nd (attempt 4) | 25% | WATCHING | **STEPPING IN** | STEPPING IN |
+| 3rd (attempt 5) | 46% | WATCHING | STEPPING IN | STEPPING IN |
 
-Teacher summary after each flow: "Solved at turn N" (N = number of messages), the problem, the stuck stretch, and no student text.
+Quiet never steps in during these three; a 4th wrong answer takes the risk to 70%, which is over its 57% bar, so it steps in then. Every row shows the live line under the badge, e.g.
+`risk of getting stuck 25% | Balanced needs 19% to step in | STEPPING IN - wrong step and the risk is high enough: hint given`. The three numbers for the table come from the frozen files, and
+`scripts/demo_rehearsal.py` stops with an error if they ever stop giving these badges.
 
-## 7. Rehearsal (cold start, network blocked): 2026-10-15
+Other messages are unchanged: `I don't know` (ARIA speaks, any profile, nothing counted), and the correct answer (ARIA asks the student to reflect). The correct answer is **message C**; type it only if a visitor has
+reached it, or at the end for the Teacher summary, and never read it out first.
+
+| Id | Level | Problem | A: correct step (type twice) | B: wrong answer (type 3 times) | C: correct answer |
+|---|---|---|---|---|---|
+| `alg-01` | intro | Solve for x: 3(x - 4) = 2x + 5 | `x - 12 = 5` | `x = 7` | `x = 17` |
+| `alg-05` | core | Solve for x: x^2 - 5x + 6 = 0 | `(x - 2)(x - 3) = 0` | `x = 1` | `x = 2 or x = 3` |
+| `trig-01` | intro | Evaluate sin(pi/6) + cos(pi/3) | `sin(pi/6) = 1/2` | `My answer is 3/2` | `My answer is 1` |
+| `trig-04` | core | Simplify sin(x)cos(x)/(1 - sin(x)^2) | `1 - sin(x)^2 = cos(x)^2` | `My answer is sin(x)` | `My answer is tan(x)` |
+| `calc-01` | core | Differentiate f(x) = 3x^4 - 5x^2 + 7x - 9 | `12x^3 - 10x` | `My answer is 12x^3 - 10x - 9` | `My answer is 12x^3 - 10x + 7` |
+| `calc-02` | advanced | Differentiate f(x) = x^2 cos(2x) | `2x cos(2x)` | `My answer is 2x cos(2x) + 2x^2 sin(2x)` | `My answer is -2x^2 sin(2x) + 2x cos(2x)` |
+| `calc-06` | advanced | Differentiate f(x) = (x^2 + 1)^3 | `the outer derivative is 3(x^2+1)^2` | `My answer is 6x(x^2+1)^3` | `My answer is 6x (x^2 + 1)^2` |
+| `calc-07` | core | Find the integral of 6x^2 - 4x + 1 dx | `2x^3 - 2x^2` | `My answer is 6x^3 - 4x^2 + x` | `My answer is 2x^3 - 2x^2 + x` |
+
+Teacher summary after a run of the flow: "Not solved yet", the problem, the stuck stretch, and no student text. Balanced and Supportive differ **only** on the first wrong answer; if a visitor asks
+why, that is the 15% reading falling between their 9% and 19% bars.
+
+What this does **not** show: it measures nothing about learning. The bars were chosen offline on logged ASSISTments data (a replay), the risk is a population-level BKT estimate with pooled parameters
+(this demo has no skill labels), and the three profiles are cost settings. Do not describe them as types of student.
+
+## 7. Rehearsal (cold start, network blocked): 2026-10-20
 
 `/usr/bin/python3 scripts/demo_rehearsal.py --offline --theme light` → raw results in `docs/rehearsal_results.json`, Teacher-summary screenshots in `docs/demo_screens/rehearsal/`.
+(The 2026-10-15 rehearsal covered the old flow; the screenshots in `docs/demo_screens/light/` and `dark/` are from that build and do not show the profile selector or the live line.)
 
-- Cold start to first answer: **3.8 s**; **8/8 problems passed** (32 turns).
-- Browser round trip per message (real Chrome): median 211 ms, p95 221 ms.
-- Per problem, all of these had to hold: READY on selection; badge sequence as in the flow; Teacher summary says "Solved at turn N", shows the problem, has the four sections, contains none of the
-  student's messages; Reset returns to READY with an empty chat; Teacher summary is cleared by Reset.
-- Screenshots of every state (READY, STEPPING IN, WATCHING, 6-turn chat, Teacher summary, after Reset), light and dark theme: `docs/demo_screens/light/`, `docs/demo_screens/dark/`.
+- Cold start to first answer: **5.9 s** (3.8 s on 2026-10-15). Loading the ARIA-Pace files adds under 0.1 s (measured), so this looks like machine variance; not investigated further.
+- **8/8 problems passed** (120 turns: 8 problems x 3 profiles x 5 messages). Browser round trip per message: median 225 ms, p95 261 ms.
+- Per problem and per profile, all of these had to hold: the badge sequence Quiet W W W W W, Balanced W W W S S, Supportive W W S S S; the live line shows the right risk % and "needs N% to step in"; a flagged wrong answer shows its
+  visible note; Teacher summary says "Not solved yet", shows the problem, has the four sections, contains none of the student's messages; Reset returns to READY with an empty chat; the summary is cleared by Reset.
+- Console: the same cosmetic messages as before (two font preloads, "Too many arguments provided for the endpoint", "Attempted to select a non-interactive or hidden tab").
 
 **Browsers.** Chrome: verified (driven through the real UI; both themes). **Safari: NOT verified.** Driving Safari needs *Safari → Settings → Developer → Allow remote automation*, a setting only you can switch
 on, so I could not script it. Do this once by hand (2 minutes): open http://127.0.0.1:7861 in Safari, then check (a) the badge text is readable in READY / WATCHING / STEPPING IN, (b) the chat keeps the newest
@@ -128,7 +154,7 @@ message in view after 6 turns, (c) the Teacher summary tab is readable, (d) Rese
 
 - File: `data/demo_logs/turns.jsonl` (`agent/demo_log.py:16`), created on first turn, rotated to `turns.jsonl.1` at 5 MB (`:17`). It is git-ignored (`.gitignore:17`).
 - One line per tutor turn: time, random session id, attempt number, problem id, turn number, latency, correctness verdict, derived state, rule id, intervention type, template id,
-  LLM outcome, input flags, character counts. **No student text and no tutor text**; only short identifiers are accepted (`agent/demo_log.py:20-34`), and a test checks this with distinctive strings.
+  LLM outcome, input flags, character counts, and the ARIA-Pace fields (profile, bar as a fraction, risk, number of right/wrong verdicts so far, whether this turn updated it, reason code). **No student text and no tutor text**; only short identifiers are accepted (`agent/demo_log.py:20-34`), and a test checks this with distinctive strings.
 - **Wipe it:** `cd ~/aria && rm -f data/demo_logs/turns.jsonl data/demo_logs/turns.jsonl.1` (safe while the demo runs). Or start with `--no-log` and no file is written.
 
 ## 9. Do not
@@ -138,9 +164,12 @@ message in view after 6 turns, (c) the Teacher summary tab is readable, (d) Rese
 - **Do not paste the problem's answer into the chat on stage** (message 4 in section 6, or the answer from this document), and do not read it out for the audience to type: ARIA would accept it and ask for reflection, which is correct, but it makes the demo look scripted and hides the point (ARIA decides *whether* to speak).
 - Do not start the demo with `python3`, from another folder, or with `python ui/demo_app.py` (section 1).
 - Do not edit `data/demo_problems.json` or any code at the venue. If a problem fails to load the server stops at launch with a message naming it.
-- Do not run `git pull`/`git checkout` at the venue, and do not leave the `aria-pace` branch checked out; `summit-demo` at the tag is the build.
+- Do not run `git pull`/`git checkout` at the venue, and do not leave the `aria-pace` branch checked out; the build for the summit is the branch you decide on (`summit-demo` at the tag has no ARIA-Pace; `summit-pace-mac` has it).
 - Do not rely on the screenshots as a live backup for Safari; they are Chrome.
 
 ## 10. Change log after the tag
 
-(none yet; each entry: date, symptom, fix, commit)
+Not a rehearsal crash fix: ARIA-Pace was added on branches `summit-pace` / `summit-pace-mac` (from the tag, which was not moved). `summit-demo` at the tag is still the build without it.
+
+- 2026-10-20, feature: per-session BKT risk tracker, per-profile bar for hints on wrong steps at attempts 3-9, profile selector and live line, pace fields in the turn log; section 6 and `scripts/demo_rehearsal.py` rewritten to the "same student, three wrong answers" flow. Commit: see `git log summit-pace-mac`.
+- Consequence to know about: at Quiet and Balanced a wrong answer after a correct step is often flagged without a hint (the old flow, wrong answer on message 3, no longer gets a hint there).

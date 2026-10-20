@@ -23,7 +23,10 @@ Targets (from the brief): 0 leaks, 0 math errors, 0 crashes, p95 < 5 s.  `--stri
 Backends
     legacy            the shipping think_aloud_turn product path (no LLM needed; baseline "before")
     ollama:<tag>      raw LLM tutor, e.g. ollama:llama3.2:3b / ollama:llama3.1:8b (needs a local Ollama)
-    demo              the summit DemoTutor (agent/demo_tutor.py; step C), templates only
+    demo              the summit DemoTutor (agent/demo_tutor.py; step C), templates only, ARIA-Pace profile "balanced"
+    demo@<profile>    the same with ARIA-Pace profile quiet | balanced | supportive; --profiles all expands `demo` to the three
+                      (these backends also play the 7-message runbook flow S1..S7 in ONE session, so the BKT tracker sees several
+                      verdicts, and must never be silent on a verified wrong step)
     demo-llm[:<tag>]  the same tutor with the gated LLM path ON (needs a local Ollama; model is warmed up first,
                       untimed, exactly as ui/demo_app.py --llm-path does); default tag llama3.2:3b
     selftest-*        deliberately flawed fakes that prove this harness can see leaks / lies / crashes
@@ -32,6 +35,7 @@ Examples
     python scripts/demo_harness.py --backend legacy
     python scripts/demo_harness.py --backend ollama:llama3.2:3b --backend ollama:llama3.1:8b
     python scripts/demo_harness.py --backend demo --strict --log /tmp/turns.jsonl
+    python scripts/demo_harness.py --backend demo --profiles all --featured --strict
 """
 from __future__ import annotations
 
@@ -74,6 +78,11 @@ TURNS = [
     ("E1", "any", "empty input"),
     ("L1", "any", "2000-char paste"),
 ]
+# the runbook flow, one session per problem ("same student, three wrong answers"): stuck, the correct step twice, the same wrong answer
+# three times (attempts 3-5, inside ARIA-Pace's gated window), then the correct answer. Expectations: robustness only.
+FLOW = [("S1", "I don't know"), ("S2", "step"), ("S3", "step"), ("S4", "wrong"), ("S5", "wrong"), ("S6", "wrong"), ("S7", "correct")]
+FLOW_DESC = {"S1": "flow: I don't know", "S2": "flow: correct step", "S3": "flow: same step again", "S4": "flow: wrong answer #1",
+             "S5": "flow: wrong answer #2", "S6": "flow: wrong answer #3", "S7": "flow: correct answer"}
 QUESTIONS = {"algebra": "Why do we have to do the same thing to both sides?",
              "trig": "What is the unit circle actually for?",
              "calculus": "Why does the power go down by one when we differentiate?"}
@@ -106,9 +115,14 @@ class Reply:
 
 class Backend:
     name = "base"
+    pace = False                                                  # True: also judged on "never silent on a verified wrong step"
 
     def turn(self, p: DemoProblem, text: str) -> Reply:          # fresh session each call
         raise NotImplementedError
+
+    def session(self, p: DemoProblem):
+        """-> callable(text) -> Reply that keeps one session across calls, or None if the backend has no multi-turn mode."""
+        return None
 
 
 class LegacyBackend(Backend):
@@ -176,7 +190,11 @@ class DemoBackend(Backend):
         .reply (str), .intervened (bool), .accepted (bool|None)"""
     name = "demo"
 
-    def __init__(self, **kw):
+    def __init__(self, profile=None, **kw):
+        if profile:
+            kw["pace_profile"] = profile
+            self.name = f"demo@{profile}"
+        self.pace = True
         try:
             from agent.demo_tutor import DemoTutor
         except ImportError as e:                                   # pragma: no cover
@@ -188,19 +206,25 @@ class DemoBackend(Backend):
             ok = self.tutor.warm_up()
             print(f"  {self.name}: warm-up {'ok' if ok else 'FAILED (Ollama unreachable): LLM path will fall back to templates'}", file=sys.stderr)
 
-    def turn(self, p: DemoProblem, text: str) -> Reply:
-        s = self.tutor.new_session(p.id)
-        r = s.turn(text)
+    def _reply(self, r) -> Reply:
         meta = getattr(r, "meta", {}) or {}
         if meta.get("llm_outcome"):
             self.outcomes[meta["llm_outcome"]] = self.outcomes.get(meta["llm_outcome"], 0) + 1
         return Reply(r.reply, bool(r.intervened), getattr(r, "accepted", None), meta)
+
+    def turn(self, p: DemoProblem, text: str) -> Reply:
+        return self._reply(self.tutor.new_session(p.id).turn(text))
+
+    def session(self, p: DemoProblem):
+        s = self.tutor.new_session(p.id)
+        return lambda text: self._reply(s.turn(text))
 
 
 # --- self-test fakes: prove the harness can see each failure class -------------------------
 class _SelfTest(Backend):
     def __init__(self, kind: str):
         self.kind, self.name = kind, f"selftest-{kind}"
+        self.pace = kind in ("mute", "oracle")
 
     def turn(self, p: DemoProblem, text: str) -> Reply:
         st = check_answer(text, p.truth).status
@@ -211,6 +235,8 @@ class _SelfTest(Backend):
             if st in ("partial", "step", "restate"):
                 return Reply("", False, None)
             return Reply("Not quite yet. What is the smallest useful next step?", True, False)
+        if self.kind == "mute":        # speaks on everything except a verified wrong step (what ARIA-Pace must never do)
+            return Reply("" if st == "wrong" else "Take a breath. What is the first thing the problem asks?", st != "wrong", None)
         if self.kind == "leaker":
             return Reply(f"The answer is {p.truth.answer_text()}.", True, None)
         if self.kind == "liar":
@@ -230,6 +256,8 @@ def make_backend(spec: str) -> Backend:
         return LegacyBackend()
     if spec == "demo":
         return DemoBackend()
+    if spec.startswith("demo@"):
+        return DemoBackend(profile=spec.split("@", 1)[1])
     if spec.startswith("demo-llm"):
         return DemoBackend(llm_path=True, llm_model=spec.split(":", 1)[1] if ":" in spec else "llama3.2:3b")
     if spec.startswith("ollama:"):
@@ -273,15 +301,20 @@ class TurnResult:
     crash: Optional[str] = None
     empty: bool = False
     timeout: bool = False
+    pace_risk: Optional[float] = None
+    pace_tau: Optional[float] = None
+    pace_reason: str = ""
 
 
-def run_turn(backend: Backend, p: DemoProblem, tid: str, expect: str, msg: str) -> TurnResult:
+def run_turn(backend: Backend, p: DemoProblem, tid: str, expect: str, msg: str, call=None) -> TurnResult:
     status = sympy_status(p, tid, msg)
     t0 = time.perf_counter()
     res = TurnResult(p.id, tid, expect, msg, status, "", None, None, 0.0)
     try:
-        r = backend.turn(p, msg)
+        r = (call or (lambda m: backend.turn(p, m)))(msg)
         res.reply, res.intervened, res.accepted = r.text or "", r.intervened, r.accepted
+        res.pace_risk, res.pace_tau = r.meta.get("pace_risk"), r.meta.get("pace_tau")
+        res.pace_reason = r.meta.get("pace_reason") or ""
     except Exception as e:  # noqa: BLE001
         res.crash = f"{type(e).__name__}: {e}"[:200]
         res.timeout = "timeout" in res.crash.lower() or "timed out" in res.crash.lower()
@@ -308,14 +341,24 @@ def run_turn(backend: Backend, p: DemoProblem, tid: str, expect: str, msg: str) 
     return res
 
 
+def flow_messages(p: DemoProblem) -> list:
+    m = {"step": p.msg_step(), "wrong": p.msg_wrong(), "correct": p.msg_correct(), "I don't know": "I don't know"}
+    return [(tid, m[kind]) for tid, kind in FLOW]
+
+
 def run(backend: Backend, problems: list, log=None, progress=True) -> list:
     out = []
     for i, p in enumerate(problems):
+        plan = []
         for tid, expect, _ in TURNS:
             msg = student_message(p, tid)
-            if msg is None:
-                continue
-            r = run_turn(backend, p, tid, expect, msg)
+            if msg is not None:
+                plan.append((tid, expect, msg, None))
+        call = backend.session(p)
+        if call is not None:                                       # the runbook flow in one session: the tracker sees several verdicts
+            plan += [(tid, "any", msg, call) for tid, msg in flow_messages(p) if msg is not None]
+        for tid, expect, msg, c in plan:
+            r = run_turn(backend, p, tid, expect, msg, c)
             out.append(r)
             if log:
                 log.write(json.dumps({"backend": backend.name, **r.__dict__}, ensure_ascii=False) + "\n")
@@ -343,7 +386,12 @@ def summarize(results: list) -> dict:
     by = lambda ids: [r for r in ok if r.turn in ids]          # noqa: E731
     quiet, stuck, acc = by({"P1", "P2"}), by({"T2", "T3", "T5"}), by({"T1", "T6"})
     wrong = by({"T2"})
+    verified_wrong = [r for r in ok if r.sympy_status == "wrong"]
     return {
+        "verified_wrong_n": len(verified_wrong),
+        "silent_wrong": sum(not r.reply.strip() for r in verified_wrong),          # a verified wrong step with no reply at all
+        "wrong_hint_n": sum(bool(r.intervened) for r in verified_wrong),
+        "wrong_flagged_n": sum(not r.intervened and bool(r.reply.strip()) for r in verified_wrong),
         "turns": n,
         "leaks": sum(r.leak for r in results),
         "math_errors": sum(r.math_error for r in results),
@@ -357,14 +405,17 @@ def summarize(results: list) -> dict:
     }
 
 
-def targets_met(s: dict) -> dict:
-    return {"leaks==0": s["leaks"] == 0, "math_errors==0": s["math_errors"] == 0,
-            "crashes==0": s["crashes"] == 0, "p95<5s": s["p95_ms"] < TARGET_P95_MS}
+def targets_met(s: dict, pace: bool = False) -> dict:
+    t = {"leaks==0": s["leaks"] == 0, "math_errors==0": s["math_errors"] == 0,
+         "crashes==0": s["crashes"] == 0, "p95<5s": s["p95_ms"] < TARGET_P95_MS}
+    if pace:                                                      # ARIA-Pace backends: never quiet on a verified wrong step
+        t["wrong_never_silent"] = s["silent_wrong"] == 0
+    return t
 
 
-def print_report(name: str, results: list):
+def print_report(name: str, results: list, pace: bool = False):
     s = summarize(results)
-    t = targets_met(s)
+    t = targets_met(s, pace)
     print(f"\n=== {name}   ({s['turns']} turns, {len(set(r.problem for r in results))} problems) ===")
     rows = [
         ("answer leaks", f"{s['leaks']}/{s['turns']}  ({100 * s['leaks'] / s['turns']:.1f}%)", t["leaks==0"]),
@@ -374,6 +425,10 @@ def print_report(name: str, results: list):
     ]
     for k, v, ok in rows:
         print(f"  {k:26s} {v:42s} {'OK ' if ok else 'MISS'}")
+    if pace:
+        print(f"  {'wrong step never silent':26s} {s['silent_wrong']} silent of {s['verified_wrong_n']} verified wrong steps  "
+              f"(hint {s['wrong_hint_n']}, flagged without hint {s['wrong_flagged_n']})"
+              f"{'':3s}{'OK ' if t['wrong_never_silent'] else 'MISS'}")
     print("  -- timing behaviour (reported, not a pass/fail target here) --")
     print(f"  {'quiet on correct steps':26s} {s['quiet_ok']}/{s['quiet_n']}  (P1 restate + P2 correct intermediate step)")
     print(f"  {'intervened when stuck':26s} {s['intervened_ok']}/{s['intervened_n']}  (T2 wrong, T3 'I don't know', T5 'tell me')")
@@ -384,7 +439,7 @@ def print_report(name: str, results: list):
     print(f"  {'correct answers accepted':26s} {accepted}/{len(acc_known)} said so, {rejected} rejected, "
           f"{len(acc_known) - accepted - rejected} gave no verdict  (T1 + T6)")
     print("  per turn type:  turn  n   intervened  leaks  math_err  crash   p95 ms")
-    for tid, _, desc in TURNS:
+    for tid, _, desc in TURNS + [(k, "any", FLOW_DESC[k]) for k, _ in FLOW]:
         rs = [r for r in results if r.turn == tid]
         if not rs:
             continue
@@ -407,6 +462,7 @@ def main(argv=None) -> int:
     ap.add_argument("--featured", action="store_true", help="only the problems marked featured (the live-demo list)")
     ap.add_argument("--log", default=None, help="write one json line per turn here")
     ap.add_argument("--json", default=None, help="write the summary json here")
+    ap.add_argument("--profiles", choices=["all"], default=None, help="`all`: run every `demo` backend under quiet, balanced and supportive")
     ap.add_argument("--strict", action="store_true", help="exit 1 unless all four targets are met")
     a = ap.parse_args(argv)
     problems = load_problems(a.problems, featured_only=a.featured)
@@ -414,10 +470,13 @@ def main(argv=None) -> int:
         problems = problems[: a.limit]
     log = open(a.log, "w", encoding="utf-8") if a.log else None
     summary, missed = {}, False
+    specs = []
     for spec in a.backend or ["legacy"]:
+        specs += [f"demo@{k}" for k in ("quiet", "balanced", "supportive")] if (a.profiles and spec == "demo") else [spec]
+    for spec in specs:
         be = make_backend(spec)
         res = run(be, problems, log)
-        s, t = print_report(be.name, res)
+        s, t = print_report(be.name, res, be.pace)
         if getattr(be, "outcomes", None):
             print(f"  LLM outcomes on free-form questions: {be.outcomes}")
         summary[be.name] = {**s, "targets": t}

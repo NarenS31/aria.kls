@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import argparse
 import html
+import math
 
 import gradio as gr
 
@@ -23,6 +24,7 @@ from agent.demo_bank import load_problems
 from agent.demo_input import sanitize_input
 from agent.demo_summary import RULE_TEXT, STATE_LABELS, headline, summarize
 from agent.demo_log import DEFAULT_PATH as LOG_PATH
+from agent.demo_pace import PROFILE_LABELS
 from agent.demo_tutor import DemoSession, DemoTutor
 
 CSS = """
@@ -37,6 +39,13 @@ CSS = """
 .aria-badge.idle{--b:#94a3b8;--bg:#f1f5f9}
 .aria-badge .big{font-weight:700;letter-spacing:.06em;font-size:1.15rem}
 .aria-badge .small{font-size:.9rem}
+.aria-pace{font-family:ui-monospace,Menlo,monospace;font-size:.88rem;padding:8px 14px;border-radius:10px;margin-top:8px;
+  border:1px solid var(--b,#94a3b8);background:var(--bg,#f8fafc)}
+.aria-pace, .aria-pace *{color:#0f172a !important}
+.aria-pace.watching{--b:#2563eb;--bg:#eff6ff}.aria-pace.stepping{--b:#d97706;--bg:#fffbeb}.aria-pace.idle{--b:#94a3b8;--bg:#f1f5f9}
+.aria-pace .st{font-weight:700;letter-spacing:.05em}
+.aria-profiles{font-family:system-ui,sans-serif;font-size:.85rem;line-height:1.35}
+.aria-profiles, .aria-profiles *{color:#334155 !important}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(1.25)}}
 /* column-reverse keeps the newest message in view without any script */
 .aria-chat{display:flex;flex-direction:column-reverse;min-height:300px;max-height:380px;overflow:auto;padding:8px;font-family:system-ui,sans-serif}
@@ -78,6 +87,68 @@ def badge_html(kind: str, headline: str = "", detail: str = "") -> str:
     return (f'<div class="aria-badge {kind}"><span class="dot"></span><div>'
             f'<div class="big">{labels[kind]}</div><div class="small">{html.escape(headline)}'
             f'{"<br>" + html.escape(detail) if detail else ""}</div></div></div>')
+
+
+def pace_reason(meta: dict, intervened: bool, cfg=None) -> str:
+    """Why ARIA is watching / stepping in, in words. Only derived metadata; never the student's text."""
+    if meta.get("fallback"):
+        return "could not read that step in time: stayed quiet, tracker not updated"
+    r = meta.get("pace_reason", "")
+    if r == "wrong_risk_ge_tau":
+        return "wrong step and the risk is high enough: hint given"
+    if r == "wrong_risk_lt_tau":
+        return "wrong step, but the risk is still below the bar: flagged, no hint yet"
+    if r == "wrong_before_window":
+        return (f"wrong step on an early attempt (1-{cfg.k_min - 1}): ARIA always steps in; the risk bar starts at attempt {cfg.k_min}"
+                if cfg else "wrong step on an early attempt: ARIA always steps in")
+    if r == "wrong_after_window":
+        return f"wrong step after attempt {cfg.k_max}: ARIA always steps in" if cfg else "wrong step on a late attempt: ARIA always steps in"
+    if r == "right_step":
+        return "correct answer: asking for reflection (existing rule); tracker updated" if intervened else "step checks out: tracker updated, nothing to fix"
+    if r == "restate":
+        return "restated the problem: tracker not updated"
+    if r == "no_verdict":
+        return ("help request or question: existing rule answered; tracker not updated" if intervened
+                else "no math to check: tracker not updated")
+    return RULE_TEXT.get(meta.get("rule_id", ""), "")
+
+
+def pct(x: float) -> int:
+    """Whole percent, rounded down, so 'risk X% needs Y%' never reads equal-but-not-stepping-in (taus are whole percents)."""
+    return int(math.floor(x * 100 + 1e-9))
+
+
+def pace_line_html(session, cfg) -> str:
+    """The live ARIA-Pace line: risk of getting stuck, the risk needed to step in, WATCHING / STEPPING IN and the reason."""
+    if session is None or cfg is None or getattr(session, "pace", None) is None:
+        return ""
+    tau, label = cfg.taus[session.profile], PROFILE_LABELS[session.profile]
+    last = session.log[-1] if session.log else None
+    risk = session.pace.risk()
+    shown = "-" if risk is None else f"{pct(risk)}%"
+    attempts = len(session.pace.obs)
+    bar = f"needs <b>{pct(tau)}%</b> to step in" + (f" from attempt {cfg.k_min}" if attempts < cfg.k_min else "")
+    if last is None:
+        kind, status, reason = "idle", "READY", "no verified step yet"
+    else:
+        kind = "stepping" if last["intervened"] else "watching"
+        status = "STEPPING IN" if last["intervened"] else "WATCHING"
+        reason = pace_reason(last, last["intervened"], cfg)
+        if last.get("pace_profile") not in (None, session.profile):
+            reason += f" (profile changed to {label}: applies from the next step)"
+    return (f'<div class="aria-pace {kind}">risk of getting stuck <b>{shown}</b> &nbsp;|&nbsp; {_esc(label)} {bar} '
+            f'&nbsp;|&nbsp; <span class="st">{status}</span>' + (f" &mdash; {_esc(reason)}" if reason else "") + "</div>")
+
+
+def profiles_note_html(cfg) -> str:
+    """What the three profiles are: cost weights, set offline on logged data. Loaded from the frozen files, not hard-coded."""
+    rows = "".join(f'<b>{_esc(p["label"])}</b>: interrupting costs {p["w_I"]:g}, a late hint costs {p["w_D"]:g}; '
+                   f'steps in at {pct(p["tau"])}% risk<br>' for p in cfg.profiles())
+    return ('<div class="aria-profiles">Profiles are <b>cost weights</b> (how much an unnecessary interruption costs relative to a late hint), '
+            'not learner types. A higher bar means ARIA waits longer before giving a hint after a wrong step, on '
+            f'attempts {cfg.k_min}-{cfg.k_max}; on attempts 1-{cfg.k_min - 1} a wrong step always gets a hint. "Risk of getting stuck" is a '
+            'BKT estimate that the student will not master this within 10 steps; the bars were chosen offline on logged ASSISTments data. '
+            f'This demo does not measure learning.<br>{rows}</div>')
 
 
 def _esc(x) -> str:
@@ -146,8 +217,10 @@ def make_summary_handler():
 def make_handlers(tutor: DemoTutor, problems: list):
     ids = {f"{p.prompt}": p.id for p in problems}
 
-    def start(prompt):
+    def start(prompt, profile=None):
         s = tutor.new_session(ids[prompt])
+        if profile in PROFILE_LABELS and tutor.pace_cfg:
+            s.set_profile(profile)
         return s, [], chat_html([]), badge_html("idle", "Type a step or an answer. ARIA will decide whether to speak."), ""
 
     def send(text, history, session: DemoSession):
@@ -176,30 +249,52 @@ def make_handlers(tutor: DemoTutor, problems: list):
     return start, send, reset
 
 
+def make_pace_handlers(tutor: DemoTutor):
+    def show(session):
+        return pace_line_html(session, tutor.pace_cfg)
+
+    def set_profile(profile, session):
+        if session is not None and profile in PROFILE_LABELS and tutor.pace_cfg:
+            session.set_profile(profile)
+        return show(session)
+    return show, set_profile
+
+
 def build_demo_ui(tutor: DemoTutor | None = None) -> gr.Blocks:
     problems = (tutor.problems.values() if tutor else load_problems())
     tutor = tutor or DemoTutor()
     problems = list(tutor.problems.values())
     start, send, reset = make_handlers(tutor, problems)
     show_summary = make_summary_handler()
+    show_pace, set_profile = make_pace_handlers(tutor)
+    cfg = tutor.pace_cfg
     with gr.Blocks(title="ARIA — when to help") as demo:
         gr.HTML(f"<style>{CSS}</style>")
         gr.Markdown("## ARIA\nOther tutors speak every turn. ARIA decides **whether** to.")
         session, history = gr.State(None), gr.State([])
         problem = gr.Dropdown([p.prompt for p in problems], value=problems[0].prompt, label="Problem")
+        if cfg:
+            profile = gr.Radio([(f"{p['label']} (steps in at {pct(p['tau'])}% risk)", p["key"]) for p in cfg.profiles()], value=tutor.pace_profile,
+                               label="Pace profile (cost weights, not learner types)")
+            gr.HTML(profiles_note_html(cfg))
+        else:
+            profile = gr.State(None)
         with gr.Tabs():
             with gr.Tab("Student"):
                 badge = gr.HTML(badge_html("idle", "Type a step or an answer. ARIA will decide whether to speak."))
+                pace_box = gr.HTML("")
                 chat = gr.HTML(chat_html([]))
                 box = gr.Textbox(placeholder="Type your next step or answer, then press Enter", show_label=False)
                 reset_btn = gr.Button("Reset (new attempt)")
             with gr.Tab("Teacher summary") as teacher_tab:
                 refresh = gr.Button("Refresh summary")
                 summary = gr.HTML(summary_html(None))
-        reset_btn.click(reset, [session], [history, session, chat, badge, box]).then(show_summary, [session], [summary])
-        problem.change(start, [problem], [session, history, chat, badge, box]).then(show_summary, [session], [summary])
-        box.submit(send, [box, history, session], [history, session, chat, badge, box]).then(show_summary, [session], [summary])
-        demo.load(start, [problem], [session, history, chat, badge, box])
+        reset_btn.click(reset, [session], [history, session, chat, badge, box]).then(show_summary, [session], [summary]).then(show_pace, [session], [pace_box])
+        problem.change(start, [problem, profile], [session, history, chat, badge, box]).then(show_summary, [session], [summary]).then(show_pace, [session], [pace_box])
+        box.submit(send, [box, history, session], [history, session, chat, badge, box]).then(show_summary, [session], [summary]).then(show_pace, [session], [pace_box])
+        demo.load(start, [problem, profile], [session, history, chat, badge, box]).then(show_pace, [session], [pace_box])
+        if cfg:
+            profile.change(set_profile, [profile, session], [pace_box])
         teacher_tab.select(show_summary, [session], [summary])
         refresh.click(show_summary, [session], [summary])
     return demo
@@ -211,10 +306,11 @@ def main():
     ap.add_argument("--llm-model", default="llama3.2:3b")
     ap.add_argument("--port", type=int, default=7861)
     ap.add_argument("--all-problems", action="store_true", help="list all 30 bank problems instead of the 8 featured ones")
+    ap.add_argument("--pace-profile", default="balanced", choices=list(PROFILE_LABELS), help="starting ARIA-Pace profile (changeable in the page)")
     ap.add_argument("--no-log", action="store_true", help="do not write the local per-turn log (default: data/demo_logs/turns.jsonl)")
     a = ap.parse_args()
     tutor = DemoTutor(problems=load_problems(featured_only=not a.all_problems), llm_path=a.llm_path, llm_model=a.llm_model,
-                      log_path=None if a.no_log else LOG_PATH)
+                      log_path=None if a.no_log else LOG_PATH, pace_profile=a.pace_profile)
     if a.llm_path:
         ok = tutor.warm_up()          # load the model once, keep it resident
         print(f"LLM path: {'warm (' + a.llm_model + ')' if ok else 'Ollama not reachable, using templates only'}")

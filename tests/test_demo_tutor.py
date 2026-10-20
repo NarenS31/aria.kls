@@ -10,7 +10,7 @@ from agent.math_check import check_answer, false_claims, reveals_answer
 from eval.metacognition.jitai import JITAI_INTERVENTION_BANK, RuleBasedJITAIPolicy
 
 PROBS = load_problems()
-TUTOR = DT.DemoTutor(problems=PROBS)
+TUTOR = DT.DemoTutor(problems=PROBS, pace=False)       # base policy + wording; the ARIA-Pace gate is tested in test_demo_pace.py
 BY_ID = {p.id: p for p in PROBS}
 
 

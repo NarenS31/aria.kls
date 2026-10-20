@@ -132,7 +132,7 @@ class TyposFailLoudly(unittest.TestCase):
 
 class LiveDemoUsesTheShortList(unittest.TestCase):
     def test_every_featured_problem_is_playable_end_to_end(self):
-        t = DemoTutor(problems=FEATURED)
+        t = DemoTutor(problems=FEATURED, pace=False)      # base policy; the ARIA-Pace gate is tested in test_demo_pace.py
         for p in FEATURED:
             s = t.new_session(p.id)
             self.assertTrue(s.turn("I don't know").intervened, p.id)

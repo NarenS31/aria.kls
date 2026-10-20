@@ -7,11 +7,15 @@
            DNS blocked for everything except localhost. This is the closest test of "Wi-Fi off" that does not also cut the
            machine's own connectivity; the real switch-off rehearsal is still the presenter's last check (docs/DEMO_RUNBOOK.md).
 
-Per problem the flow is generated from the authored bank (data/demo_problems.json), never typed by hand:
-    "I don't know" -> ARIA steps in | a correct intermediate step (if authored) -> ARIA stays quiet |
-    a common wrong answer -> ARIA steps in | the correct answer -> ARIA steps in to reflect
-Then it opens the Teacher summary (must say Solved at the right turn, show the problem, and contain none of the student's
-messages), presses Reset (must return to READY with an empty chat and an empty summary), and goes to the next problem.
+Per problem, "same student, three wrong answers, switch profile": the identical five messages are typed under each profile
+(Quiet, Balanced, Supportive; Reset in between keeps the profile choice):
+    the correct step | the same correct step again | the same wrong answer, three times  (= attempts 1..5; the wrong answers are attempts 3, 4, 5)
+Expected badge (W = WATCHING, S = STEPPING IN), from the frozen thresholds (risk 15%, 25%, 46% after the three wrong answers):
+    Quiet      W W W W W      (needs 57%: never steps in within three wrong answers; each wrong answer is flagged, not ignored)
+    Balanced   W W W S S      (needs 19%: steps in from the second wrong answer)
+    Supportive W W S S S      (needs  9%: steps in from the first wrong answer)
+Per run it also checks the live line (risk %, needed %, status), that a flagged wrong answer gets a visible notice, the Teacher summary
+(problem shown, sections, "Not solved yet", none of the student's messages), and that Reset returns to READY with an empty chat.
 """
 from __future__ import annotations
 
@@ -41,14 +45,28 @@ SANDBOX = """(version 1)
 """
 
 
+PROFILES = ("Quiet", "Balanced", "Supportive")
+EXPECT = {"Quiet": "WWWWW", "Balanced": "WWWSS", "Supportive": "WWSSS"}      # W = WATCHING, S = STEPPING IN
+WORD = {"W": "WATCHING", "S": "STEPPING IN"}
+
+
 def flow(p) -> list:
-    """[(message, expected badge word)] from the authored problem."""
-    f = [("I don't know", "STEPPING IN")]
-    if p.msg_step():
-        f.append((p.msg_step(), "WATCHING"))
-    f.append((p.msg_wrong(), "STEPPING IN"))
-    f.append((p.msg_correct(), "STEPPING IN"))
-    return f
+    """[message] from the authored problem: the correct step twice, then the same wrong answer three times."""
+    return [p.msg_step(), p.msg_step(), p.msg_wrong(), p.msg_wrong(), p.msg_wrong()]
+
+
+def model_expectation() -> dict:
+    """What the frozen thresholds say for this flow, computed independently of the UI; must equal EXPECT (config drift check)."""
+    from agent.demo_pace import PROFILE_LABELS, PaceTracker, load_config
+    cfg, out = load_config(), {}
+    for key, label in PROFILE_LABELS.items():
+        t, word, risks = PaceTracker(cfg), "", []
+        for status in ("step", "step", "wrong", "wrong", "wrong"):
+            d = t.decide(status, key)
+            word += "S" if d.speak else "W"
+            risks.append(d.risk)
+        out[label] = (word, risks, cfg.taus[key])
+    return out
 
 
 def main() -> int:
@@ -138,36 +156,55 @@ def main() -> int:
             c.click_xy(*ok)
             return c.wait_for("(document.querySelector('.aria-badge')||{}).innerText.includes('READY')", 15) and chat() == ""
 
+        from agent.demo_templates import WATCHING as WATCH_NOTES
+        flagged_notes = WATCH_NOTES["flagged"]
+        pace = lambda: c.js("(document.querySelector('.aria-pace')||{}).innerText || ''") or ""  # noqa: E731
+        model = model_expectation()
+        drift = {k: (v[0], EXPECT[k]) for k, v in model.items() if v[0] != EXPECT[k]}
+        assert not drift, f"frozen thresholds no longer give the documented badges: {drift}"
+        floor = lambda x: int(x * 100 + 1e-9)  # noqa: E731
         for n, p in enumerate(problems):
-            r = {"id": p.id, "level": p.level, "prompt": p.prompt, "checks": {}, "turns": []}
+            r = {"id": p.id, "level": p.level, "prompt": p.prompt, "checks": {}, "profiles": {}}
             try:
                 if n > 0:
                     assert select(p.prompt), "could not select the problem"
                 c.pump(0.3)
                 r["checks"]["ready"] = "READY" in badge(c)
                 msgs = flow(p)
-                ok_turns = True
-                for i, (msg, want) in enumerate(msgs, 1):
-                    ms = say(msg)
-                    lat.append(ms)
-                    got = badge(c).splitlines()[0] if badge(c) else "?"
-                    ok_turns &= (got == want)
-                    r["turns"].append({"turn": i, "expected": want, "got": got, "ms": round(ms)})
-                r["checks"]["badge_states"] = ok_turns
-                assert tab("Teacher summary"), "no Teacher summary tab"
-                c.wait_for("document.body.innerText.includes('State timeline')", 15)
-                c.pump(0.5)
-                summ = c.js("(document.querySelector('.aria-sum')||{}).innerText || ''") or ""
-                r["checks"]["summary_solved_at_last_turn"] = f"Solved at turn {len(msgs)}" in summ
-                r["checks"]["summary_shows_problem"] = p.prompt in summ
-                r["checks"]["summary_has_no_student_text"] = not any(m in summ for m, _ in msgs if len(m) >= 8 and m not in p.prompt)
-                r["checks"]["summary_sections"] = all(s in summ for s in ("State timeline", "Hints given", "Authored steps", "Where the student got stuck"))
-                if a.out:
-                    c.shot(Path(a.out) / f"{p.id}_teacher_summary.png")
-                assert tab("Student"), "no Student tab"
+                for prof in PROFILES:
+                    assert c.click_text("label", prof), f"no profile button {prof}"
+                    assert c.wait_for(f"(document.querySelector('.aria-pace')||{{}}).innerText.includes({json.dumps(prof)})", 10), "pace line did not follow the profile"
+                    word, risks, tau = model[prof]
+                    turns, ok = [], True
+                    for i, (msg, w) in enumerate(zip(msgs, EXPECT[prof]), 1):
+                        ms = say(msg)
+                        lat.append(ms)
+                        got = badge(c).splitlines()[0] if badge(c) else "?"
+                        line = pace()
+                        good = got == WORD[w] and f"{prof} needs {floor(tau)}% to step in" in line.replace("\xa0", " ")
+                        if i >= 3:
+                            good &= f"risk of getting stuck {floor(risks[i - 1])}%" in line
+                            if w == "W":                            # a flagged wrong answer is visible, never silent
+                                good &= any(note in chat() for note in flagged_notes)
+                        ok &= good
+                        turns.append({"turn": i, "expected": WORD[w], "got": got, "ms": round(ms), "line": line.replace("\xa0", " ")})
+                    r["profiles"][prof] = turns
+                    r["checks"][f"{prof}_badges_and_live_line"] = ok
+                    assert tab("Teacher summary"), "no Teacher summary tab"
+                    c.wait_for("document.body.innerText.includes('State timeline')", 15)
+                    c.pump(0.5)
+                    summ = c.js("(document.querySelector('.aria-sum')||{}).innerText || ''") or ""
+                    r["checks"][f"{prof}_summary"] = (p.prompt in summ and "Not solved yet" in summ
+                                                      and all(sec in summ for sec in ("State timeline", "Hints given", "Authored steps", "Where the student got stuck"))
+                                                      and not any(m in summ for m in set(msgs) if len(m) >= 8 and m not in p.prompt))
+                    if a.out and prof == "Balanced":
+                        c.shot(Path(a.out) / f"{p.id}_teacher_summary.png")
+                    assert tab("Student"), "no Student tab"
+                    c.pump(0.4)
+                    assert c.click_text("button", "Reset"), "no Reset button"
+                    r["checks"][f"{prof}_reset_to_ready"] = c.wait_for("(document.querySelector('.aria-badge')||{}).innerText.includes('READY')", 15) and chat() == ""
+                assert c.click_text("label", "Balanced")            # leave the default selected for the next problem
                 c.pump(0.4)
-                assert c.click_text("button", "Reset"), "no Reset button"
-                r["checks"]["reset_to_ready"] = c.wait_for("(document.querySelector('.aria-badge')||{}).innerText.includes('READY')", 15) and chat() == ""
                 assert tab("Teacher summary")
                 c.pump(0.8)
                 r["checks"]["summary_cleared_by_reset"] = "No attempt to summarise yet" in (c.js("(document.querySelector('.aria-sum')||{}).innerText || ''") or "")
