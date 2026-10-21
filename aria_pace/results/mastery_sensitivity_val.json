@@ -1,0 +1,761 @@
+{
+  "control_check_A4_3": {
+    "control_platt": {
+      "intercept": -0.08597486183739278,
+      "slope": 0.9983179103593733
+    },
+    "control_taus": {
+      "balanced": 0.19,
+      "quiet": 0.57,
+      "supportive": 0.09
+    },
+    "frozen_platt": {
+      "intercept": -0.08597486183739239,
+      "slope": 0.9983179103593731
+    },
+    "frozen_taus": {
+      "balanced": 0.19,
+      "quiet": 0.57,
+      "supportive": 0.09
+    },
+    "platt_equal_1e-9": true,
+    "taus_equal": true
+  },
+  "definitions": {
+    "D3": {
+      "T": 10,
+      "_n_labelled_in_scope_check": 3742,
+      "bkt_auc_val": {
+        "k3": {
+          "auc": 0.8125451102494498,
+          "auc_ci95_student_bootstrap": [
+            0.7935100064562066,
+            0.8328768564127231
+          ],
+          "base_rate": 0.17210048102618922,
+          "n": 3742,
+          "n_students": 596,
+          "positives": 644,
+          "resamples": 1000
+        },
+        "k5": {
+          "auc": 0.8054727398205659,
+          "auc_ci95_student_bootstrap": [
+            0.7836336621031599,
+            0.8277726303899382
+          ],
+          "base_rate": 0.3640474844544941,
+          "n": 1769,
+          "n_students": 429,
+          "positives": 644,
+          "resamples": 1000
+        },
+        "k8": {
+          "auc": 0.9105201863354037,
+          "auc_ci95_student_bootstrap": [
+            0.8876663692831105,
+            0.9312960271885131
+          ],
+          "base_rate": 0.7523364485981309,
+          "n": 856,
+          "n_students": 301,
+          "positives": 644,
+          "resamples": 1000
+        }
+      },
+      "definition": "3 correct in a row, T=10 (control = frozen definition)",
+      "platt": {
+        "intercept": -0.08597486183739278,
+        "slope": 0.9983179103593733
+      },
+      "policy_at_chosen_tau": {
+        "balanced": {
+          "always_help_interventions_per_student": 2.6996644295302015,
+          "interventions_per_student": 2.348993288590604,
+          "missed_help_ci95": [
+            0.0,
+            0.0,
+            1000
+          ],
+          "missed_help_share": 0.0,
+          "n_students": 596,
+          "n_y1_with_help_opportunity": 580,
+          "reduction_ci95": [
+            0.11309771672240165,
+            0.14774802079640786,
+            1000
+          ],
+          "reduction_vs_always_help": 0.12989434431323799,
+          "tau": 0.19
+        },
+        "quiet": {
+          "always_help_interventions_per_student": 2.6996644295302015,
+          "interventions_per_student": 1.354026845637584,
+          "missed_help_ci95": [
+            0.030410091362126246,
+            0.06990693216251313,
+            1000
+          ],
+          "missed_help_share": 0.04827586206896552,
+          "n_students": 596,
+          "n_y1_with_help_opportunity": 580,
+          "reduction_ci95": [
+            0.4653507308045177,
+            0.5316211064436871,
+            1000
+          ],
+          "reduction_vs_always_help": 0.49844623990055936,
+          "tau": 0.57
+        },
+        "supportive": {
+          "always_help_interventions_per_student": 2.6996644295302015,
+          "interventions_per_student": 2.62751677852349,
+          "missed_help_ci95": [
+            0.0,
+            0.0,
+            1000
+          ],
+          "missed_help_share": 0.0,
+          "n_students": 596,
+          "n_y1_with_help_opportunity": 580,
+          "reduction_ci95": [
+            0.019459528068528634,
+            0.03507708040112598,
+            1000
+          ],
+          "reduction_vs_always_help": 0.02672467371037912,
+          "tau": 0.09
+        }
+      },
+      "scope": {
+        "decision_cells": 11867,
+        "in_scope_labelled_sequences": 3742,
+        "label_rate": 0.17210048102618922,
+        "students": 596,
+        "unlabelled_leavers_dropped": 1291,
+        "verified_error_cells": 3631,
+        "y1": 644
+      },
+      "tau_bootstrap": {
+        "balanced": {
+          "boot_median": 0.19,
+          "boot_p10_p90": [
+            0.18,
+            0.21
+          ],
+          "point_tau": 0.19
+        },
+        "quiet": {
+          "boot_median": 0.57,
+          "boot_p10_p90": [
+            0.49,
+            0.59
+          ],
+          "point_tau": 0.57
+        },
+        "supportive": {
+          "boot_median": 0.09,
+          "boot_p10_p90": [
+            0.04,
+            0.18
+          ],
+          "point_tau": 0.09
+        }
+      },
+      "taus": {
+        "balanced": 0.19,
+        "quiet": 0.57,
+        "supportive": 0.09
+      }
+    },
+    "D4": {
+      "T": 10,
+      "_n_labelled_in_scope_check": 2835,
+      "bkt_auc_val": {
+        "k3": {
+          "auc": 0.8723029701699794,
+          "auc_ci95_student_bootstrap": [
+            0.8577414129236525,
+            0.8868864787573786
+          ],
+          "base_rate": 0.31887125220458556,
+          "n": 2835,
+          "n_students": 486,
+          "positives": 904,
+          "resamples": 1000
+        },
+        "k5": {
+          "auc": 0.8479457996852344,
+          "auc_ci95_student_bootstrap": [
+            0.8300693886129096,
+            0.8677445468047261
+          ],
+          "base_rate": 0.5685534591194968,
+          "n": 1590,
+          "n_students": 413,
+          "positives": 904,
+          "resamples": 1000
+        },
+        "k8": {
+          "auc": 0.9642692720855287,
+          "auc_ci95_student_bootstrap": [
+            0.9541373964971857,
+            0.9734849762154621
+          ],
+          "base_rate": 0.8393686165273909,
+          "n": 1077,
+          "n_students": 347,
+          "positives": 904,
+          "resamples": 1000
+        }
+      },
+      "definition": "4 correct in a row, T=10",
+      "platt": {
+        "intercept": 0.42222447060860513,
+        "slope": 1.1940004861530942
+      },
+      "policy_at_chosen_tau": {
+        "balanced": {
+          "always_help_interventions_per_student": 2.619341563786008,
+          "interventions_per_student": 2.537037037037037,
+          "missed_help_ci95": [
+            0.0,
+            0.0,
+            1000
+          ],
+          "missed_help_share": 0.0,
+          "n_students": 486,
+          "n_y1_with_help_opportunity": 831,
+          "reduction_ci95": [
+            0.022741324144720614,
+            0.041416674655673766,
+            1000
+          ],
+          "reduction_vs_always_help": 0.03142183817753341,
+          "tau": 0.3
+        },
+        "quiet": {
+          "always_help_interventions_per_student": 2.619341563786008,
+          "interventions_per_student": 2.3930041152263373,
+          "missed_help_ci95": [
+            0.0,
+            0.006580697088465843,
+            1000
+          ],
+          "missed_help_share": 0.0024067388688327317,
+          "n_students": 486,
+          "n_y1_with_help_opportunity": 831,
+          "reduction_ci95": [
+            0.07043288542932166,
+            0.10367925817138568,
+            1000
+          ],
+          "reduction_vs_always_help": 0.08641005498821686,
+          "tau": 0.45
+        },
+        "supportive": {
+          "always_help_interventions_per_student": 2.619341563786008,
+          "interventions_per_student": 2.6152263374485596,
+          "missed_help_ci95": [
+            0.0,
+            0.0,
+            1000
+          ],
+          "missed_help_share": 0.0,
+          "n_students": 486,
+          "n_y1_with_help_opportunity": 831,
+          "reduction_ci95": [
+            0.0,
+            0.0037042556714687366,
+            1000
+          ],
+          "reduction_vs_always_help": 0.0015710919088767206,
+          "tau": 0.11
+        }
+      },
+      "scope": {
+        "decision_cells": 10883,
+        "in_scope_labelled_sequences": 2835,
+        "label_rate": 0.31887125220458556,
+        "students": 486,
+        "unlabelled_leavers_dropped": 3722,
+        "verified_error_cells": 3340,
+        "y1": 904
+      },
+      "tau_bootstrap": {
+        "balanced": {
+          "boot_median": 0.29,
+          "boot_p10_p90": [
+            0.11,
+            0.35
+          ],
+          "point_tau": 0.3
+        },
+        "quiet": {
+          "boot_median": 0.45,
+          "boot_p10_p90": [
+            0.44,
+            0.52
+          ],
+          "point_tau": 0.45
+        },
+        "supportive": {
+          "boot_median": 0.11,
+          "boot_p10_p90": [
+            0.11,
+            0.18
+          ],
+          "point_tau": 0.11
+        }
+      },
+      "taus": {
+        "balanced": 0.3,
+        "quiet": 0.45,
+        "supportive": 0.11
+      }
+    },
+    "D5T15": {
+      "T": 15,
+      "_n_labelled_in_scope_check": 2136,
+      "bkt_auc_val": {
+        "k3": {
+          "auc": 0.8588122001216407,
+          "auc_ci95_student_bootstrap": [
+            0.8368910521491284,
+            0.8791927672821992
+          ],
+          "base_rate": 0.19288389513108614,
+          "n": 2136,
+          "n_students": 411,
+          "positives": 412,
+          "resamples": 1000
+        },
+        "k5": {
+          "auc": 0.840045184264454,
+          "auc_ci95_student_bootstrap": [
+            0.8136383863330301,
+            0.866216583334069
+          ],
+          "base_rate": 0.32212666145426117,
+          "n": 1279,
+          "n_students": 347,
+          "positives": 412,
+          "resamples": 1000
+        },
+        "k8": {
+          "auc": 0.8520841589062809,
+          "auc_ci95_student_bootstrap": [
+            0.8197409442012293,
+            0.8779791217885536
+          ],
+          "base_rate": 0.5124378109452736,
+          "n": 804,
+          "n_students": 281,
+          "positives": 412,
+          "resamples": 1000
+        }
+      },
+      "definition": "5 correct in a row, T=15",
+      "platt": {
+        "intercept": 0.19906022740635018,
+        "slope": 1.2856773215305952
+      },
+      "policy_at_chosen_tau": {
+        "balanced": {
+          "always_help_interventions_per_student": 2.1313868613138687,
+          "interventions_per_student": 2.065693430656934,
+          "missed_help_ci95": [
+            0.0,
+            0.0,
+            1000
+          ],
+          "missed_help_share": 0.0,
+          "n_students": 411,
+          "n_y1_with_help_opportunity": 379,
+          "reduction_ci95": [
+            0.018804660559225507,
+            0.04319821286979369,
+            1000
+          ],
+          "reduction_vs_always_help": 0.03082191780821919,
+          "tau": 0.07
+        },
+        "quiet": {
+          "always_help_interventions_per_student": 2.1313868613138687,
+          "interventions_per_student": 1.4452554744525548,
+          "missed_help_ci95": [
+            0.034801698574388626,
+            0.07756426248688081,
+            1000
+          ],
+          "missed_help_share": 0.055408970976253295,
+          "n_students": 411,
+          "n_y1_with_help_opportunity": 379,
+          "reduction_ci95": [
+            0.2860331052930594,
+            0.3558421347736037,
+            1000
+          ],
+          "reduction_vs_always_help": 0.32191780821917804,
+          "tau": 0.44
+        },
+        "supportive": {
+          "always_help_interventions_per_student": 2.1313868613138687,
+          "interventions_per_student": 2.097323600973236,
+          "missed_help_ci95": [
+            0.0,
+            0.0,
+            1000
+          ],
+          "missed_help_share": 0.0,
+          "n_students": 411,
+          "n_y1_with_help_opportunity": 379,
+          "reduction_ci95": [
+            0.007652817496425357,
+            0.024947080463301994,
+            1000
+          ],
+          "reduction_vs_always_help": 0.01598173515981738,
+          "tau": 0.06
+        }
+      },
+      "scope": {
+        "decision_cells": 9094,
+        "in_scope_labelled_sequences": 2136,
+        "label_rate": 0.19288389513108614,
+        "students": 411,
+        "unlabelled_leavers_dropped": 4421,
+        "verified_error_cells": 2016,
+        "y1": 412
+      },
+      "tau_bootstrap": {
+        "balanced": {
+          "boot_median": 0.07,
+          "boot_p10_p90": [
+            0.07,
+            0.14
+          ],
+          "point_tau": 0.07
+        },
+        "quiet": {
+          "boot_median": 0.42,
+          "boot_p10_p90": [
+            0.35,
+            0.45
+          ],
+          "point_tau": 0.44
+        },
+        "supportive": {
+          "boot_median": 0.06,
+          "boot_p10_p90": [
+            0.04,
+            0.07
+          ],
+          "point_tau": 0.06
+        }
+      },
+      "taus": {
+        "balanced": 0.07,
+        "quiet": 0.44,
+        "supportive": 0.06
+      }
+    },
+    "D5T20": {
+      "T": 20,
+      "_n_labelled_in_scope_check": 2004,
+      "bkt_auc_val": {
+        "k3": {
+          "auc": 0.8806518561060931,
+          "auc_ci95_student_bootstrap": [
+            0.8570882570611401,
+            0.903016643556537
+          ],
+          "base_rate": 0.10678642714570859,
+          "n": 2004,
+          "n_students": 388,
+          "positives": 214,
+          "resamples": 1000
+        },
+        "k5": {
+          "auc": 0.8598155883443019,
+          "auc_ci95_student_bootstrap": [
+            0.829995708378314,
+            0.8861567864312058
+          ],
+          "base_rate": 0.18657367044463818,
+          "n": 1147,
+          "n_students": 321,
+          "positives": 214,
+          "resamples": 1000
+        },
+        "k8": {
+          "auc": 0.8557166469411909,
+          "auc_ci95_student_bootstrap": [
+            0.8222264132944608,
+            0.8886844301347825
+          ],
+          "base_rate": 0.31845238095238093,
+          "n": 672,
+          "n_students": 247,
+          "positives": 214,
+          "resamples": 1000
+        }
+      },
+      "definition": "5 correct in a row, T=20",
+      "platt": {
+        "intercept": 0.4745985533317121,
+        "slope": 1.3364718110652531
+      },
+      "policy_at_chosen_tau": {
+        "balanced": {
+          "always_help_interventions_per_student": 1.9536082474226804,
+          "interventions_per_student": 1.708762886597938,
+          "missed_help_ci95": [
+            0.0,
+            0.033707865168539325,
+            1000
+          ],
+          "missed_help_share": 0.015228426395939087,
+          "n_students": 388,
+          "n_y1_with_help_opportunity": 197,
+          "reduction_ci95": [
+            0.10289751552795035,
+            0.1489496867347263,
+            1000
+          ],
+          "reduction_vs_always_help": 0.12532981530343013,
+          "tau": 0.07
+        },
+        "quiet": {
+          "always_help_interventions_per_student": 1.9536082474226804,
+          "interventions_per_student": 1.0670103092783505,
+          "missed_help_ci95": [
+            0.049993781094527366,
+            0.12037315930388219,
+            1000
+          ],
+          "missed_help_share": 0.08121827411167512,
+          "n_students": 388,
+          "n_y1_with_help_opportunity": 197,
+          "reduction_ci95": [
+            0.41384059029807135,
+            0.4955447970777731,
+            1000
+          ],
+          "reduction_vs_always_help": 0.4538258575197889,
+          "tau": 0.27
+        },
+        "supportive": {
+          "always_help_interventions_per_student": 1.9536082474226804,
+          "interventions_per_student": 1.9304123711340206,
+          "missed_help_ci95": [
+            0.0,
+            0.0,
+            1000
+          ],
+          "missed_help_share": 0.0,
+          "n_students": 388,
+          "n_y1_with_help_opportunity": 197,
+          "reduction_ci95": [
+            0.005161290322580614,
+            0.019908421444390877,
+            1000
+          ],
+          "reduction_vs_always_help": 0.01187335092348285,
+          "tau": 0.01
+        }
+      },
+      "scope": {
+        "decision_cells": 8170,
+        "in_scope_labelled_sequences": 2004,
+        "label_rate": 0.10678642714570859,
+        "students": 388,
+        "unlabelled_leavers_dropped": 4553,
+        "verified_error_cells": 1600,
+        "y1": 214
+      },
+      "tau_bootstrap": {
+        "balanced": {
+          "boot_median": 0.07,
+          "boot_p10_p90": [
+            0.03,
+            0.21
+          ],
+          "point_tau": 0.07
+        },
+        "quiet": {
+          "boot_median": 0.27,
+          "boot_p10_p90": [
+            0.27,
+            0.34
+          ],
+          "point_tau": 0.27
+        },
+        "supportive": {
+          "boot_median": 0.01,
+          "boot_p10_p90": [
+            0.01,
+            0.03
+          ],
+          "point_tau": 0.01
+        }
+      },
+      "taus": {
+        "balanced": 0.07,
+        "quiet": 0.27,
+        "supportive": 0.01
+      }
+    },
+    "DEMA": {
+      "T": 10,
+      "_n_labelled_in_scope_check": 1388,
+      "bkt_auc_val": {
+        "k3": {
+          "auc": 0.8942267268120305,
+          "auc_ci95_student_bootstrap": [
+            0.8747515141532131,
+            0.9117699094470417
+          ],
+          "base_rate": 0.7593659942363112,
+          "n": 1388,
+          "n_students": 389,
+          "positives": 1054,
+          "resamples": 1000
+        },
+        "k5": {
+          "auc": 0.9352097512754378,
+          "auc_ci95_student_bootstrap": [
+            0.9202039647191051,
+            0.9495761603187535
+          ],
+          "base_rate": 0.7593659942363112,
+          "n": 1388,
+          "n_students": 389,
+          "positives": 1054,
+          "resamples": 1000
+        },
+        "k8": {
+          "auc": 0.9903980247365173,
+          "auc_ci95_student_bootstrap": [
+            0.9854062303194965,
+            0.9947620442725374
+          ],
+          "base_rate": 0.9270008795074758,
+          "n": 1137,
+          "n_students": 352,
+          "positives": 1054,
+          "resamples": 1000
+        }
+      },
+      "definition": "EMA(alpha=0.3, ema_1=x_1) >= 0.8 for 3 consecutive opportunities, T=10",
+      "platt": {
+        "intercept": 0.43593651746621104,
+        "slope": 1.4417661485098507
+      },
+      "policy_at_chosen_tau": {
+        "balanced": {
+          "always_help_interventions_per_student": 2.943444730077121,
+          "interventions_per_student": 2.87146529562982,
+          "missed_help_ci95": [
+            0.0,
+            0.0,
+            1000
+          ],
+          "missed_help_share": 0.0,
+          "n_students": 389,
+          "n_y1_with_help_opportunity": 973,
+          "reduction_ci95": [
+            0.016498128263812646,
+            0.0336451743686171,
+            1000
+          ],
+          "reduction_vs_always_help": 0.024454148471615755,
+          "tau": 0.35
+        },
+        "quiet": {
+          "always_help_interventions_per_student": 2.943444730077121,
+          "interventions_per_student": 2.67866323907455,
+          "missed_help_ci95": [
+            0.0009306940561317066,
+            0.008721486211716863,
+            1000
+          ],
+          "missed_help_share": 0.0041109969167523125,
+          "n_students": 389,
+          "n_y1_with_help_opportunity": 973,
+          "reduction_ci95": [
+            0.0722249771296874,
+            0.10947589144643988,
+            1000
+          ],
+          "reduction_vs_always_help": 0.08995633187772922,
+          "tau": 0.69
+        },
+        "supportive": {
+          "always_help_interventions_per_student": 2.943444730077121,
+          "interventions_per_student": 2.9383033419023135,
+          "missed_help_ci95": [
+            0.0,
+            0.0,
+            1000
+          ],
+          "missed_help_share": 0.0,
+          "n_students": 389,
+          "n_y1_with_help_opportunity": 973,
+          "reduction_ci95": [
+            0.0,
+            0.0045331944062802195,
+            1000
+          ],
+          "reduction_vs_always_help": 0.0017467248908297206,
+          "tau": 0.1
+        }
+      },
+      "scope": {
+        "decision_cells": 8839,
+        "in_scope_labelled_sequences": 1388,
+        "label_rate": 0.7593659942363112,
+        "students": 389,
+        "unlabelled_leavers_dropped": 3645,
+        "verified_error_cells": 3146,
+        "y1": 1054
+      },
+      "tau_bootstrap": {
+        "balanced": {
+          "boot_median": 0.36,
+          "boot_p10_p90": [
+            0.35,
+            0.5
+          ],
+          "point_tau": 0.35
+        },
+        "quiet": {
+          "boot_median": 0.65,
+          "boot_p10_p90": [
+            0.51,
+            0.72
+          ],
+          "point_tau": 0.69
+        },
+        "supportive": {
+          "boot_median": 0.19,
+          "boot_p10_p90": [
+            0.1,
+            0.36
+          ],
+          "point_tau": 0.1
+        }
+      },
+      "taus": {
+        "balanced": 0.35,
+        "quiet": 0.69,
+        "supportive": 0.1
+      }
+    }
+  },
+  "env": {
+    "seconds": 61
+  },
+  "spec": "aria_pace/SPEC.md Amendment 4",
+  "status": "exploratory sensitivity (validation only; not pre-registered). Control check A4.3 is pre-registered."
+}
