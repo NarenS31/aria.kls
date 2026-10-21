@@ -1,49 +1,32 @@
-> **INTERNAL: not for publication until ASSISTments confirms the licence.** Licence confirmation from ASSISTments is pending. Do not present, post or share outside the team until it arrives.
+> Edited by hand on branch `summit-text` (2026-10-21). This slide uses **2009–10 numbers only**. The 2012 and cross-dataset numbers that an earlier version showed were removed because the data terms are not confirmed. `aria_pace/make_slide.py` still generates that earlier version: do not re-run it until it is updated. Every number is listed with its source in `docs/summit/NUMBERS.md`.
 
 # ARIA-Pace: knowing when *not* to step in
 
-**Headline (a, cross-dataset). Quiet profile (3:1), thresholds frozen on 2009 validation, applied unchanged to both test sets.**
+**Question.** When should an AI math tutor stay quiet, and when should it speak?
 
-| | 2009 test | 2012 test |
+A symbolic engine checks each step. A step that is right gets no reply. After a verified wrong step, a risk estimate decides whether to offer a hint. The three settings below are **cost weights** (how much an unnecessary interruption costs compared with a delayed hint), **not types of learner**.
+
+| Setting (interruption : delay cost) | Fewer interventions than helping after every wrong step, *under the 3-correct-in-a-row mastery definition* (stricter definitions shrink it, see Sensitivity) | Students who went on to get stuck and were never helped |
 |---|---|---|
-| Fewer interventions than always-help | **52%** | **56.8%** |
-| Help missed for students who needed it | **3.7%** | **5.9%** |
+| Quiet (3 : 1) | **52%** (1.22 vs 2.54 per student) | **3.7%** (95% CI 2.2% to 5.3%) |
+| Balanced (1 : 1) | 15% (2.15 vs 2.54) | 0.2% |
+| Supportive (1 : 3) | 3% (2.46 vs 2.54; difference includes zero) | 0% |
 
-![Quiet profile on both datasets](figures_v2/fig2_quiet_2009_vs_2012.png)
+**Headline.** *Under the 3-correct-in-a-row mastery definition* (stuck = no three correct answers in a row within ten attempts), the quiet setting intervened 52% less often than helping after every wrong step, on a held-out test of 597 students evaluated once. Thresholds were frozen on validation first.
 
-- **Miss rate rose on the new dataset** (3.7% to 5.9%; the 95% intervals overlap slightly, so the rise is suggestive rather than settled). The 2009-trained risk scores drift on 2012: calibration intercept -0.65, slope 0.73 at k=3. This is the likely reason for the higher miss rate; we did not isolate it.
-- **Supportive profile (1:3)** is slightly worse than always-help on 2012 (cost difference +0.056 per student, 95% CI +0.011 to +0.103; it saves only 4% of interventions). On 2009 the difference was not distinguishable from zero.
-- **Neural models did not beat BKT.** DKT-style and SAKT-style (single-skill simplifications) had lower AUC than BKT on the 2012 test at every k (point estimates; intervals exclude 0 only for DKT-style at k=3 and SAKT-style at all k) (DKT-style -0.006 / -0.003 / -0.001; SAKT-style -0.014 / -0.024 / -0.004 at k=3/5/8). On the 2009 side the comparison was run on validation only, where neither was promoted.
-- **(b, within-dataset) Affect adds almost nothing.** Adding detector-predicted affect (rank-transformed, version unverified) changed AUC by +0.0022 (95% CI +0.0013 to +0.0031) on the 2012 test, below the pre-registered 0.005 bar; the lagged version gives +0.0024.
+**Sensitivity.** Stricter definitions shrink the saving: on validation, 4 correct in a row gives 8.6% and a moving-average rule gives 9.0%, against 49.8% for the original definition (exploratory, validation only, BKT only; no alternative has a test number).
 
-![Frontier per profile, 2012 test](figures_v2/fig1_frontier_2012_test.png)
+**Limitation.** This is a replay of logged data, not a classroom: nothing here shows what a student would have done if interrupted or helped, and we make no claim that it improves learning.
 
-**Read with care.** Replay of logged data, not a classroom. "Unnecessary" is a proxy (the student later reached mastery anyway). Grade level unverified. No learning-gain claim; no clinical claim.
-
-<details><summary>Further figures</summary>
-
-![DKT/SAKT-style vs BKT](figures_v2/fig3_neural_vs_bkt.png)
-![Affect by k](figures_v2/fig4_affect_by_k.png)
-</details>
+**What it is built on.** The risk model is Bayesian Knowledge Tracing, a 1995 model, fitted on ASSISTments skill-builder math logs (grade level not stated), not calculus. The contribution is the decision policy, the protocol (written down first, tested once) and the negative results (neural models did not improve the decision).
 
 ---
 **Speaker notes**
 
-- Two datasets, never pooled: (a) is 2009-trained and frozen, evaluated on the locked 2012 test (4,651 students); (b) trains and selects on 2012 train/validation and evaluates once on the same test.
-- Exploratory, not pre-registered, not on the slide: the plain windowed logistic head scored above BKT in AUC on the 2012 test at k=3 and k=5 (+0.008 and +0.013) and below at k=8 (-0.004). BKT remains the primary score; this is a lead, not a result.
-- Affect replication: the same comparison on 2012 validation gave +0.0022 (CI +0.0012 to +0.0031); the test gave +0.0022. Both are within-2012, so "replicated" means validation to test, not a third dataset. The k=3 gain (about +0.005) is the only one near the bar.
-- Quiet-profile 2009 numbers come from the earlier single 2009 test evaluation (`results/TEST_LOCK`); 2012 from `results/TEST_LOCK_2012`.
-- Do not describe any of this as improving learning or as detecting a student's state.
+- Say the definition of "stuck" every time you say 52%. If asked about other definitions, use `docs/summit/QA.md` question 4.
+- The closed-loop simulation is an assumption-dependent sensitivity analysis, not evidence of effect: the policy pays off only if leaving a stuck student alone is cheap. Use it only if asked (`QA.md` question 5).
+- Do not describe any of this as improving learning, and do not describe the three settings as kinds of student.
+- Do not show or discuss results from other datasets.
 
 ---
-**Traceability** (every number above is generated by `aria_pace/make_slide.py` from these files)
-
-| Number | Source |
-|---|---|
-| 52% / 3.7% (2009 test) | `results/test_results.json`: main.variants.frozen.methods.bkt.quiet, always_help.quiet |
-| 56.8% / 5.9% (2012 test) | `results/test_results_2012.json`: a_cross_dataset.policy.main.variants.frozen.methods |
-| calibration -0.65 / 0.73 | `results/test_results_2012.json`: a_cross_dataset.risk.results.variantA_k3.bkt.calibration_line |
-| supportive cost difference | `results/test_results_2012.json`: ...j_diff_vs_bkt.supportive.always_help |
-| neural vs BKT | `results/test_results_2012.json`: a_cross_dataset.risk.paired_vs_bkt; 2009 validation: `results/dkt_val.json`, `results/sakt_val.json` |
-| affect | `results/test_results_2012.json`: b_within_dataset_affect.mean_over_k, paired_with_minus_without; validation: `results/affect_val.json` |
-| frozen thresholds | `results/frozen_val.json` (sha in `results/frozen_v2.json`) |
+**Traceability.** Source files and lines for each number are in `docs/summit/NUMBERS.md`.
