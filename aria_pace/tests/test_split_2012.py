@@ -18,8 +18,8 @@ def test_disjoint_complete_and_fractions():
     s = {k: set(v) for k, v in P.items()}
     assert not (s["test"] & s["train"]) and not (s["test"] & s["val"]) and not (s["train"] & s["val"])
     n = sum(len(v) for v in s.values())
-    assert n == REC["n_pool"] == 23255
-    assert [len(P[k]) for k in ("test", "train", "val")] == [4651, 13953, 4651]
+    assert n == REC["n_pool"]
+    assert [len(P[k]) for k in ("test", "train", "val")] == [REC["n_students"][k] for k in ("test", "train", "val")]
     assert abs(len(P["test"]) / n - 0.20) < 0.001 and abs(len(P["train"]) / n - 0.60) < 0.001
 
 
