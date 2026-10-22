@@ -57,7 +57,7 @@ Do this at the venue, in this order: switch Wi-Fi off (menu bar) → `curl -m 3 
 
 - Click **Reset (new attempt)** on the Student tab. The badge returns to READY, the chat empties, the Teacher summary shows "No attempt to summarise yet", and ARIA forgets
   the attempt (hints, steps achieved, state). The problem stays selected. Takes under a second.
-- To switch problem, use the dropdown; that also starts a fresh session.
+- To switch problem, use the dropdown; that starts a fresh session. The in-memory **learning graph** (Teacher summary tab, exploratory) is carried over to the new problem so the concept map can span problems; **Reset (new attempt) clears it**, so keep pressing Reset between visitors.
 - If the page looks wrong or frozen: reload the browser tab (F5; new session). Last resort: stop the server (Ctrl-C in its terminal, or `kill $(lsof -ti tcp:7861)`) and relaunch (about 5 s).
 
 ## 5. The LLM flag, and what happens when a model hangs
@@ -173,4 +173,5 @@ Not a rehearsal crash fix: ARIA-Pace was added on branches `summit-pace` / `summ
 
 - 2026-10-20, feature: per-session BKT risk tracker, per-profile bar for hints on wrong steps at attempts 3-9, profile selector and live line, pace fields in the turn log; section 6 and `scripts/demo_rehearsal.py` rewritten to the "same student, three wrong answers" flow. Commit: see `git log summit-pace-mac`.
 - 2026-10-20, fix: the profile explanation under the selector was unreadable in dark mode (dark grey text, no card background); it is now a card like the others. Teacher-summary wording "threshold" became "bar". Screens in `docs/demo_screens/light|dark` regenerated. Final build = tag `summit-2026-10-24-pace` (`git show summit-2026-10-24-pace`).
+- 2026-10-21, feature (branch `learning-graph`, not tagged): the Teacher summary tab shows a small concept map (hand-authored concept tags and prerequisite edges in `data/demo_problems.json`; one BKT estimate per concept with the frozen pooled parameters; states unseen / working / secure / high-friction, exploratory, not validated). It is read-only for the tutor: when ARIA speaks is unchanged (harness decisions identical). In memory only, no student text, cleared by Reset.
 - Consequence to know about: at Quiet and Balanced a wrong answer after a correct step is often flagged without a hint (the old flow, wrong answer on message 3, no longer gets a hint there).
