@@ -113,6 +113,8 @@ def summarize(session) -> dict:
         "counts": {"turns": len(log), "stayed_quiet": sum(t["action"] == "none" for t in timeline),
                    "stepped_in": len(hints), "hints_given": sum(by_type.get(k, 0) for k in HINT_TYPES), "by_type": by_type},
         "timeline": timeline, "hints": hints, "stuck": {"stretches": stretches, "longest": longest}, "steps": steps, "note": NOTE,
+        # learning graph v0 (agent/demo_graph.py): ids, authored labels, states, counts only; None until something was scored
+        "concept_map": (session.graph.snapshot() if getattr(session, "graph", None) is not None and session.graph.has_data() else None),
     }
 
 

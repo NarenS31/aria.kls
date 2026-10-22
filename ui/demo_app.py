@@ -160,10 +160,61 @@ def _pill(label: str, kind: str = "") -> str:
     return f'<span class="pill {kind}">{_esc(label)}</span>'
 
 
+STATE_FILL = {"unseen": "#e2e8f0", "working": "#dbeafe", "secure": "#dcfce7", "high_friction": "#fed7aa"}
+STATE_STROKE = {"unseen": "#94a3b8", "working": "#3b82f6", "secure": "#16a34a", "high_friction": "#d97706"}
+STATE_WORD = {"unseen": "unseen", "working": "working", "secure": "secure", "high_friction": "high friction"}
+
+
+def concept_map_html(cm: dict | None) -> str:
+    """Small concept map for the Teacher summary: nodes (authored concept labels), prerequisite edges, one state per node. No student text."""
+    if not cm or not cm.get("nodes"):
+        return ""
+    nodes, edges = cm["nodes"], cm["edges"]
+    ids = [n["id"] for n in nodes]
+    prereq: dict = {i: [] for i in ids}
+    for a, b in edges:
+        prereq[b].append(a)
+    depth: dict = {}
+
+    def d(i):
+        if i not in depth:
+            depth[i] = 0 if not prereq[i] else 1 + max(d(a) for a in prereq[i])
+        return depth[i]
+    for i in ids:
+        d(i)
+    cols: dict = {}
+    for n in nodes:
+        cols.setdefault(depth[n["id"]], []).append(n)
+    W, H, GX, GY = 214, 46, 268, 62
+    pos = {n["id"]: (10 + c * GX, 10 + r * GY) for c, col in sorted(cols.items()) for r, n in enumerate(col)}
+    width = 20 + (max(cols) + 1) * GX - (GX - W)
+    height = 20 + max(len(c) for c in cols.values()) * GY - (GY - H)
+    parts = [f'<svg role="img" aria-label="Concept map: prerequisite edges and one state per concept" width="{width}" height="{height}" '
+             f'viewBox="0 0 {width} {height}" xmlns="http://www.w3.org/2000/svg"><defs><marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" '
+             f'markerHeight="7" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#64748b"/></marker></defs>']
+    for a, b in edges:
+        (xa, ya), (xb, yb) = pos[a], pos[b]
+        parts.append(f'<line x1="{xa + W}" y1="{ya + H / 2}" x2="{xb - 2}" y2="{yb + H / 2}" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>')
+    for n in nodes:
+        x, y = pos[n["id"]]
+        st = n["state"]
+        second = STATE_WORD[st] + (f" · p {n['p_known']:.2f}" if n["p_known"] is not None else "")
+        dash = ' stroke-dasharray="4 3"' if st == "unseen" else ""
+        parts.append(f'<g><rect x="{x}" y="{y}" width="{W}" height="{H}" rx="8" fill="{STATE_FILL[st]}" stroke="{STATE_STROKE[st]}" stroke-width="2"'
+                     f'{dash}/>'
+                     f'<text x="{x + 8}" y="{y + 19}" font-size="12" font-weight="600" fill="#0f172a" font-family="system-ui,sans-serif">{_esc(n["label"][:36])}</text>'
+                     f'<text x="{x + 8}" y="{y + 36}" font-size="11" fill="#334155" font-family="system-ui,sans-serif">{_esc(second)}</text></g>')
+    parts.append("</svg>")
+    legend = " ".join(_pill(STATE_WORD[s], "") for s in ("unseen", "working", "secure", "high_friction"))
+    return (f'<h3>Concept map</h3><div style="overflow-x:auto;max-width:100%">{"".join(parts)}</div><div>{legend}</div>'
+            f'<div class="note"><b>{_esc(cm["note"])}</b> {_esc(cm["rule"])}. Arrows point from a prerequisite to the concept that needs it.</div>')
+
+
 def summary_html(summary: dict | None) -> str:
     """Teacher view of one attempt. Everything shown is derived metadata or authored text; no chat transcript."""
     if not summary or not summary["timeline"]:
-        return '<div class="aria-sum">No attempt to summarise yet. Pick a problem and try a few steps in the Student tab.</div>'
+        return ('<div class="aria-sum">No attempt to summarise yet. Pick a problem and try a few steps in the Student tab.'
+                + (concept_map_html(summary.get("concept_map")) if summary else "") + "</div>")
     pr, c = summary["problem"], summary["counts"]
     outcome = {"solved": f"Solved at turn {summary['solved_at_turn']}", "in_progress": "Not solved yet"}[summary["outcome"]]
     secs = summary.get("elapsed_s")
@@ -206,7 +257,7 @@ def summary_html(summary: dict | None) -> str:
             f'<div>{_esc(pr["level"])} {_esc(pr["topic"])}, attempt {summary["attempt"]}. <b>{_esc(outcome)}</b>{_esc(when)}.</div>'
             f'<div class="where"><b>Where the student got stuck.</b> {_esc(headline(summary))}</div>'
             f'<div class="tiles">{tiles}</div><h3>State timeline</h3>{timeline}<h3>Hints given</h3>{hints}'
-            f'<h3>Authored steps</h3>{steps}<div class="note">{_esc(summary["note"])}</div></div>')
+            f'<h3>Authored steps</h3>{steps}{concept_map_html(summary.get("concept_map"))}<div class="note">{_esc(summary["note"])}</div></div>')
 
 
 def make_summary_handler():
@@ -218,8 +269,9 @@ def make_summary_handler():
 def make_handlers(tutor: DemoTutor, problems: list):
     ids = {f"{p.prompt}": p.id for p in problems}
 
-    def start(prompt, profile=None):
-        s = tutor.new_session(ids[prompt])
+    def start(prompt, profile=None, session=None):
+        # switching problem keeps the learning graph (in memory, this browser session only); Reset clears it
+        s = tutor.new_session(ids[prompt], getattr(session, "graph", None))
         if profile in PROFILE_LABELS and tutor.pace_cfg:
             s.set_profile(profile)
         return s, [], chat_html([]), badge_html("idle", "Type a step or an answer. ARIA will decide whether to speak."), ""
@@ -291,7 +343,7 @@ def build_demo_ui(tutor: DemoTutor | None = None) -> gr.Blocks:
                 refresh = gr.Button("Refresh summary")
                 summary = gr.HTML(summary_html(None))
         reset_btn.click(reset, [session], [history, session, chat, badge, box]).then(show_summary, [session], [summary]).then(show_pace, [session], [pace_box])
-        problem.change(start, [problem, profile], [session, history, chat, badge, box]).then(show_summary, [session], [summary]).then(show_pace, [session], [pace_box])
+        problem.change(start, [problem, profile, session], [session, history, chat, badge, box]).then(show_summary, [session], [summary]).then(show_pace, [session], [pace_box])
         box.submit(send, [box, history, session], [history, session, chat, badge, box]).then(show_summary, [session], [summary]).then(show_pace, [session], [pace_box])
         demo.load(start, [problem, profile], [session, history, chat, badge, box]).then(show_pace, [session], [pace_box])
         if cfg:
