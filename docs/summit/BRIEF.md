@@ -18,6 +18,7 @@
 - The answer-leak and math-error checks (0 of 160 turns per profile) come from scripted inputs on a 30-problem bank (algebra / trigonometry / calculus), not free-form students.
 - The concept map in the Teacher summary is exploratory and not validated.
 - No classroom pilot has taken place. A pilot protocol exists only as an unapproved draft.
+- Full limits (assumed cost weights, definition-dependent 52%, math-log calibration, analyzer on synthetic text only): `docs/aria_pace/LIMITS.md` (branch `aria-pace`).
 
 **Try it.** Do the "Would you step in?" activity and tell us where we are wrong: **aria-learning.org/activity**
 
