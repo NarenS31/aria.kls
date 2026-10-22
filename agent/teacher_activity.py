@@ -20,6 +20,12 @@ N_MOMENTS = 8
 
 COLUMNS = ["session_id", "moment_id", "role", "years_band", "grade_band", "teacher_decision", "teacher_type",
            "aria_decision", "aria_type", "agree", "timestamp"]
+# v2 (DRAFT, docs/TEACHER_ACTIVITY.md "Version 2"): an optional categorical reason when the teacher steps in. OFF by default. The column exists only
+# when TapLog(collect_reasons=True); the free-text note is never written anywhere.
+REASONS = ("slowing_pace", "conceptual_error", "emotional_distress", "other")
+REASON_LABELS = {"slowing_pace": "Slowing pace", "conceptual_error": "Conceptual error", "emotional_distress": "Emotional distress", "other": "Other"}
+COLUMNS_V2 = COLUMNS[:-1] + ["teacher_reason", "timestamp"]
+NOTE_MAX = 280
 DECISIONS = ("step_in", "stay_quiet")
 TYPES = ("prompt", "hint", "encouragement", "break", "other")
 AGREE = ("agree", "disagree")
@@ -64,8 +70,10 @@ def load_moments(path: Path | str = MOMENTS_PATH, expect: Optional[int] = N_MOME
 class TapLog:
     """Append-only CSV, one row per answered moment. Values are validated against the fixed lists, so no free text can be written."""
 
-    def __init__(self, path: Optional[Path | str] = TAPS_PATH):
+    def __init__(self, path: Optional[Path | str] = TAPS_PATH, collect_reasons: bool = False):
         self.path = Path(path) if path else None
+        self.collect_reasons = bool(collect_reasons)
+        self.columns = COLUMNS_V2 if self.collect_reasons else COLUMNS
         self._lock = threading.Lock()
         self.errors = 0
 
@@ -78,17 +86,16 @@ class TapLog:
                 self.path.parent.mkdir(parents=True, exist_ok=True)
                 new = not self.path.exists() or self.path.stat().st_size == 0
                 with open(self.path, "a", newline="", encoding="utf-8") as f:
-                    w = csv.DictWriter(f, fieldnames=COLUMNS)
+                    w = csv.DictWriter(f, fieldnames=self.columns)
                     if new:
                         w.writeheader()
-                    w.writerow({c: row.get(c, "") for c in COLUMNS})
+                    w.writerow({c: row.get(c, "") for c in self.columns})
             return True
         except Exception:  # noqa: BLE001 - never lose the visitor's screen over a write error
             self.errors += 1
             return False
 
-    @staticmethod
-    def _validate(r: dict):
+    def _validate(self, r: dict):
         ok = {"role": ROLES, "years_band": YEARS, "grade_band": GRADES, "teacher_decision": DECISIONS, "aria_decision": DECISIONS, "agree": AGREE}
         for k, allowed in ok.items():
             if r.get(k) not in allowed:
@@ -101,6 +108,9 @@ class TapLog:
             raise ValueError("aria_type")
         if r["aria_decision"] == "stay_quiet" and r.get("aria_type", "") != "":
             raise ValueError("aria_type must be empty when ARIA stays quiet")
+        reason = r.get("teacher_reason", "")
+        if reason and (not self.collect_reasons or r["teacher_decision"] != "step_in" or reason not in REASONS):
+            raise ValueError("teacher_reason")
         sid, mid = str(r.get("session_id", "")), str(r.get("moment_id", ""))
         if not (len(sid) == 12 and sid.isalnum()) or not mid.replace("_", "").replace("-", "").isalnum():
             raise ValueError("session_id/moment_id")
@@ -109,8 +119,11 @@ class TapLog:
 class Activity:
     """State machine for ONE visitor. Phases: consent -> decision -> type -> reveal -> (next moment) ... -> done | skipped."""
 
-    def __init__(self, moments: list, log: TapLog):
+    def __init__(self, moments: list, log: TapLog, reasons: bool = False):
         self.moments, self.log = moments, log
+        self.reasons = bool(reasons)                       # v2: ask for an optional reason after the kind of help (default off)
+        self._reason = ""
+        self.note = ""                                     # v2: free text, kept in memory only, never written, cleared every moment
         self.session_id = uuid.uuid4().hex[:12]
         self.phase = "consent"
         self.i = 0
@@ -121,7 +134,7 @@ class Activity:
 
     @property
     def moment(self) -> Optional[dict]:
-        return self.moments[self.i] if self.phase in ("decision", "type", "reveal") and self.i < len(self.moments) else None
+        return self.moments[self.i] if self.phase in ("decision", "type", "reason", "reveal") and self.i < len(self.moments) else None
 
     def set_profile(self, role=PREFER_NOT, years=PREFER_NOT, grade=PREFER_NOT):
         self.profile = {"role": role if role in ROLES else PREFER_NOT, "years_band": years if years in YEARS else PREFER_NOT,
@@ -135,14 +148,25 @@ class Activity:
     def decide(self, decision: str):
         if self.phase != "decision" or decision not in DECISIONS:
             return
-        self._decision, self._type = decision, ""
+        self._decision, self._type, self._reason, self.note = decision, "", "", ""
         self.phase = "type" if decision == "step_in" else "reveal"
 
     def choose_type(self, kind: str):
         if self.phase != "type" or kind not in TYPES:
             return
         self._type = kind
+        self.phase = "reason" if self.reasons else "reveal"
+
+    def choose_reason(self, kind: str):
+        """Optional: one of REASONS, or "" to skip. Only reachable when reasons are on."""
+        if self.phase != "reason" or kind not in REASONS + ("",):
+            return
+        self._reason = kind
         self.phase = "reveal"
+
+    def set_note(self, text) -> None:
+        """Free text stays on this object (memory) for the current moment only; it is never logged, written or sent."""
+        self.note = "".join(ch for ch in str(text or "") if ch.isprintable())[:NOTE_MAX]
 
     def reveal(self) -> Optional[dict]:
         """What ARIA decided on the current moment (shown only after the visitor's own answer)."""
@@ -151,7 +175,7 @@ class Activity:
         m = self.moments[self.i]
         return {"aria_decision": m["aria_decision"], "aria_type": m["aria_type"] if m["aria_decision"] == "step_in" else "",
                 "reason": m["aria_reason"], "reply": m["aria_reply"] if m["aria_decision"] == "step_in" else "",
-                "teacher_decision": self._decision, "teacher_type": self._type}
+                "teacher_decision": self._decision, "teacher_type": self._type, "teacher_reason": self._reason}
 
     def agree(self, answer: str):
         """Agree / Disagree: writes the row and moves on."""
@@ -161,8 +185,8 @@ class Activity:
         ok = self.log.write({
             "session_id": self.session_id, "moment_id": m["id"], **self.profile, "teacher_decision": self._decision, "teacher_type": self._type,
             "aria_decision": m["aria_decision"], "aria_type": m["aria_type"] if m["aria_decision"] == "step_in" else "", "agree": answer,
-            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S")})
+            "teacher_reason": self._reason if self.log.collect_reasons else "", "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S")})
         self.rows_written += bool(ok)
-        self._decision, self._type = None, ""
+        self._decision, self._type, self._reason, self.note = None, "", "", ""
         self.i += 1
         self.phase = "decision" if self.i < len(self.moments) else "done"

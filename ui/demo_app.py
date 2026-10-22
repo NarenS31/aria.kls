@@ -24,7 +24,7 @@ from agent.demo_input import sanitize_input
 from agent.demo_summary import RULE_TEXT, STATE_LABELS, headline, summarize
 from agent.demo_log import DEFAULT_PATH as LOG_PATH
 from agent.demo_tutor import DemoSession, DemoTutor
-from agent.teacher_activity import (BAND_LABELS, GRADES, LABELS, MOMENTS_PATH, PREFER_NOT, ROLE_LABELS, ROLES, TAPS_PATH, TYPES, YEARS, Activity,
+from agent.teacher_activity import (BAND_LABELS, GRADES, LABELS, REASON_LABELS, REASONS, MOMENTS_PATH, PREFER_NOT, ROLE_LABELS, ROLES, TAPS_PATH, TYPES, YEARS, Activity,
                                     TapLog, load_moments)
 
 CSS = """
@@ -154,7 +154,7 @@ def activity_card(act: Activity) -> str:
         return ""
     work = "".join(f'<div class="work">{_esc(h)}</div>' for h in m["history"]) + f'<div class="work now">{_esc(m["message"])}</div>'
     return (f'<div class="aria-act"><div class="step">Moment {act.i + 1} of {len(act.moments)}</div><div class="prob">{_esc(m["problem_prompt"])}</div>'
-            f'<div>What the student has written, newest last:</div>{work}<div class="q">{"Would you step in here?" if act.phase == "decision" else "What kind of help?"}</div></div>')
+            f'<div>What the student has written, newest last:</div>{work}<div class="q">{"Would you step in here?" if act.phase == "decision" else "What kind of help?" if act.phase == "type" else "Why? (optional)"}</div></div>')
 
 
 def activity_reveal(act: Activity) -> str:
@@ -171,7 +171,7 @@ def activity_reveal(act: Activity) -> str:
 
 
 def activity_render(act: Activity | None):
-    """-> updates for [state, consent, decide, type, reveal, done, card, reveal_html, done_md]."""
+    """-> updates for [state, consent, decide, type, reveal, done, card, reveal_html, done_md, reason] (reason: v2, only reachable with reasons on)."""
     vis = lambda *phases: gr.update(visible=bool(act and act.phase in phases))  # noqa: E731
     done_md = ""
     if act and act.phase == "skipped":
@@ -179,16 +179,16 @@ def activity_render(act: Activity | None):
     elif act and act.phase == "done":
         done_md = f"Thank you. {act.rows_written} answers were saved on this laptop only. Pass the laptop to the next visitor."
     return (act, vis("consent"), vis("decision"), vis("type"), vis("reveal"), vis("done", "skipped"),
-            gr.update(value=activity_card(act) if act else "", visible=bool(act and act.phase in ("decision", "type"))),
-            gr.update(value=activity_reveal(act) if act else ""), gr.update(value=done_md))
+            gr.update(value=activity_card(act) if act else "", visible=bool(act and act.phase in ("decision", "type", "reason"))),
+            gr.update(value=activity_reveal(act) if act else ""), gr.update(value=done_md), vis("reason"))
 
 
-def make_activity_handlers(moments: list, log: TapLog):
+def make_activity_handlers(moments: list, log: TapLog, reasons: bool = False):
     def new():
-        return activity_render(Activity(moments, log))
+        return activity_render(Activity(moments, log, reasons))
 
     def proceed(act, role, years, grade, accept):
-        act = act or Activity(moments, log)
+        act = act or Activity(moments, log, reasons)
         act.set_profile(role, years, grade)
         act.consent(accept)
         return activity_render(act)
@@ -200,22 +200,31 @@ def make_activity_handlers(moments: list, log: TapLog):
             return activity_render(act)
         return fn
 
-    return new, proceed, act_on("decide"), act_on("choose_type"), act_on("agree")
+    def reason(act, value, note=""):
+        if act is not None:
+            act.set_note(note)                  # v2: kept in memory for this moment only; never written (agent/teacher_activity.py Activity.set_note)
+            act.choose_reason(value)
+        return activity_render(act)
+
+    return new, proceed, act_on("decide"), act_on("choose_type"), act_on("agree"), reason
 
 
-def build_activity_tab(moments_path=MOMENTS_PATH, taps_path=TAPS_PATH):
+def build_activity_tab(moments_path=MOMENTS_PATH, taps_path=TAPS_PATH, reasons=False):
     """The 'Would you step in?' tab. Needs data/teacher_moments.json (scripts/make_teacher_moments.py); without it the tab says so."""
     try:
         moments = load_moments(moments_path)
     except (OSError, ValueError) as e:
         gr.Markdown(f"The teacher activity is not set up on this laptop ({type(e).__name__}). Run `scripts/make_teacher_moments.py` first.")
         return None
-    new, proceed, decide, choose_type, agree = make_activity_handlers(moments, TapLog(taps_path))
+    new, proceed, decide, choose_type, agree, reason = make_activity_handlers(moments, TapLog(taps_path, collect_reasons=reasons), reasons)
     act = gr.State(None)
     with gr.Group(visible=True) as consent:
         gr.Markdown("### Would you step in?\nYou will see 8 short moments from a student's work. For each one, decide whether a tutor should **step in** or **stay quiet**, "
                     "then see what ARIA decided and say whether you agree.\n\n"
-                    "**What is saved:** your choices only (step in or stay quiet, the kind of help, agree or disagree), plus the three optional answers below. "
+                    "**What is saved:** your choices only (step in or stay quiet, the kind of help, "
+                    + ("an optional reason from a fixed list, " if reasons else "") + "agree or disagree), plus the three optional answers below. "
+                    + ("An optional note box is never saved. " if reasons else "")
+                    + "\n\n"
                     "No names, no typed text, no network; the file stays on this laptop. **Skip** saves nothing.")
         role = gr.Dropdown([(ROLE_LABELS[r], r) for r in ROLES], value=PREFER_NOT, label="Your role (optional)")
         years = gr.Dropdown([(("Prefer not to say" if y == PREFER_NOT else y), y) for y in YEARS], value=PREFER_NOT, label="Years of experience (optional)")
@@ -228,6 +237,11 @@ def build_activity_tab(moments_path=MOMENTS_PATH, taps_path=TAPS_PATH):
         step_in, stay = gr.Button("Step in", variant="primary"), gr.Button("Stay quiet")
     with gr.Row(visible=False) as type_row:
         type_btns = [(gr.Button(LABELS[t]), t) for t in TYPES]
+    with gr.Group(visible=False) as reason_group:          # v2 (DRAFT): optional reason; the note below is never saved
+        note = gr.Textbox(label="Optional note (stays on this screen only; never saved)", max_lines=2, lines=1)
+        with gr.Row():
+            reason_btns = [(gr.Button(REASON_LABELS[r]), r) for r in REASONS]
+            reason_skip = gr.Button("Skip")
     with gr.Group(visible=False) as reveal:
         reveal_html = gr.HTML("")
         with gr.Row():
@@ -235,13 +249,16 @@ def build_activity_tab(moments_path=MOMENTS_PATH, taps_path=TAPS_PATH):
     with gr.Group(visible=False) as done:
         done_md = gr.Markdown("")
         again = gr.Button("Start for the next visitor")
-    outs = [act, consent, decide_row, type_row, reveal, done, card, reveal_html, done_md]
+    outs = [act, consent, decide_row, type_row, reveal, done, card, reveal_html, done_md, reason_group]
     go.click(lambda a, r, y, g: proceed(a, r, y, g, True), [act, role, years, grade], outs)
     skip.click(lambda a, r, y, g: proceed(a, r, y, g, False), [act, role, years, grade], outs)
     step_in.click(lambda a: decide(a, "step_in"), [act], outs)
     stay.click(lambda a: decide(a, "stay_quiet"), [act], outs)
     for btn, t in type_btns:
         btn.click(lambda a, _t=t: choose_type(a, _t), [act], outs)
+    for btn, r_ in reason_btns:
+        btn.click(lambda a, n, _r=r_: reason(a, _r, n), [act, note], outs)
+    reason_skip.click(lambda a, n: reason(a, "", n), [act, note], outs)
     yes.click(lambda a: agree(a, "agree"), [act], outs)
     no.click(lambda a: agree(a, "disagree"), [act], outs)
     again.click(new, None, outs)
@@ -287,7 +304,7 @@ def make_handlers(tutor: DemoTutor, problems: list):
     return start, send, reset
 
 
-def build_demo_ui(tutor: DemoTutor | None = None, moments_path=MOMENTS_PATH, taps_path=TAPS_PATH) -> gr.Blocks:
+def build_demo_ui(tutor: DemoTutor | None = None, moments_path=MOMENTS_PATH, taps_path=TAPS_PATH, reasons=False) -> gr.Blocks:
     problems = (tutor.problems.values() if tutor else load_problems())
     tutor = tutor or DemoTutor()
     problems = list(tutor.problems.values())
@@ -308,7 +325,7 @@ def build_demo_ui(tutor: DemoTutor | None = None, moments_path=MOMENTS_PATH, tap
                 refresh = gr.Button("Refresh summary")
                 summary = gr.HTML(summary_html(None))
             with gr.Tab("Would you step in?"):
-                activity = build_activity_tab(moments_path, taps_path)
+                activity = build_activity_tab(moments_path, taps_path, reasons)
         reset_btn.click(reset, [session], [history, session, chat, badge, box]).then(show_summary, [session], [summary])
         problem.change(start, [problem], [session, history, chat, badge, box]).then(show_summary, [session], [summary])
         box.submit(send, [box, history, session], [history, session, chat, badge, box]).then(show_summary, [session], [summary])
@@ -328,6 +345,8 @@ def main():
     ap.add_argument("--all-problems", action="store_true", help="list all 30 bank problems instead of the 8 featured ones")
     ap.add_argument("--no-log", action="store_true", help="do not write the local per-turn log (default: data/demo_logs/turns.jsonl)")
     ap.add_argument("--moments", default=str(MOMENTS_PATH), help="teacher-activity moments (scripts/make_teacher_moments.py)")
+    ap.add_argument("--activity-reasons", action="store_true", help="v2 DRAFT: ask the teacher for an optional reason when stepping in and write it to the CSV "
+                    "(needs organizer sign-off and adult-reviewed consent wording first; OFF by default)")
     ap.add_argument("--taps-csv", default=str(TAPS_PATH), help="where the activity answers go (data/demo_logs/teacher_taps.csv)")
     a = ap.parse_args()
     tutor = DemoTutor(problems=load_problems(featured_only=not a.all_problems), llm_path=a.llm_path, llm_model=a.llm_model,
@@ -335,7 +354,7 @@ def main():
     if a.llm_path:
         ok = tutor.warm_up()          # load the model once, keep it resident
         print(f"LLM path: {'warm (' + a.llm_model + ')' if ok else 'Ollama not reachable, using templates only'}")
-    build_demo_ui(tutor, a.moments, None if a.no_log else a.taps_csv).launch(server_name="127.0.0.1", server_port=a.port)
+    build_demo_ui(tutor, a.moments, None if a.no_log else a.taps_csv, a.activity_reasons).launch(server_name="127.0.0.1", server_port=a.port)
 
 
 if __name__ == "__main__":
