@@ -1,17 +1,17 @@
 # Numbers used in the summit text, with sources
 
-Files covered: `PROGRAM_DESCRIPTION.md`, `docs/aria_pace/SUMMIT_SLIDE.md` (the slide, updated in place), `TALK_90S.md`, `QA.md`. Paths are in this repository (NarenS31/aria.kls) unless a branch or another repository is named. Line numbers are on branch `summit-text` (= `aria-pace` at `eb4222a` plus these files) unless stated. **No number from the 2012 file or from any cross-dataset comparison is used anywhere.** Nothing was guessed: anything not found is listed at the end.
+Files covered: `PROGRAM_DESCRIPTION.md`, `docs/aria_pace/SUMMIT_SLIDE.md` (the slide, updated in place), `TALK_90S.md`, `QA.md`. Paths are in this repository (NarenS31/aria.kls) unless a branch or another repository is named. Line numbers are on branch `summit-text` (= `aria-pace` at `eb4222a` plus these files) unless stated. **Rows marked "aria-pace d596b26" cite files merged into `aria-pace` after that (PR #5, `aria_pace/RESULTS_v4.md` and `aria_pace/results/*_val.json`); line numbers there are on that commit.** **No number from the 2012 file or from any cross-dataset comparison is used anywhere.** Nothing was guessed: anything not found is listed at the end.
 
 ## Wording decision (sourced): how the 2009 data is described
 
-Wherever the 2009–10 data is described, the text says **"ASSISTments skill-builder math logs (grade level not stated), not calculus"**. It never says "middle school" for this data.
+Wherever the 2009–10 data is described, the text says **"ASSISTments skill-builder math logs (grade level not stated), not calculus"**. It never names a school level for this data.
 
 | Reason | Source |
 |---|---|
 | Required statement: the grade level of the 2009–10 data is not stated by the sources; no grade claim is made | `aria_pace/SPEC.md:94` |
 | Limitation 5: the sources for the 2009-10 file do not state the grade level | `docs/aria_pace/RESULTS.md:205` |
-| Risk 1: the results must say the grade level is not stated rather than assume middle school | `docs/aria_pace/DATA.md:140` |
-| The only "middle school" in the data note describes a different, related analysis, not this file | `docs/aria_pace/DATA.md:38` |
+| Risk 1: the results must say the grade level is not stated rather than assume a school level | `docs/aria_pace/DATA.md:140` |
+| The only school-level label in the data note describes a different, related analysis, not this file | `docs/aria_pace/DATA.md:38` |
 | "Not calculus": checked on the raw file, not on a committed file (see "Not found" below) | `aria_pace/data/raw/skill_builder_data_corrected_collapsed.csv`, column `skill_name` (the file is not committed) |
 
 ## Numbers
@@ -34,13 +34,14 @@ Wherever the 2009–10 data is described, the text says **"ASSISTments skill-bui
 | Replay does not evaluate the math checker | QA 11 | `docs/aria_pace/RESULTS.md:204` |
 | Profiles are cost settings; no claim about any clinical or other group | QA 10 | `docs/aria_pace/RESULTS.md:207`; `aria_pace/SPEC.md:96` |
 | Why 2009 data (four reasons; terms allow research use with citation; checksummed download) | QA 2 | `docs/aria_pace/DATA.md:13-17`; weaknesses `:19` |
-| Mastery rules: 49.8% (original, validation) | Slide, QA 4 | `docs/aria_pace/MASTERY_SENSITIVITY.md:17` |
-| 4 correct in a row: 8.6% | Slide, 3 min ("about 9%"), QA 4 | `docs/aria_pace/MASTERY_SENSITIVITY.md:20` |
-| 5 correct in a row within 15 attempts: 32.2% | QA 4 | `docs/aria_pace/MASTERY_SENSITIVITY.md:23` |
-| 5 correct in a row within 20 attempts: 45.4% | QA 4 | `docs/aria_pace/MASTERY_SENSITIVITY.md:26` |
-| Moving-average rule: 9.0% | Slide, QA 4 | `docs/aria_pace/MASTERY_SENSITIVITY.md:29` |
-| Share counted as stuck: 10.7% to 75.9% | QA 4 | `docs/aria_pace/MASTERY_SENSITIVITY.md:7-11` (10.7% at line 10, 75.9% at line 11) |
-| Best quiet threshold 0.27 to 0.69 | QA 4 | `docs/aria_pace/MASTERY_SENSITIVITY.md:26` (0.27), `:29` (0.69); original 0.57 at `:17` |
+| Cross-validated Quiet saving under 3 in a row: 50.1% (95% 48.5% to 51.6%); missed help 6.2% | QA 4, QA limits b, slide | aria-pace d596b26: `aria_pace/RESULTS_v4.md:13` (and `:29`); data `aria_pace/results/cv_tradeoff_val.json` (D3, quiet) |
+| Cross-validated Quiet saving, other rules: 8.3% (4 in a row), 26.4% (5 in a row, 15 attempts), 41.6% (5 in a row, 20 attempts), 7.1% (moving-average rule); range 7.1% to 41.6% | QA 4, QA limits b, slide, 3 min ("about 8%", "about 7% to 42%") | aria-pace d596b26: `aria_pace/RESULTS_v4.md:16`, `:19`, `:22`, `:25` (summary `:30`) |
+| Threshold moves by more than 0.10 in several folds under other definitions | QA 4 | aria-pace d596b26: `aria_pace/RESULTS_v4.md:16-25` (last column: 3, 4, 5, 3 folds for the Quiet rows of D4, D5T15, D5T20, the moving-average rule), `:31` |
+| Missed help "about 4 to 6%": 3.7% on the locked test; 4.8% in validation; 6.2% cross-validated | QA 4, QA limits b, slide, 90 s | 3.7%: `docs/aria_pace/RESULTS.md:11`; 4.8%: `docs/aria_pace/MASTERY_SENSITIVITY.md:17`; 6.2%: aria-pace d596b26 `aria_pace/RESULTS_v4.md:13` |
+| Original 49.8% (validation, own-skill parameters) versus 43.9% with one pooled parameter set (Quiet); 14.4% of Quiet wrong-step decisions flip | QA 2, QA limits c, slide, 3 min ("about 44% instead of 50%") | aria-pace d596b26: `aria_pace/RESULTS_v4.md:51` (also `:54-55`); data `aria_pace/results/param_drift_val.json` (`decisions_validation.profiles.quiet`) |
+| The demo uses one pooled BKT set; the evaluated policy used per-skill parameters where a skill has enough data | QA 2, QA limits c, slide, 3 min | demo: `agent/demo_pace.py:91-107` (`load_config`, one frozen pooled parameter set), branch `summit-pace-mac`; evaluated policy: `aria_pace/baselines.py` `BKT.params` (per-skill with pooled fallback), `aria_pace/SPEC.md` Amendment 8 (aria-pace d596b26) |
+| Adding response time and a per-turn model (attempts 1 to 9): +0.0072 AUC at 3 attempts, +0.0034 at 5, against the +0.01 bar | QA 1, 3 min ("did not clear our bar") | aria-pace d596b26: `aria_pace/RESULTS_v4.md:67`, `:69`, `:75`; bar: `aria_pace/SPEC.md` Amendment 9, A9.3 |
+| The 8 "Would you step in?" moments get the same ARIA decision under quiet, balanced and supportive | QA 10 | aria-pace d596b26: `aria_pace/RESULTS_v4.md:80`; data: `data/teacher_moments_profiles.json` and `docs/TEACHER_ACTIVITY.md` ("Finding while building it"), branch `activity-v2` (pace reasons `wrong_before_window` for M3 and M8) |
 | Exploratory, validation only, BKT only, no test number for alternatives | Slide, 3 min, QA 4 | `docs/aria_pace/MASTERY_SENSITIVITY.md:3`; BKT only: `docs/aria_pace/RESULTS_v3.md` row 1 (column "What could not be done") |
 | Closed loop: 100 settings; quiet beat 40, worse 55, indistinguishable 5 | QA 5 | `docs/aria_pace/CLOSED_LOOP_SENSITIVITY.md:17` |
 | Closed loop: balanced beat 20, worse 80; supportive same as always helping | QA 5 | `docs/aria_pace/CLOSED_LOOP_SENSITIVITY.md:18-19`, `:78` |
@@ -61,5 +62,5 @@ Wherever the 2009–10 data is described, the text says **"ASSISTments skill-bui
 ## Not found (nothing guessed)
 
 - **"Not calculus" has no committed source.** No committed file lists the skill names of the 2009 file. I checked the raw file (not committed): its `skill_name` column holds only arithmetic and pre-algebra topics (fractions, decimals, equation solving, proportions, probability, a Pythagorean theorem skill) and none about calculus. If you want this sourced from a committed file, the check should be written into `docs/aria_pace/DATA.md`.
-- **"Middle school" for the 2009 data: not found, and not used** (see the wording decision above).
+- **A school level for the 2009 data: not found, and not used** (see the wording decision above).
 - **No source in this repository describes the 3-minute "talk" timings**; they are speaking estimates (about 155 words a minute), not data.

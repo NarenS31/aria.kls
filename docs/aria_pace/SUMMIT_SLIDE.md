@@ -14,9 +14,9 @@ A symbolic engine checks each step. A step that is right gets no reply. After a 
 
 **Headline.** *Under the 3-correct-in-a-row mastery definition* (stuck = no three correct answers in a row within ten attempts), the quiet setting intervened 52% less often than helping after every wrong step, on a held-out test of 597 students evaluated once. Thresholds were frozen on validation first.
 
-**Sensitivity.** Stricter definitions shrink the saving: on validation, 4 correct in a row gives 8.6% and a moving-average rule gives 9.0%, against 49.8% for the original definition (exploratory, validation only, BKT only; no alternative has a test number).
+**Sensitivity.** The saving depends on the definition. Cross-validated on training and validation students, the quiet saving is 50.1% [48.5%, 51.6%] under 3 in a row (6.2% missed help) and 7.1% to 41.6% under the four other rules (exploratory, validation only, BKT only; no alternative has a test number). Missed help is about 4 to 6% (3.7% on the locked test, 4.8% to 6.2% in validation and cross-validation).
 
-**Limitation.** This is a replay of logged data, not a classroom: nothing here shows what a student would have done if interrupted or helped, and we make no claim that it improves learning.
+**Limitation.** The demo applies one pooled set of BKT parameters, while the evaluated policy used per-skill parameters (validation: quiet 49.8% versus 43.9% pooled; 14.4% of quiet wrong-step decisions flip), so the demo approximates the evaluated policy. This is a replay of logged data, not a classroom: nothing here shows what a student would have done if interrupted or helped, and we make no claim that it improves learning.
 
 **What it is built on.** The risk model is Bayesian Knowledge Tracing, a 1995 model, fitted on ASSISTments skill-builder math logs (grade level not stated), not calculus. The contribution is the decision policy, the protocol (written down first, tested once) and the negative results (neural models did not improve the decision).
 
