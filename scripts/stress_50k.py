@@ -33,6 +33,7 @@ import json
 import multiprocessing as mp
 import os
 import random
+import signal
 import statistics
 import sys
 import time
@@ -269,9 +270,17 @@ def main(argv=None):
         outp = tmp / f"w{i}.json"
         if outp.exists():
             outp.unlink()
-        pr = mp.Process(target=worker, args=((repo, sh, a.seed + i, str(outp)),))
+        pr = mp.Process(target=worker, args=((repo, sh, a.seed + i, str(outp)),), daemon=True)
         pr.start()
         procs.append((pr, outp))
+
+    def _stop(*_):                                       # a killed parent must not leave orphaned workers behind
+        for pr, _o in procs:
+            if pr.is_alive():
+                pr.kill()
+        os._exit(130)
+    signal.signal(signal.SIGTERM, _stop)
+    signal.signal(signal.SIGINT, _stop)
     parts = []
     for pr, outp in procs:
         pr.join(max(1, a.timeout_s - (time.time() - t_start)))
