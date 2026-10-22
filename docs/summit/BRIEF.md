@@ -10,7 +10,7 @@
 
 **Headline result.** The timing model is a 1995 knowledge-tracing method (Bayesian knowledge tracing), fitted on ASSISTments skill-builder math logs (grade level not stated), not calculus. In a replay of 597 held-out students, the Quiet profile intervened **52% less often** than helping after every wrong step and missed **3.7%** (95% CI 2.2-5.3) of students who went on to get stuck. "Mastery" here means **three correct answers in a row**.
 
-**Sensitivity.** The saving depends on that definition: under four other definitions the result changes (validation split only, exploratory), and stricter definitions shrink it.
+**Sensitivity.** The saving depends on that definition: under other definitions the result changes (validation split only, exploratory), and stricter definitions shrink it.
 
 **Limits.**
 - Replay of logged data. It says nothing about whether students learn more.
