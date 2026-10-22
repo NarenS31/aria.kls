@@ -20,7 +20,11 @@ from .split import make_split
 def skill_name_map(path=RAW_CSV):
     df = pd.read_csv(path, encoding="latin-1", usecols=["skill_id", "skill_name"], low_memory=False).dropna(subset=["skill_id"])
     df["skill_id"] = df.skill_id.astype(str)
-    return {k: str(g.skill_name.mode().iloc[0]) for k, g in df.groupby("skill_id")}
+    out = {}
+    for k, g in df.groupby("skill_id"):
+        names = g.skill_name.dropna()
+        out[k] = str(names.mode().iloc[0]) if len(names) else ""            # a few skill ids have no name in the file
+    return out
 
 
 def main():
