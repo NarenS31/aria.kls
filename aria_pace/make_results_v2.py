@@ -16,7 +16,7 @@ w("""# ARIA-Pace RESULTS v2: the locked ASSISTments 2012-13 test portion
 
 > **INTERNAL: not for publication.** Licence confirmation from ASSISTments is PENDING (docs/aria_pace/DATA_v2.md). Nothing here is to be published, posted or shown outside the team until it arrives.
 
-Evaluated once on the locked 2012 test portion (4,651 students, seed 20261016; `results/split_2012.json`). Frozen values: `results/frozen_v2.json` (sha256 %s..., committed in c458650 before any test row was read). Lock file `results/TEST_LOCK_2012` (started %s, completed %s). Raw numbers: `results/test_results_2012.json`; this file is generated from it by `aria_pace/make_results_v2.py`.
+Evaluated once on the locked 2012 test portion (seed 20261016; `results/split_2012.json`). Frozen values: `results/frozen_v2.json` (sha256 %s..., committed in c458650 before any test row was read). Lock file `results/TEST_LOCK_2012` (started %s, completed %s). Raw numbers: `results/test_results_2012.json`; this file is generated from it by `aria_pace/make_results_v2.py`.
 
 ## Caveats (they apply to every number below)
 
