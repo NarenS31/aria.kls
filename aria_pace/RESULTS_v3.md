@@ -15,7 +15,7 @@ Branch `aria-pace-v3`, from `origin/aria-pace`. **Nothing here changes a publish
 
 - The headline saving is **not robust to the definition of mastery** on validation (Step 1): it is 50% under the frozen definition and 9% under two of the four alternatives. The published 52% is a result about the pre-registered definition, not about 'stuck' in general.
 - **Multi-skill sequence models do not improve the decision** (Step 2), as the single-skill ones did not (`dkt_val.json`, `sakt_val.json`).
-- **Detector-predicted affect adds nothing at the pre-registered margin** (Step 3, `test_results_2012.json`).
+- 2012 affect conclusion held back pending dataset terms confirmation.
 - **Replay cannot settle whether the policy is better than always helping**: that depends on the cost of leaving a student stuck, which no log measures (Step 4).
 
 ## What could not be done
