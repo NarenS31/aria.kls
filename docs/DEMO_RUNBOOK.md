@@ -51,6 +51,8 @@ cd ../aria-activity && GRADIO_ANALYTICS_ENABLED=False /usr/bin/python3 -m ui.dem
 
 Open `http://127.0.0.1:7861` and `http://127.0.0.1:7862`. **Restart the server for (b) between visitors** if it feels sluggish (Ctrl-C, or `kill $(lsof -ti tcp:7862)`, then relaunch; about 5 s) and press **Start for the next visitor** on the activity tab; press **Reset (new attempt)** between visitors on (a) (section 4). The activity writes only to `data/demo_logs/teacher_taps.csv` inside its own worktree (git-ignored); the launch commands above do not touch the Pace demo's log.
 
+**Checked 2026-10-22 (worktrees as above):** (a) at the tag, demo tests all pass, `demo_harness --strict` 0 leaks / 0 math errors / 0 crashes / p95 50-60 ms; `demo_rehearsal --offline` passed 8/8 on two runs but **failed on two others (6/8 and 7/8: the wait for the profile line after switching profile timed out) while the laptop was busy (load average 8-13 from other processes)**. Close other apps and re-run the rehearsal before a demo; if it still fails on a quiet laptop, treat it as a bug. (b) 24 activity tests pass, and a click-through of the 8 moments in Chrome displayed all 8, showed nothing about ARIA before each answer, revealed ARIA's recorded decisions (M1, M2, M4, M5 quiet; M3, M6, M7, M8 step in), saved 8 rows with the documented columns, and had no console errors.
+
 Checks per build: (a) `python scripts/demo_harness.py --backend demo --profiles all --featured --strict` and `python scripts/demo_rehearsal.py --offline` in the Pace worktree; (b) `python -m unittest tests.test_teacher_activity` in the activity worktree and a click-through of the 8 moments (`docs/TEACHER_ACTIVITY.md`).
 
 ## 2. Presenter checklist
