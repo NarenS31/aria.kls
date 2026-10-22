@@ -37,3 +37,11 @@ Every reply is checked for the student's answer and for false math claims before
 
 ## 12. What is the weakest point, and what would change your mind?
 Three things. The headline saving depends on how "stuck" is defined (question 4). Replay cannot tell us what helping does (question 3), and the cost of leaving a student alone is unmeasured (question 5). Also, counting students who left early as not stuck moves the best quiet threshold from 0.57 to 0.85 and raises missed help from 3.7% to 12.4% (95% CI 9.4% to 15.5%). We would change our view if a reviewed pilot showed students staying stuck longer under the quiet setting, or if teachers consistently disagreed with its calls.
+
+## Limits
+Full text: [`docs/aria_pace/LIMITS.md`](../aria_pace/LIMITS.md) (on branch `aria-pace`).
+
+- **a. Interruption cost is an assumed weight, not a measured harm.** J = w_I x unnecessary interventions + w_D x delayed help is an offline simulation, and "unnecessary" is a proxy. Whether the Quiet setting reduces frustration or preserves working memory has not been measured; that needs a live comparison with students, which needs approval.
+- **b. The 52% depends on the mastery definition.** 3-correct-in-a-row is the ASSISTments skill-builder's own completion rule. Under four other definitions the Quiet saving was 8.6%-45.4% (validation only, exploratory, BKT only).
+- **c. The risk model is an offline baseline calibration.** It was fitted on ASSISTments skill-builder math logs (grade level not stated), not calculus, and needs re-calibration before deployment; the demo applies it unchanged.
+- **d. The language analyzer was evaluated only on synthetic messages.** The ARIA-Pace gate and its published results do not depend on it. In the demo its flags (they need an explicit feeling word) can add an affect-based reply or prompt a reply to a words-only message, but never override correctness.
