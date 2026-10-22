@@ -1,0 +1,801 @@
+{
+ "bkt_min_seq": 10,
+ "decisions_validation": {
+  "cells_of_skills_with_own_params": 3614,
+  "cells_of_skills_without_own_params_identical": 17,
+  "decision_cells_with_verified_error": 3631,
+  "profiles": {
+   "balanced": {
+    "flag_to_speak(own flags, pooled speaks)": 189,
+    "flip_share_among_cells_of_skills_with_own_params": 0.05949086884338683,
+    "flip_share_by_group": {
+     "algebra-type": {
+      "cells": 574,
+      "flips": 27,
+      "share": 0.047038327526132406
+     },
+     "data/probability": {
+      "cells": 588,
+      "flips": 62,
+      "share": 0.1054421768707483
+     },
+     "geometry/measurement": {
+      "cells": 362,
+      "flips": 14,
+      "share": 0.03867403314917127
+     },
+     "number/arithmetic": {
+      "cells": 1885,
+      "flips": 98,
+      "share": 0.0519893899204244
+     },
+     "other": {
+      "cells": 222,
+      "flips": 14,
+      "share": 0.06306306306306306
+     }
+    },
+    "flip_share_of_cells": 0.05921233819884329,
+    "flips": 215,
+    "own_skill_params": {
+     "interventions_per_student": 2.348993288590604,
+     "missed_help_ci95": [
+      0.0,
+      0.0,
+      1000
+     ],
+     "missed_help_share": 0.0,
+     "reduction_ci95": [
+      0.11295141437308871,
+      0.1480694640582121,
+      1000
+     ],
+     "reduction_vs_always_help": 0.12989434431323799
+    },
+    "pooled_params": {
+     "interventions_per_student": 2.5134228187919465,
+     "missed_help_ci95": [
+      0.0,
+      0.0,
+      1000
+     ],
+     "missed_help_share": 0.0,
+     "reduction_ci95": [
+      0.05578991466367448,
+      0.08419694430830854,
+      1000
+     ],
+     "reduction_vs_always_help": 0.06898694841516473
+    },
+    "speak_to_flag(own speaks, pooled flags)": 26,
+    "tau": 0.19
+   },
+   "quiet": {
+    "flag_to_speak(own flags, pooled speaks)": 369,
+    "flip_share_among_cells_of_skills_with_own_params": 0.14471499723298284,
+    "flip_share_by_group": {
+     "algebra-type": {
+      "cells": 574,
+      "flips": 41,
+      "share": 0.07142857142857142
+     },
+     "data/probability": {
+      "cells": 588,
+      "flips": 105,
+      "share": 0.17857142857142858
+     },
+     "geometry/measurement": {
+      "cells": 362,
+      "flips": 47,
+      "share": 0.1298342541436464
+     },
+     "number/arithmetic": {
+      "cells": 1885,
+      "flips": 283,
+      "share": 0.15013262599469496
+     },
+     "other": {
+      "cells": 222,
+      "flips": 47,
+      "share": 0.21171171171171171
+     }
+    },
+    "flip_share_of_cells": 0.14403745524648856,
+    "flips": 523,
+    "own_skill_params": {
+     "interventions_per_student": 1.354026845637584,
+     "missed_help_ci95": [
+      0.03047457193968822,
+      0.06914288603527642,
+      1000
+     ],
+     "missed_help_share": 0.04827586206896552,
+     "reduction_ci95": [
+      0.4649475351703996,
+      0.5303864391258458,
+      1000
+     ],
+     "reduction_vs_always_help": 0.49844623990055936
+    },
+    "pooled_params": {
+     "interventions_per_student": 1.5151006711409396,
+     "missed_help_ci95": [
+      0.020899552635257935,
+      0.050902156953698235,
+      1000
+     ],
+     "missed_help_share": 0.034482758620689655,
+     "reduction_ci95": [
+      0.4062837280332787,
+      0.469863384538581,
+      1000
+     ],
+     "reduction_vs_always_help": 0.43878185208203857
+    },
+    "speak_to_flag(own speaks, pooled flags)": 154,
+    "tau": 0.57
+   },
+   "supportive": {
+    "flag_to_speak(own flags, pooled speaks)": 58,
+    "flip_share_among_cells_of_skills_with_own_params": 0.016048699501936912,
+    "flip_share_by_group": {
+     "algebra-type": {
+      "cells": 574,
+      "flips": 5,
+      "share": 0.008710801393728223
+     },
+     "data/probability": {
+      "cells": 588,
+      "flips": 11,
+      "share": 0.01870748299319728
+     },
+     "geometry/measurement": {
+      "cells": 362,
+      "flips": 3,
+      "share": 0.008287292817679558
+     },
+     "number/arithmetic": {
+      "cells": 1885,
+      "flips": 33,
+      "share": 0.01750663129973475
+     },
+     "other": {
+      "cells": 222,
+      "flips": 6,
+      "share": 0.02702702702702703
+     }
+    },
+    "flip_share_of_cells": 0.015973561002478657,
+    "flips": 58,
+    "own_skill_params": {
+     "interventions_per_student": 2.62751677852349,
+     "missed_help_ci95": [
+      0.0,
+      0.0,
+      1000
+     ],
+     "missed_help_share": 0.0,
+     "reduction_ci95": [
+      0.019638724786943847,
+      0.034218820154422507,
+      1000
+     ],
+     "reduction_vs_always_help": 0.02672467371037912
+    },
+    "pooled_params": {
+     "interventions_per_student": 2.6996644295302015,
+     "missed_help_ci95": [
+      0.0,
+      0.0,
+      1000
+     ],
+     "missed_help_share": 0.0,
+     "reduction_ci95": [
+      0.0,
+      0.0,
+      1000
+     ],
+     "reduction_vs_always_help": 0.0
+    },
+    "speak_to_flag(own speaks, pooled flags)": 0,
+    "tau": 0.09
+   }
+  },
+  "sequences": 3742,
+  "students": 596
+ },
+ "env": {
+  "seconds": 27
+ },
+ "skill_distance": {
+  "largest": [
+   {
+    "guess": 0.25010730181499546,
+    "learn": 0.16070437521969516,
+    "max_abs_dist": 0.8111508544355045,
+    "prior": 0.01,
+    "skill_id": "299",
+    "skill_name": "Surface Area Cylinder",
+    "slip": 0.11552889694077918,
+    "train_sequences": 60
+   },
+   {
+    "guess": 0.03778326109654837,
+    "learn": 0.061574596447499,
+    "max_abs_dist": 0.8111508544355045,
+    "prior": 0.01,
+    "skill_id": "350",
+    "skill_name": "Solving Systems of Linear Equations",
+    "slip": 0.3,
+    "train_sequences": 18
+   },
+   {
+    "guess": 0.27940035921999284,
+    "learn": 0.37065787807484474,
+    "max_abs_dist": 0.8111508544355045,
+    "prior": 0.01,
+    "skill_id": "367",
+    "skill_name": "",
+    "slip": 0.3,
+    "train_sequences": 12
+   },
+   {
+    "guess": 0.13602769662098588,
+    "learn": 0.45633840668435094,
+    "max_abs_dist": 0.7999158594599366,
+    "prior": 0.021234994975567956,
+    "skill_id": "35_46",
+    "skill_name": "Effect of Changing Dimensions of a Shape Prportionally",
+    "slip": 0.20002082609166258,
+    "train_sequences": 133
+   },
+   {
+    "guess": 0.10895960319113945,
+    "learn": 0.13079713138237112,
+    "max_abs_dist": 0.7861147876904662,
+    "prior": 0.035036066745038334,
+    "skill_id": "292",
+    "skill_name": "Rotations",
+    "slip": 0.3,
+    "train_sequences": 57
+   },
+   {
+    "guess": 0.3,
+    "learn": 0.18121714641870762,
+    "max_abs_dist": 0.7753703062328445,
+    "prior": 0.04578054820265997,
+    "skill_id": "16_17",
+    "skill_name": "Counting Methods",
+    "slip": 0.29825605727109045,
+    "train_sequences": 404
+   },
+   {
+    "guess": 0.26395501131331245,
+    "learn": 0.16764068918209532,
+    "max_abs_dist": 0.6998551560469752,
+    "prior": 0.12129569838852924,
+    "skill_id": "34_81",
+    "skill_name": "Unit Conversion Within a System",
+    "slip": 0.01,
+    "train_sequences": 20
+   },
+   {
+    "guess": 0.21436122875486205,
+    "learn": 0.2886700442102129,
+    "max_abs_dist": 0.6926068879095021,
+    "prior": 0.12854396652600245,
+    "skill_id": "371",
+    "skill_name": "Simplifying Expressions positive exponents",
+    "slip": 0.022610799087909507,
+    "train_sequences": 16
+   },
+   {
+    "guess": 0.24209161496263246,
+    "learn": 0.10916829926601837,
+    "max_abs_dist": 0.66173849944498,
+    "prior": 0.15941235499052456,
+    "skill_id": "166",
+    "skill_name": "Algebraic Solving",
+    "slip": 0.3,
+    "train_sequences": 60
+   },
+   {
+    "guess": 0.3,
+    "learn": 0.02723038353400787,
+    "max_abs_dist": 0.653216717948977,
+    "prior": 0.16793413648652758,
+    "skill_id": "97_99_105",
+    "skill_name": "",
+    "slip": 0.3,
+    "train_sequences": 16
+   }
+  ],
+  "smallest": [
+   {
+    "guess": 0.3,
+    "learn": 0.05322904735892749,
+    "max_abs_dist": 0.08854934513306545,
+    "prior": 0.8274148017006622,
+    "skill_id": "9_13",
+    "skill_name": "Stem and Leaf Plot",
+    "slip": 0.21288011103495852,
+    "train_sequences": 73
+   },
+   {
+    "guess": 0.2998325188197699,
+    "learn": 0.13718530468095086,
+    "max_abs_dist": 0.08838186395283537,
+    "prior": 0.7531217103174762,
+    "skill_id": "27",
+    "skill_name": "Pythagorean Theorem",
+    "slip": 0.26070390781886094,
+    "train_sequences": 913
+   },
+   {
+    "guess": 0.21275711010266554,
+    "learn": 0.17559688552913377,
+    "max_abs_dist": 0.08624643076749552,
+    "prior": 0.7849465727485454,
+    "skill_id": "21",
+    "skill_name": "Interior Angles Figures with More than 3 Sides",
+    "slip": 0.2665281422147516,
+    "train_sequences": 93
+   },
+   {
+    "guess": 0.20187066578344148,
+    "learn": 0.055871893728094556,
+    "max_abs_dist": 0.0815526790059985,
+    "prior": 0.7611635767790528,
+    "skill_id": "13",
+    "skill_name": "Median",
+    "slip": 0.2861813189352089,
+    "train_sequences": 271
+   },
+   {
+    "guess": 0.22397890651082358,
+    "learn": 0.08806977550157852,
+    "max_abs_dist": 0.06400180971929509,
+    "prior": 0.8114028500938086,
+    "skill_id": "2_70",
+    "skill_name": "Circle Graph",
+    "slip": 0.26863044964850546,
+    "train_sequences": 212
+   },
+   {
+    "guess": 0.17809005802578887,
+    "learn": 0.1386238459464503,
+    "max_abs_dist": 0.05614111046420778,
+    "prior": 0.7650097439712967,
+    "skill_id": "10_13",
+    "skill_name": "Table",
+    "slip": 0.24412262926267256,
+    "train_sequences": 234
+   },
+   {
+    "guess": 0.18337912522367136,
+    "learn": 0.10858472046162823,
+    "max_abs_dist": 0.05307047065829407,
+    "prior": 0.7871901684693964,
+    "skill_id": "309",
+    "skill_name": "Order of Operations +,-,/,* () positive reals",
+    "slip": 0.25769911058750444,
+    "train_sequences": 525
+   },
+   {
+    "guess": 0.20562515459563693,
+    "learn": 0.061858329528671104,
+    "max_abs_dist": 0.05234880267406772,
+    "prior": 0.7688020517614368,
+    "skill_id": "51_53_75",
+    "skill_name": "Ordering Integers",
+    "slip": 0.1846960098643915,
+    "train_sequences": 121
+   },
+   {
+    "guess": 0.248949111793492,
+    "learn": 0.13283303937097596,
+    "max_abs_dist": 0.048646774227519285,
+    "prior": 0.7725040802079852,
+    "skill_id": "67",
+    "skill_name": "Multiplication Fractions",
+    "slip": 0.21517227716229517,
+    "train_sequences": 798
+   },
+   {
+    "guess": 0.2477314216534839,
+    "learn": 0.05284074224264196,
+    "max_abs_dist": 0.04112066777703727,
+    "prior": 0.8622715222125418,
+    "skill_id": "311",
+    "skill_name": "Equation Solving Two or Fewer Steps",
+    "slip": 0.22368561578881985,
+    "train_sequences": 2666
+   }
+  ]
+ },
+ "spec": "aria_pace/SPEC.md Amendment 8",
+ "spread": {
+  "by_group": {
+   "algebra-type": {
+    "n_skills": 15,
+    "parameters": {
+     "guess": {
+      "max": 0.3,
+      "median": 0.29401249262837004,
+      "min": 0.03778326109654837,
+      "q25": 0.21555527343857764,
+      "q75": 0.3
+     },
+     "learn": {
+      "max": 0.6,
+      "median": 0.20048693083590505,
+      "min": 0.05284074224264196,
+      "q25": 0.0883840904317704,
+      "q75": 0.5572846054411005
+     },
+     "prior": {
+      "max": 0.99,
+      "median": 0.7795252376503632,
+      "min": 0.01,
+      "q25": 0.5868640799049365,
+      "q75": 0.8260707845505297
+     },
+     "slip": {
+      "max": 0.3,
+      "median": 0.23750694665559077,
+      "min": 0.022509754987132424,
+      "q25": 0.14169667305267783,
+      "q75": 0.2720408126525883
+     }
+    },
+    "skills": [
+     "Choose an Equation from Given Information",
+     "Equation Solving More Than Two Steps",
+     "Equation Solving Two or Fewer Steps",
+     "Exponents",
+     "Finding Slope From Equation",
+     "Order of Operations +,-,/,* () positive reals",
+     "Order of Operations All",
+     "Parts of a Polyomial, Terms, Coefficient, Monomial, Exponent, Variable",
+     "Recognize Linear Pattern",
+     "Solving Systems of Linear Equations",
+     "Solving Systems of Linear Equations by Graphing",
+     "Solving for a variable",
+     "Write Linear Equation from Graph",
+     "Write Linear Equation from Ordered Pairs",
+     "Write Linear Equation from Situation"
+    ]
+   },
+   "data/probability": {
+    "n_skills": 32,
+    "parameters": {
+     "guess": {
+      "max": 0.3,
+      "median": 0.1674751183582458,
+      "min": 0.01,
+      "q25": 0.10218214313852444,
+      "q75": 0.2557508510723644
+     },
+     "learn": {
+      "max": 0.6,
+      "median": 0.1335241439538632,
+      "min": 0.024455416611741592,
+      "q25": 0.055558763855753965,
+      "q75": 0.2831977479611618
+     },
+     "prior": {
+      "max": 0.9799342676262922,
+      "median": 0.807124100462254,
+      "min": 0.04578054820265997,
+      "q25": 0.703868647894686,
+      "q75": 0.9020412895931533
+     },
+     "slip": {
+      "max": 0.3,
+      "median": 0.21574623408711974,
+      "min": 0.03820753783232103,
+      "q25": 0.16120004198142493,
+      "q75": 0.2599491339883194
+     }
+    },
+    "skills": [
+     "Box and Whisker",
+     "Box and Whisker",
+     "Box and Whisker",
+     "Circle Graph",
+     "Circle Graph",
+     "Circle Graph",
+     "Circle Graph",
+     "Circle Graph",
+     "Counting Methods",
+     "Counting Methods",
+     "Histogram as Table or Graph",
+     "Mean",
+     "Median",
+     "Pattern Finding ",
+     "Pattern Finding ",
+     "Probability of Two Distinct Events",
+     "Probability of a Single Event",
+     "Scatter Plot",
+     "Stem and Leaf Plot",
+     "Stem and Leaf Plot",
+     "Stem and Leaf Plot",
+     "Stem and Leaf Plot",
+     "Table",
+     "Table",
+     "Table",
+     "Table",
+     "Table",
+     "Table",
+     "Table",
+     "Table",
+     "Venn Diagram",
+     "Venn Diagram"
+    ]
+   },
+   "geometry/measurement": {
+    "n_skills": 21,
+    "parameters": {
+     "guess": {
+      "max": 0.3,
+      "median": 0.25010730181499546,
+      "min": 0.01,
+      "q25": 0.08919015104504713,
+      "q75": 0.3
+     },
+     "learn": {
+      "max": 0.6,
+      "median": 0.16913584462084388,
+      "min": 0.01,
+      "q25": 0.12439032120933162,
+      "q75": 0.2319678386751165
+     },
+     "prior": {
+      "max": 0.99,
+      "median": 0.8856571108160108,
+      "min": 0.01,
+      "q25": 0.7531217103174762,
+      "q75": 0.9388380369243087
+     },
+     "slip": {
+      "max": 0.3,
+      "median": 0.20832435184361936,
+      "min": 0.03838644837711133,
+      "q25": 0.1455849621476162,
+      "q75": 0.26070390781886094
+     }
+    },
+    "skills": [
+     "Angles - Obtuse, Acute, and Right",
+     "Angles on Parallel Lines Cut by a Transversal",
+     "Area Circle",
+     "Area Irregular Figure",
+     "Area Parallelogram",
+     "Area Rectangle",
+     "Area Trapezoid",
+     "Area Triangle",
+     "Calculations with Similar Figures",
+     "Circumference ",
+     "Complementary and Supplementary Angles",
+     "Interior Angles Figures with More than 3 Sides",
+     "Interior Angles Figures with More than 3 Sides",
+     "Interior Angles Triangle",
+     "Perimeter of a Polygon",
+     "Pythagorean Theorem",
+     "Surface Area Cylinder",
+     "Surface Area Rectangular Prism",
+     "Volume Cylinder",
+     "Volume Rectangular Prism",
+     "Volume Sphere"
+    ]
+   },
+   "number/arithmetic": {
+    "n_skills": 30,
+    "parameters": {
+     "guess": {
+      "max": 0.3,
+      "median": 0.29853140516903837,
+      "min": 0.030356287412846933,
+      "q25": 0.16413132296780739,
+      "q75": 0.3
+     },
+     "learn": {
+      "max": 0.537518539965723,
+      "median": 0.13777281289470897,
+      "min": 0.020401777319831973,
+      "q25": 0.0982315950517916,
+      "q75": 0.21668085232597
+     },
+     "prior": {
+      "max": 0.9488387626614748,
+      "median": 0.7690112147652732,
+      "min": 0.3639223681114082,
+      "q25": 0.6553273774378017,
+      "q75": 0.8347049441602694
+     },
+     "slip": {
+      "max": 0.28963461643141425,
+      "median": 0.14310637952868638,
+      "min": 0.07461465302082027,
+      "q25": 0.0950342505692838,
+      "q75": 0.18201248736379178
+     }
+    },
+    "skills": [
+     "Absolute Value",
+     "Absolute Value",
+     "Addition Whole Numbers",
+     "Addition Whole Numbers",
+     "Addition and Subtraction Fractions",
+     "Addition and Subtraction Integers",
+     "Addition and Subtraction Positive Decimals",
+     "Conversion of Fraction Decimals Percents",
+     "Divisibility Rules",
+     "Division Fractions",
+     "Estimation",
+     "Finding Percents",
+     "Least Common Multiple",
+     "Multiplication Fractions",
+     "Multiplication and Division Integers",
+     "Multiplication and Division Positive Decimals",
+     "Number Line",
+     "Ordering Fractions",
+     "Ordering Integers",
+     "Ordering Integers",
+     "Ordering Positive Decimals",
+     "Ordering Positive Decimals",
+     "Percent Of",
+     "Proportion",
+     "Rounding",
+     "Scientific Notation",
+     "Square Root",
+     "Subtraction Whole Numbers",
+     "Subtraction Whole Numbers",
+     "Unit Rate"
+    ]
+   },
+   "other": {
+    "n_skills": 27,
+    "parameters": {
+     "guess": {
+      "max": 0.3,
+      "median": 0.24369071559935424,
+      "min": 0.04315850222675306,
+      "q25": 0.1470719926264778,
+      "q75": 0.3
+     },
+     "learn": {
+      "max": 0.6,
+      "median": 0.16764068918209532,
+      "min": 0.01,
+      "q25": 0.06873224794089397,
+      "q75": 0.3373619057251521
+     },
+     "prior": {
+      "max": 0.99,
+      "median": 0.5064175583761514,
+      "min": 0.01,
+      "q25": 0.231923764852431,
+      "q75": 0.7639776952282625
+     },
+     "slip": {
+      "max": 0.3,
+      "median": 0.22199230345068421,
+      "min": 0.01,
+      "q25": 0.08015178223382363,
+      "q75": 0.2999180739319577
+     }
+    },
+    "skills": [
+     "",
+     "",
+     "",
+     "",
+     "",
+     "",
+     "",
+     "",
+     "Algebraic Simplification",
+     "Algebraic Solving",
+     "Congruence",
+     "D.4.8-understanding-concept-of-probabilities",
+     "Effect of Changing Dimensions of a Shape Prportionally",
+     "Greatest Common Factor",
+     "Nets of 3D Figures",
+     "Polynomial Factors",
+     "Prime Number",
+     "Range",
+     "Reflection",
+     "Rotations",
+     "Scale Factor",
+     "Simplifying Expressions positive exponents",
+     "Translations",
+     "Unit Conversion Within a System",
+     "Unit Conversion Within a System",
+     "Unit Conversion Within a System",
+     "Unit Conversion Within a System"
+    ]
+   }
+  },
+  "n_skills_fitted": 125,
+  "n_skills_total": 141,
+  "parameters": {
+   "guess": {
+    "abs_distance_from_pooled": {
+     "max": 0.20145065486693453,
+     "median": 0.08854934513306545,
+     "min": 0.0013064552357310022,
+     "q25": 0.055522780303183306,
+     "q75": 0.08854934513306545
+    },
+    "max": 0.3,
+    "median": 0.2477314216534839,
+    "min": 0.01,
+    "n_at_lower_bound": 4,
+    "n_at_upper_bound": 45,
+    "pooled": 0.21145065486693454,
+    "q25": 0.13217360644801512,
+    "q75": 0.3
+   },
+   "learn": {
+    "abs_distance_from_pooled": {
+     "max": 0.5106495452383617,
+     "median": 0.07135392045805691,
+     "min": 0.0012806792600597305,
+     "q25": 0.03503986644769337,
+     "q75": 0.1801429481019642
+    },
+    "max": 0.6,
+    "median": 0.1516241862911538,
+    "min": 0.01,
+    "n_at_lower_bound": 2,
+    "n_at_upper_bound": 10,
+    "pooled": 0.08935045476163825,
+    "q25": 0.08276897140418393,
+    "q75": 0.26949340286360246
+   },
+   "prior": {
+    "abs_distance_from_pooled": {
+     "max": 0.8111508544355045,
+     "median": 0.12768790822597031,
+     "min": 0.00022970519136977785,
+     "q25": 0.05193047666639494,
+     "q75": 0.2063974863970538
+    },
+    "max": 0.99,
+    "median": 0.7692203777691096,
+    "min": 0.01,
+    "n_at_lower_bound": 3,
+    "n_at_upper_bound": 5,
+    "pooled": 0.8211508544355045,
+    "q25": 0.6147533680384507,
+    "q75": 0.8648879239716984
+   },
+   "slip": {
+    "abs_distance_from_pooled": {
+     "max": 0.19462863992921037,
+     "median": 0.07229227472464705,
+     "min": 0.0036957119144089834,
+     "q25": 0.03691637155724714,
+     "q75": 0.09537136007078961
+    },
+    "max": 0.3,
+    "median": 0.19269777737939675,
+    "min": 0.01,
+    "n_at_lower_bound": 3,
+    "n_at_upper_bound": 15,
+    "pooled": 0.20462863992921038,
+    "q25": 0.11409780135148116,
+    "q75": 0.2596848299125666
+   }
+  },
+  "pooled": {
+   "guess": 0.21145065486693454,
+   "learn": 0.08935045476163825,
+   "prior": 0.8211508544355045,
+   "slip": 0.20462863992921038
+  },
+  "share_of_train_sequences_covered": 0.9986224841203031
+ },
+ "status": "exploratory, validation only (A8); transfer risk across ASSISTments skills, not a calculus calibration"
+}
