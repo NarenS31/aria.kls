@@ -14,7 +14,7 @@ One line per tutor turn in `data/demo_logs/turns.jsonl` (written unless the app 
 | `hint_level` | value of a counter after the turn: starts at 0 per attempt (`agent/demo_tutor.py:174`), is incremented by every reply that is not a reflection (`:286`), and selects the next authored step the student has not produced (`:299`) | `agent/demo_tutor.py:330` |
 | `t_s` | seconds since the attempt started, at the end of the turn, one decimal | `agent/demo_tutor.py:171`, `:332` |
 
-An **attempt** below means one `(session_id, attempt, problem_id)` group of turns. **Scored** turn = a turn whose verdict is right (`correct`, `partial`, `step`) or `wrong`; `restate` and `none` are not scored (the same rule the pace tracker uses, `agent/demo_pace.py:35-36`). A **hint turn** = `intervened` with `intervention_type` in (`hint`, `task_chunking`) (`agent/demo_summary.py:34`).
+An **attempt** below means one `(session_id, attempt, problem_id)` group of turns. **Scored** turn = a turn whose verdict is right (`correct`, `partial`, `step`) or `wrong`; `restate` and `none` are not scored (the same rule the pace tracker uses, `agent/demo_pace.py:38-39`). A **hint turn** = `intervened` with `intervention_type` in (`hint`, `task_chunking`) (`agent/demo_summary.py:34`).
 
 The log has **no learner identifier**: `session_id` changes whenever the visitor picks another problem, so measures cannot follow one learner across problems from the log alone.
 
