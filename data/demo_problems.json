@@ -15,7 +15,33 @@
     "do": "Subtract 2x from both sides",
     "result": "x - 12 = 5"
    }
-  ]
+  ],
+  "concepts": [
+   "alg.distribute",
+   "alg.like_terms",
+   "alg.inverse_ops",
+   "alg.linear_eq"
+  ],
+  "concept_edges": [
+   [
+    "alg.distribute",
+    "alg.linear_eq"
+   ],
+   [
+    "alg.like_terms",
+    "alg.linear_eq"
+   ],
+   [
+    "alg.inverse_ops",
+    "alg.linear_eq"
+   ]
+  ],
+  "concept_labels": {
+   "alg.distribute": "Distributive property",
+   "alg.like_terms": "Combining like terms",
+   "alg.inverse_ops": "Inverse operations",
+   "alg.linear_eq": "Solving linear equations"
+  }
  },
  {
   "id": "alg-02",
@@ -32,7 +58,31 @@
     "do": "Subtract 7 from both sides",
     "result": "2x = 8"
    }
-  ]
+  ],
+  "concepts": [
+   "alg.inverse_ops",
+   "alg.linear_eq"
+  ],
+  "concept_edges": [
+   [
+    "alg.distribute",
+    "alg.linear_eq"
+   ],
+   [
+    "alg.like_terms",
+    "alg.linear_eq"
+   ],
+   [
+    "alg.inverse_ops",
+    "alg.linear_eq"
+   ]
+  ],
+  "concept_labels": {
+   "alg.inverse_ops": "Inverse operations",
+   "alg.linear_eq": "Solving linear equations",
+   "alg.distribute": "Distributive property",
+   "alg.like_terms": "Combining like terms"
+  }
  },
  {
   "id": "alg-03",
@@ -49,7 +99,32 @@
     "do": "Subtract 2x from both sides",
     "result": "3x - 3 = 9"
    }
-  ]
+  ],
+  "concepts": [
+   "alg.like_terms",
+   "alg.inverse_ops",
+   "alg.linear_eq"
+  ],
+  "concept_edges": [
+   [
+    "alg.distribute",
+    "alg.linear_eq"
+   ],
+   [
+    "alg.like_terms",
+    "alg.linear_eq"
+   ],
+   [
+    "alg.inverse_ops",
+    "alg.linear_eq"
+   ]
+  ],
+  "concept_labels": {
+   "alg.like_terms": "Combining like terms",
+   "alg.inverse_ops": "Inverse operations",
+   "alg.linear_eq": "Solving linear equations",
+   "alg.distribute": "Distributive property"
+  }
  },
  {
   "id": "alg-04",
@@ -66,7 +141,36 @@
     "do": "Multiply both sides by 2",
     "result": "x + 1 = 14"
    }
-  ]
+  ],
+  "concepts": [
+   "alg.fractions_eq",
+   "alg.linear_eq"
+  ],
+  "concept_edges": [
+   [
+    "alg.distribute",
+    "alg.linear_eq"
+   ],
+   [
+    "alg.like_terms",
+    "alg.linear_eq"
+   ],
+   [
+    "alg.inverse_ops",
+    "alg.linear_eq"
+   ],
+   [
+    "alg.linear_eq",
+    "alg.fractions_eq"
+   ]
+  ],
+  "concept_labels": {
+   "alg.fractions_eq": "Equations with fractions",
+   "alg.linear_eq": "Solving linear equations",
+   "alg.distribute": "Distributive property",
+   "alg.like_terms": "Combining like terms",
+   "alg.inverse_ops": "Inverse operations"
+  }
  },
  {
   "id": "alg-05",
@@ -87,7 +191,32 @@
     "do": "Factor the left side",
     "result": "(x - 2)(x - 3) = 0"
    }
-  ]
+  ],
+  "concepts": [
+   "alg.factor_quadratic",
+   "alg.zero_product",
+   "alg.solve_by_factoring"
+  ],
+  "concept_edges": [
+   [
+    "alg.expand_binomials",
+    "alg.factor_quadratic"
+   ],
+   [
+    "alg.factor_quadratic",
+    "alg.solve_by_factoring"
+   ],
+   [
+    "alg.zero_product",
+    "alg.solve_by_factoring"
+   ]
+  ],
+  "concept_labels": {
+   "alg.factor_quadratic": "Factoring quadratics",
+   "alg.zero_product": "Zero-product property",
+   "alg.solve_by_factoring": "Solving quadratics by factoring",
+   "alg.expand_binomials": "Expanding binomials"
+  }
  },
  {
   "id": "alg-06",
@@ -107,7 +236,22 @@
     "do": "Add 9 to both sides",
     "result": "x^2 = 9"
    }
-  ]
+  ],
+  "concepts": [
+   "alg.diff_squares",
+   "alg.zero_product"
+  ],
+  "concept_edges": [
+   [
+    "alg.expand_binomials",
+    "alg.diff_squares"
+   ]
+  ],
+  "concept_labels": {
+   "alg.diff_squares": "Difference of squares",
+   "alg.zero_product": "Zero-product property",
+   "alg.expand_binomials": "Expanding binomials"
+  }
  },
  {
   "id": "alg-07",
@@ -127,7 +271,32 @@
     "do": "Factor the left side",
     "result": "(2x - 1)(x + 2) = 0"
    }
-  ]
+  ],
+  "concepts": [
+   "alg.factor_quadratic",
+   "alg.zero_product",
+   "alg.solve_by_factoring"
+  ],
+  "concept_edges": [
+   [
+    "alg.expand_binomials",
+    "alg.factor_quadratic"
+   ],
+   [
+    "alg.factor_quadratic",
+    "alg.solve_by_factoring"
+   ],
+   [
+    "alg.zero_product",
+    "alg.solve_by_factoring"
+   ]
+  ],
+  "concept_labels": {
+   "alg.factor_quadratic": "Factoring quadratics",
+   "alg.zero_product": "Zero-product property",
+   "alg.solve_by_factoring": "Solving quadratics by factoring",
+   "alg.expand_binomials": "Expanding binomials"
+  }
  },
  {
   "id": "alg-08",
@@ -156,7 +325,26 @@
     "do": "Write (x + 3)(x + 3) and multiply each term",
     "result": "x^2"
    }
-  ]
+  ],
+  "concepts": [
+   "alg.expand_binomials",
+   "alg.like_terms"
+  ],
+  "concept_edges": [
+   [
+    "alg.distribute",
+    "alg.expand_binomials"
+   ],
+   [
+    "alg.like_terms",
+    "alg.expand_binomials"
+   ]
+  ],
+  "concept_labels": {
+   "alg.expand_binomials": "Expanding binomials",
+   "alg.like_terms": "Combining like terms",
+   "alg.distribute": "Distributive property"
+  }
  },
  {
   "id": "alg-09",
@@ -185,7 +373,26 @@
     "do": "Multiply 2x by each term in the second bracket",
     "result": "2x^2"
    }
-  ]
+  ],
+  "concepts": [
+   "alg.expand_binomials",
+   "alg.like_terms"
+  ],
+  "concept_edges": [
+   [
+    "alg.distribute",
+    "alg.expand_binomials"
+   ],
+   [
+    "alg.like_terms",
+    "alg.expand_binomials"
+   ]
+  ],
+  "concept_labels": {
+   "alg.expand_binomials": "Expanding binomials",
+   "alg.like_terms": "Combining like terms",
+   "alg.distribute": "Distributive property"
+  }
  },
  {
   "id": "alg-10",
@@ -207,7 +414,27 @@
    {
     "do": "Factor the top as a difference of squares"
    }
-  ]
+  ],
+  "concepts": [
+   "alg.diff_squares",
+   "alg.simplify_rational"
+  ],
+  "concept_edges": [
+   [
+    "alg.expand_binomials",
+    "alg.diff_squares"
+   ],
+   [
+    "alg.factor_quadratic",
+    "alg.simplify_rational"
+   ]
+  ],
+  "concept_labels": {
+   "alg.diff_squares": "Difference of squares",
+   "alg.simplify_rational": "Simplifying rational expressions",
+   "alg.expand_binomials": "Expanding binomials",
+   "alg.factor_quadratic": "Factoring quadratics"
+  }
  },
  {
   "id": "trig-01",
@@ -235,7 +462,21 @@
     "do": "Find sin(pi/6) from the unit circle",
     "result": "1/2"
    }
-  ]
+  ],
+  "concepts": [
+   "trig.radians",
+   "trig.special_angles"
+  ],
+  "concept_edges": [
+   [
+    "trig.radians",
+    "trig.special_angles"
+   ]
+  ],
+  "concept_labels": {
+   "trig.radians": "Radian measure",
+   "trig.special_angles": "Exact values at special angles"
+  }
  },
  {
   "id": "trig-02",
@@ -262,7 +503,22 @@
     "do": "Find tan(pi/4) first",
     "result": "1"
    }
-  ]
+  ],
+  "concepts": [
+   "trig.special_angles",
+   "trig.ratio_identities"
+  ],
+  "concept_edges": [
+   [
+    "trig.radians",
+    "trig.special_angles"
+   ]
+  ],
+  "concept_labels": {
+   "trig.special_angles": "Exact values at special angles",
+   "trig.ratio_identities": "Ratio identities (tan = sin/cos)",
+   "trig.radians": "Radian measure"
+  }
  },
  {
   "id": "trig-03",
@@ -289,7 +545,20 @@
     "do": "Find cos(pi/4) first",
     "result": "sqrt(2)/2"
    }
-  ]
+  ],
+  "concepts": [
+   "trig.special_angles"
+  ],
+  "concept_edges": [
+   [
+    "trig.radians",
+    "trig.special_angles"
+   ]
+  ],
+  "concept_labels": {
+   "trig.special_angles": "Exact values at special angles",
+   "trig.radians": "Radian measure"
+  }
  },
  {
   "id": "trig-04",
@@ -314,7 +583,26 @@
     "claim": "1 - sin(x)^2 = cos(x)^2"
    }
   ],
-  "step_ok": "1 - sin(x)^2 = cos(x)^2"
+  "step_ok": "1 - sin(x)^2 = cos(x)^2",
+  "concepts": [
+   "trig.pythag_identity",
+   "trig.simplify_trig"
+  ],
+  "concept_edges": [
+   [
+    "trig.pythag_identity",
+    "trig.simplify_trig"
+   ],
+   [
+    "trig.ratio_identities",
+    "trig.simplify_trig"
+   ]
+  ],
+  "concept_labels": {
+   "trig.pythag_identity": "Pythagorean identity",
+   "trig.simplify_trig": "Simplifying trig expressions",
+   "trig.ratio_identities": "Ratio identities (tan = sin/cos)"
+  }
  },
  {
   "id": "trig-05",
@@ -338,7 +626,26 @@
     "claim": "1 - cos(x)^2 = sin(x)^2"
    }
   ],
-  "step_ok": "1 - cos(x)^2 = sin(x)^2"
+  "step_ok": "1 - cos(x)^2 = sin(x)^2",
+  "concepts": [
+   "trig.pythag_identity",
+   "trig.simplify_trig"
+  ],
+  "concept_edges": [
+   [
+    "trig.pythag_identity",
+    "trig.simplify_trig"
+   ],
+   [
+    "trig.ratio_identities",
+    "trig.simplify_trig"
+   ]
+  ],
+  "concept_labels": {
+   "trig.pythag_identity": "Pythagorean identity",
+   "trig.simplify_trig": "Simplifying trig expressions",
+   "trig.ratio_identities": "Ratio identities (tan = sin/cos)"
+  }
  },
  {
   "id": "trig-06",
@@ -362,7 +669,27 @@
     "claim": "sin(2x) = 2 sin(x) cos(x)"
    }
   ],
-  "step_ok": "sin(2x) = 2 sin(x) cos(x)"
+  "step_ok": "sin(2x) = 2 sin(x) cos(x)",
+  "concepts": [
+   "trig.double_angle",
+   "trig.simplify_trig"
+  ],
+  "concept_edges": [
+   [
+    "trig.pythag_identity",
+    "trig.simplify_trig"
+   ],
+   [
+    "trig.ratio_identities",
+    "trig.simplify_trig"
+   ]
+  ],
+  "concept_labels": {
+   "trig.double_angle": "Double-angle identities",
+   "trig.simplify_trig": "Simplifying trig expressions",
+   "trig.pythag_identity": "Pythagorean identity",
+   "trig.ratio_identities": "Ratio identities (tan = sin/cos)"
+  }
  },
  {
   "id": "trig-07",
@@ -386,7 +713,26 @@
     "claim": "tan(x) = sin(x)/cos(x)"
    }
   ],
-  "step_ok": "tan(x) = sin(x)/cos(x)"
+  "step_ok": "tan(x) = sin(x)/cos(x)",
+  "concepts": [
+   "trig.ratio_identities",
+   "trig.simplify_trig"
+  ],
+  "concept_edges": [
+   [
+    "trig.pythag_identity",
+    "trig.simplify_trig"
+   ],
+   [
+    "trig.ratio_identities",
+    "trig.simplify_trig"
+   ]
+  ],
+  "concept_labels": {
+   "trig.ratio_identities": "Ratio identities (tan = sin/cos)",
+   "trig.simplify_trig": "Simplifying trig expressions",
+   "trig.pythag_identity": "Pythagorean identity"
+  }
  },
  {
   "id": "trig-08",
@@ -404,7 +750,26 @@
    {
     "do": "Recall which angle in the first quadrant has sine 1/2"
    }
-  ]
+  ],
+  "concepts": [
+   "trig.special_angles",
+   "trig.solve_special"
+  ],
+  "concept_edges": [
+   [
+    "trig.radians",
+    "trig.special_angles"
+   ],
+   [
+    "trig.special_angles",
+    "trig.solve_special"
+   ]
+  ],
+  "concept_labels": {
+   "trig.special_angles": "Exact values at special angles",
+   "trig.solve_special": "Solving for special angles",
+   "trig.radians": "Radian measure"
+  }
  },
  {
   "id": "trig-09",
@@ -424,7 +789,26 @@
     "do": "Divide both sides by 2",
     "result": "cos(x) = 1/2"
    }
-  ]
+  ],
+  "concepts": [
+   "trig.special_angles",
+   "trig.solve_special"
+  ],
+  "concept_edges": [
+   [
+    "trig.radians",
+    "trig.special_angles"
+   ],
+   [
+    "trig.special_angles",
+    "trig.solve_special"
+   ]
+  ],
+  "concept_labels": {
+   "trig.special_angles": "Exact values at special angles",
+   "trig.solve_special": "Solving for special angles",
+   "trig.radians": "Radian measure"
+  }
  },
  {
   "id": "trig-10",
@@ -442,7 +826,26 @@
    {
     "do": "Recall which angle in the first quadrant has tangent 1"
    }
-  ]
+  ],
+  "concepts": [
+   "trig.special_angles",
+   "trig.solve_special"
+  ],
+  "concept_edges": [
+   [
+    "trig.radians",
+    "trig.special_angles"
+   ],
+   [
+    "trig.special_angles",
+    "trig.solve_special"
+   ]
+  ],
+  "concept_labels": {
+   "trig.special_angles": "Exact values at special angles",
+   "trig.solve_special": "Solving for special angles",
+   "trig.radians": "Radian measure"
+  }
  },
  {
   "id": "calc-01",
@@ -476,7 +879,22 @@
     "do": "Apply the power rule to 5x^2",
     "result": "-10x"
    }
-  ]
+  ],
+  "concepts": [
+   "calc.power_rule",
+   "calc.linearity"
+  ],
+  "concept_edges": [
+   [
+    "calc.exponent_laws",
+    "calc.power_rule"
+   ]
+  ],
+  "concept_labels": {
+   "calc.power_rule": "Power rule",
+   "calc.linearity": "Sum and constant-multiple rules",
+   "calc.exponent_laws": "Laws of exponents"
+  }
  },
  {
   "id": "calc-02",
@@ -505,7 +923,28 @@
     "do": "Use the product rule, so differentiate x^2 and keep cos(2x)",
     "result": "2x cos(2x)"
    }
-  ]
+  ],
+  "concepts": [
+   "calc.product_rule",
+   "calc.chain_rule",
+   "calc.trig_derivs"
+  ],
+  "concept_edges": [
+   [
+    "calc.power_rule",
+    "calc.product_rule"
+   ],
+   [
+    "calc.power_rule",
+    "calc.chain_rule"
+   ]
+  ],
+  "concept_labels": {
+   "calc.product_rule": "Product rule",
+   "calc.chain_rule": "Chain rule",
+   "calc.trig_derivs": "Derivatives of sin and cos",
+   "calc.power_rule": "Power rule"
+  }
  },
  {
   "id": "calc-03",
@@ -533,7 +972,28 @@
     "do": "Use the product rule, so differentiate x^2 and keep sin(3x)",
     "result": "2x sin(3x)"
    }
-  ]
+  ],
+  "concepts": [
+   "calc.product_rule",
+   "calc.chain_rule",
+   "calc.trig_derivs"
+  ],
+  "concept_edges": [
+   [
+    "calc.power_rule",
+    "calc.product_rule"
+   ],
+   [
+    "calc.power_rule",
+    "calc.chain_rule"
+   ]
+  ],
+  "concept_labels": {
+   "calc.product_rule": "Product rule",
+   "calc.chain_rule": "Chain rule",
+   "calc.trig_derivs": "Derivatives of sin and cos",
+   "calc.power_rule": "Power rule"
+  }
  },
  {
   "id": "calc-04",
@@ -555,7 +1015,22 @@
    {
     "do": "Use the chain rule, and find the derivative of the inside, 2x"
    }
-  ]
+  ],
+  "concepts": [
+   "calc.exp_derivs",
+   "calc.chain_rule"
+  ],
+  "concept_edges": [
+   [
+    "calc.power_rule",
+    "calc.chain_rule"
+   ]
+  ],
+  "concept_labels": {
+   "calc.exp_derivs": "Derivative of e^x",
+   "calc.chain_rule": "Chain rule",
+   "calc.power_rule": "Power rule"
+  }
  },
  {
   "id": "calc-05",
@@ -582,7 +1057,22 @@
     "result": "1/(x^2+1)"
    }
   ],
-  "step_ok": "the outer derivative is 1/(x^2+1)"
+  "step_ok": "the outer derivative is 1/(x^2+1)",
+  "concepts": [
+   "calc.log_derivs",
+   "calc.chain_rule"
+  ],
+  "concept_edges": [
+   [
+    "calc.power_rule",
+    "calc.chain_rule"
+   ]
+  ],
+  "concept_labels": {
+   "calc.log_derivs": "Derivative of ln x",
+   "calc.chain_rule": "Chain rule",
+   "calc.power_rule": "Power rule"
+  }
  },
  {
   "id": "calc-06",
@@ -610,7 +1100,26 @@
     "result": "3(x^2+1)^2"
    }
   ],
-  "step_ok": "the outer derivative is 3(x^2+1)^2"
+  "step_ok": "the outer derivative is 3(x^2+1)^2",
+  "concepts": [
+   "calc.chain_rule",
+   "calc.power_rule"
+  ],
+  "concept_edges": [
+   [
+    "calc.exponent_laws",
+    "calc.power_rule"
+   ],
+   [
+    "calc.power_rule",
+    "calc.chain_rule"
+   ]
+  ],
+  "concept_labels": {
+   "calc.chain_rule": "Chain rule",
+   "calc.power_rule": "Power rule",
+   "calc.exponent_laws": "Laws of exponents"
+  }
  },
  {
   "id": "calc-07",
@@ -641,7 +1150,22 @@
     "do": "Integrate 6x^2 using the power rule",
     "result": "2x^3"
    }
-  ]
+  ],
+  "concepts": [
+   "calc.antiderivative_power",
+   "calc.linearity"
+  ],
+  "concept_edges": [
+   [
+    "calc.power_rule",
+    "calc.antiderivative_power"
+   ]
+  ],
+  "concept_labels": {
+   "calc.antiderivative_power": "Power rule for integrals",
+   "calc.linearity": "Sum and constant-multiple rules",
+   "calc.power_rule": "Power rule"
+  }
  },
  {
   "id": "calc-08",
@@ -664,7 +1188,20 @@
    {
     "do": "Which function has cos(x) as its derivative?"
    }
-  ]
+  ],
+  "concepts": [
+   "calc.antiderivative_trig"
+  ],
+  "concept_edges": [
+   [
+    "calc.trig_derivs",
+    "calc.antiderivative_trig"
+   ]
+  ],
+  "concept_labels": {
+   "calc.antiderivative_trig": "Integrals of sin and cos",
+   "calc.trig_derivs": "Derivatives of sin and cos"
+  }
  },
  {
   "id": "calc-09",
@@ -692,7 +1229,20 @@
     "result": "x^4"
    }
   ],
-  "step_ok": "the power goes up to x^4"
+  "step_ok": "the power goes up to x^4",
+  "concepts": [
+   "calc.antiderivative_power"
+  ],
+  "concept_edges": [
+   [
+    "calc.power_rule",
+    "calc.antiderivative_power"
+   ]
+  ],
+  "concept_labels": {
+   "calc.antiderivative_power": "Power rule for integrals",
+   "calc.power_rule": "Power rule"
+  }
  },
  {
   "id": "calc-10",
@@ -720,6 +1270,21 @@
     "do": "Use the product rule, so differentiate sin(x) and keep cos(x)",
     "result": "cos(x)^2"
    }
-  ]
+  ],
+  "concepts": [
+   "calc.product_rule",
+   "calc.trig_derivs"
+  ],
+  "concept_edges": [
+   [
+    "calc.power_rule",
+    "calc.product_rule"
+   ]
+  ],
+  "concept_labels": {
+   "calc.product_rule": "Product rule",
+   "calc.trig_derivs": "Derivatives of sin and cos",
+   "calc.power_rule": "Power rule"
+  }
  }
 ]
