@@ -10,7 +10,7 @@ Our tutor, ARIA, has a math engine that does the algebra itself, so it knows whe
 
 To decide, it uses a very old idea from 1995, called knowledge tracing, which estimates from right and wrong answers how likely a student is to be stuck. We set three cost settings: quiet, balanced and supportive. They say how much we mind interrupting compared with making someone wait. They are settings, not kinds of students.
 
-We tested on old logs of ASSISTments math practice. The grade level is not stated, and it is not calculus. We counted a student as stuck if they did not get three answers right in a row within ten tries. Under that definition, the quiet setting spoke 52% less often than a tutor that helps after every wrong step, and missed 3.7% of the students who did get stuck. With a stricter definition of stuck, that saving shrinks.
+We tested on old logs of ASSISTments math practice. The grade level is not stated, and it is not calculus. We counted a student as stuck if they did not get three answers right in a row within ten tries. Under that definition, the quiet setting spoke 52% less often than a tutor that helps after every wrong step, and missed 3.7% of the students who did get stuck (missed help is about 4 to 6% across our checks). With another definition of stuck, that saving shrinks a lot.
 
 This is a replay of old data, not a classroom. We have not shown it helps students.
 
@@ -28,7 +28,7 @@ The cutoff depends on a cost setting. Quiet means interrupting is expensive. Bal
 
 We tested on old logs of ASSISTments math practice. The grade level is not stated and it is not calculus, so whether it carries over to our calculus problems is open. We counted a student as stuck if they did not get three answers right in a row within ten tries. Under that definition, on 597 students we had not touched, the quiet setting spoke 52% less often than a tutor that helps after every wrong step, and missed 3.7% of the students who went on to get stuck. Balanced saved 15%, and supportive only 3%.
 
-Now the honest part. With a stricter definition of stuck, such as four right answers in a row, the saving on our practice data drops to about 9%. That check is exploratory and used validation data only. Bigger neural network models, including ones that see work on other skills, did not rank who will get stuck any better, so the simple model stays. And a small simulation says the quiet rule only pays off if leaving a stuck student alone is cheap. That is an assumption-dependent check, not evidence about real students.
+Now the honest part. With another definition of stuck, such as four right answers in a row, the saving on our practice data falls to about 8%; across the four other rules we tried it ranges from about 7% to 42%. That check is exploratory and used validation data only. The demo also uses one shared set of model settings for every problem, while our test used settings fitted to each skill; on practice data that shared set saves about 44% instead of 50%, so the demo is an approximation of what we tested. Bigger neural network models, including ones that see work on other skills, did not rank who will get stuck any better, and adding how long a student takes to answer did not clear our bar either, so the simple model stays. And a small simulation says the quiet rule only pays off if leaving a stuck student alone is cheap. That is an assumption-dependent check, not evidence about real students.
 
 All of this is replay. We have not shown that any of it helps students learn.
 
