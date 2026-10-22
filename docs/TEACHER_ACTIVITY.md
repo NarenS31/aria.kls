@@ -86,3 +86,7 @@ the answer, every reveal matched the recorded decision, the CSV had 8 rows with 
 ### Tests
 
 `tests/test_teacher_activity.py` (v1 tests unchanged except the handler tuple now has a sixth element): `ReasonsV2` (default unchanged, fixed values only, free text never in the file, UI phases) and `AnalysisV2` (reasons and per-profile tables at n = 15, nothing reported below it, v1 files still analyse).
+
+### Finding while building it: the current 8 moments cannot tell the profiles apart
+
+`data/teacher_moments_profiles.json` (generated from the pace build, `scripts/make_moment_profiles.py`) shows ARIA's decision on each of the 8 moments is **identical under Quiet, Balanced and Supportive**: stays quiet on M1, M2, M4, M5; steps in on M3, M6, M7, M8. The per-profile alignment table therefore cannot differ between profiles with these moments. The reason is by design: the profiles only act at attempts 3-9 on a verified wrong step (`agent/demo_pace.py`, ARIA-Pace gate), and these moments are early or contain no new verified wrong step at that stage. To compare profiles, a v2 set would need moments with a verified wrong step at attempts 3-9 (with history), chosen by the owner and regenerated with `make_moment_profiles.py`. Not done here.
