@@ -1,0 +1,845 @@
+{
+  "schema": "aria.matched_generator_eval/1",
+  "purpose": "Robustness check: equalise support across generators so a generator gap cannot be a sampling artefact.",
+  "frozen": {
+    "git_commit": "ef5b7d6c50bd05c4b6797e0eedf220c8f81b7183",
+    "git_branch": "main",
+    "git_status_porcelain": "?? eval/build_problem_disjoint_split.py\n?? eval/data/eval/problem_disjoint_20260826/\n?? eval/matched_generator_eval.py\n?? eval/problem_disjoint_eval.py\n?? tests/test_problem_disjoint_split.py",
+    "source_sha256": {
+      "eval/metacognition/analyzer.py": "0edb199802f9eebc49fbbfd402022c5eb17fbf743929e57d9027c82526ff96a2",
+      "eval/metacognition/behavioral.py": "15ec47fd7438d8ce27ec60aea8855eadd8fee79d0dbb9fad25ce460846a0a25f",
+      "eval/metacognition/transfer.py": "1ee8bcbd101f438d556516e6add53e6cef8accfb7db3fca3ec1e343fc11ef165"
+    },
+    "classifier": {
+      "class": "eval.metacognition.analyzer.CognitiveStateAnalyzer",
+      "use_llm": false,
+      "route": "heuristic-only; the Ollama fallback is never consulted",
+      "HEURISTIC_TRUST": 0.65,
+      "ARIA_META_MODEL_env": "<unset>",
+      "audio_features": null,
+      "behavioral_features": null,
+      "aria_previous_prompt": "",
+      "labels": [
+        "PLANNING",
+        "FLOW",
+        "CONFUSED",
+        "RUSHING",
+        "FRUSTRATED",
+        "STUCK",
+        "INSIGHT"
+      ]
+    },
+    "environment": {
+      "python": "3.11.15",
+      "python_implementation": "CPython",
+      "platform": "macOS-26.4.1-arm64-arm-64bit",
+      "machine": "arm64",
+      "packages": {
+        "numpy": "2.4.6",
+        "scipy": "1.17.1",
+        "sklearn": "1.9.0",
+        "matplotlib": "3.11.0",
+        "ollama": "<no __version__>"
+      }
+    },
+    "determinism": "The heuristic route is pure string matching with no RNG, no network call and no model weights. Repeated runs on the same input return byte-identical predictions."
+  },
+  "split": {
+    "seed": 20260826,
+    "procedure": "seeded_shuffle_30_10_10",
+    "test_problem_ids": [
+      "P03",
+      "P05",
+      "P10",
+      "P14",
+      "P20",
+      "P31",
+      "P33",
+      "P35",
+      "P39",
+      "P41"
+    ]
+  },
+  "matching": {
+    "matching_unit": "(problem_id, cognitive_state) cell",
+    "rule": "k = min over the four generators of that cell's count; exactly k drawn from each generator",
+    "seed": 20260826,
+    "seed_derivation": "random.Random(f'{seed}|{problem_id}|{state}|{generator}') per cell and generator, over a (source_file, source_line)-sorted pool",
+    "n_cells_total": 70,
+    "n_cells_used": 70,
+    "n_cells_dropped": 0,
+    "dropped_cells": [],
+    "n_per_generator": 339,
+    "n_total": 1356
+  },
+  "support": {
+    "llama3.1:8b": {
+      "PLANNING": 52,
+      "FLOW": 51,
+      "CONFUSED": 53,
+      "RUSHING": 44,
+      "FRUSTRATED": 44,
+      "STUCK": 41,
+      "INSIGHT": 54
+    },
+    "mistral:7b": {
+      "PLANNING": 52,
+      "FLOW": 51,
+      "CONFUSED": 53,
+      "RUSHING": 44,
+      "FRUSTRATED": 44,
+      "STUCK": 41,
+      "INSIGHT": 54
+    },
+    "gemma2:9b": {
+      "PLANNING": 52,
+      "FLOW": 51,
+      "CONFUSED": 53,
+      "RUSHING": 44,
+      "FRUSTRATED": 44,
+      "STUCK": 41,
+      "INSIGHT": 54
+    },
+    "phi3:medium": {
+      "PLANNING": 52,
+      "FLOW": 51,
+      "CONFUSED": 53,
+      "RUSHING": 44,
+      "FRUSTRATED": 44,
+      "STUCK": 41,
+      "INSIGHT": 54
+    }
+  },
+  "support_identical_across_generators": true,
+  "conditions": {
+    "llama3.1:8b": {
+      "condition": "llama3.1:8b",
+      "description": "Matched cross-generator arm. llama3.1:8b on the same 339 (problem x state) matched cells as every other generator.",
+      "n_examples": 339,
+      "n_unique_problems": 10,
+      "problem_ids": [
+        "P03",
+        "P05",
+        "P10",
+        "P14",
+        "P20",
+        "P31",
+        "P33",
+        "P35",
+        "P39",
+        "P41"
+      ],
+      "accuracy": 0.882,
+      "macro_f1": 0.8796,
+      "per_state": {
+        "PLANNING": {
+          "precision": 0.847,
+          "recall": 0.962,
+          "f1": 0.901,
+          "support": 52
+        },
+        "FLOW": {
+          "precision": 0.909,
+          "recall": 0.588,
+          "f1": 0.714,
+          "support": 51
+        },
+        "CONFUSED": {
+          "precision": 0.877,
+          "recall": 0.943,
+          "f1": 0.909,
+          "support": 53
+        },
+        "RUSHING": {
+          "precision": 0.894,
+          "recall": 0.955,
+          "f1": 0.923,
+          "support": 44
+        },
+        "FRUSTRATED": {
+          "precision": 0.796,
+          "recall": 0.977,
+          "f1": 0.878,
+          "support": 44
+        },
+        "STUCK": {
+          "precision": 1.0,
+          "recall": 0.878,
+          "f1": 0.935,
+          "support": 41
+        },
+        "INSIGHT": {
+          "precision": 0.906,
+          "recall": 0.889,
+          "f1": 0.897,
+          "support": 54
+        }
+      },
+      "confusion_matrix": [
+        [
+          50,
+          0,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          8,
+          30,
+          4,
+          4,
+          2,
+          0,
+          3
+        ],
+        [
+          0,
+          0,
+          50,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          42,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          43,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0,
+          0,
+          4,
+          36,
+          0
+        ],
+        [
+          1,
+          1,
+          2,
+          0,
+          2,
+          0,
+          48
+        ]
+      ],
+      "labels": [
+        "PLANNING",
+        "FLOW",
+        "CONFUSED",
+        "RUSHING",
+        "FRUSTRATED",
+        "STUCK",
+        "INSIGHT"
+      ],
+      "routing": {
+        "heuristic": 339
+      },
+      "by_generator": {
+        "llama3.1:8b": 339
+      },
+      "bootstrap": {
+        "method": "percentile bootstrap over problems (clusters), with replacement",
+        "reps": 2000,
+        "seed": 4242,
+        "n_clusters": 10,
+        "replicates_missing_a_class": 0,
+        "accuracy_ci95": [
+          0.8387,
+          0.9224
+        ],
+        "macro_f1_ci95": [
+          0.8337,
+          0.9199
+        ]
+      }
+    },
+    "mistral:7b": {
+      "condition": "mistral:7b",
+      "description": "Matched cross-generator arm. mistral:7b on the same 339 (problem x state) matched cells as every other generator.",
+      "n_examples": 339,
+      "n_unique_problems": 10,
+      "problem_ids": [
+        "P03",
+        "P05",
+        "P10",
+        "P14",
+        "P20",
+        "P31",
+        "P33",
+        "P35",
+        "P39",
+        "P41"
+      ],
+      "accuracy": 0.8142,
+      "macro_f1": 0.8104,
+      "per_state": {
+        "PLANNING": {
+          "precision": 0.907,
+          "recall": 0.942,
+          "f1": 0.925,
+          "support": 52
+        },
+        "FLOW": {
+          "precision": 0.7,
+          "recall": 0.412,
+          "f1": 0.519,
+          "support": 51
+        },
+        "CONFUSED": {
+          "precision": 0.806,
+          "recall": 0.943,
+          "f1": 0.87,
+          "support": 53
+        },
+        "RUSHING": {
+          "precision": 0.974,
+          "recall": 0.841,
+          "f1": 0.902,
+          "support": 44
+        },
+        "FRUSTRATED": {
+          "precision": 0.925,
+          "recall": 0.841,
+          "f1": 0.881,
+          "support": 44
+        },
+        "STUCK": {
+          "precision": 0.909,
+          "recall": 0.732,
+          "f1": 0.811,
+          "support": 41
+        },
+        "INSIGHT": {
+          "precision": 0.634,
+          "recall": 0.963,
+          "f1": 0.765,
+          "support": 54
+        }
+      },
+      "confusion_matrix": [
+        [
+          49,
+          1,
+          1,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          2,
+          21,
+          7,
+          1,
+          0,
+          2,
+          18
+        ],
+        [
+          1,
+          1,
+          50,
+          0,
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          2,
+          37,
+          0,
+          0,
+          3
+        ],
+        [
+          1,
+          1,
+          0,
+          0,
+          37,
+          1,
+          4
+        ],
+        [
+          0,
+          3,
+          2,
+          0,
+          2,
+          30,
+          4
+        ],
+        [
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          52
+        ]
+      ],
+      "labels": [
+        "PLANNING",
+        "FLOW",
+        "CONFUSED",
+        "RUSHING",
+        "FRUSTRATED",
+        "STUCK",
+        "INSIGHT"
+      ],
+      "routing": {
+        "heuristic": 339
+      },
+      "by_generator": {
+        "mistral:7b": 339
+      },
+      "bootstrap": {
+        "method": "percentile bootstrap over problems (clusters), with replacement",
+        "reps": 2000,
+        "seed": 4242,
+        "n_clusters": 10,
+        "replicates_missing_a_class": 0,
+        "accuracy_ci95": [
+          0.7706,
+          0.8547
+        ],
+        "macro_f1_ci95": [
+          0.7584,
+          0.8521
+        ]
+      }
+    },
+    "gemma2:9b": {
+      "condition": "gemma2:9b",
+      "description": "Matched cross-generator arm. gemma2:9b on the same 339 (problem x state) matched cells as every other generator.",
+      "n_examples": 339,
+      "n_unique_problems": 10,
+      "problem_ids": [
+        "P03",
+        "P05",
+        "P10",
+        "P14",
+        "P20",
+        "P31",
+        "P33",
+        "P35",
+        "P39",
+        "P41"
+      ],
+      "accuracy": 0.8378,
+      "macro_f1": 0.8317,
+      "per_state": {
+        "PLANNING": {
+          "precision": 0.926,
+          "recall": 0.962,
+          "f1": 0.943,
+          "support": 52
+        },
+        "FLOW": {
+          "precision": 0.857,
+          "recall": 0.471,
+          "f1": 0.608,
+          "support": 51
+        },
+        "CONFUSED": {
+          "precision": 0.825,
+          "recall": 0.887,
+          "f1": 0.855,
+          "support": 53
+        },
+        "RUSHING": {
+          "precision": 0.878,
+          "recall": 0.977,
+          "f1": 0.925,
+          "support": 44
+        },
+        "FRUSTRATED": {
+          "precision": 0.733,
+          "recall": 1.0,
+          "f1": 0.846,
+          "support": 44
+        },
+        "STUCK": {
+          "precision": 0.969,
+          "recall": 0.756,
+          "f1": 0.849,
+          "support": 41
+        },
+        "INSIGHT": {
+          "precision": 0.763,
+          "recall": 0.833,
+          "f1": 0.796,
+          "support": 54
+        }
+      },
+      "confusion_matrix": [
+        [
+          50,
+          0,
+          0,
+          1,
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          24,
+          3,
+          5,
+          5,
+          0,
+          13
+        ],
+        [
+          0,
+          0,
+          47,
+          0,
+          5,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1,
+          43,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          44,
+          0,
+          0
+        ],
+        [
+          1,
+          1,
+          3,
+          0,
+          5,
+          31,
+          0
+        ],
+        [
+          2,
+          3,
+          3,
+          0,
+          1,
+          0,
+          45
+        ]
+      ],
+      "labels": [
+        "PLANNING",
+        "FLOW",
+        "CONFUSED",
+        "RUSHING",
+        "FRUSTRATED",
+        "STUCK",
+        "INSIGHT"
+      ],
+      "routing": {
+        "heuristic": 339
+      },
+      "by_generator": {
+        "gemma2:9b": 339
+      },
+      "bootstrap": {
+        "method": "percentile bootstrap over problems (clusters), with replacement",
+        "reps": 2000,
+        "seed": 4242,
+        "n_clusters": 10,
+        "replicates_missing_a_class": 0,
+        "accuracy_ci95": [
+          0.8234,
+          0.8537
+        ],
+        "macro_f1_ci95": [
+          0.8136,
+          0.8457
+        ]
+      }
+    },
+    "phi3:medium": {
+      "condition": "phi3:medium",
+      "description": "Matched cross-generator arm. phi3:medium on the same 339 (problem x state) matched cells as every other generator.",
+      "n_examples": 339,
+      "n_unique_problems": 10,
+      "problem_ids": [
+        "P03",
+        "P05",
+        "P10",
+        "P14",
+        "P20",
+        "P31",
+        "P33",
+        "P35",
+        "P39",
+        "P41"
+      ],
+      "accuracy": 0.6313,
+      "macro_f1": 0.6226,
+      "per_state": {
+        "PLANNING": {
+          "precision": 0.672,
+          "recall": 0.827,
+          "f1": 0.741,
+          "support": 52
+        },
+        "FLOW": {
+          "precision": 0.567,
+          "recall": 0.333,
+          "f1": 0.42,
+          "support": 51
+        },
+        "CONFUSED": {
+          "precision": 0.5,
+          "recall": 0.623,
+          "f1": 0.555,
+          "support": 53
+        },
+        "RUSHING": {
+          "precision": 0.775,
+          "recall": 0.705,
+          "f1": 0.738,
+          "support": 44
+        },
+        "FRUSTRATED": {
+          "precision": 0.585,
+          "recall": 0.705,
+          "f1": 0.639,
+          "support": 44
+        },
+        "STUCK": {
+          "precision": 0.944,
+          "recall": 0.415,
+          "f1": 0.576,
+          "support": 41
+        },
+        "INSIGHT": {
+          "precision": 0.618,
+          "recall": 0.778,
+          "f1": 0.689,
+          "support": 54
+        }
+      },
+      "confusion_matrix": [
+        [
+          43,
+          1,
+          4,
+          2,
+          1,
+          0,
+          1
+        ],
+        [
+          7,
+          17,
+          5,
+          2,
+          5,
+          1,
+          14
+        ],
+        [
+          5,
+          3,
+          33,
+          1,
+          7,
+          0,
+          4
+        ],
+        [
+          3,
+          3,
+          4,
+          31,
+          1,
+          0,
+          2
+        ],
+        [
+          2,
+          1,
+          7,
+          3,
+          31,
+          0,
+          0
+        ],
+        [
+          3,
+          2,
+          8,
+          1,
+          5,
+          17,
+          5
+        ],
+        [
+          1,
+          3,
+          5,
+          0,
+          3,
+          0,
+          42
+        ]
+      ],
+      "labels": [
+        "PLANNING",
+        "FLOW",
+        "CONFUSED",
+        "RUSHING",
+        "FRUSTRATED",
+        "STUCK",
+        "INSIGHT"
+      ],
+      "routing": {
+        "heuristic": 339
+      },
+      "by_generator": {
+        "phi3:medium": 339
+      },
+      "bootstrap": {
+        "method": "percentile bootstrap over problems (clusters), with replacement",
+        "reps": 2000,
+        "seed": 4242,
+        "n_clusters": 10,
+        "replicates_missing_a_class": 0,
+        "accuracy_ci95": [
+          0.5812,
+          0.6824
+        ],
+        "macro_f1_ci95": [
+          0.5619,
+          0.6777
+        ]
+      }
+    }
+  },
+  "vs_llama": {
+    "llama3.1:8b": {
+      "baseline": true,
+      "delta_accuracy": 0.0,
+      "delta_macro_f1": 0.0,
+      "delta_accuracy_ci95": [
+        0.0,
+        0.0
+      ],
+      "delta_macro_f1_ci95": [
+        0.0,
+        0.0
+      ]
+    },
+    "mistral:7b": {
+      "paired": true,
+      "shared_problems": 10,
+      "delta_accuracy": -0.0678,
+      "delta_accuracy_ci95": [
+        -0.1032,
+        -0.034
+      ],
+      "delta_macro_f1_ci95": [
+        -0.1177,
+        -0.0317
+      ],
+      "delta_macro_f1": -0.0692,
+      "delta_accuracy_excludes_zero": true,
+      "delta_macro_f1_excludes_zero": true
+    },
+    "gemma2:9b": {
+      "paired": true,
+      "shared_problems": 10,
+      "delta_accuracy": -0.0442,
+      "delta_accuracy_ci95": [
+        -0.0888,
+        0.003
+      ],
+      "delta_macro_f1_ci95": [
+        -0.101,
+        0.0046
+      ],
+      "delta_macro_f1": -0.0479,
+      "delta_accuracy_excludes_zero": false,
+      "delta_macro_f1_excludes_zero": false
+    },
+    "phi3:medium": {
+      "paired": true,
+      "shared_problems": 10,
+      "delta_accuracy": -0.2507,
+      "delta_accuracy_ci95": [
+        -0.3141,
+        -0.1785
+      ],
+      "delta_macro_f1_ci95": [
+        -0.3293,
+        -0.1803
+      ],
+      "delta_macro_f1": -0.257,
+      "delta_accuracy_excludes_zero": true,
+      "delta_macro_f1_excludes_zero": true
+    }
+  },
+  "matched_vs_unmatched": {
+    "llama3.1:8b": {
+      "matched_accuracy": 0.882,
+      "unmatched_accuracy": 0.8619,
+      "delta": 0.0201,
+      "matched_n": 339,
+      "unmatched_n": 695
+    },
+    "mistral:7b": {
+      "matched_accuracy": 0.8142,
+      "unmatched_accuracy": 0.8147,
+      "delta": -0.0005,
+      "matched_n": 339,
+      "unmatched_n": 340
+    },
+    "gemma2:9b": {
+      "matched_accuracy": 0.8378,
+      "unmatched_accuracy": 0.8387,
+      "delta": -0.0009,
+      "matched_n": 339,
+      "unmatched_n": 341
+    },
+    "phi3:medium": {
+      "matched_accuracy": 0.6313,
+      "unmatched_accuracy": 0.6294,
+      "delta": 0.0019,
+      "matched_n": 339,
+      "unmatched_n": 340
+    }
+  }
+}

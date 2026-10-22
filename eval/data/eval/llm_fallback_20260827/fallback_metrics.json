@@ -1,0 +1,3616 @@
+{
+  "schema": "aria.llm_fallback_eval/1",
+  "purpose": "Does enabling the analyzer's LLM fallback improve cross-generator transfer on the frozen matched manifest?",
+  "frozen": {
+    "git_commit": "e9f0c56485c42e070c695152dc758952f06d1157",
+    "git_branch": "codex/iaeval-llm-fallback",
+    "git_status_porcelain": "?? eval/data/eval/llm_fallback_20260827/\n?? eval/data/eval/problem_disjoint_20260826/iaeval_paper_bundle.zip\n?? eval/data/eval/problem_disjoint_20260826/paper_bundle/\n?? eval/generate_fallback_report.py\n?? eval/llm_fallback_eval.py\n?? tests/test_llm_fallback.py",
+    "classifier_sources_sha256": {
+      "eval/metacognition/analyzer.py": "0edb199802f9eebc49fbbfd402022c5eb17fbf743929e57d9027c82526ff96a2",
+      "eval/metacognition/behavioral.py": "15ec47fd7438d8ce27ec60aea8855eadd8fee79d0dbb9fad25ce460846a0a25f",
+      "eval/metacognition/transfer.py": "1ee8bcbd101f438d556516e6add53e6cef8accfb7db3fca3ec1e343fc11ef165"
+    },
+    "classifier_unmodified": true,
+    "llm": {
+      "model_tag": "llama3.2:3b",
+      "model_id": "a80c4f17acd5",
+      "size": "2.0 GB",
+      "ollama_version": "ollama version is 0.30.11",
+      "decoding": {
+        "temperature": 0.0,
+        "num_predict": 150,
+        "num_ctx": 4096,
+        "format": "json",
+        "seed": "not set by the analyzer"
+      },
+      "determinism": "Greedy decoding (temperature 0.0). Verified empirically: 5 repeats of 3 utterances returned byte-identical state, confidence and free-text evidence; a 12-example probe at 4-way concurrency matched the sequential result 12/12.",
+      "system_prompt": "You classify a student's cognitive state from their think-aloud. Respond with JSON only, no prose.",
+      "parser": "strip ``` fences -> json.loads -> regex {.*} fallback; an out-of-vocabulary state falls back to substring match, then to the heuristic verdict",
+      "failure_behaviour": "any exception or missing ollama returns None and the heuristic verdict stands",
+      "trigger": "use_llm AND heuristic_confidence < 0.65"
+    },
+    "seeds": {
+      "split_seed": 20260826,
+      "match_seed": 20260826,
+      "bootstrap_seed": 4242
+    },
+    "environment": {
+      "python": "3.11.15",
+      "platform": "macOS-26.4.1-arm64-arm-64bit",
+      "machine": "arm64",
+      "packages": {
+        "numpy": "2.4.6",
+        "scipy": "1.17.1",
+        "sklearn": "1.9.0",
+        "matplotlib": "3.11.0",
+        "ollama": "<no __version__>"
+      }
+    }
+  },
+  "fewshot_audit": {
+    "fewshot_file": "eval/data/eval/mixed_fewshot_examples.json",
+    "fewshot_file_sha256": "1007c986326e3c7b70e3bbe15fb2626371959e246cda6faee2146f3a1bf417d5",
+    "n_examples_in_prompt": 56,
+    "by_split": {
+      "val": 14,
+      "test": 17,
+      "train": 25
+    },
+    "test_problems_in_prompt": [
+      "P14",
+      "P39"
+    ],
+    "val_problems_in_prompt": [
+      "P08",
+      "P09",
+      "P26",
+      "P34"
+    ],
+    "held_out_problems_in_prompt": [
+      "P08",
+      "P09",
+      "P14",
+      "P26",
+      "P34",
+      "P39"
+    ],
+    "leakage": true,
+    "entries": [
+      {
+        "state": "PLANNING",
+        "generator": "llama3.1:8b",
+        "problem_id": "P34",
+        "split": "val",
+        "source_id": "PLANNING|US History|easy|inattentive|the constitution|0.78",
+        "text": "Okay, so this is a pretty easy one... I just need to remember what checks and balances are about. Um, let me think for a sec. Alright, so the system of checks and balances was put in place by the Founding Fathers, right? They wanted to make sure no single branch of government got too powerful... like how the executive branch kinda did under George Washington... no, wait, that's not it. Okay, so they needed a way to balance each other out. That's why Congress has some powers over the president and stuff. Yeah, I think I've got this... First, let me just list all the branches real quick: legislative, executive, judicial... and then we have these overlapping powers... okay, now I remember! Checks and balances was put in place to stop anyone from getting too much power. Like, if Congress started doing stuff that wasn't good for the country. Yeah, I'm pretty sure I got this right. System of checks and balances is all about balancing out the branches so none get too powerful... duh!"
+      },
+      {
+        "state": "PLANNING",
+        "generator": "llama3.1:8b",
+        "problem_id": "P39",
+        "split": "test",
+        "source_id": "PLANNING|US History|easy|inattentive|industrialization|0.63|#1",
+        "text": "Okay, so I'm pretty sure railroads changed the economy, but how... let me think. Alright, first I need to figure out what exactly they changed. Um, wasn't it something about transporting goods and people faster? Yeah, that's right! So, it made trade easier, which helped businesses grow and stuff. But, wait, isn't there something else? Ah, yeah! Railroads also connected the country, making it easier for people to move around and find work... or was that the Transcontinental Railroad thingy? I'm pretty sure I got most of it right... hopefully."
+      },
+      {
+        "state": "PLANNING",
+        "generator": "mistral:7b",
+        "problem_id": "P39",
+        "split": "test",
+        "source_id": "PLANNING|US History|easy|inattentive|industrialization|0.63|mistral",
+        "text": "[sighs] Alright, let me focus. First I need to think about how railroads might have affected the economy back then. [pauses, scratches head] Uh, so maybe... [pause] wait, no, that's not it. Let me see... Railroads could have made transporting goods faster and cheaper, right? So maybe they allowed for more trade and economic growth? But what else? Oh, wait, they also connected different regions, probably leading to increased interaction and potential for industrial expansion. [checks watch] Okay, I think I got it. Hopefully, that's right."
+      },
+      {
+        "state": "PLANNING",
+        "generator": "mistral:7b",
+        "problem_id": "P18",
+        "split": "train",
+        "source_id": "PLANNING|Geometry|easy|combined|area|0.70|mistral",
+        "text": "['First I need to remember the formula for the area of a circle, let me think... pi times radius squared, right?'] [\"Okay, so it's pi times 5 squared... hang on, that's not right. Pi times something squared should be multiplied by itself, not just the number. So that's pi times 25. Wait, no! Radius squared, not diameter squared.\"] ['There it is, I got it! 78.54 area units. Pi times 5 squared divided by 2.']"
+      },
+      {
+        "state": "PLANNING",
+        "generator": "gemma2:9b",
+        "problem_id": "P39",
+        "split": "test",
+        "source_id": "PLANNING|US History|easy|inattentive|industrialization|0.63|gemma2",
+        "text": "Okay, so railroads... hmm, gotta think about how they impacted the economy. That seems kinda broad, though. first I need to remember what kind of things changed in the late 1800s. Like, was it mostly stuff with farms? Or maybe factories? Wait, no, railroads are about moving stuff around right? So maybe faster shipping and connecting places is a big deal? That seems like the direction I wanna go with it at least. Need to find more specific examples though."
+      },
+      {
+        "state": "PLANNING",
+        "generator": "gemma2:9b",
+        "problem_id": "P26",
+        "split": "val",
+        "source_id": "PLANNING|Python Programming|easy|hyperactive|strings|0.79|gemma2",
+        "text": "Okay, reversing a string... hmmm. Python has a bunch of ways to do this right? I bet there's a built-in function for it, gotta be! first I need to think about how we usually reverse stuff... like maybe slicing the string backwards? let me see... could it be something like `s[::-1]`?? that seems plausible. hmm, not sure if Python would use that syntax though. Okay, so `[::-1]` worked! Super easy. Makes sense now."
+      },
+      {
+        "state": "PLANNING",
+        "generator": "phi3:medium",
+        "problem_id": "P26",
+        "split": "val",
+        "source_id": "PLANNING|Python Programming|easy|hyperactive|strings|0.79|phi3",
+        "text": "Okay, I remember something about slicing... or was it the reverse method? Gotta focus. Let's try to do this step by step. I think Python has a [::-1] thingy for reversals. Wait, but is that just for lists? No wait, strings are like lists too, right? I'm gonna use s[::-1]. Alright, fingers crossed this works! Phew, it worked! Slicing in Python rocks."
+      },
+      {
+        "state": "PLANNING",
+        "generator": "phi3:medium",
+        "problem_id": "P18",
+        "split": "train",
+        "source_id": "PLANNING|Geometry|easy|combined|area|0.70|phi3",
+        "text": "First I need to remember that formula for circle area, it's like pi something... Pi r squared? Ugh, hope I got this right. Okay, so the radius is 5. That means pi times 25 should give me the answer. Wait no! Do I need to round up first or not? This ain't clear... Phew, I think I did it right. Just hope my teacher doesn't ask about a detailed explanation today."
+      },
+      {
+        "state": "FLOW",
+        "generator": "llama3.1:8b",
+        "problem_id": "P34",
+        "split": "val",
+        "source_id": "FLOW|US History|easy|inattentive|the constitution|0.65",
+        "text": "Alright, let's see... I'm pretty sure this is from the Unit on Federalism or something. I've been studying for this test and I feel good about it. Okay, so the system of checks and balances was put in place to prevent one branch of government from getting too powerful, right? Like, Congress can't just make laws without the President's approval, and the courts can't just overrule the Executive... um... unless I remember that wrong. Yeah, no, it's like a balance between all three branches so they can check each other. It makes sense now. We learned this last week in class. Yeah, I'm pretty sure that's right. I mean, I was worried for a second there but it just clicked into place."
+      },
+      {
+        "state": "FLOW",
+        "generator": "llama3.1:8b",
+        "problem_id": "P39",
+        "split": "test",
+        "source_id": "FLOW|US History|easy|inattentive|industrialization|0.78",
+        "text": "Okay, I know this one... Railroads changed everything back then. Let's get this done! So, the transcontinental railroad was finished in 1869 and that connected the East Coast to the West, which made it easier for people and goods to move around. That would've made trade and business more efficient, so companies could grow faster... And with that growth, there'd be more jobs created, right? It's like a snowball effect, as soon as they finished building the railroad, everything else started moving too. That makes total sense! I'm pretty sure that's how it went down. Yeah, railroads were huge for the economy back then."
+      },
+      {
+        "state": "FLOW",
+        "generator": "mistral:7b",
+        "problem_id": "P04",
+        "split": "train",
+        "source_id": "FLOW|US History|easy|inattentive|civil rights movement|0.78|mistral|flow",
+        "text": "[\"Alright, let's see. Brown v. Board of Education, right? This is a pretty basic question, but my mind's all over the place today.\", 'Gotta focus... Brown v. Board of Education... Significance... Hmm.'] [\"Ah, got it! Brown v. Board of Education was a landmark Supreme Court case that declared 'separate educational facilities are inherently unequal'. Basically, it ruled that segregation in schools is unconstitutional.\", \"Wait, no... that's just the ruling. What was its significance?\", \"Oh right! The decision overturned the 'separate but equal' doctrine and paved the way for civil rights and racial equality in education.\"] [\"Yep, that's it. Brown v. Board of Education was a major step towards ending racial segregation and promoting equal educational opportunities.\", 'Feels good to have gotten that right. Gotta keep this flow going.']"
+      },
+      {
+        "state": "FLOW",
+        "generator": "mistral:7b",
+        "problem_id": "P04",
+        "split": "train",
+        "source_id": "FLOW|US History|easy|inattentive|civil rights movement|0.78|mistral",
+        "text": "[\"Alright, let's dive into this one. Brown v. Board of Education... hmm, got it in my head but feeling a bit scattered today.\"] [\"Okay, so this case was a major turning point in US History, right? It challenged the 'separate but equal' doctrine, which was... yeah, that was the Plessy v. Ferguson ruling. Brown v. Board of Education said that separate education facilities are inherently unequal. Got it. So, it overturned Plessy and basically paved the way for civil rights for black Americans in schools.\"] ['Awesome, I nailed that one. Brown v. Board of Education was a huge deal in US History, setting the stage for desegregation and equal education opportunities.']"
+      },
+      {
+        "state": "FLOW",
+        "generator": "gemma2:9b",
+        "problem_id": "P04",
+        "split": "train",
+        "source_id": "FLOW|US History|easy|inattentive|civil rights movement|0.78|gemma2|flow",
+        "text": "Okay, Brown v. Board of Education...Wasn't that something about schools? Like, segregation? I kinda remember that from class. Yeah, it was definitely about school segregation! Uh, so the board decided, or maybe it was the Supreme Court, that separate facilities for black and white kids were unequal. That means...that meant segregation in schools was unconstitutional! Boom, there we go. That felt good. I think I got it right this time."
+      },
+      {
+        "state": "FLOW",
+        "generator": "gemma2:9b",
+        "problem_id": "P34",
+        "split": "val",
+        "source_id": "FLOW|US History|easy|combined|the constitution|0.75|gemma2|flow",
+        "text": "Okay, checks and balances... sounds like a recipe for something super organized. But what did they REALLY try to stop? Hmm, maybe they wanted to prevent one branch of government from getting too powerful? Like, imagine if the President could just make any law without Congress saying anything – chaos! Yeah, that's gotta be it. That makes total sense. Checks and balances definitely keep things from going haywire."
+      },
+      {
+        "state": "FLOW",
+        "generator": "phi3:medium",
+        "problem_id": "P04",
+        "split": "train",
+        "source_id": "FLOW|US History|easy|inattentive|civil rights movement|0.78|phi3|flow",
+        "text": "Okay, I think I got this. Brown v. Board of Education was like a big turning point or something for schools. So firstly, it ended segregation in public schools by declaring 'separate but equal' unconstitutional... wait, is that the right way to put it? I mean, they actually said separate educational facilities are inherently unequal. Got it! That was a big win for civil rights. Oh man, this topic doesn't even bore me out like some others. Just gotta make sure I nail all these points. Cool, that wasn't too bad. This case basically changed the game and helped start desegregation in schools."
+      },
+      {
+        "state": "FLOW",
+        "generator": "phi3:medium",
+        "problem_id": "P04",
+        "split": "train",
+        "source_id": "FLOW|US History|easy|inattentive|civil rights movement|0.78|phi3",
+        "text": "Okay, Brown v. Board of Education... Wasn't it something about schools? Yeah, I remember learning that it was a big deal for civil rights. Brown v. Board was important because before that case, kids were like, segregated in public schools based on their race or something... That's not cool! Oh wait, isn't it actually about the Supreme Court saying 'Nope, this is unconstitutional?' Okay, so I guess Brown v. Board of Education was significant because it ended legal school segregation with that ruling. There we go, got it! It helped end racial discrimination in schools and pushed America towards equality."
+      },
+      {
+        "state": "CONFUSED",
+        "generator": "llama3.1:8b",
+        "problem_id": "P34",
+        "split": "val",
+        "source_id": "CONFUSED|US History|easy|inattentive|the constitution|0.66",
+        "text": "I think I know this one... we did something on it in class, but I'm not really sure... Huh, the system of checks and balances... was it like, to prevent tyranny? No, that's not it. Wait, why is it important to have three branches of government? Is it because they're all equal or something? That can't be right... I don't get it. Circular reasoning, I'm doing circular reasoning... Ugh, why do I always second-guess myself on this stuff? I'm just going to go with what I think is the most likely answer and hope it's correct..."
+      },
+      {
+        "state": "CONFUSED",
+        "generator": "llama3.1:8b",
+        "problem_id": "P39",
+        "split": "test",
+        "source_id": "CONFUSED|US History|easy|inattentive|industrialization|0.76",
+        "text": "Uh, railroads... we did something with them in class... now what was it again? Wait, I think they made trade easier or something? Yeah, because they could transport goods faster and cheaper. That's gotta be right. No, that's not it... unless... unless it was also something about how the government supported them with grants or whatever. That sounds kinda like a pattern we've seen before... but is it relevant to this question? I don't get it. Okay, let me try again from scratch... hmm, what if it was because they connected east and west coasts or something? No, that can't be right, because we already did the manifest destiny stuff... Ugh, why am I getting all mixed up? I'm so confused now. Okay, fine, let me just take a wild guess."
+      },
+      {
+        "state": "CONFUSED",
+        "generator": "mistral:7b",
+        "problem_id": "P39",
+        "split": "test",
+        "source_id": "CONFUSED|US History|easy|hyperactive|industrialization|0.65|mistral",
+        "text": "[\"Aw man, history again? Alright, let's see... Wait, railroads in the late 1800s, got it. But why am I feeling so huh?\", \"I think they had something to do with the economy, but I don't get it clearly yet.\"] ['Okay, okay... Railroads probably connected more places, which meant goods could move faster. That should have helped businesses, right? But wait, there must be more to it than that...', \"I remember something about the economy growing because of all this new trade. Could it be about that? But I'm not sure, let me recheck...\", \"Nope, that's not it. Circular reasoning here... Wait, maybe it was about industrialization due to easier transportation of resources? Or something like that...\"] [\"I guess I got it somehow... Railroads changed the American economy by connecting more places and making trade easier, leading to increased production and industrial growth. Phew, I don't feel so confused anymore, but there were so many twists!\"]"
+      },
+      {
+        "state": "CONFUSED",
+        "generator": "mistral:7b",
+        "problem_id": "P16",
+        "split": "train",
+        "source_id": "CONFUSED|Python Programming|easy|hyperactive|loops|0.70|mistral",
+        "text": "[\"Man, where's my focus today? Alright, let's do this loop thingy. Print numbers 1 to 5, easy peasy.\", 'Wait a sec, what was the question again?'] [\"Okay, so loop... loop... right? Let's see... maybe a for loop?\", \"Huh, I don't know if that's right. Wait, no, it can't be for, got it! While loop then.\", \"Nope, that's not it either. Hang on, let me think. This is simple... right?\", \"Okay, let's do a while loop and keep checking if the number is less than or equal to 5, got it!\"] [\"Yeah, I think that should work. Let's see if it prints correctly. Hope I didn't mess up.\"]"
+      },
+      {
+        "state": "CONFUSED",
+        "generator": "gemma2:9b",
+        "problem_id": "P39",
+        "split": "test",
+        "source_id": "CONFUSED|US History|easy|hyperactive|industrialization|0.65|gemma2",
+        "text": "Okay, railroads... hmm, big deal back then, right? Like trains everywhere, I guess? Wait, how did they change the economy, though? Maybe, like, made it easier to ship stuff? No, that's too basic. Did they create jobs? But wouldn't all those jobs be on the railroads themselves? Ugh, I don't get it. That was dumb. Trains helped transport goods, duh!"
+      },
+      {
+        "state": "CONFUSED",
+        "generator": "gemma2:9b",
+        "problem_id": "P39",
+        "split": "test",
+        "source_id": "CONFUSED|US History|easy|combined|industrialization|0.73|gemma2",
+        "text": "Okay, railroads... hmm, they were everywhere back then, right? Like super important. How did that make money or something? Wait, so if there are more railroads, does that mean things can be shipped faster and cheaper? But that doesn't really explain how it changed the economy... huh, maybe it made factories grow bigger cuz they could get stuff easier? I dunno, this is kinda circular. That kinda makes sense, I guess. I still feel like I'm missing something though."
+      },
+      {
+        "state": "CONFUSED",
+        "generator": "phi3:medium",
+        "problem_id": "P39",
+        "split": "test",
+        "source_id": "CONFUSED|US History|easy|combined|industrialization|0.73|phi3",
+        "text": "Okay, I remember we talked about the railroads in class. They were a big deal, right? Like they made things cheaper or something. Wait, so the railroads connected all these places and made it easier to send goods across long distances. That meant people could sell stuff farther away and make more money! But wait, didn't it also cause some problems? I think there were some unfair laws about land grants that helped the rich get even richer while others struggled. Oh man, this is hard. Maybe they built towns too because you need stations for the trains, right? It's like building a highway nowadays but back then with steam engines and all. I think I got it... Railroads definitely changed how people moved stuff around in America by making trade easier. But there were also some not-so-good things, like laws that favored the rich more than others."
+      },
+      {
+        "state": "CONFUSED",
+        "generator": "phi3:medium",
+        "problem_id": "P16",
+        "split": "train",
+        "source_id": "CONFUSED|Python Programming|easy|hyperactive|loops|0.70|phi3",
+        "text": "Okay, let's print some numbers. I think a for loop can do that. Do we start with 'for i in range(1,5)' or was it (1,6) to include 5? I'll try the first option: 'for i in range(1,5): print(i)'. Wait, why isn't it printing 5? Oh right, ranges are end-exclusive! Let's do (1,6). Hmmm...still no 5. It has to be something with the brackets. I remember my teacher mentioned syntax once. Ugh, this is tricky. Okay, so it was 'for i in range(1,6): print(i)' that worked. I forgot ranges are exclusive of the upper limit. That's kinda silly but also makes sense. Gotta keep track next time!"
+      },
+      {
+        "state": "RUSHING",
+        "generator": "llama3.1:8b",
+        "problem_id": "P14",
+        "split": "test",
+        "source_id": "RUSHING|US History|easy|inattentive|civil war|0.79",
+        "text": "Oh man, I know this one, right? Just gotta remember the economy thing... Okay so it's like... probably something to do with slavery or whatever... and that the North didn't really care about owning slaves but the South did. And they grew different crops, too - corn in the North and cotton in the South. Wait, no, that's not it... It's just that the North was all industrialized and stuff, so they had factories and jobs... and the South, uh, probably relied more on agriculture? Yeah, I'm pretty sure that's right... No, wait, is that even right? *sigh* Whatever, gotta move on. Yeah, I think I got it - the North was industrialized, so they didn't need slaves, and the South had plantations and relied on them. Ugh, wish this test was over..."
+      },
+      {
+        "state": "RUSHING",
+        "generator": "llama3.1:8b",
+        "problem_id": "P42",
+        "split": "train",
+        "source_id": "RUSHING|US History|easy|inattentive|causes of the revolution|0.77",
+        "text": "Okay, so what was it again... we did this in class, I think... something about the colonists and taxes? Uh, they were mad because they had to pay taxes but didn't get to vote for anyone, probably. Or was it that they wanted more representation or something? Whatever, it's on the board somewhere... *scribbles* Okay, so it says here: 'taxation without representation'. That makes sense, I guess. Yeah, they were all upset because they felt like the British government wasn't listening to them, or whatever. Yeah, that sounds right... I think we had a note on this in class. Hopefully, it's enough for the test..."
+      },
+      {
+        "state": "RUSHING",
+        "generator": "mistral:7b",
+        "problem_id": "P22",
+        "split": "train",
+        "source_id": "RUSHING|Python Programming|easy|inattentive|functions|0.74|mistral",
+        "text": "[\"Alright, let's do this. Quick square function. Piece of cake.\", 'Ugh, where did I put that last square function code? Oh wait, here it is.'] [\"Okay, so it was something like... ah yes, power function! That's the ticket. Power function times the number times itself. Whatever.\", \"Whoa, hold on. This isn't quite right. Something's off. Oh yeah, I forgot about the exponent thingy.\", 'Okay, so it should be like this: def square(num): return num**2. Probably works.'] [\"Whew! Done! Let's hope this is right.\"]"
+      },
+      {
+        "state": "RUSHING",
+        "generator": "mistral:7b",
+        "problem_id": "P37",
+        "split": "train",
+        "source_id": "RUSHING|Python Programming|easy|hyperactive|lists|0.70|mistral",
+        "text": "[\"Alright, alright, let's get this over with. I need to find the largest number in a list, no biggie.\"] [\"Okay, let me see... I think I remember something about loops and comparing. Just a sec... wait, no loops yet! Maybe I can just sort it quickly... hold on... oh, wait, that's the wrong function. Let's see... max... yup, that's got to be it!\"] ['Whew, alright then. That worked, whatever. Gotta remember that for next time.']"
+      },
+      {
+        "state": "RUSHING",
+        "generator": "gemma2:9b",
+        "problem_id": "P22",
+        "split": "train",
+        "source_id": "RUSHING|Python Programming|easy|inattentive|functions|0.74|gemma2",
+        "text": "Okay, square of a number... gotta be an exponent or something. UGH, I have like five seconds to figure this out. Alright, so it's `def square(number):` probably... then what? Oh yeah, raise it to the power of two! Um, `return number ** 2`, right? Whatever. Let's go! That seems right. Hopefully I didn't mess up anything crazy."
+      },
+      {
+        "state": "RUSHING",
+        "generator": "gemma2:9b",
+        "problem_id": "P37",
+        "split": "train",
+        "source_id": "RUSHING|Python Programming|easy|hyperactive|lists|0.70|gemma2",
+        "text": "Okay, okay, biggest number... gotta be something with the loop, right? Ugh, focus. Maybe I just use a for loop and keep track of the big one. Yeah! Like, start with nums[0] as the biggest, then check each other one... probably... whatever, if it's bigger, swap 'em out. No, wait, that's sorting! Okay, new plan. How about I just make a variable for the big one and keep comparing? Faster than sorting. Okay, that felt kind of right. Worked though, so whatever."
+      },
+      {
+        "state": "RUSHING",
+        "generator": "phi3:medium",
+        "problem_id": "P22",
+        "split": "train",
+        "source_id": "RUSHING|Python Programming|easy|inattentive|functions|0.74|phi3",
+        "text": "Alright, gotta do a square thingy function. Should be easy-peasy, right? Just make the number go crazy on itself. Okay, so it's like... num*num I guess? Wait! Or is it something else? Oh man, focus! Yeah, num**2 should work. But what if the input isn't a number? Nah, probably just ignore that for now. Phew, done. Hope this works fine. Probably need to double-check with some test cases later."
+      },
+      {
+        "state": "RUSHING",
+        "generator": "phi3:medium",
+        "problem_id": "P22",
+        "split": "train",
+        "source_id": "RUSHING|Python Programming|easy|combined|functions|0.72|phi3",
+        "text": "Okay, this should be easy. Just need to square a number. I remember something about ** and stuff... Let's just do it quickly. So, like we start with def function... uh... takes an input, right? Then probably use the power operator or whatever that looks like two little three... So here: return number**3. Wait no wait... I mean squaring not cubing! That's wrong... Should be **2. Man, this is harder than it looks when you have to rush. Phew, done that fast thing with the two asterisks for squaring. Let’s hope it works."
+      },
+      {
+        "state": "FRUSTRATED",
+        "generator": "llama3.1:8b",
+        "problem_id": "P34",
+        "split": "val",
+        "source_id": "FRUSTRATED|US History|easy|inattentive|the constitution|0.80",
+        "text": "ugh, I swear I knew this stuff, but now I'm totally blanking... system of checks and balances, right? We learned about that in Mrs. Johnson's class... wait, was it to prevent the government from getting too powerful or something? Ugh, this makes no sense, I thought we covered this in like, chapter 5? Forget it, let me just recall... Ah, yeah! It's like, the branches of government have these powers so they can balance each other out. Yeah, that sounds right... The legislative branch can't just make laws without the executive branch agreeing or something... Ugh, I hate this question... Um, was it to prevent a coup or something? Like, if one branch gets too powerful and takes over? meh, I guess I got it kinda-sorta right... Now where's my notes from class so I can see what I wrote down..."
+      },
+      {
+        "state": "FRUSTRATED",
+        "generator": "llama3.1:8b",
+        "problem_id": "P39",
+        "split": "test",
+        "source_id": "FRUSTRATED|US History|easy|inattentive|industrialization|0.66",
+        "text": "Ugh, okay... so I know this is gonna be easy... but still, railroads and economics... this makes no sense... Wait, didn't the Transcontinental Railroad open up West to settlers or something? Yeah, that's it... I think. But how did it change the economy?... Ugh, forget it. Just gotta remember, the railroad expanded the market, made trade easier... and stuff. Oh man, I hope this is right, 'cause I'm totally blanking on this one... But, didn't something about the robber barons come from this period too? Hmm... I think so. Gah, that was such a struggle... but yeah, I guess railroads basically created new opportunities for trade and business to grow"
+      },
+      {
+        "state": "FRUSTRATED",
+        "generator": "mistral:7b",
+        "problem_id": "P44",
+        "split": "train",
+        "source_id": "FRUSTRATED|Geometry|easy|combined|volume|0.64|mistral",
+        "text": "['Ugh, another geometry problem. Why does this have to be so hard?', \"This makes no sense, let's just dive in and see what happens.\"] [\"Okay, okay... volume of a cube, right? Side length is given as 4. So, side * side * side... Wait, that can't be right because it seems too easy.\", 'Let me double-check: Side^3... Yeah, that feels wrong somehow.'] [\"Oh, of course! Side^3 equals 64 cubic units. I don't know why I was overthinking it. Frustrating.\"]"
+      },
+      {
+        "state": "FRUSTRATED",
+        "generator": "mistral:7b",
+        "problem_id": "P32",
+        "split": "train",
+        "source_id": "FRUSTRATED|Chemistry|easy|hyperactive|molar mass|0.69|mistral",
+        "text": "[\"Ugh, chemistry again. Alright, let's see... CO₂, carbon dioxide. Got it.\"] [\"Wait, what's the atomic mass of carbon? Uh, 12. I think that's right. And oxygen... umm, 16, right? So total molar mass should be... let me write this down. Oh no, I don't have a pen.\"] [\"Alright, that can't be wrong, but it feels like I missed something. Maybe I need to double-check my numbers.\"]"
+      },
+      {
+        "state": "FRUSTRATED",
+        "generator": "gemma2:9b",
+        "problem_id": "P36",
+        "split": "train",
+        "source_id": "FRUSTRATED|Chemistry|easy|hyperactive|balancing equations|0.76|gemma2",
+        "text": "Ugh, seriously? Another balancing equation. I feel like I just did this yesterday. Okay, so we need two H's on each side... what was it again? H₂ plus O₂, makes... right, H₂O. Okay, maybe if I put a 2 in front of the H₂O.... Nope, that doesn't work either. This makes no sense! Finally! It took forever to figure that out."
+      },
+      {
+        "state": "FRUSTRATED",
+        "generator": "gemma2:9b",
+        "problem_id": "P14",
+        "split": "test",
+        "source_id": "FRUSTRATED|US History|medium|combined|civil war|0.51|gemma2",
+        "text": "Ugh, okay. North vs. South... This is like, basic stuff, right? But I can't even remember what they were arguing about. Was it, like, slavery? No, that's dumb. I mean, yeah, they were totally obsessed with it, but I don't think that's the *main* economic difference. Wait, wasn't the South all agriculture and stuff? And the North was more industrial? That has to be it, right? I dunno if that's totally right... but it sounds good enough."
+      },
+      {
+        "state": "FRUSTRATED",
+        "generator": "phi3:medium",
+        "problem_id": "P32",
+        "split": "train",
+        "source_id": "FRUSTRATED|Chemistry|easy|hyperactive|molar mass|0.69|phi3",
+        "text": "Ugh, chemistry again? Molar mass of CO₂... What even is molar mass? I feel like my brain's gonna explode. 'Okay, so carbon has an atomic mass of about 12 u and oxygen is like 16 u. That makes two times 16 for the oxygens... Wait, do you just add these together? But why twice for oxygen? Man, this is confusing. Phew, finally got it to be around 44 u, that's right! But what took me so long?"
+      },
+      {
+        "state": "FRUSTRATED",
+        "generator": "phi3:medium",
+        "problem_id": "P14",
+        "split": "test",
+        "source_id": "FRUSTRATED|US History|medium|combined|civil war|0.51|phi3",
+        "text": "'Ugh, another question about history. I can't even remember what we learned last week. Hopefully it's something with dates or battles... those are easier to guess.' 'Okay, so they fought a war because of slavery and all that jazz, but the question is about economics? Ugh. Wasn’t there some sort of industry in the North... maybe factories or something? Wait no, the South was more into agriculture right... cotton farms. I guess those are pretty different.' 'Alright, so I think it's like, the North had industries and stuff while the South relied on plantations for their economy. That should be enough to pass this time.'"
+      },
+      {
+        "state": "STUCK",
+        "generator": "llama3.1:8b",
+        "problem_id": "P04",
+        "split": "train",
+        "source_id": "STUCK|US History|easy|hyperactive|civil rights movement|0.78",
+        "text": "Okay, I think I know this one... we did it last year in class. Brown v. Board of Education was like, a big court case or something. [pause] Um, wait, what was the question again? Oh yeah, significance... So, wasn't it about segregation and schools? Yeah, that's right! But I don't know, was it just like a normal court case or was there something more to it? [sigh] Why can't I remember this?! I swear we talked about it so much last year. Um, let me try to think... The Topeka one, the NAACP, they were suing for equal rights... But what does that even mean? Wasn't it like, a game-changer or something? Ugh, I still don't know if I got this right. Brown v. Board of Education was important because... um... [ pause ]"
+      },
+      {
+        "state": "STUCK",
+        "generator": "llama3.1:8b",
+        "problem_id": "P39",
+        "split": "test",
+        "source_id": "STUCK|US History|easy|combined|industrialization|0.78",
+        "text": "Okay, so I know this is gonna be easy... we learned about railroads in class, right? I just need to remember what they said. Umm, so the Transcontinental Railroad was a big deal... it connected the east and west coasts... but how did that change the economy? Hmm... something about jobs, maybe? Or trade? Wait, no, that's not right. Railroads made things cheaper to transport... but what else? Uh-oh, I don't know... [pause] ...No, no, think about it! They helped connect cities and states... and industries like mining and agriculture could move goods more easily... [stammering] But how exactly did that change the economy... I don't know... *sigh* I'm just not getting this. Maybe we didn't cover it in class as well as I thought."
+      },
+      {
+        "state": "STUCK",
+        "generator": "mistral:7b",
+        "problem_id": "P26",
+        "split": "val",
+        "source_id": "STUCK|Python Programming|easy|hyperactive|strings|0.78|mistral",
+        "text": "[\"Alright, let's see... Reverse a string in Python? I think I know this one, but my mind is all over the place today.\", '[pause]'] [\"I think it's got something to do with slicing or list reversal, but my memory is fuzzy. Let me check out some functions... Oh wait, there's reverse(), but that seems wrong...\", \"Hang on, I remember using a method with slicing... It was like s[::-1]... No, that can't be right... [mental breakdown of progress]\", \"[pause] Okay, let me try it again... If s[::-1] doesn't work, then maybe it's just reverse(s)... That's more likely.\"] [\"Yup, that worked! I'm not 100% sure I understand why exactly, but at least I got the result I wanted.\"]"
+      },
+      {
+        "state": "STUCK",
+        "generator": "mistral:7b",
+        "problem_id": "P37",
+        "split": "train",
+        "source_id": "STUCK|Python Programming|easy|hyperactive|lists|0.77|mistral",
+        "text": "[\"Man, where's my focus today? Alright, let's see... nums, find the largest number. Ugh, this is easy but my brain feels scrambled.\", \"I don't know, I think I remember something about loops and comparing numbers...\"] [\"Okay, so maybe a for loop? But how do I compare each number to find the biggest one? Wait, I got it! Let me try... nope, that's not right. [pause] Alright, if this was reverse order, I could just pop off the end, but what about this...\", 'Oh, duh! I need a variable to store the largest number and update it as I go through the loop!'] [\"Awesome! I did it. That wasn't so bad once I figured out how to think about it.\"]"
+      },
+      {
+        "state": "STUCK",
+        "generator": "gemma2:9b",
+        "problem_id": "P26",
+        "split": "val",
+        "source_id": "STUCK|Python Programming|easy|hyperactive|strings|0.78|gemma2",
+        "text": "Okay, reversing a string... sounds easy peasy. Wait, is it like literally flipping it? Or do I gotta use some fancy function? [pause] Um, maybe there's something with *reverse* or *flip*... Nah, that doesn't seem right. [pause] What if I try using a for loop? Start at the end and go backward, maybe? Like... I don't know. This is harder than it looks. Ugh, this is so frustrating! I swear there's gotta be a way to do this easily..."
+      },
+      {
+        "state": "STUCK",
+        "generator": "gemma2:9b",
+        "problem_id": "P37",
+        "split": "train",
+        "source_id": "STUCK|Python Programming|easy|hyperactive|lists|0.77|gemma2",
+        "text": "Okay, so like, the biggest number... gotta find it. Is there even a Python thing for that? Hmm. I don't know. Maybe I could use a loop to go through each number and compare them, but that seems kinda slow... Ugh, what if there's a built-in function? [pause] Wait, is it like max()? No, that can't be right... It has to be something else. Max() is usually for finding the maximum value of things in a math problem, not lists. I don't know. Maybe I should ask Mr. B about this later. This isn't making any sense."
+      },
+      {
+        "state": "STUCK",
+        "generator": "phi3:medium",
+        "problem_id": "P22",
+        "split": "train",
+        "source_id": "STUCK|Python Programming|easy|hyperactive|functions|0.71|phi3",
+        "text": "Okay, let's see... squaring a number? I kinda remember this from math class. Maybe it's just multiplying the thing by itself? Gotta focus! [pause] So, first I start with def square(num), then inside that, do num * num right? Wait... am I sure about that again? Ahh man. Alright, I think it's like this: def square(num): return num*num. That was kinda scary but also not too bad. Phew!"
+      },
+      {
+        "state": "STUCK",
+        "generator": "phi3:medium",
+        "problem_id": "P18",
+        "split": "train",
+        "source_id": "STUCK|Geometry|easy|hyperactive|area|0.68|phi3",
+        "text": "Ugh, I hate circles. What even is a radius? Why can't this be simple numbers or something. [pause] Okay, so it’s Pi times the radius squared... But what was that number again? Oh wait, pi is like 3.14 but I think my book said to use more digits... Um, let's try [5^2]*pi... Nope, too high, nope, too low... This is so confusing! Wait a sec, did that mean 78.5? I remember now; radius squared is just the number times itself. But did I add up everything right?"
+      },
+      {
+        "state": "INSIGHT",
+        "generator": "llama3.1:8b",
+        "problem_id": "P34",
+        "split": "val",
+        "source_id": "INSIGHT|US History|easy|inattentive|the constitution|0.79",
+        "text": "okay, checks and balances... i know this one... um what was the question again? oh wait, we learned about that in chapter 5... something to do with power, right? yeah, it's like the branches of government are all trying to keep each other from getting too strong... ohhhh, it's like a game of tug-of-war! if one branch gets too powerful, they can just pull back and restore balance. like, congress is supposed to be able to impeach the president or something. yeah, that sounds right... i'm pretty sure that's what checks and balances are all about"
+      },
+      {
+        "state": "INSIGHT",
+        "generator": "llama3.1:8b",
+        "problem_id": "P14",
+        "split": "test",
+        "source_id": "INSIGHT|US History|easy|inattentive|civil war|0.79",
+        "text": "Okay, so I know this is gonna be easy... um, was it something about slavery? Nah, that's not right... we just learned about the three-fifths compromise... Wait, what if it's because of the way they grew their crops? Oh, yeah! The North had all those factories and stuff, but the South had plantations and they relied on slave labor. That sounds kinda important... OHHHHH, I think I got it! Because the North was industrialized, they could just use machines to grow food or whatever, whereas the South had to rely on people, and that's a major difference. Yup, I'm pretty sure that's right. We did learn about how different their economies were..."
+      },
+      {
+        "state": "INSIGHT",
+        "generator": "mistral:7b",
+        "problem_id": "P39",
+        "split": "test",
+        "source_id": "INSIGHT|US History|easy|hyperactive|industrialization|0.75|mistral",
+        "text": "[\"Okay, let's see... railroads in the late 1800s, hmmm. I think this is easy but I might have ADHD so who knows...\"] [\"Railroads connected different parts of America quickly, wait... ohhhh, that's it! They helped goods to move faster across the country, right? And that led to more trade and growth of industries... but I think there's something else...\"] ['Yeah, I got this one. Railroads really changed the American economy by making transportation more efficient, boosting industry, agriculture, and overall economic growth in the late 1800s.']"
+      },
+      {
+        "state": "INSIGHT",
+        "generator": "mistral:7b",
+        "problem_id": "P09",
+        "split": "val",
+        "source_id": "INSIGHT|Geometry|easy|combined|triangles|0.79|mistral",
+        "text": "[\"Man, focus. Alright, let's see here... Triangle, angles, gotta use that ol' trick...\"] ['Wait a sec, sum of the angles in a triangle is... oh right, 180 degrees. Got 40 and 75 left... Let me subtract them from 180... OH! There it is!'] [\"Yeah, that's what I thought. Easy peasy.\"]"
+      },
+      {
+        "state": "INSIGHT",
+        "generator": "gemma2:9b",
+        "problem_id": "P09",
+        "split": "val",
+        "source_id": "INSIGHT|Geometry|easy|combined|triangles|0.79|gemma2",
+        "text": "Okay, so three angles in a triangle... gotta find the missing one. Hmm, that's easy right? Easy-peasy... 40 plus 75... OH wait! That's not right, I forgot about the whole 180 degrees thing. Yeah, so 180 minus 40 minus 75... ohhhh that's gotta be it. Yup, totally makes sense now. It was just that stupid 180 degrees thing I was forgetting about again."
+      },
+      {
+        "state": "INSIGHT",
+        "generator": "gemma2:9b",
+        "problem_id": "P08",
+        "split": "val",
+        "source_id": "INSIGHT|Biology|easy|combined|evolution|0.76|gemma2",
+        "text": "Okay, so natural selection... like survival of the fittest? But how does that actually change things in a whole population over time? OH, wait! So if certain traits help an organism survive better, they're more likely to reproduce right? And then their offspring inherit those traits... ohhhh, so basically it's like the good traits get passed down more and become more common in the population over time. That makes sense! Yeah, that feels right. Kinda obvious now that I think about it."
+      },
+      {
+        "state": "INSIGHT",
+        "generator": "phi3:medium",
+        "problem_id": "P39",
+        "split": "test",
+        "source_id": "INSIGHT|US History|easy|hyperactive|industrialization|0.75|phi3",
+        "text": "Okay, I got this... I think. Railroads and the economy in like a hundred years ago? That's cool but confusing. Wait, they totally changed how things were shipped right? More stuff could get to where it needed faster - that must have boosted trade or something. Ohhhh, so maybe... more jobs because of all the train tracks and stations being built! But did it make life better for everyone? Hmmm. Hmm... I'd say railroads made the economy go super fast-like cause goods could move quicker. Jobs probably came from that too, but wasn't everything else expensive or something 'cause of all the coal used by those trains?"
+      },
+      {
+        "state": "INSIGHT",
+        "generator": "phi3:medium",
+        "problem_id": "P09",
+        "split": "val",
+        "source_id": "INSIGHT|Geometry|easy|combined|triangles|0.79|phi3",
+        "text": "Ugh, geometry... I think the angles in a triangle add up to something? Let's see if I can figure this out. So it's like, there are three angles. We got two here: 40 and 75 degrees. Hmmm, what was that formula again... ohhhh, the sum of angles in a triangle is always 180°! So let me see... we subtract those from 180... wait, I might have messed up my math... Woah, it clicked. The third angle has to be 65 degrees!"
+      }
+    ],
+    "shipped_block_chars": 8142,
+    "decontaminated_block_chars": 3677,
+    "decontaminated_n_examples": 25,
+    "shipped_block_sha256": "c64e5b83b2511f335225ee480bf744f70624775957ce15725314c6990e778701",
+    "decontaminated_block_sha256": "9a111f1f5484450c5c13a893eb3f1493530af61869ce51682ca9cad5e8343158"
+  },
+  "manifest": {
+    "source": "eval/data/eval/problem_disjoint_20260826/matched_manifest.csv",
+    "sha256": "deadcb31a8aa599d648143d7bc675c5b87edb700fe50e14ef0b4e5c75513c042",
+    "n_examples": 1356,
+    "n_problems": 10,
+    "n_cells": 70,
+    "per_generator": {
+      "gemma2:9b": 339,
+      "llama3.1:8b": 339,
+      "mistral:7b": 339,
+      "phi3:medium": 339
+    }
+  },
+  "configs": {
+    "A_lexical_only": {
+      "config": "A_lexical_only",
+      "route": "lexical-only, LLM never constructed",
+      "fewshot_block": "none",
+      "fewshot_block_sha256": null,
+      "n_examples": 1356,
+      "n_unique_problems": 10,
+      "accuracy": 0.7913,
+      "macro_f1": 0.7864,
+      "per_condition": {
+        "PLANNING": {
+          "precision": 0.831,
+          "recall": 0.923,
+          "f1": 0.875,
+          "support": 208
+        },
+        "FLOW": {
+          "precision": 0.76,
+          "recall": 0.451,
+          "f1": 0.566,
+          "support": 204
+        },
+        "CONFUSED": {
+          "precision": 0.744,
+          "recall": 0.849,
+          "f1": 0.793,
+          "support": 212
+        },
+        "RUSHING": {
+          "precision": 0.879,
+          "recall": 0.869,
+          "f1": 0.874,
+          "support": 176
+        },
+        "FRUSTRATED": {
+          "precision": 0.749,
+          "recall": 0.881,
+          "f1": 0.809,
+          "support": 176
+        },
+        "STUCK": {
+          "precision": 0.958,
+          "recall": 0.695,
+          "f1": 0.806,
+          "support": 164
+        },
+        "INSIGHT": {
+          "precision": 0.714,
+          "recall": 0.866,
+          "f1": 0.782,
+          "support": 216
+        }
+      },
+      "confusion_matrix": [
+        [
+          192,
+          2,
+          6,
+          3,
+          1,
+          0,
+          4
+        ],
+        [
+          18,
+          92,
+          19,
+          12,
+          12,
+          3,
+          48
+        ],
+        [
+          6,
+          4,
+          180,
+          1,
+          16,
+          1,
+          4
+        ],
+        [
+          4,
+          5,
+          7,
+          153,
+          1,
+          0,
+          6
+        ],
+        [
+          3,
+          2,
+          7,
+          4,
+          155,
+          1,
+          4
+        ],
+        [
+          4,
+          7,
+          13,
+          1,
+          16,
+          114,
+          9
+        ],
+        [
+          4,
+          9,
+          10,
+          0,
+          6,
+          0,
+          187
+        ]
+      ],
+      "labels": [
+        "PLANNING",
+        "FLOW",
+        "CONFUSED",
+        "RUSHING",
+        "FRUSTRATED",
+        "STUCK",
+        "INSIGHT"
+      ],
+      "bootstrap": {
+        "method": "percentile bootstrap over problems (clusters), with replacement",
+        "reps": 2000,
+        "seed": 4242,
+        "n_clusters": 10,
+        "replicates_missing_a_class": 0,
+        "accuracy_ci95": [
+          0.7673,
+          0.8104
+        ],
+        "macro_f1_ci95": [
+          0.7633,
+          0.804
+        ]
+      },
+      "by_generator": {
+        "llama3.1:8b": {
+          "n_examples": 339,
+          "n_unique_problems": 10,
+          "accuracy": 0.882,
+          "macro_f1": 0.8796,
+          "per_condition": {
+            "PLANNING": {
+              "precision": 0.847,
+              "recall": 0.962,
+              "f1": 0.901,
+              "support": 52
+            },
+            "FLOW": {
+              "precision": 0.909,
+              "recall": 0.588,
+              "f1": 0.714,
+              "support": 51
+            },
+            "CONFUSED": {
+              "precision": 0.877,
+              "recall": 0.943,
+              "f1": 0.909,
+              "support": 53
+            },
+            "RUSHING": {
+              "precision": 0.894,
+              "recall": 0.955,
+              "f1": 0.923,
+              "support": 44
+            },
+            "FRUSTRATED": {
+              "precision": 0.796,
+              "recall": 0.977,
+              "f1": 0.878,
+              "support": 44
+            },
+            "STUCK": {
+              "precision": 1.0,
+              "recall": 0.878,
+              "f1": 0.935,
+              "support": 41
+            },
+            "INSIGHT": {
+              "precision": 0.906,
+              "recall": 0.889,
+              "f1": 0.897,
+              "support": 54
+            }
+          },
+          "confusion_matrix": [
+            [
+              50,
+              0,
+              1,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              8,
+              30,
+              4,
+              4,
+              2,
+              0,
+              3
+            ],
+            [
+              0,
+              0,
+              50,
+              0,
+              3,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              42,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              43,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              0,
+              4,
+              36,
+              0
+            ],
+            [
+              1,
+              1,
+              2,
+              0,
+              2,
+              0,
+              48
+            ]
+          ],
+          "labels": [
+            "PLANNING",
+            "FLOW",
+            "CONFUSED",
+            "RUSHING",
+            "FRUSTRATED",
+            "STUCK",
+            "INSIGHT"
+          ],
+          "fallback_triggered": 0
+        },
+        "mistral:7b": {
+          "n_examples": 339,
+          "n_unique_problems": 10,
+          "accuracy": 0.8142,
+          "macro_f1": 0.8104,
+          "per_condition": {
+            "PLANNING": {
+              "precision": 0.907,
+              "recall": 0.942,
+              "f1": 0.925,
+              "support": 52
+            },
+            "FLOW": {
+              "precision": 0.7,
+              "recall": 0.412,
+              "f1": 0.519,
+              "support": 51
+            },
+            "CONFUSED": {
+              "precision": 0.806,
+              "recall": 0.943,
+              "f1": 0.87,
+              "support": 53
+            },
+            "RUSHING": {
+              "precision": 0.974,
+              "recall": 0.841,
+              "f1": 0.902,
+              "support": 44
+            },
+            "FRUSTRATED": {
+              "precision": 0.925,
+              "recall": 0.841,
+              "f1": 0.881,
+              "support": 44
+            },
+            "STUCK": {
+              "precision": 0.909,
+              "recall": 0.732,
+              "f1": 0.811,
+              "support": 41
+            },
+            "INSIGHT": {
+              "precision": 0.634,
+              "recall": 0.963,
+              "f1": 0.765,
+              "support": 54
+            }
+          },
+          "confusion_matrix": [
+            [
+              49,
+              1,
+              1,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              2,
+              21,
+              7,
+              1,
+              0,
+              2,
+              18
+            ],
+            [
+              1,
+              1,
+              50,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              2,
+              37,
+              0,
+              0,
+              3
+            ],
+            [
+              1,
+              1,
+              0,
+              0,
+              37,
+              1,
+              4
+            ],
+            [
+              0,
+              3,
+              2,
+              0,
+              2,
+              30,
+              4
+            ],
+            [
+              0,
+              2,
+              0,
+              0,
+              0,
+              0,
+              52
+            ]
+          ],
+          "labels": [
+            "PLANNING",
+            "FLOW",
+            "CONFUSED",
+            "RUSHING",
+            "FRUSTRATED",
+            "STUCK",
+            "INSIGHT"
+          ],
+          "fallback_triggered": 0
+        },
+        "gemma2:9b": {
+          "n_examples": 339,
+          "n_unique_problems": 10,
+          "accuracy": 0.8378,
+          "macro_f1": 0.8317,
+          "per_condition": {
+            "PLANNING": {
+              "precision": 0.926,
+              "recall": 0.962,
+              "f1": 0.943,
+              "support": 52
+            },
+            "FLOW": {
+              "precision": 0.857,
+              "recall": 0.471,
+              "f1": 0.608,
+              "support": 51
+            },
+            "CONFUSED": {
+              "precision": 0.825,
+              "recall": 0.887,
+              "f1": 0.855,
+              "support": 53
+            },
+            "RUSHING": {
+              "precision": 0.878,
+              "recall": 0.977,
+              "f1": 0.925,
+              "support": 44
+            },
+            "FRUSTRATED": {
+              "precision": 0.733,
+              "recall": 1.0,
+              "f1": 0.846,
+              "support": 44
+            },
+            "STUCK": {
+              "precision": 0.969,
+              "recall": 0.756,
+              "f1": 0.849,
+              "support": 41
+            },
+            "INSIGHT": {
+              "precision": 0.763,
+              "recall": 0.833,
+              "f1": 0.796,
+              "support": 54
+            }
+          },
+          "confusion_matrix": [
+            [
+              50,
+              0,
+              0,
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              1,
+              24,
+              3,
+              5,
+              5,
+              0,
+              13
+            ],
+            [
+              0,
+              0,
+              47,
+              0,
+              5,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              43,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              44,
+              0,
+              0
+            ],
+            [
+              1,
+              1,
+              3,
+              0,
+              5,
+              31,
+              0
+            ],
+            [
+              2,
+              3,
+              3,
+              0,
+              1,
+              0,
+              45
+            ]
+          ],
+          "labels": [
+            "PLANNING",
+            "FLOW",
+            "CONFUSED",
+            "RUSHING",
+            "FRUSTRATED",
+            "STUCK",
+            "INSIGHT"
+          ],
+          "fallback_triggered": 0
+        },
+        "phi3:medium": {
+          "n_examples": 339,
+          "n_unique_problems": 10,
+          "accuracy": 0.6313,
+          "macro_f1": 0.6226,
+          "per_condition": {
+            "PLANNING": {
+              "precision": 0.672,
+              "recall": 0.827,
+              "f1": 0.741,
+              "support": 52
+            },
+            "FLOW": {
+              "precision": 0.567,
+              "recall": 0.333,
+              "f1": 0.42,
+              "support": 51
+            },
+            "CONFUSED": {
+              "precision": 0.5,
+              "recall": 0.623,
+              "f1": 0.555,
+              "support": 53
+            },
+            "RUSHING": {
+              "precision": 0.775,
+              "recall": 0.705,
+              "f1": 0.738,
+              "support": 44
+            },
+            "FRUSTRATED": {
+              "precision": 0.585,
+              "recall": 0.705,
+              "f1": 0.639,
+              "support": 44
+            },
+            "STUCK": {
+              "precision": 0.944,
+              "recall": 0.415,
+              "f1": 0.576,
+              "support": 41
+            },
+            "INSIGHT": {
+              "precision": 0.618,
+              "recall": 0.778,
+              "f1": 0.689,
+              "support": 54
+            }
+          },
+          "confusion_matrix": [
+            [
+              43,
+              1,
+              4,
+              2,
+              1,
+              0,
+              1
+            ],
+            [
+              7,
+              17,
+              5,
+              2,
+              5,
+              1,
+              14
+            ],
+            [
+              5,
+              3,
+              33,
+              1,
+              7,
+              0,
+              4
+            ],
+            [
+              3,
+              3,
+              4,
+              31,
+              1,
+              0,
+              2
+            ],
+            [
+              2,
+              1,
+              7,
+              3,
+              31,
+              0,
+              0
+            ],
+            [
+              3,
+              2,
+              8,
+              1,
+              5,
+              17,
+              5
+            ],
+            [
+              1,
+              3,
+              5,
+              0,
+              3,
+              0,
+              42
+            ]
+          ],
+          "labels": [
+            "PLANNING",
+            "FLOW",
+            "CONFUSED",
+            "RUSHING",
+            "FRUSTRATED",
+            "STUCK",
+            "INSIGHT"
+          ],
+          "fallback_triggered": 0
+        }
+      },
+      "by_condition_activation": {
+        "PLANNING": {
+          "n": 208,
+          "triggered": 0
+        },
+        "FLOW": {
+          "n": 204,
+          "triggered": 0
+        },
+        "CONFUSED": {
+          "n": 212,
+          "triggered": 0
+        },
+        "RUSHING": {
+          "n": 176,
+          "triggered": 0
+        },
+        "FRUSTRATED": {
+          "n": 176,
+          "triggered": 0
+        },
+        "STUCK": {
+          "n": 164,
+          "triggered": 0
+        },
+        "INSIGHT": {
+          "n": 216,
+          "triggered": 0
+        }
+      },
+      "fallback_activation": {
+        "n_triggered": 0,
+        "pct": 0.0,
+        "n_llm_returned_state": 0,
+        "n_llm_errors": 0,
+        "by_generator": {
+          "llama3.1:8b": 0.0,
+          "mistral:7b": 0.0,
+          "gemma2:9b": 0.0,
+          "phi3:medium": 0.0
+        }
+      }
+    },
+    "B_hybrid_shipped": {
+      "config": "B_hybrid_shipped",
+      "route": "natural hybrid: LLM consulted iff heuristic_confidence < 0.65",
+      "fewshot_block": "shipped (CONTAMINATED: contains test-problem examples)",
+      "fewshot_block_sha256": "c64e5b83b2511f335225ee480bf744f70624775957ce15725314c6990e778701",
+      "n_examples": 1356,
+      "n_unique_problems": 10,
+      "accuracy": 0.7471,
+      "macro_f1": 0.7444,
+      "per_condition": {
+        "PLANNING": {
+          "precision": 0.716,
+          "recall": 0.923,
+          "f1": 0.807,
+          "support": 208
+        },
+        "FLOW": {
+          "precision": 0.71,
+          "recall": 0.48,
+          "f1": 0.573,
+          "support": 204
+        },
+        "CONFUSED": {
+          "precision": 0.639,
+          "recall": 0.844,
+          "f1": 0.728,
+          "support": 212
+        },
+        "RUSHING": {
+          "precision": 0.912,
+          "recall": 0.824,
+          "f1": 0.866,
+          "support": 176
+        },
+        "FRUSTRATED": {
+          "precision": 0.857,
+          "recall": 0.784,
+          "f1": 0.819,
+          "support": 176
+        },
+        "STUCK": {
+          "precision": 0.989,
+          "recall": 0.53,
+          "f1": 0.69,
+          "support": 164
+        },
+        "INSIGHT": {
+          "precision": 0.664,
+          "recall": 0.806,
+          "f1": 0.728,
+          "support": 216
+        }
+      },
+      "confusion_matrix": [
+        [
+          192,
+          7,
+          3,
+          2,
+          0,
+          0,
+          4
+        ],
+        [
+          16,
+          98,
+          16,
+          7,
+          5,
+          1,
+          61
+        ],
+        [
+          17,
+          1,
+          179,
+          1,
+          8,
+          0,
+          6
+        ],
+        [
+          8,
+          11,
+          7,
+          145,
+          1,
+          0,
+          4
+        ],
+        [
+          5,
+          2,
+          24,
+          4,
+          138,
+          0,
+          3
+        ],
+        [
+          17,
+          7,
+          36,
+          0,
+          7,
+          87,
+          10
+        ],
+        [
+          13,
+          12,
+          15,
+          0,
+          2,
+          0,
+          174
+        ]
+      ],
+      "labels": [
+        "PLANNING",
+        "FLOW",
+        "CONFUSED",
+        "RUSHING",
+        "FRUSTRATED",
+        "STUCK",
+        "INSIGHT"
+      ],
+      "bootstrap": {
+        "method": "percentile bootstrap over problems (clusters), with replacement",
+        "reps": 2000,
+        "seed": 4242,
+        "n_clusters": 10,
+        "replicates_missing_a_class": 0,
+        "accuracy_ci95": [
+          0.7224,
+          0.7709
+        ],
+        "macro_f1_ci95": [
+          0.7207,
+          0.7659
+        ]
+      },
+      "by_generator": {
+        "llama3.1:8b": {
+          "n_examples": 339,
+          "n_unique_problems": 10,
+          "accuracy": 0.823,
+          "macro_f1": 0.8251,
+          "per_condition": {
+            "PLANNING": {
+              "precision": 0.689,
+              "recall": 0.981,
+              "f1": 0.81,
+              "support": 52
+            },
+            "FLOW": {
+              "precision": 0.926,
+              "recall": 0.49,
+              "f1": 0.641,
+              "support": 51
+            },
+            "CONFUSED": {
+              "precision": 0.773,
+              "recall": 0.962,
+              "f1": 0.857,
+              "support": 53
+            },
+            "RUSHING": {
+              "precision": 0.977,
+              "recall": 0.955,
+              "f1": 0.966,
+              "support": 44
+            },
+            "FRUSTRATED": {
+              "precision": 0.927,
+              "recall": 0.864,
+              "f1": 0.894,
+              "support": 44
+            },
+            "STUCK": {
+              "precision": 1.0,
+              "recall": 0.805,
+              "f1": 0.892,
+              "support": 41
+            },
+            "INSIGHT": {
+              "precision": 0.709,
+              "recall": 0.722,
+              "f1": 0.716,
+              "support": 54
+            }
+          },
+          "confusion_matrix": [
+            [
+              51,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              8,
+              25,
+              3,
+              0,
+              1,
+              0,
+              14
+            ],
+            [
+              1,
+              0,
+              51,
+              0,
+              1,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              0,
+              42,
+              0,
+              0,
+              1
+            ],
+            [
+              1,
+              0,
+              4,
+              1,
+              38,
+              0,
+              0
+            ],
+            [
+              5,
+              0,
+              2,
+              0,
+              1,
+              33,
+              0
+            ],
+            [
+              8,
+              1,
+              6,
+              0,
+              0,
+              0,
+              39
+            ]
+          ],
+          "labels": [
+            "PLANNING",
+            "FLOW",
+            "CONFUSED",
+            "RUSHING",
+            "FRUSTRATED",
+            "STUCK",
+            "INSIGHT"
+          ],
+          "fallback_triggered": 69
+        },
+        "mistral:7b": {
+          "n_examples": 339,
+          "n_unique_problems": 10,
+          "accuracy": 0.7729,
+          "macro_f1": 0.7687,
+          "per_condition": {
+            "PLANNING": {
+              "precision": 0.909,
+              "recall": 0.962,
+              "f1": 0.935,
+              "support": 52
+            },
+            "FLOW": {
+              "precision": 0.718,
+              "recall": 0.549,
+              "f1": 0.622,
+              "support": 51
+            },
+            "CONFUSED": {
+              "precision": 0.595,
+              "recall": 0.943,
+              "f1": 0.73,
+              "support": 53
+            },
+            "RUSHING": {
+              "precision": 0.949,
+              "recall": 0.841,
+              "f1": 0.892,
+              "support": 44
+            },
+            "FRUSTRATED": {
+              "precision": 0.97,
+              "recall": 0.727,
+              "f1": 0.831,
+              "support": 44
+            },
+            "STUCK": {
+              "precision": 0.95,
+              "recall": 0.463,
+              "f1": 0.623,
+              "support": 41
+            },
+            "INSIGHT": {
+              "precision": 0.667,
+              "recall": 0.852,
+              "f1": 0.748,
+              "support": 54
+            }
+          },
+          "confusion_matrix": [
+            [
+              50,
+              1,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              28,
+              6,
+              2,
+              0,
+              1,
+              14
+            ],
+            [
+              1,
+              1,
+              50,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              1,
+              3,
+              1,
+              37,
+              0,
+              0,
+              2
+            ],
+            [
+              2,
+              0,
+              9,
+              0,
+              32,
+              0,
+              1
+            ],
+            [
+              1,
+              1,
+              14,
+              0,
+              1,
+              19,
+              5
+            ],
+            [
+              0,
+              5,
+              3,
+              0,
+              0,
+              0,
+              46
+            ]
+          ],
+          "labels": [
+            "PLANNING",
+            "FLOW",
+            "CONFUSED",
+            "RUSHING",
+            "FRUSTRATED",
+            "STUCK",
+            "INSIGHT"
+          ],
+          "fallback_triggered": 75
+        },
+        "gemma2:9b": {
+          "n_examples": 339,
+          "n_unique_problems": 10,
+          "accuracy": 0.8348,
+          "macro_f1": 0.8306,
+          "per_condition": {
+            "PLANNING": {
+              "precision": 0.911,
+              "recall": 0.981,
+              "f1": 0.944,
+              "support": 52
+            },
+            "FLOW": {
+              "precision": 0.812,
+              "recall": 0.51,
+              "f1": 0.627,
+              "support": 51
+            },
+            "CONFUSED": {
+              "precision": 0.758,
+              "recall": 0.887,
+              "f1": 0.817,
+              "support": 53
+            },
+            "RUSHING": {
+              "precision": 0.932,
+              "recall": 0.932,
+              "f1": 0.932,
+              "support": 44
+            },
+            "FRUSTRATED": {
+              "precision": 0.846,
+              "recall": 1.0,
+              "f1": 0.917,
+              "support": 44
+            },
+            "STUCK": {
+              "precision": 1.0,
+              "recall": 0.659,
+              "f1": 0.794,
+              "support": 41
+            },
+            "INSIGHT": {
+              "precision": 0.712,
+              "recall": 0.87,
+              "f1": 0.783,
+              "support": 54
+            }
+          },
+          "confusion_matrix": [
+            [
+              51,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              2,
+              26,
+              3,
+              3,
+              1,
+              0,
+              16
+            ],
+            [
+              2,
+              0,
+              47,
+              0,
+              4,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              1,
+              41,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              44,
+              0,
+              0
+            ],
+            [
+              1,
+              2,
+              8,
+              0,
+              2,
+              27,
+              1
+            ],
+            [
+              0,
+              3,
+              3,
+              0,
+              1,
+              0,
+              47
+            ]
+          ],
+          "labels": [
+            "PLANNING",
+            "FLOW",
+            "CONFUSED",
+            "RUSHING",
+            "FRUSTRATED",
+            "STUCK",
+            "INSIGHT"
+          ],
+          "fallback_triggered": 61
+        },
+        "phi3:medium": {
+          "n_examples": 339,
+          "n_unique_problems": 10,
+          "accuracy": 0.5575,
+          "macro_f1": 0.5391,
+          "per_condition": {
+            "PLANNING": {
+              "precision": 0.482,
+              "recall": 0.769,
+              "f1": 0.593,
+              "support": 52
+            },
+            "FLOW": {
+              "precision": 0.475,
+              "recall": 0.373,
+              "f1": 0.418,
+              "support": 51
+            },
+            "CONFUSED": {
+              "precision": 0.456,
+              "recall": 0.585,
+              "f1": 0.512,
+              "support": 53
+            },
+            "RUSHING": {
+              "precision": 0.758,
+              "recall": 0.568,
+              "f1": 0.649,
+              "support": 44
+            },
+            "FRUSTRATED": {
+              "precision": 0.686,
+              "recall": 0.545,
+              "f1": 0.608,
+              "support": 44
+            },
+            "STUCK": {
+              "precision": 1.0,
+              "recall": 0.195,
+              "f1": 0.327,
+              "support": 41
+            },
+            "INSIGHT": {
+              "precision": 0.583,
+              "recall": 0.778,
+              "f1": 0.667,
+              "support": 54
+            }
+          },
+          "confusion_matrix": [
+            [
+              40,
+              6,
+              2,
+              2,
+              0,
+              0,
+              2
+            ],
+            [
+              6,
+              19,
+              4,
+              2,
+              3,
+              0,
+              17
+            ],
+            [
+              13,
+              0,
+              31,
+              1,
+              3,
+              0,
+              5
+            ],
+            [
+              7,
+              6,
+              5,
+              25,
+              1,
+              0,
+              0
+            ],
+            [
+              2,
+              2,
+              11,
+              3,
+              24,
+              0,
+              2
+            ],
+            [
+              10,
+              4,
+              12,
+              0,
+              3,
+              8,
+              4
+            ],
+            [
+              5,
+              3,
+              3,
+              0,
+              1,
+              0,
+              42
+            ]
+          ],
+          "labels": [
+            "PLANNING",
+            "FLOW",
+            "CONFUSED",
+            "RUSHING",
+            "FRUSTRATED",
+            "STUCK",
+            "INSIGHT"
+          ],
+          "fallback_triggered": 126
+        }
+      },
+      "by_condition_activation": {
+        "PLANNING": {
+          "n": 208,
+          "triggered": 30
+        },
+        "FLOW": {
+          "n": 204,
+          "triggered": 92
+        },
+        "CONFUSED": {
+          "n": 212,
+          "triggered": 38
+        },
+        "RUSHING": {
+          "n": 176,
+          "triggered": 30
+        },
+        "FRUSTRATED": {
+          "n": 176,
+          "triggered": 34
+        },
+        "STUCK": {
+          "n": 164,
+          "triggered": 59
+        },
+        "INSIGHT": {
+          "n": 216,
+          "triggered": 48
+        }
+      },
+      "fallback_activation": {
+        "n_triggered": 331,
+        "pct": 24.41,
+        "n_llm_returned_state": 331,
+        "n_llm_errors": 0,
+        "by_generator": {
+          "llama3.1:8b": 20.35,
+          "mistral:7b": 22.12,
+          "gemma2:9b": 17.99,
+          "phi3:medium": 37.17
+        }
+      }
+    },
+    "Bprime_hybrid_decontaminated": {
+      "config": "Bprime_hybrid_decontaminated",
+      "route": "natural hybrid: LLM consulted iff heuristic_confidence < 0.65",
+      "fewshot_block": "decontaminated (train-split examples only)",
+      "fewshot_block_sha256": "9a111f1f5484450c5c13a893eb3f1493530af61869ce51682ca9cad5e8343158",
+      "n_examples": 1356,
+      "n_unique_problems": 10,
+      "accuracy": 0.7699,
+      "macro_f1": 0.7724,
+      "per_condition": {
+        "PLANNING": {
+          "precision": 0.889,
+          "recall": 0.889,
+          "f1": 0.889,
+          "support": 208
+        },
+        "FLOW": {
+          "precision": 0.601,
+          "recall": 0.701,
+          "f1": 0.647,
+          "support": 204
+        },
+        "CONFUSED": {
+          "precision": 0.641,
+          "recall": 0.835,
+          "f1": 0.725,
+          "support": 212
+        },
+        "RUSHING": {
+          "precision": 0.907,
+          "recall": 0.83,
+          "f1": 0.866,
+          "support": 176
+        },
+        "FRUSTRATED": {
+          "precision": 0.856,
+          "recall": 0.778,
+          "f1": 0.815,
+          "support": 176
+        },
+        "STUCK": {
+          "precision": 0.825,
+          "recall": 0.604,
+          "f1": 0.697,
+          "support": 164
+        },
+        "INSIGHT": {
+          "precision": 0.813,
+          "recall": 0.727,
+          "f1": 0.768,
+          "support": 216
+        }
+      },
+      "confusion_matrix": [
+        [
+          185,
+          16,
+          3,
+          1,
+          0,
+          2,
+          1
+        ],
+        [
+          6,
+          143,
+          16,
+          8,
+          5,
+          2,
+          24
+        ],
+        [
+          2,
+          12,
+          177,
+          1,
+          8,
+          9,
+          3
+        ],
+        [
+          3,
+          14,
+          9,
+          146,
+          1,
+          0,
+          3
+        ],
+        [
+          2,
+          3,
+          26,
+          5,
+          137,
+          3,
+          0
+        ],
+        [
+          6,
+          15,
+          32,
+          0,
+          7,
+          99,
+          5
+        ],
+        [
+          4,
+          35,
+          13,
+          0,
+          2,
+          5,
+          157
+        ]
+      ],
+      "labels": [
+        "PLANNING",
+        "FLOW",
+        "CONFUSED",
+        "RUSHING",
+        "FRUSTRATED",
+        "STUCK",
+        "INSIGHT"
+      ],
+      "bootstrap": {
+        "method": "percentile bootstrap over problems (clusters), with replacement",
+        "reps": 2000,
+        "seed": 4242,
+        "n_clusters": 10,
+        "replicates_missing_a_class": 0,
+        "accuracy_ci95": [
+          0.7445,
+          0.794
+        ],
+        "macro_f1_ci95": [
+          0.7464,
+          0.7957
+        ]
+      },
+      "by_generator": {
+        "llama3.1:8b": {
+          "n_examples": 339,
+          "n_unique_problems": 10,
+          "accuracy": 0.8643,
+          "macro_f1": 0.865,
+          "per_condition": {
+            "PLANNING": {
+              "precision": 0.877,
+              "recall": 0.962,
+              "f1": 0.917,
+              "support": 52
+            },
+            "FLOW": {
+              "precision": 0.824,
+              "recall": 0.824,
+              "f1": 0.824,
+              "support": 51
+            },
+            "CONFUSED": {
+              "precision": 0.81,
+              "recall": 0.887,
+              "f1": 0.847,
+              "support": 53
+            },
+            "RUSHING": {
+              "precision": 0.956,
+              "recall": 0.977,
+              "f1": 0.966,
+              "support": 44
+            },
+            "FRUSTRATED": {
+              "precision": 0.927,
+              "recall": 0.864,
+              "f1": 0.894,
+              "support": 44
+            },
+            "STUCK": {
+              "precision": 0.783,
+              "recall": 0.878,
+              "f1": 0.828,
+              "support": 41
+            },
+            "INSIGHT": {
+              "precision": 0.902,
+              "recall": 0.685,
+              "f1": 0.779,
+              "support": 54
+            }
+          },
+          "confusion_matrix": [
+            [
+              50,
+              0,
+              1,
+              0,
+              0,
+              0,
+              1
+            ],
+            [
+              3,
+              42,
+              3,
+              0,
+              1,
+              0,
+              2
+            ],
+            [
+              0,
+              0,
+              47,
+              0,
+              1,
+              5,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              43,
+              0,
+              0,
+              1
+            ],
+            [
+              0,
+              0,
+              4,
+              2,
+              38,
+              0,
+              0
+            ],
+            [
+              2,
+              1,
+              1,
+              0,
+              1,
+              36,
+              0
+            ],
+            [
+              2,
+              8,
+              2,
+              0,
+              0,
+              5,
+              37
+            ]
+          ],
+          "labels": [
+            "PLANNING",
+            "FLOW",
+            "CONFUSED",
+            "RUSHING",
+            "FRUSTRATED",
+            "STUCK",
+            "INSIGHT"
+          ],
+          "fallback_triggered": 69
+        },
+        "mistral:7b": {
+          "n_examples": 339,
+          "n_unique_problems": 10,
+          "accuracy": 0.7817,
+          "macro_f1": 0.7806,
+          "per_condition": {
+            "PLANNING": {
+              "precision": 0.942,
+              "recall": 0.942,
+              "f1": 0.942,
+              "support": 52
+            },
+            "FLOW": {
+              "precision": 0.711,
+              "recall": 0.627,
+              "f1": 0.667,
+              "support": 51
+            },
+            "CONFUSED": {
+              "precision": 0.602,
+              "recall": 0.943,
+              "f1": 0.735,
+              "support": 53
+            },
+            "RUSHING": {
+              "precision": 0.949,
+              "recall": 0.841,
+              "f1": 0.892,
+              "support": 44
+            },
+            "FRUSTRATED": {
+              "precision": 0.97,
+              "recall": 0.727,
+              "f1": 0.831,
+              "support": 44
+            },
+            "STUCK": {
+              "precision": 0.759,
+              "recall": 0.537,
+              "f1": 0.629,
+              "support": 41
+            },
+            "INSIGHT": {
+              "precision": 0.741,
+              "recall": 0.796,
+              "f1": 0.768,
+              "support": 54
+            }
+          },
+          "confusion_matrix": [
+            [
+              49,
+              2,
+              0,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              32,
+              6,
+              2,
+              0,
+              1,
+              10
+            ],
+            [
+              0,
+              1,
+              50,
+              0,
+              0,
+              2,
+              0
+            ],
+            [
+              1,
+              3,
+              1,
+              37,
+              0,
+              0,
+              2
+            ],
+            [
+              1,
+              0,
+              8,
+              0,
+              32,
+              3,
+              0
+            ],
+            [
+              1,
+              1,
+              13,
+              0,
+              1,
+              22,
+              3
+            ],
+            [
+              0,
+              6,
+              5,
+              0,
+              0,
+              0,
+              43
+            ]
+          ],
+          "labels": [
+            "PLANNING",
+            "FLOW",
+            "CONFUSED",
+            "RUSHING",
+            "FRUSTRATED",
+            "STUCK",
+            "INSIGHT"
+          ],
+          "fallback_triggered": 75
+        },
+        "gemma2:9b": {
+          "n_examples": 339,
+          "n_unique_problems": 10,
+          "accuracy": 0.8496,
+          "macro_f1": 0.8521,
+          "per_condition": {
+            "PLANNING": {
+              "precision": 1.0,
+              "recall": 0.942,
+              "f1": 0.97,
+              "support": 52
+            },
+            "FLOW": {
+              "precision": 0.679,
+              "recall": 0.745,
+              "f1": 0.71,
+              "support": 51
+            },
+            "CONFUSED": {
+              "precision": 0.754,
+              "recall": 0.868,
+              "f1": 0.807,
+              "support": 53
+            },
+            "RUSHING": {
+              "precision": 0.932,
+              "recall": 0.932,
+              "f1": 0.932,
+              "support": 44
+            },
+            "FRUSTRATED": {
+              "precision": 0.843,
+              "recall": 0.977,
+              "f1": 0.905,
+              "support": 44
+            },
+            "STUCK": {
+              "precision": 0.967,
+              "recall": 0.707,
+              "f1": 0.817,
+              "support": 41
+            },
+            "INSIGHT": {
+              "precision": 0.875,
+              "recall": 0.778,
+              "f1": 0.824,
+              "support": 54
+            }
+          },
+          "confusion_matrix": [
+            [
+              49,
+              3,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              38,
+              3,
+              3,
+              1,
+              0,
+              6
+            ],
+            [
+              0,
+              2,
+              46,
+              0,
+              4,
+              1,
+              0
+            ],
+            [
+              0,
+              1,
+              2,
+              41,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              0,
+              1,
+              0,
+              43,
+              0,
+              0
+            ],
+            [
+              0,
+              3,
+              7,
+              0,
+              2,
+              29,
+              0
+            ],
+            [
+              0,
+              9,
+              2,
+              0,
+              1,
+              0,
+              42
+            ]
+          ],
+          "labels": [
+            "PLANNING",
+            "FLOW",
+            "CONFUSED",
+            "RUSHING",
+            "FRUSTRATED",
+            "STUCK",
+            "INSIGHT"
+          ],
+          "fallback_triggered": 61
+        },
+        "phi3:medium": {
+          "n_examples": 339,
+          "n_unique_problems": 10,
+          "accuracy": 0.5841,
+          "macro_f1": 0.5856,
+          "per_condition": {
+            "PLANNING": {
+              "precision": 0.74,
+              "recall": 0.712,
+              "f1": 0.725,
+              "support": 52
+            },
+            "FLOW": {
+              "precision": 0.36,
+              "recall": 0.608,
+              "f1": 0.453,
+              "support": 51
+            },
+            "CONFUSED": {
+              "precision": 0.459,
+              "recall": 0.642,
+              "f1": 0.535,
+              "support": 53
+            },
+            "RUSHING": {
+              "precision": 0.758,
+              "recall": 0.568,
+              "f1": 0.649,
+              "support": 44
+            },
+            "FRUSTRATED": {
+              "precision": 0.686,
+              "recall": 0.545,
+              "f1": 0.608,
+              "support": 44
+            },
+            "STUCK": {
+              "precision": 0.8,
+              "recall": 0.293,
+              "f1": 0.429,
+              "support": 41
+            },
+            "INSIGHT": {
+              "precision": 0.761,
+              "recall": 0.648,
+              "f1": 0.7,
+              "support": 54
+            }
+          },
+          "confusion_matrix": [
+            [
+              37,
+              11,
+              2,
+              1,
+              0,
+              1,
+              0
+            ],
+            [
+              3,
+              31,
+              4,
+              3,
+              3,
+              1,
+              6
+            ],
+            [
+              2,
+              9,
+              34,
+              1,
+              3,
+              1,
+              3
+            ],
+            [
+              2,
+              10,
+              6,
+              25,
+              1,
+              0,
+              0
+            ],
+            [
+              1,
+              3,
+              13,
+              3,
+              24,
+              0,
+              0
+            ],
+            [
+              3,
+              10,
+              11,
+              0,
+              3,
+              12,
+              2
+            ],
+            [
+              2,
+              12,
+              4,
+              0,
+              1,
+              0,
+              35
+            ]
+          ],
+          "labels": [
+            "PLANNING",
+            "FLOW",
+            "CONFUSED",
+            "RUSHING",
+            "FRUSTRATED",
+            "STUCK",
+            "INSIGHT"
+          ],
+          "fallback_triggered": 126
+        }
+      },
+      "by_condition_activation": {
+        "PLANNING": {
+          "n": 208,
+          "triggered": 30
+        },
+        "FLOW": {
+          "n": 204,
+          "triggered": 92
+        },
+        "CONFUSED": {
+          "n": 212,
+          "triggered": 38
+        },
+        "RUSHING": {
+          "n": 176,
+          "triggered": 30
+        },
+        "FRUSTRATED": {
+          "n": 176,
+          "triggered": 34
+        },
+        "STUCK": {
+          "n": 164,
+          "triggered": 59
+        },
+        "INSIGHT": {
+          "n": 216,
+          "triggered": 48
+        }
+      },
+      "fallback_activation": {
+        "n_triggered": 331,
+        "pct": 24.41,
+        "n_llm_returned_state": 331,
+        "n_llm_errors": 0,
+        "by_generator": {
+          "llama3.1:8b": 20.35,
+          "mistral:7b": 22.12,
+          "gemma2:9b": 17.99,
+          "phi3:medium": 37.17
+        }
+      }
+    },
+    "C_forced_llm_ablation": {
+      "config": "C_forced_llm_ablation",
+      "route": "FORCED: every example sent to the LLM (ablation, not product behaviour)",
+      "fewshot_block": "decontaminated (train-split examples only)",
+      "fewshot_block_sha256": "9a111f1f5484450c5c13a893eb3f1493530af61869ce51682ca9cad5e8343158",
+      "n_examples": 1356,
+      "n_unique_problems": 10,
+      "accuracy": 0.4167,
+      "macro_f1": 0.3827,
+      "per_condition": {
+        "PLANNING": {
+          "precision": 0.851,
+          "recall": 0.606,
+          "f1": 0.708,
+          "support": 208
+        },
+        "FLOW": {
+          "precision": 0.317,
+          "recall": 0.946,
+          "f1": 0.475,
+          "support": 204
+        },
+        "CONFUSED": {
+          "precision": 0.267,
+          "recall": 0.439,
+          "f1": 0.332,
+          "support": 212
+        },
+        "RUSHING": {
+          "precision": 0.916,
+          "recall": 0.432,
+          "f1": 0.587,
+          "support": 176
+        },
+        "FRUSTRATED": {
+          "precision": 0.955,
+          "recall": 0.119,
+          "f1": 0.212,
+          "support": 176
+        },
+        "STUCK": {
+          "precision": 0.379,
+          "recall": 0.335,
+          "f1": 0.356,
+          "support": 164
+        },
+        "INSIGHT": {
+          "precision": 1.0,
+          "recall": 0.005,
+          "f1": 0.009,
+          "support": 216
+        }
+      },
+      "confusion_matrix": [
+        [
+          126,
+          64,
+          10,
+          0,
+          0,
+          8,
+          0
+        ],
+        [
+          4,
+          193,
+          3,
+          3,
+          0,
+          1,
+          0
+        ],
+        [
+          2,
+          62,
+          93,
+          0,
+          0,
+          55,
+          0
+        ],
+        [
+          2,
+          66,
+          27,
+          76,
+          0,
+          5,
+          0
+        ],
+        [
+          4,
+          18,
+          120,
+          3,
+          21,
+          10,
+          0
+        ],
+        [
+          7,
+          28,
+          73,
+          0,
+          1,
+          55,
+          0
+        ],
+        [
+          3,
+          178,
+          22,
+          1,
+          0,
+          11,
+          1
+        ]
+      ],
+      "labels": [
+        "PLANNING",
+        "FLOW",
+        "CONFUSED",
+        "RUSHING",
+        "FRUSTRATED",
+        "STUCK",
+        "INSIGHT"
+      ],
+      "bootstrap": {
+        "method": "percentile bootstrap over problems (clusters), with replacement",
+        "reps": 2000,
+        "seed": 4242,
+        "n_clusters": 10,
+        "replicates_missing_a_class": 0,
+        "accuracy_ci95": [
+          0.3703,
+          0.4534
+        ],
+        "macro_f1_ci95": [
+          0.3407,
+          0.4159
+        ]
+      },
+      "by_generator": {
+        "llama3.1:8b": {
+          "n_examples": 339,
+          "n_unique_problems": 10,
+          "accuracy": 0.4985,
+          "macro_f1": 0.4547,
+          "per_condition": {
+            "PLANNING": {
+              "precision": 0.848,
+              "recall": 0.75,
+              "f1": 0.796,
+              "support": 52
+            },
+            "FLOW": {
+              "precision": 0.462,
+              "recall": 0.941,
+              "f1": 0.619,
+              "support": 51
+            },
+            "CONFUSED": {
+              "precision": 0.303,
+              "recall": 0.434,
+              "f1": 0.357,
+              "support": 53
+            },
+            "RUSHING": {
+              "precision": 0.885,
+              "recall": 0.523,
+              "f1": 0.657,
+              "support": 44
+            },
+            "FRUSTRATED": {
+              "precision": 1.0,
+              "recall": 0.159,
+              "f1": 0.275,
+              "support": 44
+            },
+            "STUCK": {
+              "precision": 0.362,
+              "recall": 0.707,
+              "f1": 0.479,
+              "support": 41
+            },
+            "INSIGHT": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 54
+            }
+          },
+          "confusion_matrix": [
+            [
+              39,
+              2,
+              6,
+              0,
+              0,
+              5,
+              0
+            ],
+            [
+              2,
+              48,
+              0,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              1,
+              23,
+              0,
+              0,
+              29,
+              0
+            ],
+            [
+              1,
+              9,
+              8,
+              23,
+              0,
+              3,
+              0
+            ],
+            [
+              0,
+              3,
+              28,
+              2,
+              7,
+              4,
+              0
+            ],
+            [
+              3,
+              1,
+              8,
+              0,
+              0,
+              29,
+              0
+            ],
+            [
+              1,
+              40,
+              3,
+              0,
+              0,
+              10,
+              0
+            ]
+          ],
+          "labels": [
+            "PLANNING",
+            "FLOW",
+            "CONFUSED",
+            "RUSHING",
+            "FRUSTRATED",
+            "STUCK",
+            "INSIGHT"
+          ],
+          "fallback_triggered": 339
+        },
+        "mistral:7b": {
+          "n_examples": 339,
+          "n_unique_problems": 10,
+          "accuracy": 0.4336,
+          "macro_f1": 0.3901,
+          "per_condition": {
+            "PLANNING": {
+              "precision": 0.846,
+              "recall": 0.635,
+              "f1": 0.725,
+              "support": 52
+            },
+            "FLOW": {
+              "precision": 0.368,
+              "recall": 0.961,
+              "f1": 0.533,
+              "support": 51
+            },
+            "CONFUSED": {
+              "precision": 0.243,
+              "recall": 0.472,
+              "f1": 0.321,
+              "support": 53
+            },
+            "RUSHING": {
+              "precision": 0.926,
+              "recall": 0.568,
+              "f1": 0.704,
+              "support": 44
+            },
+            "FRUSTRATED": {
+              "precision": 1.0,
+              "recall": 0.068,
+              "f1": 0.128,
+              "support": 44
+            },
+            "STUCK": {
+              "precision": 0.353,
+              "recall": 0.293,
+              "f1": 0.32,
+              "support": 41
+            },
+            "INSIGHT": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 54
+            }
+          },
+          "confusion_matrix": [
+            [
+              33,
+              15,
+              2,
+              0,
+              0,
+              2,
+              0
+            ],
+            [
+              0,
+              49,
+              1,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              14,
+              25,
+              0,
+              0,
+              13,
+              0
+            ],
+            [
+              0,
+              14,
+              4,
+              25,
+              0,
+              1,
+              0
+            ],
+            [
+              3,
+              1,
+              32,
+              0,
+              3,
+              5,
+              0
+            ],
+            [
+              2,
+              2,
+              25,
+              0,
+              0,
+              12,
+              0
+            ],
+            [
+              0,
+              38,
+              14,
+              1,
+              0,
+              1,
+              0
+            ]
+          ],
+          "labels": [
+            "PLANNING",
+            "FLOW",
+            "CONFUSED",
+            "RUSHING",
+            "FRUSTRATED",
+            "STUCK",
+            "INSIGHT"
+          ],
+          "fallback_triggered": 339
+        },
+        "gemma2:9b": {
+          "n_examples": 339,
+          "n_unique_problems": 10,
+          "accuracy": 0.4366,
+          "macro_f1": 0.4087,
+          "per_condition": {
+            "PLANNING": {
+              "precision": 1.0,
+              "recall": 0.615,
+              "f1": 0.762,
+              "support": 52
+            },
+            "FLOW": {
+              "precision": 0.304,
+              "recall": 1.0,
+              "f1": 0.466,
+              "support": 51
+            },
+            "CONFUSED": {
+              "precision": 0.315,
+              "recall": 0.547,
+              "f1": 0.4,
+              "support": 53
+            },
+            "RUSHING": {
+              "precision": 1.0,
+              "recall": 0.364,
+              "f1": 0.533,
+              "support": 44
+            },
+            "FRUSTRATED": {
+              "precision": 0.909,
+              "recall": 0.227,
+              "f1": 0.364,
+              "support": 44
+            },
+            "STUCK": {
+              "precision": 0.474,
+              "recall": 0.22,
+              "f1": 0.3,
+              "support": 41
+            },
+            "INSIGHT": {
+              "precision": 1.0,
+              "recall": 0.019,
+              "f1": 0.036,
+              "support": 54
+            }
+          },
+          "confusion_matrix": [
+            [
+              32,
+              19,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              51,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              0,
+              15,
+              29,
+              0,
+              0,
+              9,
+              0
+            ],
+            [
+              0,
+              22,
+              5,
+              16,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              2,
+              32,
+              0,
+              10,
+              0,
+              0
+            ],
+            [
+              0,
+              7,
+              24,
+              0,
+              1,
+              9,
+              0
+            ],
+            [
+              0,
+              52,
+              1,
+              0,
+              0,
+              0,
+              1
+            ]
+          ],
+          "labels": [
+            "PLANNING",
+            "FLOW",
+            "CONFUSED",
+            "RUSHING",
+            "FRUSTRATED",
+            "STUCK",
+            "INSIGHT"
+          ],
+          "fallback_triggered": 339
+        },
+        "phi3:medium": {
+          "n_examples": 339,
+          "n_unique_problems": 10,
+          "accuracy": 0.2979,
+          "macro_f1": 0.2537,
+          "per_condition": {
+            "PLANNING": {
+              "precision": 0.71,
+              "recall": 0.423,
+              "f1": 0.53,
+              "support": 52
+            },
+            "FLOW": {
+              "precision": 0.221,
+              "recall": 0.882,
+              "f1": 0.353,
+              "support": 51
+            },
+            "CONFUSED": {
+              "precision": 0.208,
+              "recall": 0.302,
+              "f1": 0.246,
+              "support": 53
+            },
+            "RUSHING": {
+              "precision": 0.857,
+              "recall": 0.273,
+              "f1": 0.414,
+              "support": 44
+            },
+            "FRUSTRATED": {
+              "precision": 1.0,
+              "recall": 0.023,
+              "f1": 0.044,
+              "support": 44
+            },
+            "STUCK": {
+              "precision": 0.417,
+              "recall": 0.122,
+              "f1": 0.189,
+              "support": 41
+            },
+            "INSIGHT": {
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support": 54
+            }
+          },
+          "confusion_matrix": [
+            [
+              22,
+              28,
+              1,
+              0,
+              0,
+              1,
+              0
+            ],
+            [
+              2,
+              45,
+              2,
+              1,
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              32,
+              16,
+              0,
+              0,
+              4,
+              0
+            ],
+            [
+              1,
+              21,
+              10,
+              12,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              12,
+              28,
+              1,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              18,
+              16,
+              0,
+              0,
+              5,
+              0
+            ],
+            [
+              2,
+              48,
+              4,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "labels": [
+            "PLANNING",
+            "FLOW",
+            "CONFUSED",
+            "RUSHING",
+            "FRUSTRATED",
+            "STUCK",
+            "INSIGHT"
+          ],
+          "fallback_triggered": 339
+        }
+      },
+      "by_condition_activation": {
+        "PLANNING": {
+          "n": 208,
+          "triggered": 208
+        },
+        "FLOW": {
+          "n": 204,
+          "triggered": 204
+        },
+        "CONFUSED": {
+          "n": 212,
+          "triggered": 212
+        },
+        "RUSHING": {
+          "n": 176,
+          "triggered": 176
+        },
+        "FRUSTRATED": {
+          "n": 176,
+          "triggered": 176
+        },
+        "STUCK": {
+          "n": 164,
+          "triggered": 164
+        },
+        "INSIGHT": {
+          "n": 216,
+          "triggered": 216
+        }
+      },
+      "fallback_activation": {
+        "n_triggered": 1356,
+        "pct": 100.0,
+        "n_llm_returned_state": 1356,
+        "n_llm_errors": 0,
+        "by_generator": {
+          "llama3.1:8b": 100.0,
+          "mistral:7b": 100.0,
+          "gemma2:9b": 100.0,
+          "phi3:medium": 100.0
+        }
+      }
+    }
+  },
+  "vs_lexical": {
+    "B_hybrid_shipped": {
+      "paired": true,
+      "reps": 2000,
+      "seed": 4242,
+      "n_clusters": 10,
+      "delta_accuracy": -0.0442,
+      "delta_accuracy_ci95": [
+        -0.0652,
+        -0.0244
+      ],
+      "delta_accuracy_excludes_zero": true,
+      "delta_macro_f1": -0.042,
+      "delta_macro_f1_ci95": [
+        -0.064,
+        -0.0206
+      ],
+      "delta_macro_f1_excludes_zero": true
+    },
+    "Bprime_hybrid_decontaminated": {
+      "paired": true,
+      "reps": 2000,
+      "seed": 4242,
+      "n_clusters": 10,
+      "delta_accuracy": -0.0214,
+      "delta_accuracy_ci95": [
+        -0.0426,
+        -0.0019
+      ],
+      "delta_accuracy_excludes_zero": true,
+      "delta_macro_f1": -0.014,
+      "delta_macro_f1_ci95": [
+        -0.0326,
+        0.0061
+      ],
+      "delta_macro_f1_excludes_zero": false
+    },
+    "C_forced_llm_ablation": {
+      "paired": true,
+      "reps": 2000,
+      "seed": 4242,
+      "n_clusters": 10,
+      "delta_accuracy": -0.3746,
+      "delta_accuracy_ci95": [
+        -0.4311,
+        -0.3322
+      ],
+      "delta_accuracy_excludes_zero": true,
+      "delta_macro_f1": -0.4037,
+      "delta_macro_f1_ci95": [
+        -0.4477,
+        -0.3659
+      ],
+      "delta_macro_f1_excludes_zero": true
+    }
+  },
+  "changes": {
+    "B_hybrid_shipped": {
+      "n_changed": 227,
+      "corrected": 46,
+      "broke": 106,
+      "wrong_to_wrong": 75,
+      "net": -60,
+      "representative": [
+        {
+          "problem_id": "P33",
+          "generator": "phi3:medium",
+          "condition": "FLOW",
+          "true_state": "FLOW",
+          "lexical_state": "PLANNING",
+          "lexical_confidence": 0.6,
+          "llm_state": "FLOW",
+          "llm_confidence": 0.9,
+          "final_state": "FLOW",
+          "effect": "corrected",
+          "llm_evidence": "The student is able to punctuate the sentence correctly and explains their thought process in detail, indicating they are in a state of flow.",
+          "source_file": "eval/data/synthetic_thinkaloud/augment_phi3.jsonl",
+          "source_line": 483,
+          "record_id": "FLOW|ACT English|easy|combined|comma usage|0.77|phi3",
+          "text": "Okay, so I gotta punctuate this sentence... should be easy peasy. Just need to break it up a bit for the reader's sake. Hmm... After the game we went home... Nope, that seems off. What about after a pause? So it goes: 'After the game, we went home.' That feels better; I can see how to separate those clauses now. Wait - but happy needs to be set apart too since it's an additional thought. Gotcha! It should read like this: 'After the game, we went home tired, but happy,'... Yes, that looks right. Nice job with that one; I got into a flow and didn't even notice!",
+          "selection_rule": "highest-confidence 'corrected' change for phi3:medium, the generator with the most changed predictions (94)"
+        },
+        {
+          "problem_id": "P03",
+          "generator": "phi3:medium",
+          "condition": "STUCK",
+          "true_state": "STUCK",
+          "lexical_state": "STUCK",
+          "lexical_confidence": 0.6,
+          "llm_state": "INSIGHT",
+          "llm_confidence": 0.9,
+          "final_state": "INSIGHT",
+          "effect": "broke",
+          "llm_evidence": "The student uses phrases like 'Gotta figure out what to do next', 'refining the hypothesis based on new data', which indicate a clear direction and understanding of the problem.",
+          "source_file": "eval/data/synthetic_thinkaloud/augment_phi3.jsonl",
+          "source_line": 381,
+          "record_id": "STUCK|ACT Science|easy|inattentive|hypothesis testing|0.78|phi3",
+          "text": "Okay, hypothesis is wrong. Gotta figure out what to do next. Maybe I should check the method again or something. [pause] So if it's not right, we have to try... Uh, maybe adjusting the experiment parameters? No, wait. Refine the hypothesis based on new data. Right, that makes sense but what does 'refining' even mean here. Alright, I think refining the hypothesis with the new data is a good call. That way we learn from our mistakes and improve.",
+          "selection_rule": "highest-confidence 'broke' change for phi3:medium, the generator with the most changed predictions (94)"
+        },
+        {
+          "problem_id": "P10",
+          "generator": "mistral:7b",
+          "condition": "FLOW",
+          "true_state": "FLOW",
+          "lexical_state": "CONFUSED",
+          "lexical_confidence": 0.6,
+          "llm_state": "FLOW",
+          "llm_confidence": 0.9,
+          "final_state": "FLOW",
+          "effect": "corrected",
+          "llm_evidence": "The student expresses confidence in their ability to solve the problem and provides a clear explanation of the steps they would take to find the solution.",
+          "source_file": "eval/data/synthetic_thinkaloud/augment_mistral.jsonl",
+          "source_line": 194,
+          "record_id": "FLOW|Algebra|medium|inattentive|functions|0.42|mistral",
+          "text": "[\"Alright, let's get this. I'm feeling good about this one, f(x) = 2x + 1. Just need to find the value of f(3). Feels like a piece of cake!\"] [\"Okay, so it's 'f'(3)... oh wait, no, that's the derivative. This is just finding the function value for x=3 right? Let me rephrase that: if x equals 3, what do you get when you multiply 2 by 3 and add 1?\"] ['Awesome, I nailed it. Multiplying 2 by 3 equals 6 and adding 1 gives me 7. This function thingy is kinda fun!']",
+          "selection_rule": "highest-confidence 'corrected' change for mistral:7b, the generator with the next most changed predictions (52)"
+        },
+        {
+          "problem_id": "P05",
+          "generator": "mistral:7b",
+          "condition": "FLOW",
+          "true_state": "FLOW",
+          "lexical_state": "FLOW",
+          "lexical_confidence": 0.6,
+          "llm_state": "INSIGHT",
+          "llm_confidence": 0.9,
+          "final_state": "INSIGHT",
+          "effect": "broke",
+          "llm_evidence": "The student provides a clear and concise explanation of the relationship between factory closure and town decline, demonstrating a strong understanding of the topic.",
+          "source_file": "eval/data/synthetic_thinkaloud/augment_mistral.jsonl",
+          "source_line": 212,
+          "record_id": "FLOW|ACT Reading|medium|hyperactive|main idea|0.45|mistral",
+          "text": "[\"Alright, let's do this. Factory closed, town declined? Cool, I got this.\"] [\"Main idea, hmm... Okay, factory closes, town suffers, right? Factory was the lifeblood, so without it... Town struggles, declines, dies maybe? Yeah, that's gotta be it.\"] [\"Yeah, I think that's it. Factory closure led to town decline. Let's see if I'm right.\"]",
+          "selection_rule": "highest-confidence 'broke' change for mistral:7b, the generator with the next most changed predictions (52)"
+        }
+      ]
+    },
+    "Bprime_hybrid_decontaminated": {
+      "n_changed": 238,
+      "corrected": 75,
+      "broke": 104,
+      "wrong_to_wrong": 59,
+      "net": -29,
+      "representative": [
+        {
+          "problem_id": "P33",
+          "generator": "phi3:medium",
+          "condition": "FLOW",
+          "true_state": "FLOW",
+          "lexical_state": "PLANNING",
+          "lexical_confidence": 0.6,
+          "llm_state": "FLOW",
+          "llm_confidence": 0.9,
+          "final_state": "FLOW",
+          "effect": "corrected",
+          "llm_evidence": "Student transitions from confusion to clarity, using phrases like 'I can see how to separate those clauses now' and 'Gotcha! It should read like this...'}",
+          "source_file": "eval/data/synthetic_thinkaloud/augment_phi3.jsonl",
+          "source_line": 483,
+          "record_id": "FLOW|ACT English|easy|combined|comma usage|0.77|phi3",
+          "text": "Okay, so I gotta punctuate this sentence... should be easy peasy. Just need to break it up a bit for the reader's sake. Hmm... After the game we went home... Nope, that seems off. What about after a pause? So it goes: 'After the game, we went home.' That feels better; I can see how to separate those clauses now. Wait - but happy needs to be set apart too since it's an additional thought. Gotcha! It should read like this: 'After the game, we went home tired, but happy,'... Yes, that looks right. Nice job with that one; I got into a flow and didn't even notice!",
+          "selection_rule": "highest-confidence 'corrected' change for phi3:medium, the generator with the most changed predictions (98)"
+        },
+        {
+          "problem_id": "P31",
+          "generator": "phi3:medium",
+          "condition": "INSIGHT",
+          "true_state": "INSIGHT",
+          "lexical_state": "INSIGHT",
+          "lexical_confidence": 0.6,
+          "llm_state": "FLOW",
+          "llm_confidence": 0.9,
+          "final_state": "FLOW",
+          "effect": "broke",
+          "llm_evidence": "The student provides a clear explanation of the relationship between temperature and reaction rates, using specific examples from the table.",
+          "source_file": "eval/data/synthetic_thinkaloud/augment_phi3.jsonl",
+          "source_line": 1150,
+          "record_id": "INSIGHT|ACT Science|easy|combined|reading tables|0.77|phi3",
+          "text": "Oh, okay let's see... So I gotta find out which temperature is the fastest for reactions. I remember something about higher temps making things go faster? Yeah, that sounds right. 'Wait a minute', as I look at the table, 'ohhhh, so reaction rates increase with temperature'. Ummm... The rate doubles from 20°C to 30°C. But then it triples when we go up to 40°C! That's definitely faster than doubling or even tripling the previous value... So that means 40°C is fastest, right? 'Alrighty', I got this one. The reaction rate goes higher with temperature and it does indeed triple from 20°C to 30°C and then more than doubles again at 40°C. Makes sense because, duh, heat speeds things up!",
+          "selection_rule": "highest-confidence 'broke' change for phi3:medium, the generator with the most changed predictions (98)"
+        },
+        {
+          "problem_id": "P05",
+          "generator": "mistral:7b",
+          "condition": "FLOW",
+          "true_state": "FLOW",
+          "lexical_state": "INSIGHT",
+          "lexical_confidence": 0.6,
+          "llm_state": "FLOW",
+          "llm_confidence": 0.9,
+          "final_state": "FLOW",
+          "effect": "corrected",
+          "llm_evidence": "Smooth transition from excited murmur to clear voice and confident conclusion",
+          "source_file": "eval/data/synthetic_thinkaloud/augment_mistral.jsonl",
+          "source_line": 70,
+          "record_id": "FLOW|ACT Reading|easy|hyperactive|main idea|0.75|mistral",
+          "text": "[Excited murmur] Okay, let's do this. Factory closed, town's decline... hmm, main idea, got it! [Clear voice, smooth transition] Alright, so the passage is describing the effects of a factory closing on a town. The main idea here is probably that the town is facing a decline after the factory shut down. I mean, duh! But let's see if there's anything more specific... [Satisfied sigh] Yep, that's it. Town's decline after factory closes - main idea, checked.",
+          "selection_rule": "highest-confidence 'corrected' change for mistral:7b, the generator with the next most changed predictions (57)"
+        },
+        {
+          "problem_id": "P03",
+          "generator": "mistral:7b",
+          "condition": "FRUSTRATED",
+          "true_state": "FRUSTRATED",
+          "lexical_state": "FRUSTRATED",
+          "lexical_confidence": 0.6,
+          "llm_state": "CONFUSED",
+          "llm_confidence": 0.8,
+          "final_state": "CONFUSED",
+          "effect": "broke",
+          "llm_evidence": "Student is struggling to start and seems uncertain about where to begin.",
+          "source_file": "eval/data/synthetic_thinkaloud/augment_mistral.jsonl",
+          "source_line": 38,
+          "record_id": "FRUSTRATED|ACT Science|medium|inattentive|hypothesis testing|0.53|mistral",
+          "text": "[\"ugh, this problem again. I'm not even sure where to start.\"] [\"Okay okay, let's see... if my hypothesis is correct, the results should match... but they don't. Wait, maybe I misunderstood something in the question. Forget it, forget it, let me read it again.\"] ['Alright, so my first idea was wrong. I need to rethink this and maybe look at the problem from a different angle.']",
+          "selection_rule": "highest-confidence 'broke' change for mistral:7b, the generator with the next most changed predictions (57)"
+        }
+      ]
+    },
+    "C_forced_llm_ablation": {
+      "n_changed": 884,
+      "corrected": 135,
+      "broke": 643,
+      "wrong_to_wrong": 106,
+      "net": -508,
+      "representative": [
+        {
+          "problem_id": "P33",
+          "generator": "phi3:medium",
+          "condition": "FLOW",
+          "true_state": "FLOW",
+          "lexical_state": "PLANNING",
+          "lexical_confidence": 0.6,
+          "llm_state": "FLOW",
+          "llm_confidence": 0.9,
+          "final_state": "FLOW",
+          "effect": "corrected",
+          "llm_evidence": "Student transitions from confusion to clarity, using phrases like 'I can see how to separate those clauses now' and 'Gotcha! It should read like this...'}",
+          "source_file": "eval/data/synthetic_thinkaloud/augment_phi3.jsonl",
+          "source_line": 483,
+          "record_id": "FLOW|ACT English|easy|combined|comma usage|0.77|phi3",
+          "text": "Okay, so I gotta punctuate this sentence... should be easy peasy. Just need to break it up a bit for the reader's sake. Hmm... After the game we went home... Nope, that seems off. What about after a pause? So it goes: 'After the game, we went home.' That feels better; I can see how to separate those clauses now. Wait - but happy needs to be set apart too since it's an additional thought. Gotcha! It should read like this: 'After the game, we went home tired, but happy,'... Yes, that looks right. Nice job with that one; I got into a flow and didn't even notice!",
+          "selection_rule": "highest-confidence 'corrected' change for phi3:medium, the generator with the most changed predictions (257)"
+        },
+        {
+          "problem_id": "P31",
+          "generator": "phi3:medium",
+          "condition": "INSIGHT",
+          "true_state": "INSIGHT",
+          "lexical_state": "INSIGHT",
+          "lexical_confidence": 0.6,
+          "llm_state": "FLOW",
+          "llm_confidence": 0.9,
+          "final_state": "FLOW",
+          "effect": "broke",
+          "llm_evidence": "The student provides a clear explanation of the relationship between temperature and reaction rates, using specific examples from the table.",
+          "source_file": "eval/data/synthetic_thinkaloud/augment_phi3.jsonl",
+          "source_line": 1150,
+          "record_id": "INSIGHT|ACT Science|easy|combined|reading tables|0.77|phi3",
+          "text": "Oh, okay let's see... So I gotta find out which temperature is the fastest for reactions. I remember something about higher temps making things go faster? Yeah, that sounds right. 'Wait a minute', as I look at the table, 'ohhhh, so reaction rates increase with temperature'. Ummm... The rate doubles from 20°C to 30°C. But then it triples when we go up to 40°C! That's definitely faster than doubling or even tripling the previous value... So that means 40°C is fastest, right? 'Alrighty', I got this one. The reaction rate goes higher with temperature and it does indeed triple from 20°C to 30°C and then more than doubles again at 40°C. Makes sense because, duh, heat speeds things up!",
+          "selection_rule": "highest-confidence 'broke' change for phi3:medium, the generator with the most changed predictions (257)"
+        },
+        {
+          "problem_id": "P05",
+          "generator": "mistral:7b",
+          "condition": "FLOW",
+          "true_state": "FLOW",
+          "lexical_state": "INSIGHT",
+          "lexical_confidence": 0.6,
+          "llm_state": "FLOW",
+          "llm_confidence": 0.9,
+          "final_state": "FLOW",
+          "effect": "corrected",
+          "llm_evidence": "Smooth transition from excited murmur to clear voice and confident conclusion",
+          "source_file": "eval/data/synthetic_thinkaloud/augment_mistral.jsonl",
+          "source_line": 70,
+          "record_id": "FLOW|ACT Reading|easy|hyperactive|main idea|0.75|mistral",
+          "text": "[Excited murmur] Okay, let's do this. Factory closed, town's decline... hmm, main idea, got it! [Clear voice, smooth transition] Alright, so the passage is describing the effects of a factory closing on a town. The main idea here is probably that the town is facing a decline after the factory shut down. I mean, duh! But let's see if there's anything more specific... [Satisfied sigh] Yep, that's it. Town's decline after factory closes - main idea, checked.",
+          "selection_rule": "highest-confidence 'corrected' change for mistral:7b, the generator with the next most changed predictions (218)"
+        },
+        {
+          "problem_id": "P35",
+          "generator": "mistral:7b",
+          "condition": "INSIGHT",
+          "true_state": "INSIGHT",
+          "lexical_state": "INSIGHT",
+          "lexical_confidence": 0.97,
+          "llm_state": "FLOW",
+          "llm_confidence": 0.9,
+          "final_state": "FLOW",
+          "effect": "broke",
+          "llm_evidence": "The student transitions from uncertainty to clarity and confidence in a short period of time, indicating a flow state.",
+          "source_file": "eval/data/synthetic_thinkaloud/augment_mistral.jsonl",
+          "source_line": 288,
+          "record_id": "INSIGHT|ACT English|easy|hyperactive|word choice|0.62|mistral",
+          "text": "[\"Aw man, where's my brain today? Store question... gotta be quick, it's 'Their' right?\"] [\"No no, can't be 'Their'. That's possessive. Wait a sec, it's not 'There' either, that's a place. Ohhhh, now I got it! It's 'They're'! They are going to the store\"] [\"Yesssss! That's right, 'They're'. I can feel it!\"]",
+          "selection_rule": "highest-confidence 'broke' change for mistral:7b, the generator with the next most changed predictions (218)"
+        }
+      ]
+    }
+  },
+  "timings": {
+    "A_lexical_only": {
+      "wall_seconds": 1.9,
+      "live_llm_calls": 0
+    },
+    "B_hybrid_shipped": {
+      "wall_seconds": 1.9,
+      "live_llm_calls": 0
+    },
+    "Bprime_hybrid_decontaminated": {
+      "wall_seconds": 1.9,
+      "live_llm_calls": 0
+    },
+    "C_forced_llm_ablation": {
+      "wall_seconds": 1480.3,
+      "live_llm_calls": 390
+    }
+  }
+}

@@ -1,0 +1,7 @@
+# Raw ASSISTments data must never be committed (see docs/aria_pace/DATA.md, Terms of use)
+data/raw/
+data/*.csv
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
