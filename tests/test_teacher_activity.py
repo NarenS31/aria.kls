@@ -396,7 +396,9 @@ class ReasonsV2(unittest.TestCase):
         self.assertNotIn("xxxxx", text)
 
     def test_ui_reason_phase_and_default_unchanged(self):
-        ui = UiWiring.ui
+        spec = importlib.util.spec_from_file_location("aria_demo_app_v2", ROOT / "ui" / "demo_app.py")
+        ui = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(ui)
         log, _ = tmp_log()
         new, proceed, decide, choose_type, agree, reason = ui.make_activity_handlers(MOMENTS, log, reasons=True)
         out = new()
