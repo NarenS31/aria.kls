@@ -290,7 +290,7 @@ class UiWiring(unittest.TestCase):
 
     def test_each_phase_shows_exactly_the_right_group(self):
         log, path = tmp_log()
-        new, proceed, decide, choose_type, agree = self.ui.make_activity_handlers(MOMENTS, log)
+        new, proceed, decide, choose_type, agree, _reason = self.ui.make_activity_handlers(MOMENTS, log)
         out = new()
         act = out[0]
         self.assertEqual(self.visible(out), [True, False, False, False, False])
@@ -329,6 +329,126 @@ class UiWiring(unittest.TestCase):
             p.write_text(json.dumps(MOMENTS))
             self.assertIsNotNone(self.ui.build_demo_ui(tutor, p, Path(d) / "t.csv"))
             self.assertIsNotNone(self.ui.build_demo_ui(tutor, Path(d) / "missing.json", Path(d) / "t.csv"))
+
+
+class ReasonsV2(unittest.TestCase):
+    """v2 DRAFT: the optional reason. Off by default; free text is never written; only fixed values reach the CSV."""
+
+    def test_default_flow_is_unchanged_and_has_no_reason_column(self):
+        log, path = tmp_log()
+        a = TA.Activity(MOMENTS, log)
+        run_visitor(a, ["step_in"] * 8)
+        rows = list(csv.DictReader(open(path)))
+        self.assertEqual(list(rows[0].keys()), TA.COLUMNS)
+        self.assertEqual(a.phase, "done")
+
+    def test_reasons_off_never_enters_the_reason_phase(self):
+        a = TA.Activity(MOMENTS, tmp_log()[0])
+        a.consent(True)
+        a.decide("step_in")
+        a.choose_type("hint")
+        self.assertEqual(a.phase, "reveal")
+        a.choose_reason("slowing_pace")                      # ignored: not in the reason phase
+        self.assertEqual(a._reason, "")
+
+    def test_reasons_on_collects_a_fixed_value_or_skip(self):
+        d = tempfile.mkdtemp()
+        log = TA.TapLog(Path(d) / "t.csv", collect_reasons=True)
+        a = TA.Activity(MOMENTS, log, reasons=True)
+        a.consent(True)
+        for i in range(8):
+            a.decide("step_in")
+            a.choose_type("hint")
+            self.assertEqual(a.phase, "reason")
+            a.choose_reason("nonsense")                      # invalid: stays in the phase
+            self.assertEqual(a.phase, "reason")
+            a.choose_reason(TA.REASONS[i % 4] if i != 3 else "")        # one skip
+            self.assertEqual(a.phase, "reveal")
+            a.agree("agree")
+        rows = list(csv.DictReader(open(Path(d) / "t.csv")))
+        self.assertEqual(list(rows[0].keys()), TA.COLUMNS_V2)
+        self.assertEqual([r["teacher_reason"] for r in rows], [TA.REASONS[i % 4] if i != 3 else "" for i in range(8)])
+
+    def test_stay_quiet_has_no_reason_and_a_reason_without_collection_is_rejected(self):
+        d = tempfile.mkdtemp()
+        log = TA.TapLog(Path(d) / "t.csv", collect_reasons=True)
+        base = {"session_id": "abcdefabcdef", "moment_id": "M1", "role": "teacher", "years_band": "6-10", "grade_band": "mixed", "teacher_decision": "stay_quiet",
+                "teacher_type": "", "aria_decision": "stay_quiet", "aria_type": "", "agree": "agree", "timestamp": "t", "teacher_reason": "other"}
+        self.assertFalse(log.write(base))                     # a reason with stay_quiet is invalid
+        off = TA.TapLog(Path(d) / "u.csv")
+        self.assertFalse(off.write({**base, "teacher_decision": "step_in", "teacher_type": "hint", "aria_decision": "step_in", "aria_type": "hint"}))
+
+    def test_free_text_note_stays_in_memory_and_never_reaches_the_file(self):
+        d = tempfile.mkdtemp()
+        log = TA.TapLog(Path(d) / "t.csv", collect_reasons=True)
+        a = TA.Activity(MOMENTS, log, reasons=True)
+        a.consent(True)
+        a.decide("step_in")
+        a.choose_type("hint")
+        a.set_note("Jamie looked upset \u2603 \x00 " + "x" * 500)
+        self.assertLessEqual(len(a.note), TA.NOTE_MAX)
+        self.assertNotIn("\x00", a.note)
+        a.choose_reason("emotional_distress")
+        a.agree("agree")
+        self.assertEqual(a.note, "")                           # cleared when the moment ends
+        text = open(Path(d) / "t.csv").read()
+        self.assertNotIn("Jamie", text)
+        self.assertNotIn("xxxxx", text)
+
+    def test_ui_reason_phase_and_default_unchanged(self):
+        ui = UiWiring.ui
+        log, _ = tmp_log()
+        new, proceed, decide, choose_type, agree, reason = ui.make_activity_handlers(MOMENTS, log, reasons=True)
+        out = new()
+        act = out[0]
+        proceed(act, "teacher", "6-10", "mixed", True)
+        decide(act, "step_in")
+        out = choose_type(act, "hint")
+        self.assertTrue(out[9]["visible"])                    # the reason group
+        self.assertFalse(out[4]["visible"])                   # reveal not yet
+        out = reason(act, "slowing_pace", "a note")
+        self.assertFalse(out[9]["visible"])
+        self.assertTrue(out[4]["visible"])
+        new0, proceed0, decide0, choose0, agree0, reason0 = ui.make_activity_handlers(MOMENTS, log)    # default: reasons off
+        act0 = new0()[0]
+        proceed0(act0, "teacher", "6-10", "mixed", True)
+        decide0(act0, "step_in")
+        out0 = choose0(act0, "hint")
+        self.assertFalse(out0[9]["visible"])
+        self.assertTrue(out0[4]["visible"])
+
+
+class AnalysisV2(unittest.TestCase):
+    def rows(self, n=16):
+        out = []
+        for s in range(n):
+            for m in MOMENTS:
+                out.append({"session_id": f"s{s:011d}", "moment_id": m["id"], "role": "teacher", "years_band": "6-10", "grade_band": "mixed",
+                            "teacher_decision": "step_in" if (s + int(m["id"][1:])) % 2 == 0 else "stay_quiet", "teacher_type": "hint",
+                            "aria_decision": m["aria_decision"], "aria_type": m["aria_type"], "agree": "agree", "teacher_reason": "slowing_pace" if s % 3 else "other",
+                            "timestamp": "t"})
+        return out
+
+    def profiles(self):
+        return {m["id"]: {p: {"decision": m["aria_decision"] if p != "quiet" else "stay_quiet"} for p in ("quiet", "balanced", "supportive")} for m in MOMENTS}
+
+    def test_reasons_and_profiles_are_reported_at_n15(self):
+        res = AN.analyse(self.rows(16), BY_ID, self.profiles())
+        self.assertEqual(res["reasons"]["status"], "reported (descriptive; n is small)")
+        self.assertIn("math_and_words_only_moments", res["reasons"]["tables"])
+        self.assertEqual(res["per_profile"]["status"], "reported (descriptive)")
+        self.assertEqual(set(res["per_profile"]["profiles"]), {"quiet", "balanced", "supportive"})
+
+    def test_nothing_is_reported_below_n15(self):
+        res = AN.analyse(self.rows(10), BY_ID, self.profiles())
+        self.assertTrue(res["reasons"]["status"].startswith("not reported"))
+        self.assertTrue(res["per_profile"]["status"].startswith("not reported"))
+
+    def test_v1_files_without_a_reason_column_still_analyse(self):
+        rows = [{k: v for k, v in r.items() if k != "teacher_reason"} for r in self.rows(16)]
+        res = AN.analyse(rows, BY_ID)
+        self.assertNotIn("reasons", res)
+        self.assertNotIn("per_profile", res)
 
 
 if __name__ == "__main__":

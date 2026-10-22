@@ -105,3 +105,13 @@ The owner replaced two turns: **M4** is now `alg-05`, no history, "I think I'll 
   computed or interpreted. The report shows, per moment, the distribution of the categories teachers chose, next to ARIA's category.
 - Nothing else in the plan changes. The n >= 15 gate, the seeds and the separate treatment of words-only and verified-wrong moments stand.
 
+
+## Amendment 3 (DRAFT, branch `activity-v2`; written before any v2 response exists, and no v2 response exists)
+
+Adds, to section 5, three descriptive analyses that need the v2 reason column or the per-profile moment decisions. **Draft: it applies only if the activity is run with `--activity-reasons` after organizer sign-off and adult-reviewed consent wording; v1 data and v1 analyses are unchanged.**
+
+- **5h. Alignment per cost profile.** Using `data/teacher_moments_profiles.json` (ARIA's decision per profile from the pace build): the 2x2 teacher-majority-versus-ARIA table (5b) for each of Quiet, Balanced and Supportive, over the same six moments (verified-wrong moments excluded), plus response-level agreement with a bootstrap 95% interval over teachers (seed 20261025). The same n >= 15 gate; no test comparing profiles.
+- **5i. Reasons against ARIA's derived state.** For `step_in` responses with a reason: counts of each reason by the state ARIA derived for the moment (`aria_state` in `teacher_moments.json`), counts under 5 shown as `<5`; verified-wrong moments in a separate table. Descriptive only.
+- **5j. Teachers' kappa.** Fleiss' kappa between teachers is 5a, unchanged; it is reported only when 5a's gate is met.
+
+Limits: n is small; the reason categories are the owner's four plus Other; a reason is a teacher's label on a scripted moment, not an observation of a student; the profile decisions come from a different build than v1's moments (the pace build), which is stated wherever they are shown.
