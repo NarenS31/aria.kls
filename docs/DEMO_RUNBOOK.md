@@ -36,6 +36,13 @@ The default launch shows **only the 8 featured problems**, has the **LLM path OF
 The page has two tabs: **Student** (badge, chat, text box, Reset) and **Teacher summary** (state timeline, hints given, where the student got stuck; no chat transcript).
 Badge meanings: READY (nothing yet), WATCHING (ARIA read the work and chose to say nothing), STEPPING IN (ARIA is speaking; the line under it says which policy rule decided). The page also has a **profile selector** (Quiet / Balanced / Supportive, default Balanced) and a **live line** under the badge: risk of getting stuck, the risk the profile needs to step in, and why (section 6).
 
+## 2a. Keep the Mac awake
+
+Before the event, in a second Terminal window: `caffeinate -dimsu` (leave it running; Ctrl-C ends it). Per `caffeinate -h` on this Mac: `-d` stops display sleep, `-i` idle sleep, `-m` disk idle sleep,
+`-s` system sleep (**valid only on AC power, so keep the charger plugged in**), `-u` declares the user active.
+Why: the build machine really did go to sleep during testing (kernel sleep time 20:58:32, wake 21:03:34, about 5 minutes), and a sleeping laptop stops the server. Also check *System Settings → Lock Screen*
+so the screen does not lock mid-visit.
+
 ## 3. Wi-Fi off
 
 Nothing in the demo needs the internet: no model download, no remote API, no CDN script. With the LLM path off it does not even need Ollama.
@@ -58,7 +65,9 @@ Do this at the venue, in this order: switch Wi-Fi off (menu bar) → `curl -m 3 
 - Click **Reset (new attempt)** on the Student tab. The badge returns to READY, the chat empties, the Teacher summary shows "No attempt to summarise yet", and ARIA forgets
   the attempt (hints, steps achieved, state). The problem stays selected. Takes under a second.
 - To switch problem, use the dropdown; that starts a fresh session. The in-memory **learning graph** (Teacher summary tab, exploratory) is carried over to the new problem so the concept map can span problems; **Reset (new attempt) clears it**, so keep pressing Reset between visitors.
-- If the page looks wrong or frozen: reload the browser tab (F5; new session). Last resort: stop the server (Ctrl-C in its terminal, or `kill $(lsof -ti tcp:7861)`) and relaunch (about 5 s).
+- If the page looks wrong or frozen: reload the browser tab (F5; new session).
+- **If the server will not stop with Ctrl-C**, run `kill $(lsof -ti tcp:7861)` in another terminal (add `-9` only if that also fails), then relaunch (about 5 s). Check with `lsof -ti tcp:7861`: no output means the port is free.
+- **Restart the server between visitors if it feels sluggish after a hostile or very odd input** (a huge paste, a wall of symbols, many equations). The 3 s symbolic budget stops the *reply* waiting, but the abandoned check can keep running in the background; once, during testing, a test process stayed busy after it had finished its work (cause not confirmed). A restart takes about 5 s and clears it.
 
 ## 5. The LLM flag, and what happens when a model hangs
 
@@ -166,6 +175,7 @@ message in view after the 5-message flow of section 6, (c) the Teacher summary t
 - Do not edit `data/demo_problems.json` or any code at the venue. If a problem fails to load the server stops at launch with a message naming it.
 - Do not run `git pull`/`git checkout` at the venue, and do not leave the `aria-pace` branch checked out; the build for the summit is the branch you decide on (`summit-demo` at the tag has no ARIA-Pace; `summit-pace-mac` has it).
 - Do not rely on the screenshots as a live backup for Safari; they are Chrome.
+- **Never type hostile inputs on stage**: no huge pastes, no walls of symbols, no dozens of equations, no deeply nested brackets. The tests cover them and the demo survives them, but they are what can leave the server busy afterwards (section 4).
 
 ## 10. Change log after the tag
 
@@ -175,3 +185,7 @@ Not a rehearsal crash fix: ARIA-Pace was added on branches `summit-pace` / `summ
 - 2026-10-20, fix: the profile explanation under the selector was unreadable in dark mode (dark grey text, no card background); it is now a card like the others. Teacher-summary wording "threshold" became "bar". Screens in `docs/demo_screens/light|dark` regenerated. Final build = tag `summit-2026-10-24-pace` (`git show summit-2026-10-24-pace`).
 - 2026-10-21, feature (branch `learning-graph`, not tagged): the Teacher summary tab shows a small concept map (hand-authored concept tags and prerequisite edges in `data/demo_problems.json`; one BKT estimate per concept with the frozen pooled parameters; states unseen / working / secure / high-friction, exploratory, not validated). It is read-only for the tutor: when ARIA speaks is unchanged (harness decisions identical). In memory only, no student text, cleared by Reset.
 - Consequence to know about: at Quiet and Balanced a wrong answer after a correct step is often flagged without a hint (the old flow, wrong answer on message 3, no longer gets a hint there).
+Entries are doc-only unless a crash fix is listed. The tagged build `summit-2026-10-24` (e09218c) is unchanged by all of them.
+
+- 2026-10-16, doc-only: added the kill-by-port fallback (section 4), restart-if-sluggish (section 4), `caffeinate -dimsu` (section 2a) and the no-hostile-input rule (section 9).
+  Lives on branch `summit-testfix`, not on `summit-demo`; fast-forward `summit-demo` to it only if you want these notes there.
