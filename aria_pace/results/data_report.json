@@ -1,0 +1,37 @@
+{
+  "env": {
+    "numpy": "2.4.6",
+    "pandas": "3.0.6",
+    "platform": "macOS-26.4.1-arm64-arm-64bit",
+    "python": "3.11.15",
+    "scipy": "1.17.1",
+    "sklearn": "1.9.1"
+  },
+  "first_attempt_wrong_by_first_action_code": {
+    "0": 68995,
+    "1": 21565,
+    "2": 6223
+  },
+  "first_attempt_wrong_rows": 96783,
+  "pct_rows_dropped_null_skill": 18.38,
+  "rows_after_cleaning": 283105,
+  "rows_dropped_null_skill": 63755,
+  "rows_in_file": 346860,
+  "sequences_total": 64818,
+  "split_sizes": {
+    "test": {
+      "sequences": 12455,
+      "students": 832
+    },
+    "train": {
+      "sequences": 39201,
+      "students": 2498
+    },
+    "val": {
+      "sequences": 13162,
+      "students": 833
+    }
+  },
+  "students_after_cleaning": 4163,
+  "students_in_file": 4217
+}

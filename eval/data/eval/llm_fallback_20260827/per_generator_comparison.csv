@@ -1,0 +1,17 @@
+config,generator,n_examples,accuracy,macro_f1,n_fallback_triggered,pct_fallback_triggered,delta_accuracy_vs_lexical_same_generator
+A_lexical_only,llama3.1:8b,339,0.882,0.8796,0,0.0,0.0
+A_lexical_only,mistral:7b,339,0.8142,0.8104,0,0.0,0.0
+A_lexical_only,gemma2:9b,339,0.8378,0.8317,0,0.0,0.0
+A_lexical_only,phi3:medium,339,0.6313,0.6226,0,0.0,0.0
+B_hybrid_shipped,llama3.1:8b,339,0.823,0.8251,69,20.35,-0.059
+B_hybrid_shipped,mistral:7b,339,0.7729,0.7687,75,22.12,-0.0413
+B_hybrid_shipped,gemma2:9b,339,0.8348,0.8306,61,17.99,-0.003
+B_hybrid_shipped,phi3:medium,339,0.5575,0.5391,126,37.17,-0.0738
+Bprime_hybrid_decontaminated,llama3.1:8b,339,0.8643,0.865,69,20.35,-0.0177
+Bprime_hybrid_decontaminated,mistral:7b,339,0.7817,0.7806,75,22.12,-0.0325
+Bprime_hybrid_decontaminated,gemma2:9b,339,0.8496,0.8521,61,17.99,0.0118
+Bprime_hybrid_decontaminated,phi3:medium,339,0.5841,0.5856,126,37.17,-0.0472
+C_forced_llm_ablation,llama3.1:8b,339,0.4985,0.4547,339,100.0,-0.3835
+C_forced_llm_ablation,mistral:7b,339,0.4336,0.3901,339,100.0,-0.3806
+C_forced_llm_ablation,gemma2:9b,339,0.4366,0.4087,339,100.0,-0.4012
+C_forced_llm_ablation,phi3:medium,339,0.2979,0.2537,339,100.0,-0.3334

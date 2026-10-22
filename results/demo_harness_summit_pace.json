@@ -1,0 +1,131 @@
+{
+  "_meta": {
+    "what": "Scripted demo-harness runs on the 8 featured demo problems (scripts/demo_harness.py --featured --strict). Scripted inputs, not real students.",
+    "generated_utc": "2026-10-20T23:40:51Z",
+    "python": "3.14.7 (/usr/bin/python3)",
+    "targets": "0 leaks, 0 math errors, 0 crashes, p95 < 5000 ms; for ARIA-Pace backends also 0 verified wrong steps left without a reply",
+    "builds": {
+      "summit-2026-10-24": {
+        "commit": "e09218c14242707cf6198efe7a3ae37b8382a1db",
+        "command": "/usr/bin/python3 scripts/demo_harness.py --backend demo --featured --strict --json <file>",
+        "note": "the original summit build, without ARIA-Pace"
+      },
+      "summit-2026-10-24-pace": {
+        "commit": "498882ccc6d60e0018bce638b9855e1f71a7c1ab",
+        "command": "/usr/bin/python3 scripts/demo_harness.py --backend demo --profiles all --featured --strict --json <file>",
+        "note": "summit build plus ARIA-Pace (branch summit-pace-mac); each profile also plays the 7-message same-student flow, so it has more turns per problem"
+      }
+    }
+  },
+  "summit-2026-10-24": {
+    "demo": {
+      "turns": 104,
+      "leaks": 0,
+      "math_errors": 0,
+      "crashes": 0,
+      "empty_replies": 0,
+      "timeouts": 0,
+      "p50_ms": 13.022124999999551,
+      "p95_ms": 50.83995620000054,
+      "max_ms": 107.45620799999944,
+      "quiet_ok": 16,
+      "quiet_n": 16,
+      "intervened_ok": 24,
+      "intervened_n": 24,
+      "wrong_not_praised": 8,
+      "wrong_n": 8,
+      "targets": {
+        "leaks==0": true,
+        "math_errors==0": true,
+        "crashes==0": true,
+        "p95<5s": true
+      }
+    }
+  },
+  "summit-2026-10-24-pace": {
+    "demo@quiet": {
+      "verified_wrong_n": 32,
+      "silent_wrong": 0,
+      "wrong_hint_n": 8,
+      "wrong_flagged_n": 24,
+      "turns": 160,
+      "leaks": 0,
+      "math_errors": 0,
+      "crashes": 0,
+      "empty_replies": 0,
+      "timeouts": 0,
+      "p50_ms": 15.200603999999673,
+      "p95_ms": 47.206066649999926,
+      "max_ms": 120.2247079999994,
+      "quiet_ok": 16,
+      "quiet_n": 16,
+      "intervened_ok": 24,
+      "intervened_n": 24,
+      "wrong_not_praised": 8,
+      "wrong_n": 8,
+      "targets": {
+        "leaks==0": true,
+        "math_errors==0": true,
+        "crashes==0": true,
+        "p95<5s": true,
+        "wrong_never_silent": true
+      }
+    },
+    "demo@balanced": {
+      "verified_wrong_n": 32,
+      "silent_wrong": 0,
+      "wrong_hint_n": 24,
+      "wrong_flagged_n": 8,
+      "turns": 160,
+      "leaks": 0,
+      "math_errors": 0,
+      "crashes": 0,
+      "empty_replies": 0,
+      "timeouts": 0,
+      "p50_ms": 14.386791499999774,
+      "p95_ms": 45.00433684999896,
+      "max_ms": 57.05770800000032,
+      "quiet_ok": 16,
+      "quiet_n": 16,
+      "intervened_ok": 24,
+      "intervened_n": 24,
+      "wrong_not_praised": 8,
+      "wrong_n": 8,
+      "targets": {
+        "leaks==0": true,
+        "math_errors==0": true,
+        "crashes==0": true,
+        "p95<5s": true,
+        "wrong_never_silent": true
+      }
+    },
+    "demo@supportive": {
+      "verified_wrong_n": 32,
+      "silent_wrong": 0,
+      "wrong_hint_n": 32,
+      "wrong_flagged_n": 0,
+      "turns": 160,
+      "leaks": 0,
+      "math_errors": 0,
+      "crashes": 0,
+      "empty_replies": 0,
+      "timeouts": 0,
+      "p50_ms": 15.96518749999909,
+      "p95_ms": 52.59991069999854,
+      "max_ms": 135.22404200000082,
+      "quiet_ok": 16,
+      "quiet_n": 16,
+      "intervened_ok": 24,
+      "intervened_n": 24,
+      "wrong_not_praised": 8,
+      "wrong_n": 8,
+      "targets": {
+        "leaks==0": true,
+        "math_errors==0": true,
+        "crashes==0": true,
+        "p95<5s": true,
+        "wrong_never_silent": true
+      }
+    }
+  }
+}
