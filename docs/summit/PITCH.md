@@ -1,0 +1,3 @@
+# Message to a prospective advisor (draft; not sent)
+
+Hello [Name], I'm a student building ARIA, a project that asks when an AI math tutor should say nothing: a symbolic checker verifies each step, and a 1995 knowledge-tracing model decides whether to speak after a wrong one. In a replay of old ASSISTments math logs, the quiet setting intervened 52% less often (under a "3 correct in a row" definition of mastery) and missed 3.7% of students who got stuck; it is a replay, not a classroom study. Could you review the one-page brief (docs/summit/BRIEF.md) and try the "Would you step in?" activity at aria-learning.org/activity, and tell me where the reasoning or the evaluation is weakest?

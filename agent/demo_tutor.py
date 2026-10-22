@@ -27,6 +27,7 @@ from concurrent.futures import ThreadPoolExecutor, TimeoutError as FutureTimeout
 from dataclasses import dataclass, field
 from typing import Callable, Optional
 
+from agent import demo_graph as GRAPH
 from agent import demo_pace as PACE
 from agent import demo_templates as T
 from agent.demo_bank import DemoProblem, load_problems
@@ -142,12 +143,15 @@ def derive_state(status: str, flags: dict, text: str) -> tuple:
 
 
 class DemoSession:
-    def __init__(self, tutor: "DemoTutor", problem: DemoProblem):
+    def __init__(self, tutor: "DemoTutor", problem: DemoProblem, graph=None):
         self.tutor, self.problem = tutor, problem
         self.session_id = uuid.uuid4().hex[:12]
         self.attempt = 0
         self.profile = tutor.pace_profile            # a cost-weight setting, kept across Reset; changed with set_profile()
-        self.reset()
+        # learning graph v0 (agent/demo_graph.py): read-only observer, in memory, exploratory. A graph may be handed over when the
+        # visitor switches problem in the UI; Reset clears it.
+        self.graph = graph if graph is not None else tutor.new_graph()
+        self._reset_attempt()
 
     def set_profile(self, key: str) -> None:
         if key not in PACE.PROFILE_ORDER:
@@ -155,7 +159,12 @@ class DemoSession:
         self.profile = key
 
     def reset(self):
-        """One-click new attempt: all per-attempt state is cleared; the per-turn file log keeps going."""
+        """One-click new attempt: all per-attempt state, and the learning graph, are cleared; the per-turn file log keeps going."""
+        self._reset_attempt()
+        if self.graph is not None:
+            self.graph.clear()
+
+    def _reset_attempt(self):
         self.attempt += 1
         self._llm_outcome = ""
         self._move_idx = -1               # which authored step the last hint pointed at (-1: none)
@@ -327,6 +336,11 @@ class DemoSession:
             meta.update({"pace_profile": pace.profile, "pace_tau": pace.tau, "pace_risk": None if pace.risk is None else round(pace.risk, 4),
                          "pace_n_obs": pace.n_obs, "pace_updated": pace.updated, "pace_reason": pace.reason})
         self.log.append(meta)
+        if self.graph is not None:                                     # read-only for the policy: runs after the decision, can never raise into a turn
+            try:
+                self.graph.observe(self.problem, status, bool(intervened) and meta["intervention_type"] in GRAPH.HINT_TYPES)
+            except Exception:  # noqa: BLE001
+                self.graph.errors += 1
         self.tutor.turn_log.write({**meta, "session_id": self.session_id, "attempt": self.attempt, "problem_id": self.problem.id,
                                    "intervened": intervened, "analyzer_state": meta["analyzer_state"] or ""})
         return TurnResult(reply, intervened, accepted, watching, note, state, status, meta)
@@ -355,9 +369,14 @@ class DemoTutor:
         if pace_profile not in PACE.PROFILE_ORDER:
             raise ValueError(f"unknown profile {pace_profile!r}")
         self.pace_profile = pace_profile
+        self.concepts = GRAPH.ConceptCatalog(self.problems.values())      # hand-authored concept tags/edges from the bank (validated here)
 
-    def new_session(self, problem_id: str) -> DemoSession:
-        return DemoSession(self, self.problems[problem_id])
+    def new_session(self, problem_id: str, graph=None) -> DemoSession:
+        return DemoSession(self, self.problems[problem_id], graph)
+
+    def new_graph(self):
+        """An empty in-memory learning graph (frozen pooled BKT parameters); None if the pace parameters are switched off."""
+        return GRAPH.LearningGraph(self.concepts, self.pace_cfg.params) if self.pace_cfg else None
 
     # -- bounded symbolic work -------------------------------------------------------------------
     def run_budgeted(self, fn, *args) -> tuple:
