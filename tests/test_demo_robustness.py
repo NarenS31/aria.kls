@@ -2,6 +2,7 @@
 import json
 import sys
 import tempfile
+import threading
 import time
 import types
 import unittest
@@ -89,25 +90,44 @@ class TurnsNeverCrash(unittest.TestCase):
         self.assertEqual(r.meta["rule_id"], "system.fallback")
 
     def test_over_budget_symbolic_check_falls_back_and_session_recovers(self):
-        heavy = " ; ".join("(x+%d)^8=x^8+%d" % (i, i) for i in range(30))
+        """Deterministic: a stand-in for 'a SymPy call that cannot be interrupted' blocks on an Event we control, so the test does not depend on
+        how long real symbolic work happens to take on a loaded machine (the old version waited up to 20 s for a real computation and was flaky)."""
+        release = threading.Event()
+        real_analyze = DT.DemoSession._analyze
+        started = []
+
+        def blocking_analyze(self, text):
+            if text.startswith("HOLD"):
+                started.append(text)
+                release.wait(30)                       # released by the test; the 30 s is only a safety net
+            return real_analyze(self, text)
+
         t = DT.DemoTutor(problems=PROBS)
-        with mock.patch.object(DT, "MATH_BUDGET_S", 0.15), mock.patch.object(DT, "MAX_STUCK_MATH", 1):
-            s = t.new_session("alg-01")
-            t0 = time.perf_counter()
-            r = s.turn(heavy)
-            self.assertLess(time.perf_counter() - t0, 1.0)
-            self.assertEqual(r.meta["fallback"], "math_timeout")
-            self.assertFalse(r.intervened)
-            t1 = time.perf_counter()                      # one abandoned check is still running: refuse, do not queue behind it
-            r2 = s.turn(heavy + " ")
-            self.assertLess(time.perf_counter() - t1, 0.5)
-            self.assertEqual(r2.meta["fallback"], "math_busy")
-        deadline = time.time() + 20
-        while t._math_stuck and time.time() < deadline:
-            time.sleep(0.1)
-        self.assertEqual(t._math_stuck, 0)
-        r3 = s.turn("x = 17")                              # normal service resumes
-        self.assertEqual(r3.status, "correct")
+        try:
+            with mock.patch.object(DT, "MATH_BUDGET_S", 0.15), mock.patch.object(DT, "MAX_STUCK_MATH", 1), \
+                    mock.patch.object(DT.DemoSession, "_analyze", blocking_analyze):
+                s = t.new_session("alg-01")
+                t0 = time.perf_counter()
+                r = s.turn("HOLD one")
+                self.assertLess(time.perf_counter() - t0, 1.0)
+                self.assertEqual(r.meta["fallback"], "math_timeout")
+                self.assertFalse(r.intervened)
+                self.assertEqual(t._math_stuck, 1)
+                t1 = time.perf_counter()                  # one abandoned check is still running: refuse, do not queue behind it
+                r2 = s.turn("HOLD two")
+                self.assertLess(time.perf_counter() - t1, 0.5)
+                self.assertEqual(r2.meta["fallback"], "math_busy")
+                self.assertEqual(started, ["HOLD one"])    # the second one never started
+                release.set()
+                deadline = time.time() + 5
+                while t._math_stuck and time.time() < deadline:
+                    time.sleep(0.01)
+                self.assertEqual(t._math_stuck, 0)         # the abandoned check finished and released its slot
+                r3 = s.turn("x = 17")                      # normal service resumes
+                self.assertEqual(r3.status, "correct")
+                self.assertEqual(r3.meta["fallback"], "")
+        finally:
+            release.set()
 
 
 class Reset(unittest.TestCase):
