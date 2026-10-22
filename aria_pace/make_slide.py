@@ -114,7 +114,7 @@ sl = f"""> **{LIC}.** Licence confirmation from ASSISTments is pending. Do not p
 ---
 **Speaker notes**
 
-- Two datasets, never pooled: (a) is 2009-trained and frozen, evaluated on the locked 2012 test (4,651 students); (b) trains and selects on 2012 train/validation and evaluates once on the same test.
+- Two datasets, never pooled: (a) is 2009-trained and frozen, evaluated on the locked 2012 test portion; (b) trains and selects on 2012 train/validation and evaluates once on the same test.
 - Exploratory, not pre-registered, not on the slide: the plain windowed logistic head scored above BKT in AUC on the 2012 test at k=3 and k=5 ({A['risk']['paired_vs_bkt']['variantA_k3']['risk_head']['diff']:+.3f} and {A['risk']['paired_vs_bkt']['variantA_k5']['risk_head']['diff']:+.3f}) and below at k=8 ({A['risk']['paired_vs_bkt']['variantA_k8']['risk_head']['diff']:+.3f}). BKT remains the primary score; this is a lead, not a result.
 - Affect replication: the same comparison on 2012 validation gave {avp['mean_diff']:+.4f} (CI {avp['ci95'][0]:+.4f} to {avp['ci95'][1]:+.4f}); the test gave {af['mean_diff']:+.4f}. Both are within-2012, so "replicated" means validation to test, not a third dataset. The k=3 gain (about +0.005) is the only one near the bar.
 - Quiet-profile 2009 numbers come from the earlier single 2009 test evaluation (`results/TEST_LOCK`); 2012 from `results/TEST_LOCK_2012`.
