@@ -1,8 +1,14 @@
 import hashlib
 import json
 
+import pytest
+
 from aria_pace.constants import RESULTS
 from aria_pace.split_2012 import SEED_2012, split_ids
+
+if not (RESULTS / "split_2012.json").exists() or not (RESULTS / "split.json").exists():
+    pytest.skip("split_2012.json / split.json are held back pending dataset terms confirmation (see results/HELD_BACK.md)",
+                allow_module_level=True)
 
 REC = json.loads((RESULTS / "split_2012.json").read_text())
 P = REC["students"]
