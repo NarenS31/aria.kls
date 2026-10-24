@@ -113,11 +113,7 @@ html, body, body.dark { overflow-x: clip; background: var(--color-page) !importa
 #work-steps .katex-display { text-align: left; margin: var(--space-xs) 0 0 !important; font-size: var(--text-math) !important; }
 #work-steps .katex-display > .katex { text-align: left; }
 #work-steps p:not(.step-label) { margin: 0 !important; }
-.hint-history { margin: 0 0 var(--space-md) 72px; padding: var(--space-sm) var(--space-md); background: var(--color-accent-soft); border: 1px solid var(--color-accent); border-radius: var(--radius); font-size: var(--text-md); }
-.hint-history summary { display: flex; align-items: center; gap: var(--space-sm); font-size: var(--text-md); font-weight: 700; color: var(--color-ink); }
-.hint-history summary .ui-icon { color: var(--color-ink); }
-.hint-history p { margin: var(--space-sm) 0 0 !important; }
-.empty-work { padding: var(--space-xs) 0; margin: 0 !important; color: var(--color-ink-2); font-size: var(--text-md); }
+.empty-work { padding: var(--space-xs) 0; margin: 0 !important; color: var(--color-ink); font-size: var(--text-md); }
 
 /* ---------- composer ---------- */
 #composer { background: var(--color-paper) !important; border: var(--border) !important; border-radius: var(--radius) !important; padding: var(--space-lg); gap: var(--space-md); }
@@ -145,8 +141,8 @@ html, body, body.dark { overflow-x: clip; background: var(--color-page) !importa
 #input-preview:not(:has(.katex)), #workspace-notice:not(:has(p)) { display: none !important; }
 #input-preview { padding: var(--space-sm) var(--space-md); background: var(--color-paper-2); border-radius: var(--radius); }
 #input-preview .katex-display { font-size: var(--text-math); margin: 0; }
-#workspace-notice { color: var(--color-issue); font-size: var(--text-md); font-weight: 600; }
-#workspace-notice p { color: var(--color-issue); font-weight: 600; }
+#workspace-notice { color: var(--color-ink); font-size: var(--text-md); font-weight: 600; line-height: 1.5; border-left: 4px solid var(--color-issue); padding-left: var(--space-md); }
+#workspace-notice p { color: var(--color-ink) !important; font-weight: 600; }
 
 /* ---------- support column: hint button, ARIA replies, options ---------- */
 .activity-status { color: var(--color-ink-2); font-size: var(--text-sm); font-weight: 600; margin: 0 !important; }
@@ -156,16 +152,26 @@ html, body, body.dark { overflow-x: clip; background: var(--color-page) !importa
 #retry-problem { min-height: 48px; }
 #support-copy { min-height: 0; padding: 0 !important; background: transparent !important; border: 0 !important; }
 #support-copy:not(:has(.aria-reply)) { display: none !important; }
-.aria-reply { position: relative; padding: var(--space-md) var(--space-lg) var(--space-lg); border: 2px solid var(--profile-color); border-radius: var(--radius); animation: reply-in var(--duration-feedback) var(--ease); }
-.aria-reply .reply-tag { display: inline-flex; align-items: center; gap: var(--space-sm); margin: 0 0 var(--space-sm) !important; font-size: var(--text-sm) !important; font-weight: 800; text-transform: uppercase; letter-spacing: .06em !important; color: var(--profile-color) !important; }
-.aria-reply h3 { margin: 0 0 var(--space-xs) !important; }
-.aria-reply p:not(.reply-tag) { margin: 0 !important; font-size: var(--text-md); }
 /* given: solid tinted bubble, filled bulb; held: plain paper, dashed outline, pause mark */
-.aria-reply.given { background: var(--profile-soft); }
-.aria-reply.given h3 { font-size: 22px !important; }
-.aria-reply.held { background: var(--color-paper); border-style: dashed; }
-.aria-reply.held h3, .aria-reply.held p:not(.reply-tag) { color: var(--color-ink-2); }
-.aria-reply.note { border-color: var(--color-rule-strong); background: var(--color-paper); }
+/* ---------- tutor text: hints, held hints, requested/automatic hint history ----------
+ * Light, high-contrast and independent of Gradio's theme: Gradio's .dark theme restyles details, summary and prose
+ * (dark grey fills, dim text), so every colour here is explicit and !important, and descendants are reset. */
+.gradio-container .aria-reply, .gradio-container .hint-history { --bubble-bg: var(--profile-soft); color: var(--hint-ink) !important; background: var(--bubble-bg) !important; border: 2px solid var(--profile-color) !important; border-radius: var(--radius) !important; color-scheme: light; }
+.gradio-container .aria-reply *, .gradio-container .hint-history * { color: var(--hint-ink) !important; background: transparent !important; text-shadow: none; opacity: 1; }
+.gradio-container .aria-reply .ui-icon, .gradio-container .hint-history .ui-icon, .gradio-container .aria-reply .ui-icon *, .gradio-container .hint-history .ui-icon * { color: var(--profile-color) !important; }
+.gradio-container .aria-reply { position: relative; padding: var(--space-md) var(--space-lg) var(--space-lg); animation: reply-in var(--duration-feedback) var(--ease); }
+.gradio-container .aria-reply p, .gradio-container .hint-history p { font-size: var(--text-md) !important; line-height: 1.5 !important; margin: 0 !important; }
+.gradio-container .aria-reply h3 { margin: 0 0 var(--space-xs) !important; font-size: 22px !important; line-height: 1.3; }
+.gradio-container .aria-reply .reply-tag, .gradio-container .aria-reply .reply-tag * { color: var(--profile-color) !important; }
+.gradio-container .aria-reply .reply-tag { display: inline-flex; align-items: center; gap: var(--space-sm); margin: 0 0 var(--space-sm) !important; font-size: var(--text-sm) !important; font-weight: 800; line-height: 1.3 !important; text-transform: uppercase; letter-spacing: .06em !important; }
+/* given: tint of the active setting, solid 2px border. held: white, dashed 2px border */
+.gradio-container .aria-reply.held { --bubble-bg: #FFFFFF; border-style: dashed !important; }
+.gradio-container .aria-reply.note { --bubble-bg: #FFFFFF; border-color: var(--color-rule-strong) !important; }
+.gradio-container .aria-reply code { background: #FFFFFF !important; border: 1px solid var(--color-rule-strong); }
+/* hint history in the step list: requested hints are open, automatic ones collapsed; same tint, same ink */
+.gradio-container .hint-history { margin: 0 0 var(--space-md) 72px; padding: var(--space-sm) var(--space-md); font-size: var(--text-md); line-height: 1.5; }
+.gradio-container .hint-history summary { display: flex; align-items: center; gap: var(--space-sm); font-size: var(--text-md) !important; font-weight: 700; line-height: 1.5; cursor: pointer; }
+.gradio-container .hint-history[open] summary { margin-bottom: var(--space-xs); }
 @keyframes reply-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 #support-column .block { background: transparent !important; border: 0 !important; border-radius: 0 !important; }
 #support-column .form { background: transparent !important; }
