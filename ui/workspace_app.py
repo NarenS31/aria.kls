@@ -1,6 +1,7 @@
 """Student-first Gradio workspace over the existing Python tutor."""
 from __future__ import annotations
 
+import base64
 import html
 import re
 from pathlib import Path
@@ -13,6 +14,24 @@ from agent.math_check import _LOCALS, _TRANSFORMS, extract_candidates, normalize
 
 ROOT = Path(__file__).resolve().parent.parent
 MATH = [{"left": "$$", "right": "$$", "display": True}]
+
+# Inline icons: every verdict and every reply carries a shape as well as a colour.
+ICON_OK = '<svg class="ui-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="currentColor"/><path d="m5.8 10.4 2.7 2.7 5.7-6" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+ICON_ISSUE = '<svg class="ui-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 5.6v5.2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="10" cy="14" r="1.25" fill="currentColor"/></svg>'
+ICON_NEUTRAL = '<svg class="ui-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="10" r="2.6" fill="currentColor"/></svg>'
+ICON_HOLD = '<svg class="ui-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="currentColor"/><path d="M7.6 6.2v7.6M12.4 6.2v7.6" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>'
+ICON_HINT = '<svg class="ui-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="currentColor"/><path d="M10 5a3.6 3.6 0 0 0-2 6.6V13h4v-1.4A3.6 3.6 0 0 0 10 5Zm-1.4 9.4h2.8" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+VERDICT_ICONS = {"ok": ICON_OK, "issue": ICON_ISSUE, "neutral": ICON_NEUTRAL}
+
+
+def font_css():
+    """Figtree from ui/assets/fonts, embedded so the page works with the network off."""
+    faces = []
+    for weight in (400, 600, 700, 800):
+        data = base64.b64encode((ROOT / f"ui/assets/fonts/figtree-latin-{weight}-normal.woff2").read_bytes()).decode()
+        faces.append(f'@font-face{{font-family:"Figtree";font-style:normal;font-weight:{weight};font-display:swap;'
+                     f'src:url(data:font/woff2;base64,{data}) format("woff2");}}')
+    return "".join(faces)
 
 
 def problem_label(prompt):
@@ -64,7 +83,8 @@ def problem_md(problem):
         label = {"diff": "Differentiate", "integrate": "Find the indefinite integral", "simplify": "Simplify",
                  "expand": "Expand", "value": "Evaluate"}.get(spec.get("check", {}).get("op"), "Work through this problem")
         expression = spec.get("check", {}).get("of", spec.get("given", [problem.prompt])[0])
-    return f'<p class="problem-type">{html.escape(label)}</p>\n\n{math_text(expression)}'
+    topic = html.escape(problem.topic.title())
+    return f'<p class="problem-topic">{topic}</p>\n<p class="problem-type">{html.escape(label)}</p>\n\n{math_text(expression)}'
 
 
 def work_md(events):
@@ -78,12 +98,12 @@ def work_md(events):
         if e.kind == "step":
             n += 1
             tone, label = labels.get(r.status, ("issue", "Could not check this step"))
-            mark = '<span aria-hidden="true">✓</span> ' if tone == "ok" else ""
-            rows.append(f'<p class="step-label">Step {n} <span class="verdict {tone}">{mark}{label}</span></p>\n\n{math_text(e.text)}')
+            rows.append(f'<div class="step {tone}">\n<p class="step-label"><span class="step-num">{n}</span><span class="step-name">Step {n}</span>'
+                        f'<span class="verdict {tone}">{VERDICT_ICONS[tone]}{label}</span></p>\n\n{math_text(e.text)}\n\n</div>')
         if r.intervened and r.meta.get("intervention_type") != "reflection":
             source = "Requested hint" if r.meta.get("hint_source") == "requested" else "ARIA hint"
-            rows.append(f'<details class="hint-history"><summary>{source}</summary><p>{html.escape(r.reply)}</p></details>')
-    return '\n\n---\n\n'.join(rows)
+            rows.append(f'<details class="hint-history"><summary>{ICON_HINT}{source}</summary><p>{html.escape(r.reply)}</p></details>')
+    return '\n\n'.join(rows)
 
 
 def support_md(w):
@@ -91,12 +111,16 @@ def support_md(w):
         return ""
     for event in reversed(w.events):
         if event.result.intervened and event.result.meta.get("intervention_type") != "reflection":
-            return "### A small next step\n" + html.escape(event.result.reply)
+            reply = html.escape(event.result.reply).replace("\n", "<br>")
+            return (f'<div class="aria-reply given"><p class="reply-tag">{ICON_HINT}Here\u2019s a hint</p>'
+                    f'<h3>A small next step</h3><p>{reply}</p></div>')
         if event.kind == "step":
             if event.result.status == "wrong":
-                return "### Take another look\nRevise this step or request a hint. Your work stays in place."
+                return (f'<div class="aria-reply held"><p class="reply-tag">{ICON_HOLD}Holding the hint</p>'
+                        '<h3>Take another look</h3><p>Revise this step or request a hint. Your work stays in place.</p></div>')
             if event.result.status == "none":
-                return "### Try a math expression\nUse an equation or expression, such as `3x - 12 = 2x + 5`."
+                return ('<div class="aria-reply note"><h3>Try a math expression</h3>'
+                        '<p>Use an equation or expression, such as <code>3x - 12 = 2x + 5</code>.</p></div>')
             break
     return ""
 
@@ -130,13 +154,29 @@ def teacher_html(w):
       </section>'''
 
 
+def risk_meter(w, snapshot):
+    """Stuck risk as a bar with one threshold tick per profile, in the profile colours."""
+    cfg = w.tutor.pace_cfg
+    ticks = sorted(((p["key"], p["label"], p["tau"]) for p in cfg.profiles()), key=lambda t: t[2]) if cfg else []
+    risk = None if snapshot.risk is None else min(max(snapshot.risk, 0), 1)
+    said = "no estimate yet" if risk is None else f"{risk:.0%}"
+    desc = "; ".join(f"{label} steps in at {tau:.0%}" for _, label, tau in ticks)
+    fill = '' if risk is None else f'<span class="risk-fill" style="width:{risk * 100:.1f}%"></span>'
+    marks = ''.join(f'<span class="risk-tick {key}" style="left:{tau * 100:.1f}%"></span>' for key, _, tau in ticks)
+    labels = ''.join(f'<span class="risk-label {key}" style="left:{tau * 100:.1f}%">{tau:.0%}</span>' for key, _, tau in ticks)
+    legend = ''.join(f'<span class="risk-key {key}"><i></i>{html.escape(label)}</span>' for key, label, _ in ticks)
+    return (f'<div class="risk-meter" role="img" aria-label="Estimated non-mastery risk: {said}. Thresholds: {html.escape(desc)}.">'
+            f'<div class="risk-track">{fill}{marks}</div><div class="risk-labels">{labels}</div><div class="risk-legend">{legend}</div></div>\n\n')
+
+
 def decision_md(w):
     snapshot = w.session.pace.snapshot(w.session.profile) if w.session.pace else None
     if not snapshot:
         return "Timing estimates are disabled in this session."
     risk = "No estimate yet" if snapshot.risk is None else f"{snapshot.risk:.1%}"
     last = w.events[-1].result.meta if w.events else {}
-    return (f"**Current setting:** {w.session.profile.title()} · **Threshold:** {snapshot.tau:.0%}\n\n"
+    return (risk_meter(w, snapshot) +
+            f"**Current setting:** {w.session.profile.title()} · **Threshold:** {snapshot.tau:.0%}\n\n"
             f"**Verified observations:** {snapshot.n_obs} · **Estimated non-mastery risk:** {risk}\n\n"
             f"**Last decision:** `{last.get('rule_id', 'No decision yet')}`\n\n"
             "The demo uses pooled BKT parameters, not the per-skill evaluated model. The threshold applies on verified attempts 3–9. "
@@ -161,10 +201,10 @@ def build_workspace(tutor):
     problems = list(tutor.problems.values())
     topics = ["Featured", "All topics"] + sorted({p.topic.title() for p in problems})
     logo = (ROOT / "ui/assets/aria-wordmark.svg").read_text()
-    theme = gr.themes.Base(font=["Helvetica Neue", "Helvetica", "Arial", "sans-serif"], font_mono=["monospace"])
+    theme = gr.themes.Base(font=["Figtree", "Helvetica Neue", "Helvetica", "Arial", "sans-serif"], font_mono=["monospace"])
     colors = {
-        "body_background_fill": "var(--color-paper)", "body_text_color": "var(--color-ink)",
-        "body_text_color_subdued": "var(--color-muted)", "background_fill_primary": "var(--color-paper)",
+        "body_background_fill": "var(--color-page)", "body_text_color": "var(--color-ink)",
+        "body_text_color_subdued": "var(--color-muted)", "background_fill_primary": "var(--color-page)",
         "background_fill_secondary": "var(--color-paper-2)", "block_background_fill": "var(--color-paper)",
         "block_label_text_color": "var(--color-ink-2)", "block_title_text_color": "var(--color-ink)",
         "block_label_background_fill": "var(--color-paper)", "input_background_fill": "var(--color-paper)",
@@ -179,10 +219,12 @@ def build_workspace(tutor):
     focus_js = """(...args) => {setTimeout(() => {const x=document.querySelector('#step-input textarea');if(x&&!x.disabled)x.focus();},100);return args;}"""
     init_js = """() => {document.documentElement.classList.remove('dark'); const bind=()=>{const x=document.querySelector('#step-input textarea');if(x&&!x.dataset.ariaBound){x.dataset.ariaBound='1';x.addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.isComposing||e.keyCode===229))e.stopImmediatePropagation();},true);}};new MutationObserver(bind).observe(document.body,{childList:true,subtree:true});bind();}"""
     with gr.Blocks(title="ARIA | Math workspace", theme=theme, analytics_enabled=False, fill_width=True,
-                   head="<style>" + (ROOT / "tokens.css").read_text() + (ROOT / "ui/workspace.css").read_text() + "</style>", js=init_js) as app:
+                   head="<style>" + font_css() + (ROOT / "tokens.css").read_text() + (ROOT / "ui/workspace.css").read_text() + "</style>", js=init_js) as app:
         state = gr.State(None, time_to_live=14400)
         revision = gr.Number(0, visible=False, precision=0)
-        gr.HTML(f'<header class="app-header"><div class="brand">{logo}<span>Math workspace</span></div></header>')
+        with gr.Row(elem_id="app-bar"):
+            gr.HTML(f'<header class="app-header"><div class="brand">{logo}<span>Math workspace</span></div></header>', elem_id="brand-block")
+            profile = gr.Radio([("Quiet", "quiet"), ("Balanced", "balanced"), ("Supportive", "supportive")], value=tutor.pace_profile, label="Hint timing", show_label=False, container=False, elem_id="timing-control")
         with gr.Row(elem_id="problem-nav"):
             topic = gr.Dropdown(topics, value="Featured", label="Topic", show_label=False, container=False, scale=1, min_width=130)
             picker = gr.Dropdown([(problem_label(p.prompt), p.id) for p in problems if p.featured], value=problems[0].id, label="Problem", show_label=False, container=False, scale=4, min_width=180)
@@ -213,7 +255,6 @@ def build_workspace(tutor):
                                 reflection_status = gr.Markdown("")
                     with gr.Column(scale=3, min_width=240, elem_id="support-column"):
                         activity_status = gr.HTML('', visible=False)
-                        profile = gr.Radio([("Quiet", "quiet"), ("Balanced", "balanced"), ("Supportive", "supportive")], value=tutor.pace_profile, label="Hint timing", show_label=False, container=False, elem_id="timing-control")
                         hint = gr.Button("Get a hint", elem_id="get-hint")
                         support = gr.Markdown("", elem_id="support-copy")
                         with gr.Accordion("Session options", open=False, elem_id="session-options"):

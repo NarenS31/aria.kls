@@ -1,8 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 223 64" fill="none" role="img" aria-label="ARIA">
-  <path d="M9 54 32 9l23 45" stroke="#20211D" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M19 37h21" stroke="#EFB928" stroke-width="7"/>
-  <g transform="translate(71.6 54) scale(1.3235) translate(-133 -49)">
-    <g stroke="#20211D" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"><path d="m208 49 16-34 16 34m-23-12h11"/></g>
-    <g fill="#20211D"><path fill-rule="evenodd" d="M133 49V15h16c9 0 14 4 14 11 0 5-3 9-7 10l9 13h-10l-8-12h-6v12Zm8-19h7c5 0 7-1 7-4s-2-4-7-4h-7Z"/><path d="M180 15h8v34h-8Z"/></g>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 223 64" fill="none" aria-labelledby="title"><title id="title">ARIA</title><path d="M16 37h32" stroke="#EFB928" stroke-width="7"/><path d="M9 54 32 9l23 45" stroke="#20211D" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(71.6 54) scale(1.3235) translate(-133 -49)"><g stroke="#20211D" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"><path d="m208 49 16-34 16 34"/><path d="M214 37h20" stroke-linecap="butt"/></g><g fill="#20211D"><path fill-rule="evenodd" d="M133 49V15h16c9 0 14 4 14 11 0 5-3 9-7 10l9 13h-10l-8-12h-6v12Zm8-19h7c5 0 7-1 7-4s-2-4-7-4h-7Z"/><path d="M180 15h8v34h-8Z"/></g></g></svg>
