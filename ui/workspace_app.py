@@ -11,6 +11,7 @@ import sympy as sp
 from sympy.printing.latex import LatexPrinter
 
 from agent.demo_workspace import Workspace
+from ui.teacher_chart import teacher_graphics
 from agent.math_check import _LOCALS, _TRANSFORMS, normalize, parse_expr, to_expr
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -153,6 +154,11 @@ def support_md(w):
     return ""
 
 
+PLAIN_VERDICT = {"correct": "correct answer", "partial": "part of the answer", "step": "correct step", "restate": "restated the problem",
+                 "wrong": "incorrect", "none": "words, not math"}
+PLAIN_SOURCE = {"requested": "student asked", "automatic": "ARIA gave", "none": "no hint"}
+
+
 def teacher_html(w):
     s, esc = w.summary(), html.escape
     math_events = [e for e in w.events if e.kind == "step"]
@@ -162,6 +168,8 @@ def teacher_html(w):
     outcome = "Complete" if w.solved else "In progress" if math_events else "Ready to start"
     revision_note = (f'<p class="revision-note">This work has {len(w.branches)} retained earlier branch(es). Counts below describe the current branch; earlier errors and hints remain in Previous work.</p>') if w.branches else ""
     breakdown = ("Incorrect work appeared at " + ("step " if len(wrong) == 1 else "steps ") + ", ".join(map(str, wrong)) + ".") if wrong else "No incorrect mathematical steps have been recorded in this attempt."
+    chart, strip, focus = teacher_graphics(w)
+    link = f' <a class="follow-link" href="#try-{focus}">See try {focus} on the chart</a>' if focus else ""
     hint_rows = []
     for i, e in enumerate(w.events):
         if not e.result.intervened or e.result.meta.get("intervention_type") not in ("hint", "task_chunking"):
@@ -170,15 +178,22 @@ def teacher_html(w):
         after = "No subsequent step yet." if nxt is None else ("The next step was verified." if nxt.result.status in ("step", "partial", "correct") else "The next step was not verified as correct.")
         source = "Requested" if e.result.meta.get("hint_source") == "requested" else "Automatic"
         move = e.result.meta.get("move_index", -1)
-        focus = w.session.problem.moves[move].get("do", "General prompt") if move >= 0 else "General prompt"
-        hint_rows.append(f'<li><strong>{source}:</strong> {esc(focus)}<br><span>{after}</span></li>')
-    timeline = ''.join(f'<tr><td>{i + 1}</td><td>{esc(e.result.status)}</td><td>{esc(e.result.meta.get("hint_source", "none"))}</td><td>{esc(e.profile.title())}</td></tr>' for i, e in enumerate(w.events))
+        focus_text = w.session.problem.moves[move].get("do", "General prompt") if move >= 0 else "General prompt"
+        hint_rows.append(f'<li><strong>{source}:</strong> {esc(focus_text)}<br><span>{after}</span></li>')
+    log, n = [], 0
+    for e in w.events:
+        if e.kind == "step":
+            n += 1
+        label = f"Step {n}" if e.kind == "step" else "Hint request"
+        source = e.result.meta.get("hint_source", "none")
+        log.append(f'<tr><td>{label}</td><td>{esc(PLAIN_VERDICT.get(e.result.status, e.result.status))}</td><td>{esc(PLAIN_SOURCE.get(source, source))}</td><td>{esc(e.profile.title())}</td></tr>')
     return f'''<section class="teacher-report"><p class="eyebrow">CURRENT ATTEMPT</p><h2>{outcome}</h2>
-      <p>{esc(w.session.problem.prompt)}</p>{revision_note}<div class="report-counts"><div><strong>{len(math_events)}</strong><span>math steps</span></div><div><strong>{verified}</strong><span>verified steps</span></div><div><strong>{s['counts']['requested_hints']}</strong><span>requested hints</span></div><div><strong>{s['counts']['automatic_hints']}</strong><span>automatic hints</span></div></div>
-      <h3>Where to follow up</h3><p>{breakdown}</p><p><strong>Suggested conversation:</strong> {esc(follow)}</p>
+      <p class="report-problem">{esc(w.session.problem.prompt)}</p>{revision_note}{chart}{strip}
+      <div class="report-counts"><div><strong>{len(math_events)}</strong><span>steps checked</span></div><div><strong>{verified}</strong><span>steps that were correct</span></div><div><strong>{s['counts']['requested_hints']}</strong><span>hints the student asked for</span></div><div><strong>{s['counts']['automatic_hints']}</strong><span>hints ARIA gave</span></div></div>
+      <div class="follow-callout"><h3>Where to follow up</h3><p>{breakdown}{link}</p><p><strong>Suggested conversation:</strong> {esc(follow)}</p></div>
       <h3>Support and the next step</h3><ul>{''.join(hint_rows) or '<li>No mathematical hints have been given yet.</li>'}</ul>
       <p class="muted">{verified} verified {'step was' if verified == 1 else 'steps were'} recorded. This does not establish independent mastery or show that hints caused improvement.</p>
-      <details><summary>Attempt timeline and revisions</summary><div class="table-scroll"><table><thead><tr><th>Event</th><th>Math check</th><th>Hint source</th><th>Profile at event</th></tr></thead><tbody>{timeline}</tbody></table></div><p>{len(w.branches)} revised branches; {len(w.archive)} previous attempts remain in this session.</p></details>
+      <details><summary>Full event log</summary><div class="table-scroll"><table><thead><tr><th>Event</th><th>Math check</th><th>Hint</th><th>Setting at the time</th></tr></thead><tbody>{''.join(log)}</tbody></table></div><p>{len(w.branches)} revised branches; {len(w.archive)} previous attempts remain in this session.</p></details>
       </section>'''
 
 
@@ -225,7 +240,31 @@ def archive_md(w):
     return '\n\n'.join(rows) or "No previous attempts or revised branches in this session."
 
 
+def drop_gradio_cdn_script():
+    """Gradio 5's page template always asks cdnjs for iframe-resizer (only useful when the app is embedded in an iframe).
+    With the network off that is a failed request and a console error, so the tag is removed from the template as it loads.
+    Guarded: if Gradio changes its internals nothing happens and the page works as before."""
+    try:
+        from gradio import routes
+        env = routes.templates.env
+        loader = env.loader
+        if getattr(loader, "_aria_no_cdn", False):
+            return
+        original = loader.get_source
+
+        def get_source(environment, name):
+            source, filename, uptodate = original(environment, name)
+            return re.sub(r'<script\s+src="https://cdnjs[^"]*iframe-?[Rr]esizer[^"]*"[^>]*>\s*</script>', "", source), filename, uptodate
+
+        loader.get_source = get_source
+        loader._aria_no_cdn = True
+        env.cache.clear()
+    except Exception:  # noqa: BLE001
+        pass
+
+
 def build_workspace(tutor):
+    drop_gradio_cdn_script()
     problems = list(tutor.problems.values())
     topics = ["Featured", "All topics"] + sorted({p.topic.title() for p in problems})
     logo = (ROOT / "ui/assets/aria-wordmark.svg").read_text()
