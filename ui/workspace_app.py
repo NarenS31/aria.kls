@@ -8,9 +8,10 @@ from pathlib import Path
 
 import gradio as gr
 import sympy as sp
+from sympy.printing.latex import LatexPrinter
 
 from agent.demo_workspace import Workspace
-from agent.math_check import _LOCALS, _TRANSFORMS, extract_candidates, normalize, parse_expr, to_expr
+from agent.math_check import _LOCALS, _TRANSFORMS, normalize, parse_expr, to_expr
 
 ROOT = Path(__file__).resolve().parent.parent
 MATH = [{"left": "$$", "right": "$$", "display": True}]
@@ -37,22 +38,55 @@ def font_css():
 def problem_label(prompt):
     """Use readable Unicode in plain-text choices without changing problem data."""
     superscripts = str.maketrans("0123456789-", "⁰¹²³⁴⁵⁶⁷⁸⁹⁻")
-    label = re.sub(r"\^\(?(-?\d+)\)?", lambda m: m[1].translate(superscripts), prompt)
+    label = re.sub(r"\^\((-?\d+)\)|\^(-?\d+)", lambda m: (m[1] or m[2]).translate(superscripts), prompt)  # only a bare number becomes a superscript: e^(2x) keeps its brackets
     label = re.sub(r"\bpi\b", "π", label)
     return label.replace("*", "×").replace(" - ", " − ")
 
 
+class WrittenLatex(LatexPrinter):
+    """SymPy's LaTeX printer for expressions parsed with evaluate=False: keeps the written order, prints a written
+    1/2 as \\frac{1}{2} (not 1 \\cdot \\frac{1}{2}), and shows the numerator and denominator exactly as typed."""
+
+    def _factor(self, arg, several):
+        tex = self._print(arg)
+        return r"\left(" + tex + r"\right)" if several and arg.is_Add else tex
+
+    def _product(self, args):
+        if len(args) > 1 and args[0] == -1:
+            return "-" + self._product(args[1:])
+        out = ""
+        for i, arg in enumerate(args):
+            tex = self._factor(arg, len(args) > 1)
+            if i:
+                out += r" \cdot " if tex[0].isdigit() and (args[i - 1].is_Number or args[i - 1].is_Pow and args[i - 1].exp.is_Number) else " "
+            out += tex
+        return out
+
+    def _print_Pow(self, expr):
+        if expr.exp.is_Integer and expr.exp > 0 and expr.base.is_Function:  # cos(x)^2 stays (cos(x))^2, not cos^2(x)
+            return r"\left(" + self._print(expr.base) + r"\right)^{" + self._print(expr.exp) + "}"
+        return super()._print_Pow(expr)
+
+    def _print_Mul(self, expr):
+        args = list(expr.args)
+        den = [a.base for a in args if a.is_Pow and a.exp == -1]
+        if not den:
+            return self._product(args)
+        num = [a for a in args if not (a.is_Pow and a.exp == -1)]
+        return r"\frac{" + (self._product(num) if num else "1") + "}{" + self._product(den) + "}"
+
+
 def latex(text):
-    """Keep written grouping for display after passing the existing guarded parser."""
+    """LaTeX for what was written, never for what it evaluates to: parse with evaluate=False, or give up (None)."""
     s = normalize(text)
-    if to_expr(s) is None:
+    if to_expr(s) is None:  # keeps the guarded parser's length, character and name checks
         return None
-    if "/" in s:
-        return sp.latex(to_expr(s))
     try:
-        return sp.latex(parse_expr(s, local_dict=dict(_LOCALS), transformations=_TRANSFORMS, evaluate=False))
+        expr = parse_expr(s, local_dict=dict(_LOCALS), transformations=_TRANSFORMS, evaluate=False)
+        tex = WrittenLatex({"order": "none"}).doprint(expr)
+        return tex.replace(r"\log{", r"\ln{") if re.search(r"\bln\b", text) else tex  # SymPy's log is the natural log; show it as typed
     except Exception:
-        return sp.latex(to_expr(s))
+        return None
 
 
 def math_text(text):
@@ -65,13 +99,6 @@ def math_text(text):
     expr = latex(text)
     if expr:
         return "$$" + expr + "$$"
-    candidates = extract_candidates(text)
-    if candidates:
-        c = candidates[0]
-        if c.kind == "expr":
-            return "$$" + sp.latex(c.expr) + "$$"
-        if c.kind == "eq":
-            return "$$" + sp.latex(c.lhs) + " = " + sp.latex(c.rhs) + "$$"
     return '<p class="literal">' + html.escape(text) + '</p>'
 
 
@@ -102,7 +129,8 @@ def work_md(events):
                         f'<span class="verdict {tone}">{VERDICT_ICONS[tone]}{label}</span></p>\n\n{math_text(e.text)}\n\n</div>')
         if r.intervened and r.meta.get("intervention_type") != "reflection":
             source = "Requested hint" if r.meta.get("hint_source") == "requested" else "ARIA hint"
-            rows.append(f'<details class="hint-history"><summary>{ICON_HINT}{source}</summary><p>{html.escape(r.reply)}</p></details>')
+            opened = " open" if r.meta.get("hint_source") == "requested" else ""
+            rows.append(f'<details class="hint-history"{opened}><summary>{ICON_HINT}{source}</summary><p>{html.escape(r.reply)}</p></details>')
     return '\n\n'.join(rows)
 
 
