@@ -1,33 +1,56 @@
-/* ARIA website tokens, shared by the student and teacher surfaces.
- * Hallmark pre-emit critique: P5 H4 E4 S5 R5 V4. */
+/* ARIA brand tokens, shared by the student and teacher surfaces.
+ * Colours and profile hues match the poster and website. Figtree is bundled in ui/assets/fonts and
+ * embedded by ui/workspace_app.py, so the page needs no network. */
 :root {
-  --color-paper: oklch(100% 0 0);
-  --color-paper-2: oklch(98% 0.008 95);
-  --color-paper-3: oklch(95% 0.014 95);
-  --color-ink: oklch(23% 0.012 150);
-  --color-ink-2: oklch(40% 0.01 150);
-  --color-muted: oklch(46% 0.008 150);
-  --color-rule: oklch(88% 0.006 150);
-  --aria-accent: oklch(86% 0.18 95);
-  --color-accent: var(--aria-accent);
-  --color-focus: oklch(52% 0.19 235);
-  --color-success: oklch(42% 0.085 155);
-  --color-issue: oklch(45% 0.12 45);
-  --color-rail: #f5f6f7;
-  --color-composer: #fafbfc;
-  --color-quiet: #2e5fa5;
-  --color-quiet-soft: #eef3fb;
-  --color-balanced: #b94732;
-  --color-balanced-soft: #fff0eb;
-  --color-supportive: #14745c;
-  --color-supportive-soft: #edf7f1;
-  --color-on-profile: #ffffff;
-  --duration-feedback: 140ms;
-  --font-body: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* brand */
+  --color-ink: #20211D;
+  --color-ink-2: #3A3833;
+  --color-muted: #3A3833;
+  --color-accent: #EFB928;
+  --aria-accent: #EFB928;
+  --color-accent-strong: #D9A511;
+  --color-accent-soft: #FBF1CF;
+  /* surfaces: warm off-white page, white cards */
+  --color-page: #FAF7F0;
+  --color-paper: #FFFFFF;
+  --color-paper-2: #F5F1E6;
+  --color-paper-3: #ECE6D6;
+  --color-rule: #DDD6C4;
+  --color-rule-strong: #B9B09A;
+  /* feedback */
+  --color-success: #1F7A58;
+  --color-success-soft: #E6F2EC;
+  --color-issue: #8A4B00;
+  --color-issue-soft: #FBEFD9;
+  --color-focus: #20211D;
+  /* pace profiles, as on the poster */
+  --color-quiet: #2457A6;
+  --color-quiet-soft: #E8EEF8;
+  --color-balanced: #7A4AA8;
+  --color-balanced-soft: #F1EAF7;
+  --color-supportive: #1F7A58;
+  --color-supportive-soft: #E6F2EC;
+  --color-on-profile: #FFFFFF;
+  /* active profile; workspace.css re-points these from the selected radio */
+  --profile-color: var(--color-balanced);
+  --profile-soft: var(--color-balanced-soft);
+  /* one spacing scale, one radius, one border */
   --space-xs: 4px;
   --space-sm: 8px;
   --space-md: 16px;
   --space-lg: 24px;
   --space-xl: 32px;
-  --radius-input: 6px;
+  --space-2xl: 48px;
+  --radius: 12px;
+  --radius-input: var(--radius);
+  --border: 1px solid var(--color-rule);
+  /* type scale: nothing important under 14px, math and steps at least 18px */
+  --text-sm: 14px;
+  --text-md: 18px;
+  --text-lg: 22px;
+  --text-math: 24px;
+  --text-problem: 40px;
+  --font-body: "Figtree", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --duration-feedback: 160ms;
+  --ease: cubic-bezier(.2, .7, .2, 1);
 }
