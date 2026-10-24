@@ -1,0 +1,33 @@
+/* ARIA website tokens, shared by the student and teacher surfaces.
+ * Hallmark pre-emit critique: P5 H4 E4 S5 R5 V4. */
+:root {
+  --color-paper: oklch(100% 0 0);
+  --color-paper-2: oklch(98% 0.008 95);
+  --color-paper-3: oklch(95% 0.014 95);
+  --color-ink: oklch(23% 0.012 150);
+  --color-ink-2: oklch(40% 0.01 150);
+  --color-muted: oklch(46% 0.008 150);
+  --color-rule: oklch(88% 0.006 150);
+  --aria-accent: oklch(86% 0.18 95);
+  --color-accent: var(--aria-accent);
+  --color-focus: oklch(52% 0.19 235);
+  --color-success: oklch(42% 0.085 155);
+  --color-issue: oklch(45% 0.12 45);
+  --color-rail: #f5f6f7;
+  --color-composer: #fafbfc;
+  --color-quiet: #2e5fa5;
+  --color-quiet-soft: #eef3fb;
+  --color-balanced: #b94732;
+  --color-balanced-soft: #fff0eb;
+  --color-supportive: #14745c;
+  --color-supportive-soft: #edf7f1;
+  --color-on-profile: #ffffff;
+  --duration-feedback: 140ms;
+  --font-body: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --radius-input: 6px;
+}

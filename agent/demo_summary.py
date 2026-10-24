@@ -6,6 +6,7 @@ It contains no student text and no tutor text, so it cannot become a chat transc
 from __future__ import annotations
 
 from agent.math_check import equivalent, normalize, to_expr
+from agent.demo_progress import completed_moves
 
 STATE_LABELS = {
     "FLOW": "in flow", "PLANNING": "planning", "INSIGHT": "got it", "STUCK": "stuck", "FRUSTRATED": "frustrated",
@@ -95,7 +96,7 @@ def summarize(session) -> dict:
         s["state_labels"] = [STATE_LABELS.get(x, x.lower()) for x in s["states"]]
     longest = max(stretches, key=lambda s: (s["length"], -s["from_turn"]), default=None)
     solved_at = next((t["turn"] for t in timeline if t["verdict"] == "correct"), None)
-    done = _steps_done(p, session.achieved)
+    done = completed_moves(session)
     hinted = {}
     for h in hints:
         if h["step_index"] >= 0:
@@ -111,6 +112,8 @@ def summarize(session) -> dict:
         "solved_at_turn": solved_at,
         "elapsed_s": log[-1].get("t_s") if log else None,
         "counts": {"turns": len(log), "stayed_quiet": sum(t["action"] == "none" for t in timeline),
+                   "requested_hints": sum(r.get("hint_source") == "requested" and r.get("intervened") for r in log),
+                   "automatic_hints": sum(r.get("hint_source") == "automatic" and r.get("intervened") and r.get("intervention_type") in HINT_TYPES for r in log),
                    "stepped_in": len(hints), "hints_given": sum(by_type.get(k, 0) for k in HINT_TYPES), "by_type": by_type},
         "timeline": timeline, "hints": hints, "stuck": {"stretches": stretches, "longest": longest}, "steps": steps, "note": NOTE,
         # learning graph v0 (agent/demo_graph.py): ids, authored labels, states, counts only; None until something was scored

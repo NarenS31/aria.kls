@@ -57,7 +57,8 @@ class CorrectnessTests(unittest.TestCase):
             self.assertEqual(status(msg, LINEAR), "correct", msg)
         for msg in ["x = 170", "x = -17", "x = 17.5", "x = 7"]:
             self.assertEqual(status(msg, LINEAR), "wrong", msg)
-        self.assertEqual(status("3x - 12 = 2x + 5", LINEAR), "restate")
+        self.assertEqual(status("3x - 12 = 2x + 5", LINEAR), "step")
+        self.assertEqual(status("3(x - 4) = 2x + 5", LINEAR), "restate")
         self.assertEqual(status("x - 12 = 5", LINEAR), "step")
         self.assertEqual(status("3x - 12 = 2x - 5", LINEAR), "wrong")
         self.assertEqual(status("3(x-4) = 2x+5", LINEAR), "restate")

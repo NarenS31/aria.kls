@@ -79,7 +79,7 @@ class Content(unittest.TestCase):
 
     def test_progress_through_authored_steps(self):
         st = self.sm["steps"]
-        self.assertEqual([x["done"] for x in st], [True, True])               # 12x^3 and -10x were both produced
+        self.assertEqual([x["done"] for x in st], [True, True, True])  # Final answer completes the new remaining-terms move.
         self.assertEqual(st[0]["hinted_at_turns"], [1])
 
     def test_reflection_after_a_correct_answer_is_not_tied_to_an_authored_step(self):
@@ -138,14 +138,15 @@ class NeverATranscript(unittest.TestCase):
                 self.assertNotIn(r, ui.summary_html(sm).replace("&#x27;", "'"))
         self.assertNotIn("student_chars", blob)
 
-    def test_hint_label_when_no_authored_step_is_left(self):
+    def test_new_chain_rule_hint_is_attributed_to_its_authored_step(self):
         ui = load_ui()
         s, _ = play("calc-02", ["I don't know", "2x cos(2x)", "2x cos(2x) + 2x^2 sin(2x)"])     # the only authored step is done by turn 2
         sm = S.summarize(s)
         h = sm["hints"][-1]
-        self.assertEqual((h["step"], h["source"]), (None, "template"))
+        self.assertEqual(h["source"], "template")
+        self.assertIn("second product-rule piece", h["step"])
         page = ui.summary_html(sm)
-        self.assertIn("a general prompt (every authored step was already done)", page)
+        self.assertIn("second product-rule piece", page)
         self.assertNotIn("a free-form question", page)
         t = DT.DemoTutor(problems=PROBS, llm_path=True, llm_fn=lambda *_: "Because the derivative of cos is minus sin.")
         s, _ = play("calc-02", ["why is there a minus sign?"], tutor=t)

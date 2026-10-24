@@ -12,8 +12,18 @@
   "step_ok": "x - 12 = 5",
   "moves": [
    {
+    "do": "Distribute 3 across both terms in (x - 4)",
+    "alternatives": ["Multiply both x and -4 by 3, keeping the right side unchanged"],
+    "result": "3x - 12 = 2x + 5"
+   },
+   {
     "do": "Subtract 2x from both sides",
+    "alternatives": ["After distributing, collect the variable terms on the left by removing 2x from each side"],
     "result": "x - 12 = 5"
+   },
+   {
+    "do": "Add 12 to both sides to isolate x; calculate the right side yourself",
+    "alternatives": ["Undo the subtraction of 12 using the same inverse operation on each side"]
    }
   ],
   "concepts": [
@@ -189,7 +199,12 @@
   "moves": [
    {
     "do": "Factor the left side",
+    "alternatives": ["Look for two integers with product 6 and sum -5; then apply the zero-product property to your factors"],
     "result": "(x - 2)(x - 3) = 0"
+   },
+   {
+    "do": "Set each factor equal to zero and solve the two small equations yourself",
+    "alternatives": ["A product is zero when at least one factor is zero; consider each factor separately"]
    }
   ],
   "concepts": [
@@ -460,7 +475,12 @@
   "moves": [
    {
     "do": "Find sin(pi/6) from the unit circle",
+    "alternatives": ["At pi/6, sine is the vertical coordinate on the unit circle; then evaluate cos(pi/3) separately"],
     "result": "1/2"
+   },
+   {
+    "do": "Evaluate cos(pi/3) separately, then add your two unit-circle values",
+    "alternatives": ["Cosine is the horizontal coordinate on the unit circle; combine the two values only after finding each one"]
    }
   ],
   "concepts": [
@@ -580,7 +600,12 @@
   "moves": [
    {
     "do": "Rewrite 1 - sin(x)^2 using the Pythagorean identity",
+    "alternatives": ["Start from sin(x)^2 + cos(x)^2 = 1, and rearrange it for the denominator; keep its original exclusions"],
     "claim": "1 - sin(x)^2 = cos(x)^2"
+   },
+   {
+    "do": "Compare the factors in the numerator and denominator; cancel only a common nonzero factor",
+    "alternatives": ["After the identity rewrite, the numerator has one cosine factor and the denominator has two; keep the original excluded inputs"]
    }
   ],
   "step_ok": "1 - sin(x)^2 = cos(x)^2",
@@ -873,11 +898,17 @@
   "moves": [
    {
     "do": "Apply the power rule to 3x^4",
+    "alternatives": ["Multiply the coefficient 3 by the exponent 4, then lower that exponent by one"],
     "result": "12x^3"
    },
    {
     "do": "Apply the power rule to 5x^2",
+    "alternatives": ["Keep the minus sign on this term while multiplying its coefficient by the exponent"],
     "result": "-10x"
+   },
+   {
+    "do": "Differentiate the linear term 7x and the constant -9, then combine all your derivatives",
+    "alternatives": ["A linear term contributes its coefficient; a constant contributes zero. Check that each original term has been handled"]
    }
   ],
   "concepts": [
@@ -921,7 +952,12 @@
   "moves": [
    {
     "do": "Use the product rule, so differentiate x^2 and keep cos(2x)",
+    "alternatives": ["Write two product-rule pieces: derivative of the first times the second, plus the first times derivative of the second; use the chain rule for cos(2x)"],
     "result": "2x cos(2x)"
+   },
+   {
+    "do": "For the second product-rule piece, keep x^2 and differentiate cos(2x) using the chain rule",
+    "alternatives": ["The derivative of cosine has a minus sign; also multiply by the derivative of the inner expression 2x before combining the two pieces"]
    }
   ],
   "concepts": [
@@ -1097,7 +1133,12 @@
   "moves": [
    {
     "do": "Use the chain rule, so bring down the 3 and lower the power",
+    "alternatives": ["Treat x^2 + 1 as the inner function; after differentiating the outer cube, multiply by the derivative of that inner function"],
     "result": "3(x^2+1)^2"
+   },
+   {
+    "do": "Multiply your outer derivative by the derivative of the inner expression x^2 + 1",
+    "alternatives": ["Find the derivative of x^2 and of the constant separately; use their sum as the remaining chain-rule factor"]
    }
   ],
   "step_ok": "the outer derivative is 3(x^2+1)^2",
@@ -1148,7 +1189,17 @@
   "moves": [
    {
     "do": "Integrate 6x^2 using the power rule",
+    "alternatives": ["Increase the exponent by one and divide by that new exponent; integrate the other terms separately"],
     "result": "2x^3"
+   },
+   {
+    "do": "Integrate the term -4x, keeping its negative coefficient",
+    "result": "-2x^2",
+    "alternatives": ["Raise x to the second power and divide the coefficient -4 by the new exponent"]
+   },
+   {
+    "do": "Integrate the constant term 1, combine the antiderivatives, and include an arbitrary constant",
+    "alternatives": ["Check your proposed antiderivative by differentiating it term by term"]
    }
   ],
   "concepts": [

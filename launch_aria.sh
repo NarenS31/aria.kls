@@ -8,6 +8,12 @@ export XDG_CACHE_HOME="${TMPDIR:-/tmp}/aria-cache"
 mkdir -p "$MPLCONFIGDIR"
 mkdir -p "$XDG_CACHE_HOME/fontconfig"
 
-echo "ARIA — Adaptive Reasoning & Intelligence Assistant"
-echo "Launching on http://localhost:7860 ..."
-exec python3.11 main.py
+PYTHON="${ARIA_PYTHON:-$ARIA_DIR/.venv/bin/python}"
+if [ ! -x "$PYTHON" ]; then PYTHON="${ARIA_PYTHON:-python3}"; fi
+if [ "${1:-}" = "--legacy" ]; then
+  shift
+  echo "Launching the legacy/research interface on port 7860."
+  exec "$PYTHON" main.py "$@"
+fi
+echo "Launching the ARIA math workspace on http://127.0.0.1:7861"
+exec "$PYTHON" -m ui.demo_app --no-log "$@"

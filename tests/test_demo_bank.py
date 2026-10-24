@@ -146,9 +146,11 @@ class LiveDemoUsesTheShortList(unittest.TestCase):
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
         demo = mod.build_demo_ui(DemoTutor(problems=FEATURED))
-        dd = [b for b in demo.blocks.values() if isinstance(b, gr.Dropdown)]
+        dd = [b for b in demo.blocks.values() if isinstance(b, gr.Dropdown) and b.label == "Problem"]
         self.assertEqual(len(dd), 1)
-        self.assertEqual([c[0] if isinstance(c, (list, tuple)) else c for c in dd[0].choices], [p.prompt for p in FEATURED])
+        from ui.workspace_app import problem_label
+        self.assertEqual([c[0] if isinstance(c, (list, tuple)) else c for c in dd[0].choices], [problem_label(p.prompt) for p in FEATURED])
+        self.assertEqual([c[1] for c in dd[0].choices], [p.id for p in FEATURED])
 
 
 if __name__ == "__main__":

@@ -1,0 +1,4 @@
+# Product UI only. Optional research, desktop and model-training packages are not required.
+gradio==5.49.1
+sympy>=1.13,<1.15
+numpy>=1.26
