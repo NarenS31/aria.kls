@@ -1,0 +1,5 @@
+-r requirements-demo.txt
+pytest>=8
+# Imported by the existing policy equivalence tests, not needed to launch the tutor.
+scipy>=1.12
+scikit-learn>=1.4

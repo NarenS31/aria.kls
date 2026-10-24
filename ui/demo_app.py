@@ -313,7 +313,7 @@ def make_pace_handlers(tutor: DemoTutor):
     return show, set_profile
 
 
-def build_demo_ui(tutor: DemoTutor | None = None) -> gr.Blocks:
+def build_legacy_demo_ui(tutor: DemoTutor | None = None) -> gr.Blocks:
     problems = (tutor.problems.values() if tutor else load_problems())
     tutor = tutor or DemoTutor()
     problems = list(tutor.problems.values())
@@ -353,6 +353,11 @@ def build_demo_ui(tutor: DemoTutor | None = None) -> gr.Blocks:
     return demo
 
 
+def build_demo_ui(tutor: DemoTutor | None = None) -> gr.Blocks:
+    from ui.workspace_app import build_workspace
+    return build_workspace(tutor or DemoTutor())
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--llm-path", action="store_true", help="enable the gated LLM path for free-form questions (default off)")
@@ -362,7 +367,7 @@ def main():
     ap.add_argument("--pace-profile", default="balanced", choices=list(PROFILE_LABELS), help="starting ARIA-Pace profile (changeable in the page)")
     ap.add_argument("--no-log", action="store_true", help="do not write the local per-turn log (default: data/demo_logs/turns.jsonl)")
     a = ap.parse_args()
-    tutor = DemoTutor(problems=load_problems(featured_only=not a.all_problems), llm_path=a.llm_path, llm_model=a.llm_model,
+    tutor = DemoTutor(problems=load_problems(), llm_path=a.llm_path, llm_model=a.llm_model,
                       log_path=None if a.no_log else LOG_PATH, pace_profile=a.pace_profile)
     if a.llm_path:
         ok = tutor.warm_up()          # load the model once, keep it resident

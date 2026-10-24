@@ -33,6 +33,7 @@ from agent import demo_templates as T
 from agent.demo_bank import DemoProblem, load_problems
 from agent.demo_input import MAX_INPUT_CHARS, sanitize_input
 from agent.demo_log import TurnLog
+from agent.demo_progress import completed_moves
 from agent.math_check import check_answer, equivalent, false_claims, matched_terms, normalize, prose_of, reveals_answer, student_exprs, to_expr
 from eval.metacognition.analyzer import _MARKERS, CognitiveStateAnalyzer
 from eval.metacognition.jitai import (
@@ -146,6 +147,7 @@ class DemoSession:
     def __init__(self, tutor: "DemoTutor", problem: DemoProblem, graph=None):
         self.tutor, self.problem = tutor, problem
         self.session_id = uuid.uuid4().hex[:12]
+        self.replaying = False
         self.attempt = 0
         self.profile = tutor.pace_profile            # a cost-weight setting, kept across Reset; changed with set_profile()
         # learning graph v0 (agent/demo_graph.py): read-only observer, in memory, exploratory. A graph may be handed over when the
@@ -164,6 +166,16 @@ class DemoSession:
         if self.graph is not None:
             self.graph.clear()
 
+    def retry(self):
+        """Fresh problem attempt, preserving the session's exploratory graph."""
+        self._reset_attempt()
+
+    def request_hint(self):
+        """Explicit help is not a new mathematical observation or an automatic hint."""
+        result = self.turn("help")
+        result.meta["hint_source"] = "requested"
+        return result
+
     def _reset_attempt(self):
         self.attempt += 1
         self._llm_outcome = ""
@@ -176,6 +188,9 @@ class DemoSession:
         self.consecutive = 0
         self.t_last: Optional[float] = None
         self.achieved: list = []          # sympy exprs the student has already got right (terms / steps)
+        self.verified_work: list[str] = []
+        self._hint_source = "automatic"
+        self.move_hints = {}
         self.pace = PACE.PaceTracker(self.tutor.pace_cfg) if self.tutor.pace_cfg else None
         self._pace_dec = None
 
@@ -184,6 +199,7 @@ class DemoSession:
         """One student message -> one TurnResult. Never raises: any failure becomes a quiet 'watching' reply."""
         t0 = time.perf_counter()
         clean, in_flags = sanitize_input(text)
+        self._hint_source = "requested" if _HELP.search(clean) or _ASK_ANSWER.search(clean) else "automatic"
         try:
             return self._turn(t0, clean, in_flags)
         except Exception as e:  # noqa: BLE001 - last line of defence; logged by class name only
@@ -222,6 +238,8 @@ class DemoSession:
         decision = tut.policy.decide(ctx)
         accepted = True if verdict.status == "correct" else None
         self.achieved += terms
+        if verdict.status in ("partial", "step", "correct"):
+            self.verified_work.append(text)
 
         # ARIA-Pace: the verdict updates the BKT tracker; a verified wrong step speaks only if risk >= tau (never silently ignored)
         pace = self.pace.decide(verdict.status, self.profile) if self.pace else None
@@ -252,6 +270,12 @@ class DemoSession:
         p = self.problem
         move = self._next_move()
         do, result = (move or {}).get("do", ""), (move or {}).get("result") if move and "claim" not in move else None
+        move_index = next((i for i, m in enumerate(p.moves) if m is move), -1)
+        if move is not None and itype != "reflection":
+            count = self.move_hints.get(move_index, 0)
+            alternatives = [do] + move.get("alternatives", [])
+            do = alternatives[min(count, len(alternatives) - 1)]
+            self.move_hints[move_index] = count + 1
         bank = intervention["text"]
 
         if kind == "question" and self.tutor.llm_path:
@@ -296,12 +320,10 @@ class DemoSession:
     def _next_move(self) -> Optional[dict]:
         """First authored move whose verified result the student has not produced yet."""
         moves = self.problem.moves
-        for m in moves[self.hint_level:] or moves[-1:]:
-            res = m.get("result")
-            e = to_expr(normalize(res)) if res and "=" not in res else None
-            if e is not None and any(equivalent(e, a) for a in self.achieved):
-                continue
-            return m
+        done = completed_moves(self)
+        for i, m in enumerate(moves):
+            if not done[i]:
+                return m
         return None if moves else {}
 
     def _finish(self, t0, text, status, state, analysis, flags, decision, kind, reply, intervened, accepted, tpl="",
@@ -330,6 +352,7 @@ class DemoSession:
             "llm_used": llm_used, "llm_outcome": self._llm_outcome, "hint_level": self.hint_level,
             "student_chars": len(text), "reply_chars": len(reply), "input_flags": list(in_flags or []), "fallback": fallback,
             "intervened": bool(intervened), "move_index": self._move_idx if intervened else -1, "t_s": round(time.time() - self.t_start, 1),
+            "hint_source": self._hint_source if intervened else "none",
         }
         pace = self._pace_dec or (self.pace.snapshot(self.profile) if self.pace else None)
         if pace:
@@ -341,8 +364,9 @@ class DemoSession:
                 self.graph.observe(self.problem, status, bool(intervened) and meta["intervention_type"] in GRAPH.HINT_TYPES)
             except Exception:  # noqa: BLE001
                 self.graph.errors += 1
-        self.tutor.turn_log.write({**meta, "session_id": self.session_id, "attempt": self.attempt, "problem_id": self.problem.id,
-                                   "intervened": intervened, "analyzer_state": meta["analyzer_state"] or ""})
+        if not self.replaying:
+            self.tutor.turn_log.write({**meta, "session_id": self.session_id, "attempt": self.attempt, "problem_id": self.problem.id,
+                                       "intervened": intervened, "analyzer_state": meta["analyzer_state"] or ""})
         return TurnResult(reply, intervened, accepted, watching, note, state, status, meta)
 
 

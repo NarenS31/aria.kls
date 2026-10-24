@@ -24,6 +24,7 @@ FIELDS = {
     "fallback": str, "move_index": int, "t_s": float, "hint_level": int, "student_chars": int, "reply_chars": int, "input_flags": list,
     # ARIA-Pace (numbers and identifiers only): calibrated BKT risk, the profile's threshold, the profile key
     "pace_profile": str, "pace_tau": float, "pace_risk": float, "pace_n_obs": int, "pace_updated": bool, "pace_reason": str,
+    "hint_source": str,
 }
 
 

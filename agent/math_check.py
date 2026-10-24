@@ -387,6 +387,7 @@ class Truth:
     solutions: frozenset = frozenset()          # solve
     given_exprs: list = field(default_factory=list)
     given_eq: Optional[tuple] = None            # (lhs, rhs) for solve
+    given_eq_text: tuple = ()                  # preserve written form for restatement vs distribution
     terms: list = field(default_factory=list)   # authored terms of the answer
     steps: list = field(default_factory=list)   # authored valid intermediate expressions
     mod_const: bool = False
@@ -427,7 +428,8 @@ class Truth:
                 sol = sp.solveset(l - r, var, sp.S.Reals)
                 if not isinstance(sol, sp.FiniteSet) or not sol:
                     raise ValueError(f"no finite real solution set for {spec['equation']!r}")
-            return cls("solve", var, solutions=frozenset(sol), given_exprs=given, given_eq=(l, r))
+            return cls("solve", var, solutions=frozenset(sol), given_exprs=given, given_eq=(l, r),
+                       given_eq_text=tuple(_squash(s) for s in spec["equation"].split("=")))
         raise ValueError(f"unknown truth kind {kind!r}")
 
     # human-readable canonical answer (for templates / logs)
@@ -511,7 +513,9 @@ def _classify(c: Cand, truth: Truth) -> str:
         if not (l.free_symbols or r.free_symbols):
             return "none"                          # arithmetic like 3*4 = 12
         if equation_equivalent(l, r, gl, gr):
-            same = equivalent((l - r) - (gl - gr), sp.Integer(0)) or equivalent((l - r) + (gl - gr), sp.Integer(0))
+            if truth.given_eq_text:
+                written = (_squash(c.lraw), _squash(c.rraw))
+                return "restate" if written in (truth.given_eq_text, truth.given_eq_text[::-1]) else "step"
             return "restate" if (l == gl and r == gr) or (l == gr and r == gl) else "step"
         return "wrong"
     # expr truth
