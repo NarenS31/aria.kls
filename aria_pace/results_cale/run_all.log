@@ -1,0 +1,61 @@
+started 2026-11-12T20:32:25Z  git 4b530e5
+python: 3.11.18
+matplotlib==3.11.2
+numpy==2.4.6
+pandas==3.0.6
+scikit-learn==1.9.1
+scipy==1.17.1
+raw sha256: 162ef8d2d28bcbfea6591a282994062bd8d5eaa00636544292a0d268dca6e5da
+TEST_LOCK sha256 (must be unchanged): e9241ea57dbec5efb1335f8b97a30adc0bf8cbc6fa92534fc3514955f3cc9e0f
+== step1_reproduce
+[     7s] loaded: train 39201 seqs, val 13162 seqs; test students dropped: 832
+[    20s] models fitted on train
+[    25s] frozen_val.json differences: 0
+[    47s] val_results.json differences: 0
+[    47s] REPRODUCES
+   step1_reproduce took 49s
+== build_cv
+[     7s] loaded: train 39201 seqs, val 13162 seqs; test students dropped: 832
+[    24s] fold 0: held 2636 seqs, BKT platt -0.011,1.016, CAL taus bkt {'quiet': 0.56, 'balanced': 0.18, 'supportive': 0.11}, n {'quiet': 2, 'balanced': 1, 'supportive': 1}
+[    39s] fold 1: held 3426 seqs, BKT platt -0.086,1.072, CAL taus bkt {'quiet': 0.58, 'balanced': 0.24, 'supportive': 0.05}, n {'quiet': 2, 'balanced': 1, 'supportive': 1}
+[    56s] fold 2: held 3167 seqs, BKT platt -0.120,0.952, CAL taus bkt {'quiet': 0.56, 'balanced': 0.23, 'supportive': 0.04}, n {'quiet': 2, 'balanced': 1, 'supportive': 1}
+[    71s] fold 3: held 2642 seqs, BKT platt -0.115,0.936, CAL taus bkt {'quiet': 0.6, 'balanced': 0.19, 'supportive': 0.02}, n {'quiet': 2, 'balanced': 1, 'supportive': 1}
+[    87s] fold 4: held 2769 seqs, BKT platt -0.115,1.015, CAL taus bkt {'quiet': 0.51, 'balanced': 0.22, 'supportive': 0.11}, n {'quiet': 2, 'balanced': 1, 'supportive': 1}
+[    87s] pooled held-out: 14640 sequences, 2349 students
+   build_cv took 90s
+== e1_tradeoff
+[     7s] loaded: train 39201 seqs, val 13162 seqs; test students dropped: 832
+[     7s] using cached CV held-out predictions cv_heldout_dbd403fdbff0e13e.pkl
+[     8s] curve bkt done
+[     8s] curve pfa done
+[     9s] curve risk_head done
+[    15s] baselines done
+[    15s] wrote /Users/narensara/aria-polish/aria_pace/results_cale/e1_tradeoff.json
+   e1_tradeoff took 17s
+== e2_calibration
+[     7s] loaded: train 39201 seqs, val 13162 seqs; test students dropped: 832
+[    18s] validation calibration done
+[    19s] using cached CV held-out predictions cv_heldout_dbd403fdbff0e13e.pkl
+[    19s] wrote /Users/narensara/aria-polish/aria_pace/results_cale/e2_calibration.json
+   e2_calibration took 22s
+== e3_errors
+[     7s] loaded: train 39201 seqs, val 13162 seqs; test students dropped: 832
+[     7s] using cached CV held-out predictions cv_heldout_dbd403fdbff0e13e.pkl
+[     8s] wrote /Users/narensara/aria-polish/aria_pace/results_cale/e3_errors.json
+   e3_errors took 10s
+== e4_paired
+[     7s] loaded: train 39201 seqs, val 13162 seqs; test students dropped: 832
+[     7s] using cached CV held-out predictions cv_heldout_dbd403fdbff0e13e.pkl
+[     8s] wrote /Users/narensara/aria-polish/aria_pace/results_cale/e4_paired.json
+   e4_paired took 10s
+== e5_logged_hints
+[     7s] loaded: train 39201 seqs, val 13162 seqs; test students dropped: 832
+[    26s] wrote /Users/narensara/aria-polish/aria_pace/results_cale/e5_logged_hints.json
+   e5_logged_hints took 28s
+== e6_skills
+[     7s] loaded: train 39201 seqs, val 13162 seqs; test students dropped: 832
+[     7s] using cached CV held-out predictions cv_heldout_dbd403fdbff0e13e.pkl
+[     8s] wrote /Users/narensara/aria-polish/aria_pace/results_cale/e6_skills.json
+   e6_skills took 10s
+TEST_LOCK sha256 after: e9241ea57dbec5efb1335f8b97a30adc0bf8cbc6fa92534fc3514955f3cc9e0f
+total runtime 237s

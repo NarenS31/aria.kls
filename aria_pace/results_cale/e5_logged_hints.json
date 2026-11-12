@@ -1,0 +1,329 @@
+{
+ "_provenance": {
+  "env": {
+   "matplotlib": "3.11.2",
+   "numpy": "2.4.6",
+   "pandas": "3.0.6",
+   "platform": "macOS-26.4.1-arm64-arm-64bit",
+   "python": "3.11.18",
+   "scipy": "1.17.1",
+   "sklearn": "1.9.1"
+  },
+  "generated_utc": "2026-11-12T20:36:11Z",
+  "inputs_sha256": {
+   "aria_pace/data/raw/skill_builder_data_corrected_collapsed.csv": "162ef8d2d28bcbfea6591a282994062bd8d5eaa00636544292a0d268dca6e5da",
+   "aria_pace/results/frozen_val.json": "057f4389adbc0163a54205607947ec3515be62d8cd6ca09f1bbbb4353a847dce",
+   "aria_pace/results/val_results.json": "7c052f11092e28082c34e9a1b326703cc60d5cac7a4805385421bfee5b5cd205"
+  },
+  "runtime_seconds": 26.2,
+  "seeds": {
+   "cv_folds": 20261022,
+   "e1_bootstrap": 20261112,
+   "e2_bootstrap": 20261113,
+   "e4_bootstrap": 20261114,
+   "e5_bootstrap": 20261115,
+   "random_policy": 20261017,
+   "split": 20261015
+  }
+ },
+ "a_exclude_sequences_with_hint_tries_1_9": {
+  "always_help_hints_per_student": 1.6096997690531178,
+  "balanced": {
+   "always_help_interventions": 697,
+   "hints_ci95": [
+    1.0808314087759816,
+    1.5034642032332564
+   ],
+   "hints_per_student": 1.2886836027713626,
+   "interventions": 558,
+   "missed": 0,
+   "missed_ci95": [
+    0.0,
+    0.0
+   ],
+   "missed_help_rate": 0.0,
+   "reduction_ci95": [
+    0.16873017531197168,
+    0.2310181225529327
+   ],
+   "reduction_vs_always_help": 0.19942611190817794,
+   "stuck_with_help_opportunity": 186,
+   "tau": 0.19
+  },
+  "n_sequences": 1957,
+  "n_stuck": 193,
+  "n_students": 433,
+  "quiet": {
+   "always_help_interventions": 697,
+   "hints_ci95": [
+    0.5149538106235565,
+    0.7737875288683601
+   ],
+   "hints_per_student": 0.6374133949191686,
+   "interventions": 276,
+   "missed": 6,
+   "missed_ci95": [
+    0.007562419974391807,
+    0.06397229822161421
+   ],
+   "missed_help_rate": 0.03225806451612903,
+   "reduction_ci95": [
+    0.5527979176076259,
+    0.6502926781371319
+   ],
+   "reduction_vs_always_help": 0.6040172166427547,
+   "stuck_with_help_opportunity": 186,
+   "tau": 0.57
+  },
+  "supportive": {
+   "always_help_interventions": 697,
+   "hints_ci95": [
+    1.2931870669745957,
+    1.7692263279445726
+   ],
+   "hints_per_student": 1.533487297921478,
+   "interventions": 664,
+   "missed": 0,
+   "missed_ci95": [
+    0.0,
+    0.0
+   ],
+   "missed_help_rate": 0.0,
+   "reduction_ci95": [
+    0.03192646480079635,
+    0.0631071407871095
+   ],
+   "reduction_vs_always_help": 0.04734576757532283,
+   "stuck_with_help_opportunity": 186,
+   "tau": 0.09
+  }
+ },
+ "analysis": "E5 logged-hint check",
+ "b_drop_decision_points_at_or_after_first_hint": {
+  "always_help_hints_per_student": 1.2936241610738255,
+  "balanced": {
+   "always_help_interventions": 771,
+   "hints_ci95": [
+    0.8741191275167786,
+    1.2198825503355704
+   ],
+   "hints_per_student": 1.0436241610738255,
+   "interventions": 622,
+   "missed": 2,
+   "missed_ci95": [
+    0.0,
+    0.021461539884564153
+   ],
+   "missed_help_rate": 0.008928571428571428,
+   "reduction_ci95": [
+    0.1644865003417635,
+    0.22148977182372356
+   ],
+   "reduction_vs_always_help": 0.19325551232166016,
+   "stuck_with_help_opportunity": 224,
+   "tau": 0.19
+  },
+  "n_sequences": 3742,
+  "n_stuck": 644,
+  "n_students": 596,
+  "quiet": {
+   "always_help_interventions": 771,
+   "hints_ci95": [
+    0.39932885906040266,
+    0.5906459731543624
+   ],
+   "hints_per_student": 0.49161073825503354,
+   "interventions": 293,
+   "missed": 33,
+   "missed_ci95": [
+    0.0995027034243375,
+    0.19907582938388624
+   ],
+   "missed_help_rate": 0.14732142857142858,
+   "reduction_ci95": [
+    0.5725179217301559,
+    0.663102313507993
+   ],
+   "reduction_vs_always_help": 0.6199740596627756,
+   "stuck_with_help_opportunity": 224,
+   "tau": 0.57
+  },
+  "supportive": {
+   "always_help_interventions": 771,
+   "hints_ci95": [
+    1.0502516778523492,
+    1.4328859060402686
+   ],
+   "hints_per_student": 1.2365771812080537,
+   "interventions": 737,
+   "missed": 0,
+   "missed_ci95": [
+    0.0,
+    0.0
+   ],
+   "missed_help_rate": 0.0,
+   "reduction_ci95": [
+    0.030879719004719055,
+    0.05803132796008442
+   ],
+   "reduction_vs_always_help": 0.04409857328145261,
+   "stuck_with_help_opportunity": 224,
+   "tau": 0.09
+  }
+ },
+ "caveat": "Exclusion on hints is a selection on a post-decision variable; this checks how much the replay result depends on sequences where ASSISTments itself gave help. It is not a causal estimate. Nothing is re-chosen; frozen tau, Platt and BKT are used.",
+ "columns_used": {
+  "descriptive_only": [
+   "first_action (inferred codes: 1 = hint as first action)",
+   "bottom_hint",
+   "hint_total (hints available, not received; not used as an indicator)"
+  ],
+  "indicator": "hint_count > 0 (number of hints the student requested on that problem in ASSISTments)"
+ },
+ "counts": {
+  "train": {
+   "decision_cells": 34468,
+   "decision_cells_at_or_after_first_hint": 18602,
+   "decision_cells_with_hint_at_that_try": 6450,
+   "in_scope_sequences": 10898,
+   "nonstuck_with_logged_hint": 3945,
+   "sequences_with_logged_hint_tries_1_9": 5269,
+   "share_nonstuck_with_logged_hint": 0.43755545696539483,
+   "share_sequences": 0.4834832079280602,
+   "share_stuck_with_logged_hint": 0.7035069075451648,
+   "split": "train",
+   "stuck_sequences": 1882,
+   "stuck_with_logged_hint": 1324,
+   "students": 1753,
+   "verified_error_cells": 10399,
+   "verified_error_cells_at_or_after_first_hint": 5645,
+   "verified_error_cells_with_hint_at_that_try": 3131
+  },
+  "validation": {
+   "decision_cells": 11867,
+   "decision_cells_at_or_after_first_hint": 6483,
+   "decision_cells_with_hint_at_that_try": 2134,
+   "in_scope_sequences": 3742,
+   "nonstuck_with_logged_hint": 1334,
+   "sequences_with_logged_hint_tries_1_9": 1785,
+   "share_nonstuck_with_logged_hint": 0.4306003873466753,
+   "share_sequences": 0.47701763762693744,
+   "share_stuck_with_logged_hint": 0.7003105590062112,
+   "split": "validation",
+   "stuck_sequences": 644,
+   "stuck_with_logged_hint": 451,
+   "students": 596,
+   "verified_error_cells": 3631,
+   "verified_error_cells_at_or_after_first_hint": 2057,
+   "verified_error_cells_with_hint_at_that_try": 1085
+  }
+ },
+ "definitions": {
+  "a": "sequences with hint_count > 0 at any try 1-9 removed; everything else unchanged",
+  "b": "decision point i dropped if hint_count > 0 at any try t <= i (the hint at try i is received before decision point i); a stuck sequence with no remaining verified-error decision point has no help opportunity and leaves the missed-help denominator"
+ },
+ "frozen_values_used": {
+  "bkt_min_seq": 10,
+  "platt": [
+   -0.08597486183739239,
+   0.9983179103593731
+  ],
+  "taus": {
+   "balanced": 0.19,
+   "quiet": 0.57,
+   "supportive": 0.09
+  }
+ },
+ "indicator_crosstab_validation": {
+  "hint_rows": 4112,
+  "hint_rows_by_first_action": {
+   "0": 2268,
+   "1": 1844
+  },
+  "hint_rows_correct_1": 1,
+  "hint_rows_reaching_bottom_hint": 2570,
+  "rows_tries_1_9": 24786,
+  "verified_error_rows (correct 0, first_action 0)": 7758,
+  "verified_error_rows_with_hint": 2267,
+  "wrong_rows": 10138,
+  "wrong_rows_with_hint": 4111
+ },
+ "status": "exploratory, post hoc addition to the locked evaluation (CALE-AI); no test student used",
+ "validation_main": {
+  "always_help_hints_per_student": 2.6996644295302015,
+  "balanced": {
+   "always_help_interventions": 1609,
+   "hints_ci95": [
+    2.0216862416107384,
+    2.6728607382550336
+   ],
+   "hints_per_student": 2.348993288590604,
+   "interventions": 1400,
+   "missed": 0,
+   "missed_ci95": [
+    0.0,
+    0.0
+   ],
+   "missed_help_rate": 0.0,
+   "reduction_ci95": [
+    0.11412799924922742,
+    0.1475317712690226
+   ],
+   "reduction_vs_always_help": 0.12989434431323799,
+   "stuck_with_help_opportunity": 580,
+   "tau": 0.19
+  },
+  "n_sequences": 3742,
+  "n_stuck": 644,
+  "n_students": 596,
+  "quiet": {
+   "always_help_interventions": 1609,
+   "hints_ci95": [
+    1.1643456375838928,
+    1.5604026845637584
+   ],
+   "hints_per_student": 1.354026845637584,
+   "interventions": 807,
+   "missed": 28,
+   "missed_ci95": [
+    0.030032691733439504,
+    0.06908828218413711
+   ],
+   "missed_help_rate": 0.04827586206896552,
+   "reduction_ci95": [
+    0.4656452109286003,
+    0.5307633363097185
+   ],
+   "reduction_vs_always_help": 0.49844623990055936,
+   "stuck_with_help_opportunity": 580,
+   "tau": 0.57
+  },
+  "supportive": {
+   "always_help_interventions": 1609,
+   "hints_ci95": [
+    2.2733640939597315,
+    2.993414429530201
+   ],
+   "hints_per_student": 2.62751677852349,
+   "interventions": 1566,
+   "missed": 0,
+   "missed_ci95": [
+    0.0,
+    0.0
+   ],
+   "missed_help_rate": 0.0,
+   "reduction_ci95": [
+    0.019494534447364632,
+    0.03483864589780621
+   ],
+   "reduction_vs_always_help": 0.02672467371037912,
+   "stuck_with_help_opportunity": 580,
+   "tau": 0.09
+  }
+ },
+ "validation_main_matches_val_results_json": {
+  "balanced": true,
+  "quiet": true,
+  "supportive": true
+ }
+}

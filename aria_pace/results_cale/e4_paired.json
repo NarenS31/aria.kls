@@ -1,0 +1,159 @@
+{
+ "_provenance": {
+  "env": {
+   "matplotlib": "3.11.2",
+   "numpy": "2.4.6",
+   "pandas": "3.0.6",
+   "platform": "macOS-26.4.1-arm64-arm-64bit",
+   "python": "3.11.18",
+   "scipy": "1.17.1",
+   "sklearn": "1.9.1"
+  },
+  "generated_utc": "2026-11-12T20:35:44Z",
+  "inputs_sha256": {
+   "aria_pace/data/raw/skill_builder_data_corrected_collapsed.csv": "162ef8d2d28bcbfea6591a282994062bd8d5eaa00636544292a0d268dca6e5da",
+   "aria_pace/results/baselines_val.json": "b6787befe9a88762a49048cfddc94bd2f703a21476a817ebada35e8f05a4bdee",
+   "aria_pace/results/riskhead_val.json": "d396aec2d5ed070af0eddb85ddc547b6c3f710ef903bbc2f25e9c1dc0c8c1da7",
+   "aria_pace/results/test_results.json": "0872578a7ff231bbe5bf4e158062777af83fefe0bdac8d8a21de2566345a5764"
+  },
+  "runtime_seconds": 7.9,
+  "seeds": {
+   "cv_folds": 20261022,
+   "e1_bootstrap": 20261112,
+   "e2_bootstrap": 20261113,
+   "e4_bootstrap": 20261114,
+   "e5_bootstrap": 20261115,
+   "random_policy": 20261017,
+   "split": 20261015
+  }
+ },
+ "analysis": "E4 paired comparison, BKT (Quiet) vs tuned n-wrong rule (n = 2)",
+ "bootstrap": {
+  "draws": 1000,
+  "interval": "95% percentile",
+  "paired": true,
+  "seed": 20261114,
+  "unit": "student"
+ },
+ "cal_chosen_quiet_n": [
+  2,
+  2,
+  2,
+  2,
+  2
+ ],
+ "cal_chosen_quiet_taus": [
+  0.56,
+  0.58,
+  0.56,
+  0.6,
+  0.51
+ ],
+ "data": "pooled CV held-out folds (A7 folds; train+validation students). Per-sequence outputs of the locked test run do not exist, so E4 is NOT a test-set result.",
+ "locked_test_context_quoted_not_recomputed": {
+  "note": "aggregates only; no paired interval possible without per-sequence outputs",
+  "source": "aria_pace/results/test_results.json main/frozen quiet",
+  "values": {
+   "bkt": {
+    "interventions_per_student": 1.2177554438860971,
+    "missed_help": 19,
+    "missed_help_share": 0.03667953667953668,
+    "n_y1_with_help_opportunity": 518
+   },
+   "n_rule_tuned": {
+    "interventions_per_student": 1.2763819095477387,
+    "missed_help": 134,
+    "missed_help_share": 0.25868725868725867,
+    "n_y1_with_help_opportunity": 518
+   }
+  }
+ },
+ "n_students": 2349,
+ "primary_frozen_tau_0.57": {
+  "bkt": {
+   "hints_ci95": [
+    1.2107173265219242,
+    1.412271179225202
+   ],
+   "hints_per_student": 1.314176245210728,
+   "interventions": 3087,
+   "missed": 142,
+   "missed_ci95": [
+    0.0528843083773268,
+    0.0737388385096059
+   ],
+   "missed_help_rate": 0.06230802983764809
+  },
+  "diff_hints_ci95": [
+   -0.1008939974457217,
+   -0.025542784163473886
+  ],
+  "diff_hints_per_student_bkt_minus_rule": -0.06513409961685834,
+  "diff_missed_ci95": [
+   -0.23053964124153442,
+   -0.1898473056059555
+  ],
+  "diff_missed_help_rate_bkt_minus_rule": -0.21061869240895126,
+  "share_resamples_bkt_fewer_hints": 1.0,
+  "share_resamples_bkt_fewer_missed": 1.0,
+  "stuck_with_help_opportunity": 2279,
+  "two_wrong_rule": {
+   "hints_ci95": [
+    1.2715942954448702,
+    1.4891868880374628
+   ],
+   "hints_per_student": 1.3793103448275863,
+   "interventions": 3240,
+   "missed": 622,
+   "missed_ci95": [
+    0.25191142346177153,
+    0.2921528662433643
+   ],
+   "missed_help_rate": 0.27292672224659936
+  }
+ },
+ "sensitivity_cal_chosen_tau": {
+  "bkt": {
+   "hints_ci95": [
+    1.2260536398467432,
+    1.4329501915708813
+   ],
+   "hints_per_student": 1.3312047679863772,
+   "interventions": 3127,
+   "missed": 141,
+   "missed_ci95": [
+    0.052560602746234086,
+    0.07197915891924349
+   ],
+   "missed_help_rate": 0.06186924089512944
+  },
+  "diff_hints_ci95": [
+   -0.083439761600681,
+   -0.008929331630481067
+  ],
+  "diff_hints_per_student_bkt_minus_rule": -0.048105576841209086,
+  "diff_missed_ci95": [
+   -0.23185668191868194,
+   -0.19063626256354452
+  ],
+  "diff_missed_help_rate_bkt_minus_rule": -0.21105748135146993,
+  "share_resamples_bkt_fewer_hints": 0.994,
+  "share_resamples_bkt_fewer_missed": 1.0,
+  "stuck_with_help_opportunity": 2279,
+  "two_wrong_rule": {
+   "hints_ci95": [
+    1.2715942954448702,
+    1.4891868880374628
+   ],
+   "hints_per_student": 1.3793103448275863,
+   "interventions": 3240,
+   "missed": 622,
+   "missed_ci95": [
+    0.25191142346177153,
+    0.2921528662433643
+   ],
+   "missed_help_rate": 0.27292672224659936
+  }
+ },
+ "status": "exploratory, post hoc addition to the locked evaluation (CALE-AI); no test student used"
+}

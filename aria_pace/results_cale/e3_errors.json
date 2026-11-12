@@ -1,0 +1,333 @@
+{
+ "_provenance": {
+  "env": {
+   "matplotlib": "3.11.2",
+   "numpy": "2.4.6",
+   "pandas": "3.0.6",
+   "platform": "macOS-26.4.1-arm64-arm-64bit",
+   "python": "3.11.18",
+   "scipy": "1.17.1",
+   "sklearn": "1.9.1"
+  },
+  "generated_utc": "2026-11-12T20:35:34Z",
+  "inputs_sha256": {
+   "aria_pace/data/raw/skill_builder_data_corrected_collapsed.csv": "162ef8d2d28bcbfea6591a282994062bd8d5eaa00636544292a0d268dca6e5da",
+   "aria_pace/results/baselines_val.json": "b6787befe9a88762a49048cfddc94bd2f703a21476a817ebada35e8f05a4bdee",
+   "aria_pace/results/riskhead_val.json": "d396aec2d5ed070af0eddb85ddc547b6c3f710ef903bbc2f25e9c1dc0c8c1da7"
+  },
+  "runtime_seconds": 8.3,
+  "seeds": {
+   "cv_folds": 20261022,
+   "e1_bootstrap": 20261112,
+   "e2_bootstrap": 20261113,
+   "e4_bootstrap": 20261114,
+   "e5_bootstrap": 20261115,
+   "random_policy": 20261017,
+   "split": 20261015
+  }
+ },
+ "analysis": "E3 error analysis of missed help",
+ "describe": {
+  "caught": {
+   "correct_before_first_error": {
+    "max": 2.0,
+    "mean": 0.21572297613476837,
+    "median": 0.0,
+    "min": 0.0,
+    "q25": 0.0,
+    "q75": 0.0
+   },
+   "has_2plus_consecutive_wrong": {
+    "share": 0.9386991109031352
+   },
+   "hint_first_wrong_1_9": {
+    "max": 8.0,
+    "mean": 1.2695367337388863,
+    "median": 0.0,
+    "min": 0.0,
+    "q25": 0.0,
+    "q75": 2.0
+   },
+   "longest_wrong_run_1_9": {
+    "max": 9.0,
+    "mean": 4.179691155825924,
+    "median": 3.0,
+    "min": 1.0,
+    "q25": 2.0,
+    "q75": 6.0
+   },
+   "max_risk_all_decision_points": {
+    "max": 0.9999995981138071,
+    "mean": 0.9916489836482467,
+    "median": 0.9999990827465755,
+    "min": 0.5815941266212276,
+    "q25": 0.999997811433681,
+    "q75": 0.9999991934235735
+   },
+   "max_risk_at_verified_errors": {
+    "max": 0.9999995981138071,
+    "mean": 0.9651515482737044,
+    "median": 0.999997811433681,
+    "min": 0.5716380724816005,
+    "q25": 0.9999972933993853,
+    "q75": 0.9999991934235735
+   },
+   "n": {
+    "max": 144.0,
+    "mean": 17.70566214319139,
+    "median": 14.0,
+    "min": 10.0,
+    "q25": 12.0,
+    "q75": 20.0
+   },
+   "n_sequences": 2137,
+   "switches_1_9": {
+    "max": 8.0,
+    "mean": 3.6326626111371083,
+    "median": 4.0,
+    "min": 0.0,
+    "q25": 2.0,
+    "q75": 5.0
+   },
+   "verified_errors_at_decision_points": {
+    "max": 7.0,
+    "mean": 3.613944782405241,
+    "median": 4.0,
+    "min": 1.0,
+    "q25": 3.0,
+    "q75": 5.0
+   },
+   "wrong_1_9": {
+    "max": 9.0,
+    "mean": 6.3490875058493215,
+    "median": 6.0,
+    "min": 3.0,
+    "q25": 5.0,
+    "q75": 8.0
+   },
+   "wrong_not_verified_1_9": {
+    "max": 8.0,
+    "mean": 1.6172204024333177,
+    "median": 1.0,
+    "min": 0.0,
+    "q25": 0.0,
+    "q75": 3.0
+   }
+  },
+  "missed": {
+   "correct_before_first_error": {
+    "max": 2.0,
+    "mean": 0.45774647887323944,
+    "median": 0.0,
+    "min": 0.0,
+    "q25": 0.0,
+    "q75": 1.0
+   },
+   "has_2plus_consecutive_wrong": {
+    "share": 0.823943661971831
+   },
+   "hint_first_wrong_1_9": {
+    "max": 8.0,
+    "mean": 2.3943661971830985,
+    "median": 2.0,
+    "min": 0.0,
+    "q25": 0.0,
+    "q75": 4.0
+   },
+   "longest_wrong_run_1_9": {
+    "max": 9.0,
+    "mean": 3.5211267605633805,
+    "median": 3.0,
+    "min": 1.0,
+    "q25": 2.0,
+    "q75": 4.75
+   },
+   "max_risk_all_decision_points": {
+    "max": 0.9999995981138071,
+    "mean": 0.900478222526112,
+    "median": 0.999997811433681,
+    "min": 0.14231920896958797,
+    "q25": 0.9999972933993853,
+    "q75": 0.9999991934235735
+   },
+   "max_risk_at_verified_errors": {
+    "max": 0.5696257297653755,
+    "mean": 0.41002366997236483,
+    "median": 0.42759708617569425,
+    "min": 0.0648009655248747,
+    "q25": 0.34660204528958904,
+    "q75": 0.4934611056918134
+   },
+   "n": {
+    "max": 114.0,
+    "mean": 17.288732394366196,
+    "median": 13.0,
+    "min": 10.0,
+    "q25": 11.0,
+    "q75": 19.0
+   },
+   "n_sequences": 142,
+   "switches_1_9": {
+    "max": 8.0,
+    "mean": 4.197183098591549,
+    "median": 5.0,
+    "min": 0.0,
+    "q25": 3.0,
+    "q75": 6.0
+   },
+   "verified_errors_at_decision_points": {
+    "max": 5.0,
+    "mean": 1.7535211267605635,
+    "median": 2.0,
+    "min": 1.0,
+    "q25": 1.0,
+    "q75": 2.0
+   },
+   "wrong_1_9": {
+    "max": 9.0,
+    "mean": 5.549295774647887,
+    "median": 5.0,
+    "min": 3.0,
+    "q25": 4.0,
+    "q75": 7.0
+   },
+   "wrong_not_verified_1_9": {
+    "max": 8.0,
+    "mean": 3.0422535211267605,
+    "median": 3.0,
+    "min": 0.0,
+    "q25": 1.0,
+    "q75": 5.0
+   }
+  }
+ },
+ "missed_help_rate": 0.06230802983764809,
+ "missed_max_risk_at_errors_quantiles": {
+  "0.1": 0.25185430202800363,
+  "0.25": 0.34660204528958904,
+  "0.5": 0.42759708617569425,
+  "0.75": 0.4934611056918134,
+  "0.9": 0.5260141667453523
+ },
+ "missed_share_with_max_risk_within_0.10_of_tau": 0.36619718309859156,
+ "missed_where_risk_reached_tau_at_some_decision_point": 118,
+ "missed_where_risk_reached_tau_note": "risk crossed tau at a decision point, but no primary verified error (correct 0 and first_action 0) occurred at or after it; the later wrong answers were hint-first or code-2 rows, so the policy could not fire",
+ "n_caught": 2137,
+ "n_distinct_skills_among_misses": 51,
+ "n_missed": 142,
+ "n_stuck_with_help_opportunity": 2279,
+ "operating_point": "BKT, frozen Quiet tau 0.57, per-fold CAL Platt (pooled CV held-out)",
+ "pattern_legend": "string over tries 1-9 (shorter if the sequence ended), 1 = correct first attempt, 0 = not",
+ "population": "stuck (y=1) sequences with a help opportunity (a primary verified error at a decision point 3-9)",
+ "status": "exploratory, post hoc addition to the locked evaluation (CALE-AI); no test student used",
+ "test_misses": "NOT DONE: the locked test run saved only aggregates (aria_pace/results/test_results.json); no per-sequence test outputs exist on disk, and the test set was not re-run.",
+ "top5_patterns_among_misses": [
+  {
+   "caught": 239,
+   "missed": 15,
+   "pattern_1_9": "000000000",
+   "share_of_misses": 0.1056338028169014,
+   "wrong_count": 9
+  },
+  {
+   "caught": 2,
+   "missed": 6,
+   "pattern_1_9": "011011011",
+   "share_of_misses": 0.04225352112676056,
+   "wrong_count": 3
+  },
+  {
+   "caught": 3,
+   "missed": 3,
+   "pattern_1_9": "101010000",
+   "share_of_misses": 0.02112676056338028,
+   "wrong_count": 6
+  },
+  {
+   "caught": 10,
+   "missed": 3,
+   "pattern_1_9": "010101101",
+   "share_of_misses": 0.02112676056338028,
+   "wrong_count": 4
+  },
+  {
+   "caught": 1,
+   "missed": 2,
+   "pattern_1_9": "010101011",
+   "share_of_misses": 0.014084507042253521,
+   "wrong_count": 4
+  }
+ ],
+ "top_skills_among_misses": [
+  {
+   "miss_rate": 0.2619047619047619,
+   "missed": 11,
+   "skill_id": "18",
+   "skill_name": "Probability of a Single Event",
+   "stuck_with_help_opportunity": 42
+  },
+  {
+   "miss_rate": 0.2222222222222222,
+   "missed": 10,
+   "skill_id": "74_92",
+   "skill_name": "Subtraction Whole Numbers",
+   "stuck_with_help_opportunity": 45
+  },
+  {
+   "miss_rate": 0.0481283422459893,
+   "missed": 9,
+   "skill_id": "47",
+   "skill_name": "Conversion of Fraction Decimals Percents",
+   "stuck_with_help_opportunity": 187
+  },
+  {
+   "miss_rate": 0.14035087719298245,
+   "missed": 8,
+   "skill_id": "280",
+   "skill_name": "Addition and Subtraction Fractions",
+   "stuck_with_help_opportunity": 57
+  },
+  {
+   "miss_rate": 0.25,
+   "missed": 6,
+   "skill_id": "46",
+   "skill_name": "Calculations with Similar Figures",
+   "stuck_with_help_opportunity": 24
+  },
+  {
+   "miss_rate": 0.2,
+   "missed": 6,
+   "skill_id": "83",
+   "skill_name": "Divisibility Rules",
+   "stuck_with_help_opportunity": 30
+  },
+  {
+   "miss_rate": 0.14634146341463414,
+   "missed": 6,
+   "skill_id": "50",
+   "skill_name": "Ordering Fractions",
+   "stuck_with_help_opportunity": 41
+  },
+  {
+   "miss_rate": 0.42857142857142855,
+   "missed": 6,
+   "skill_id": "312",
+   "skill_name": "Equation Solving More Than Two Steps",
+   "stuck_with_help_opportunity": 14
+  },
+  {
+   "miss_rate": 0.10869565217391304,
+   "missed": 5,
+   "skill_id": "67",
+   "skill_name": "Multiplication Fractions",
+   "stuck_with_help_opportunity": 46
+  },
+  {
+   "miss_rate": 0.1388888888888889,
+   "missed": 5,
+   "skill_id": "279",
+   "skill_name": "Multiplication and Division Integers",
+   "stuck_with_help_opportunity": 36
+  }
+ ]
+}

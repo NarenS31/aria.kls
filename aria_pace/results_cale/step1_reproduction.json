@@ -1,0 +1,117 @@
+{
+ "_provenance": {
+  "env": {
+   "matplotlib": "3.11.2",
+   "numpy": "2.4.6",
+   "pandas": "3.0.6",
+   "platform": "macOS-26.4.1-arm64-arm-64bit",
+   "python": "3.11.18",
+   "scipy": "1.17.1",
+   "sklearn": "1.9.1"
+  },
+  "generated_utc": "2026-11-12T20:33:15Z",
+  "inputs_sha256": {
+   "aria_pace/data/raw/skill_builder_data_corrected_collapsed.csv": "162ef8d2d28bcbfea6591a282994062bd8d5eaa00636544292a0d268dca6e5da",
+   "aria_pace/results/baselines_val.json": "b6787befe9a88762a49048cfddc94bd2f703a21476a817ebada35e8f05a4bdee",
+   "aria_pace/results/frozen_val.json": "057f4389adbc0163a54205607947ec3515be62d8cd6ca09f1bbbb4353a847dce",
+   "aria_pace/results/riskhead_val.json": "d396aec2d5ed070af0eddb85ddc547b6c3f710ef903bbc2f25e9c1dc0c8c1da7",
+   "aria_pace/results/val_results.json": "7c052f11092e28082c34e9a1b326703cc60d5cac7a4805385421bfee5b5cd205"
+  },
+  "runtime_seconds": 47.2,
+  "seeds": {
+   "cv_folds": 20261022,
+   "e1_bootstrap": 20261112,
+   "e2_bootstrap": 20261113,
+   "e4_bootstrap": 20261114,
+   "e5_bootstrap": 20261115,
+   "random_policy": 20261017,
+   "split": 20261015
+  }
+ },
+ "data_report": {
+  "first_attempt_wrong_by_first_action_code": {
+   "0": 68995,
+   "1": 21565,
+   "2": 6223
+  },
+  "first_attempt_wrong_rows": 96783,
+  "pct_rows_dropped_null_skill": 18.38,
+  "rows_after_cleaning": 283105,
+  "rows_dropped_null_skill": 63755,
+  "rows_in_file": 346860,
+  "students_after_cleaning": 4163,
+  "students_in_file": 4217
+ },
+ "frozen_val_differences": [],
+ "main_validation_key_numbers_saved": {
+  "balanced": {
+   "always_help_interventions_per_student": 2.6996644295302015,
+   "bkt_interventions_per_student": 2.348993288590604,
+   "missed_help": 0,
+   "missed_help_share": 0.0,
+   "n_y1_with_help_opportunity": 580,
+   "reduction_vs_always_help": 0.12989434431323799
+  },
+  "quiet": {
+   "always_help_interventions_per_student": 2.6996644295302015,
+   "bkt_interventions_per_student": 1.354026845637584,
+   "missed_help": 28,
+   "missed_help_share": 0.04827586206896552,
+   "n_y1_with_help_opportunity": 580,
+   "reduction_vs_always_help": 0.49844623990055936
+  },
+  "supportive": {
+   "always_help_interventions_per_student": 2.6996644295302015,
+   "bkt_interventions_per_student": 2.62751677852349,
+   "missed_help": 0,
+   "missed_help_share": 0.0,
+   "n_y1_with_help_opportunity": 580,
+   "reduction_vs_always_help": 0.02672467371037912
+  }
+ },
+ "n_frozen_val_differences": 0,
+ "n_val_results_differences": 0,
+ "note": "Validation numbers are optimistic (calibrator and tau were chosen on the same split), as in the original.",
+ "recomputed_platt": {
+  "bkt": {
+   "intercept": -0.08597486183739239,
+   "slope": 0.9983179103593731
+  },
+  "pfa": {
+   "intercept": -0.16370179552668807,
+   "slope": 1.0463892821298524
+  },
+  "risk_head": {
+   "intercept": 0.014301112994882445,
+   "slope": 0.9934282062365487
+  }
+ },
+ "recomputed_taus_main": {
+  "n": {
+   "balanced": 1,
+   "quiet": 2,
+   "supportive": 1
+  },
+  "taus": {
+   "bkt": {
+    "balanced": 0.19,
+    "quiet": 0.57,
+    "supportive": 0.09
+   },
+   "pfa": {
+    "balanced": 0.22,
+    "quiet": 0.46,
+    "supportive": 0.1
+   },
+   "risk_head": {
+    "balanced": 0.3,
+    "quiet": 0.55,
+    "supportive": 0.3
+   }
+  }
+ },
+ "reproduces": true,
+ "status": "exploratory, post hoc addition to the locked evaluation (CALE-AI); no test student used",
+ "tolerance": "relative 1e-9 (absolute below 1)",
+ "val_results_differences": []
+}
