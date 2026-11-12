@@ -109,3 +109,31 @@ Vector PDF 3.3 in wide (single AAAI column), fonts >= 8 pt at that size, TrueTyp
 ## What none of this shows
 
 Replay on logs cannot say what would have happened had a student been helped or not. No analysis here measures learning, causation, or real students' reactions. "Stuck" is the logged label, "missed help" and "unnecessary" are defined on that label.
+
+---
+
+## Addendum 1 (2026-11-12, written and committed before E7-E9 ran)
+
+Same rules as above: exploratory and post hoc; CV folds only (the A7 folds, pooled held-out, no test student); no test-set run; nothing re-tuned; frozen files, `eval/`, `aria_pace/results/`, `SPEC.md`, the test lock and the tags untouched. The original definitions (verified error = `correct = 0` and `first_action = 0`) are unchanged; E8 is a labelled variant. All intervals: 95% percentile, 1,000 student-level bootstrap resamples (multinomial counts over pooled held-out students).
+
+### E7. Missed help split by in-system help
+
+- Population: the Quiet misses of E3 (BKT, frozen tau 0.57, per-fold CAL Platt; 142 stuck sequences with a help opportunity and no firing).
+- In-system help before try 10 = at any try 1-9, `hint_count > 0` **or** a hint-first attempt (`first_action = 1`). Same row alignment as E5 (asserted against `correct`).
+- Report: misses with and without in-system help; the same split for caught and for all stuck sequences with a help opportunity.
+- **"No help from anyone" missed-help rate** (primary) = misses with no in-system help at tries 1-9 / all stuck sequences with a help opportunity (2,279). Secondary: the same numerator over stuck sequences with a help opportunity and no in-system help (the miss rate within that group). Student bootstrap, seed 20261116.
+- Output `results_cale/e7_misses_by_help.json`.
+
+### E8. Hint-first attempts as decision points (labelled variant)
+
+- Variant gate error at decision point `i` (tries 3-9, decision point exists iff not mastered at `i`): `correct = 0` and `first_action` in {0, 1} (wrong first answer **or** hint-first attempt). Code-2 rows stay excluded. Everything else as before: first firing only; always-help fires at the first variant error; help opportunity and missed help use the variant error; stuck label unchanged.
+- Same pooled CV held-out risk (per-fold CAL Platt) and the **frozen** thresholds 0.57 / 0.19 / 0.09 (not re-chosen); the n-wrong rule with n = 2 under the variant (two consecutive variant errors ending at `i`).
+- Report for Quiet, Balanced, Supportive and the n = 2 rule: first hints per student, reduction vs always-help (variant always-help), missed-help rate, with CIs (seed 20261117); the primary-definition numbers from E1 alongside.
+- Output `results_cale/e8_hintfirst_variant.json`.
+
+### E9. Paired comparison of risk scores at a matched hint rate
+
+- Target: the BKT Quiet hint rate on the pooled CV held-out data (tau 0.57; 3,087 first hints, 1.31 per student).
+- For PFA and the logistic risk head (per-fold CAL Platt, as in E1), one threshold each on the pooled held-out calibrated scores is found by bisection so the number of intervened sequences is as close as possible to BKT's. This uses only intervention counts, never labels. The thresholds and the achieved hint rates are reported.
+- Paired student bootstrap (seed 20261118, the same resamples for all three): difference in missed-help rate BKT minus PFA and BKT minus risk head, and the difference in hints per student (to show the match).
+- Output `results_cale/e9_riskscore_paired.json`.
