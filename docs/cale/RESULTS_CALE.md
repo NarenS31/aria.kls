@@ -123,14 +123,67 @@ Figure: `figures/e6_skills.pdf`. Data: `e6_skills.json`. 23 of 139 skills have a
 - **What it shows:** the effect varies a lot by skill. The median skill saves 35%, well below the pooled 51%. Skills with a lower stuck rate save more (Spearman -0.78), and the skills with the largest savings (58-72%) also have the most missed help (11-26%; e.g. Probability of a Single Event 26%, Subtraction Whole Numbers 22%).
 - **What it does not show:** no per-skill significance tests were run. Small skills give noisy rates. Skill names are ASSISTments labels, not a curriculum ontology.
 
+## Addendum 1 (E7-E9; plan committed before running, `ANALYSIS_PLAN.md` Addendum 1)
+
+### E7. Quiet misses split by in-system help (CV held-out)
+
+Data: `e7_misses_by_help.json`. "In-system help" means ASSISTments gave a hint at some try 1-9: `hint_count > 0`, or the first action was a hint request. In this file, every hint-first attempt also has `hint_count > 0`.
+
+| | n | With in-system help before try 10 | With none |
+|---|---|---|---|
+| Quiet misses | 142 | 114 (80.3%) | **28** |
+| Caught | 2,137 | 1,456 (68.1%) | 681 |
+| All stuck with a help opportunity | 2,279 | 1,570 (68.9%) | 709 |
+
+- **"No help from anyone" missed-help rate:** 28 / 2,279 = **1.2% [0.8, 1.7]**. These are stuck sequences that got neither a policy hint nor an ASSISTments hint. Among the 709 stuck sequences without in-system help, 3.9% [2.5, 5.5] were missed. Overall missed help: 6.2% [5.2, 7.3].
+- **What it shows:** four in five Quiet misses received ASSISTments hints in the log. Most "missed" students were therefore not left with no help at all in the logged data.
+- **What it does not show:** whether those logged hints were enough. In the replay, a sequence counts as stuck because it did not master within 10 tries despite those hints. This split is not a claim that the misses were harmless.
+
+### E8. Hint-first attempts counted as decision points (labelled variant, CV held-out)
+
+Data: `e8_hintfirst_variant.json`. In this variant, a gate error is a wrong first answer **or** a hint-first attempt at tries 3-9; "other" codes are still excluded. The thresholds are the frozen ones (not re-chosen), and always-help and help opportunities follow the variant definition. Under the variant there are 18,394 error cells (14,030 under the primary rule), always-help gives 2.88 hints per student (2.67 primary), and 2,484 stuck sequences have a help opportunity (2,279 primary).
+
+| Variant (primary in brackets below each) | Hints / student | Reduction vs always-help | Missed help |
+|---|---|---|---|
+| Quiet (0.57) | 1.50 [1.38, 1.62] | 48.0% [46.4, 49.6] | **1.8% [1.3, 2.3]** (44) |
+| - primary | 1.31 | 50.7% | 6.2% (142) |
+| Balanced (0.19) | 2.52 [2.34, 2.73] | 12.4% [11.5, 13.3] | 0.2% [0.04, 0.3] (4) |
+| - primary | 2.32 | 12.8% | 0.3% (6) |
+| Supportive (0.09) | 2.80 [2.60, 3.02] | 2.8% [2.4, 3.2] | 0.04% [0, 0.13] (1) |
+| - primary | 2.59 | 2.8% | 0.04% (1) |
+| Two-wrong rule (n = 2) | 1.76 [1.62, 1.90] | 38.8% [37.3, 40.3] | 11.7% [10.4, 13.1] (291) |
+| - primary | 1.38 | 48.3% | 27.3% (622) |
+
+- **What it shows:** if hint requests open a decision point, Quiet missed help falls from 6.2% to 1.8%, and the reduction relative to (the larger) always-help stays at 48%. This confirms E3: most misses come from the error definition, not from the risk threshold. The gap to the two-wrong rule remains large (1.8% vs 11.7% missed, at fewer hints).
+- **What it does not show:** that the variant is better. It gives 0.19 more hints per student in absolute terms. A hint-first attempt may mean the student is already being helped, so whether to treat it as an error is a design choice the logs cannot settle.
+
+### E9. BKT vs PFA vs risk head at BKT's Quiet hint rate (CV held-out, paired)
+
+Data: `e9_riskscore_paired.json`. Target: 3,087 first hints (1.314 per student). Each model's threshold on its per-fold-calibrated risk was found by bisection on the intervention count only; labels were not used.
+
+| Model | Threshold | First hints / student | Missed help |
+|---|---|---|---|
+| BKT | 0.570 (frozen) | 1.3142 | 6.2% [5.3, 7.3] (142) |
+| PFA | 0.545 | 1.3138 | 5.7% [4.8, 6.7] (130) |
+| Risk head | 0.613 | 1.3142 | 4.7% [3.8, 5.6] (106) |
+
+| Paired difference (1,000 student resamples) | Missed help | Hints / student |
+|---|---|---|
+| BKT minus PFA | +0.5 points [-0.2, +1.3] | +0.000 [-0.022, +0.020] |
+| BKT minus risk head | **+1.6 points [+0.7, +2.5]** | 0.000 [-0.026, +0.024] |
+
+- **What it shows:** at the Quiet hint rate, the logistic risk head misses less help than BKT (about a quarter fewer misses: 106 vs 142), and the interval excludes zero. PFA and BKT are not distinguishable.
+- **What it does not show:** that the head should replace BKT. The pre-registered rule (SPEC A1.8) chose BKT by validation AUC; this comparison is post hoc, at one operating point, on CV data. It is a reason not to claim BKT is the best risk score for this decision.
+
 ## What weakens or contradicts the main result
 
 1. **E5:** in the logs, the stuck label overlaps with help ASSISTments already gave. With decision points after the first logged hint removed, Quiet missed help is 14.7% instead of 4.8%.
 2. **E3:** 83% of CV misses come from the verified-error definition (hint-first wrong answers do not count), not from the risk threshold.
-3. **E1:** at the Quiet hint rate, the risk head (4.6%) and PFA (5.7%) miss less help than BKT (6.2%); point estimates, no interval.
+3. **E1 / E9:** at the Quiet hint rate, the logistic risk head misses less help than BKT: 4.7% vs 6.2%, paired difference 1.6 points [0.7, 2.5]. PFA is not distinguishable from BKT. BKT is the primary score because of the pre-registered AUC rule, not because it is best at this decision.
 4. **E6:** the pooled 51% Quiet saving hides wide skill variation (median 35%), and the high-saving skills carry the highest missed help.
 5. **E2:** within a single try, calibration is noticeably worse than pooled, and Platt does not fix it.
 6. The CV Quiet missed-help rate (6.2%) is higher than the locked-test rate (3.7%), as A7 already showed.
+7. **E7 / E8 (mitigating, but they qualify the "missed help" wording):** 80% of Quiet misses received ASSISTments hints in the log; only 1.2% [0.8, 1.7] of stuck sequences got no help from anyone. Counting hint requests as decision points lowers Quiet missed help to 1.8%, at 0.19 more hints per student.
 
 ## Not done
 

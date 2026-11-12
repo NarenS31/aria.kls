@@ -1,0 +1,89 @@
+{
+ "_provenance": {
+  "env": {
+   "matplotlib": "3.11.2",
+   "numpy": "2.4.6",
+   "pandas": "3.0.6",
+   "platform": "macOS-26.4.1-arm64-arm-64bit",
+   "python": "3.11.18",
+   "scipy": "1.17.1",
+   "sklearn": "1.9.1"
+  },
+  "generated_utc": "2026-11-12T20:53:22Z",
+  "inputs_sha256": {
+   "aria_pace/data/raw/skill_builder_data_corrected_collapsed.csv": "162ef8d2d28bcbfea6591a282994062bd8d5eaa00636544292a0d268dca6e5da",
+   "aria_pace/results/baselines_val.json": "b6787befe9a88762a49048cfddc94bd2f703a21476a817ebada35e8f05a4bdee",
+   "aria_pace/results/riskhead_val.json": "d396aec2d5ed070af0eddb85ddc547b6c3f710ef903bbc2f25e9c1dc0c8c1da7"
+  },
+  "runtime_seconds": 15.9,
+  "seeds": {
+   "cv_folds": 20261022,
+   "e1_bootstrap": 20261112,
+   "e2_bootstrap": 20261113,
+   "e4_bootstrap": 20261114,
+   "e5_bootstrap": 20261115,
+   "random_policy": 20261017,
+   "split": 20261015
+  }
+ },
+ "analysis": "E7 misses split by in-system help",
+ "bootstrap": {
+  "draws": 1000,
+  "seed": 20261116,
+  "unit": "student"
+ },
+ "caught": {
+  "n": 2137,
+  "share_with_help": 0.6813289658399626,
+  "with_hint_count_gt0": 1456,
+  "with_hint_first_attempt": 974,
+  "with_in_system_help": 1456,
+  "without": 681
+ },
+ "in_system_help_definition": "hint_count > 0 or first_action == 1 at any try 1-9",
+ "miss_rate_within_no_help_stuck": {
+  "ci95": [
+   0.02467304212974929,
+   0.055388325453713576
+  ],
+  "definition": "misses with no in-system help / stuck sequences with a help opportunity and no in-system help",
+  "denominator": 709,
+  "numerator": 28,
+  "rate": 0.039492242595204514
+ },
+ "misses": {
+  "n": 142,
+  "share_with_help": 0.8028169014084507,
+  "with_hint_count_gt0": 114,
+  "with_hint_first_attempt": 103,
+  "with_in_system_help": 114,
+  "without": 28
+ },
+ "no_help_from_anyone_missed_rate": {
+  "ci95": [
+   0.007655344436138232,
+   0.01728761752156922
+  ],
+  "definition": "misses with no in-system help at tries 1-9 / all stuck sequences with a help opportunity",
+  "denominator": 2279,
+  "numerator": 28,
+  "rate": 0.01228609039052216
+ },
+ "operating_point": "BKT, frozen Quiet tau 0.57, per-fold CAL Platt (pooled CV held-out)",
+ "overall_missed_rate": {
+  "ci95": [
+   0.051927118639334774,
+   0.07284592532952468
+  ],
+  "rate": 0.06230802983764809
+ },
+ "status": "exploratory, post hoc addition to the locked evaluation (CALE-AI); no test student used",
+ "stuck_with_help_opportunity": {
+  "n": 2279,
+  "share_with_help": 0.6888986397542782,
+  "with_hint_count_gt0": 1570,
+  "with_hint_first_attempt": 1077,
+  "with_in_system_help": 1570,
+  "without": 709
+ }
+}

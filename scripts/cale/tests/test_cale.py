@@ -13,7 +13,8 @@ sys.path.insert(0, str(HERE))
 import common as C  # noqa: E402
 
 OUTPUTS = ["step1_reproduction.json", "e1_tradeoff.json", "e2_calibration.json", "e3_errors.json", "e4_paired.json",
-           "e5_logged_hints.json", "e6_skills.json"]
+           "e5_logged_hints.json", "e6_skills.json",
+           "e7_misses_by_help.json", "e8_hintfirst_variant.json", "e9_riskscore_paired.json"]
 HAVE_RAW = C.RAW_CSV.exists()
 
 
@@ -81,3 +82,22 @@ def test_e5_rule_b_drops_points_at_or_after_first_hint():
 
 def test_jsonable_handles_nan_and_numpy():
     assert C.jsonable({"a": np.float64("nan"), "b": np.int64(3), "c": np.array([1.0, 2.0])}) == {"a": None, "b": 3, "c": [1.0, 2.0]}
+
+
+def test_e7_split_adds_up_and_matches_e3():
+    o, e3 = _load("e7_misses_by_help.json"), _load("e3_errors.json")
+    m = o["misses"]
+    assert m["n"] == e3["n_missed"] and m["with_in_system_help"] + m["without"] == m["n"]
+
+
+def test_e8_primary_matches_e1():
+    o, e1 = _load("e8_hintfirst_variant.json"), _load("e1_tradeoff.json")
+    for prof in ("quiet", "balanced", "supportive"):
+        assert abs(o["primary"][prof]["missed_help_rate"] - e1["frozen_tau_markers"][prof]["missed_help_rate"]) < 1e-12
+
+
+def test_e9_hint_rates_matched():
+    o = _load("e9_riskscore_paired.json")
+    t = o["target"]["interventions"]
+    for m, r in o["per_model"].items():
+        assert abs(r["interventions"] - t) <= 2, (m, r["interventions"], t)

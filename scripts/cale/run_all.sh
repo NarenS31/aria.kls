@@ -35,5 +35,8 @@ run e3_errors
 run e4_paired
 run e5_logged_hints
 run e6_skills
+run e7_misses_by_help        # Addendum 1
+run e8_hintfirst_variant
+run e9_riskscore_paired
 echo "TEST_LOCK sha256 after: $(shasum -a 256 aria_pace/results/TEST_LOCK | cut -d' ' -f1)" | tee -a "$LOG"
 echo "total runtime $(( $(date +%s) - start ))s" | tee -a "$LOG"

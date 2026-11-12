@@ -9,13 +9,13 @@
    "scipy": "1.17.1",
    "sklearn": "1.9.1"
   },
-  "generated_utc": "2026-11-12T20:36:11Z",
+  "generated_utc": "2026-11-12T20:52:54Z",
   "inputs_sha256": {
    "aria_pace/data/raw/skill_builder_data_corrected_collapsed.csv": "162ef8d2d28bcbfea6591a282994062bd8d5eaa00636544292a0d268dca6e5da",
    "aria_pace/results/frozen_val.json": "057f4389adbc0163a54205607947ec3515be62d8cd6ca09f1bbbb4353a847dce",
    "aria_pace/results/val_results.json": "7c052f11092e28082c34e9a1b326703cc60d5cac7a4805385421bfee5b5cd205"
   },
-  "runtime_seconds": 26.2,
+  "runtime_seconds": 26.9,
   "seeds": {
    "cv_folds": 20261022,
    "e1_bootstrap": 20261112,
