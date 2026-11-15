@@ -137,3 +137,61 @@ Same rules as above: exploratory and post hoc; CV folds only (the A7 folds, pool
 - For PFA and the logistic risk head (per-fold CAL Platt, as in E1), one threshold each on the pooled held-out calibrated scores is found by bisection so the number of intervened sequences is as close as possible to BKT's. This uses only intervention counts, never labels. The thresholds and the achieved hint rates are reported.
 - Paired student bootstrap (seed 20261118, the same resamples for all three): difference in missed-help rate BKT minus PFA and BKT minus risk head, and the difference in hints per student (to show the match).
 - Output `results_cale/e9_riskscore_paired.json`.
+
+---
+
+## Addendum 2 (2026-11-15, written and committed before E10 ran)
+
+Same rules as above. The analysis is exploratory and post hoc. It uses training and validation students only (test students are dropped right after the split, as in every script). There is no test-set run and nothing is re-tuned. Frozen files, `eval/`, `aria_pace/results/`, `SPEC.md`, the test lock and the tags stay untouched. No risk model is used: E10 is a planning calculation on the logs.
+
+### E10. Micro-randomized trial (MRT) planning: proximal effect on next-answer correctness
+
+**Data.** All train + validation students (3,331) and all of their sequences, with no policy-scope filter. Leavers and short sequences are kept, because a trial cannot select on future labels. Students with no decision point still count in N.
+
+**Session.** The 2009-10 file has no session id or timestamp. One session = one sequence (one student's rows in one assignment, `loader.build_sequences`). This is stated as an assumption.
+
+**Decision point (DP).** Try `i` in 3..9 with `i <= n`, not yet mastered through try `i` (`m > i`), and a verified error at try `i` (`correct = 0`, `first_action = 0`, the primary definition). These are exactly the cells where `policy.Table` has `valid & err_primary`, applied to all sequences. **Proximal outcome** Y = `correct` at try `i + 1`, the first answer on the next problem. A DP with no try `i + 1` (the student left the assignment) has no outcome. These DPs are counted and reported, but they are excluded from the availability used for power.
+
+**Estimates (student bootstrap: 1,000 resamples, seed 20261119).**
+- DPs per session: mean, distribution, and share of sessions with at least one DP. DPs per student, total over the observed record and per session (the mean of each student's per-session mean). Each is reported with and without outcome, and among all students and among students with at least one DP.
+- Base rate p0 = pooled mean of Y over DPs with outcome, with a CI.
+- Variability:
+  - p0 by try `i`;
+  - the SD of student-level rates (students with at least 5 DPs);
+  - the ANOVA (method-of-moments) ICC of Y within student, for unbalanced clusters;
+  - the spread across skills (first-opportunity KC, skills with at least 100 DPs: median, IQR, min, max);
+  - the correlation of Y between consecutive DPs of the same student.
+
+**Liao et al. (2016) sample size.**
+- Working model: Y = α0 + (A − ρ)β0 + ε, with a constant effect (p = 1) and an intercept-only control (q = 1).
+- ρ = 0.5, two-sided α = 0.05, power 0.80. Standardized effect d = Δ / sqrt(p0(1 − p0)), for Δ = 0.03, 0.05, 0.08.
+- Noncentrality λ(N) = N ρ(1 − ρ) d² τ̄, where τ̄ is the expected number of DPs with outcome per student.
+- Power(N) = 1 − F_{1, N−q−p; λ}(F⁻¹_{1, N−q−p}(0.95)) (noncentral F, `scipy.stats.ncf`). N is the smallest integer with power ≥ 0.80.
+
+**Scenarios.**
+- S_obs: each student contributes their observed record (all 2009-10 sessions). τ̄ = mean over students.
+- S_K: K sessions per student, K = 1, 5 and 10. τ̄ = K × the mean of students' per-session mean DPs.
+
+**Simulation-based power (nonparametric, resampling real students).**
+- A simulated student is a train + validation student drawn uniformly with replacement. Under S_obs the student keeps all of their sequences. Under S_K, K of that student's sequences are drawn with replacement.
+- Each sequence is replayed try by try. At each DP (recomputed on the sequence as modified so far: mastery and verified error), A ~ Bernoulli(0.5).
+- If A = 0, the next answer is as logged. If A = 1 and the logged next answer is wrong, it is turned correct (and marked as an answer attempt) with probability δ. The rest of the sequence stays as logged. Treatment can therefore remove later DPs, by creating mastery or by removing an error.
+- This keeps the real within-student correlation, the uneven DP counts and the dependence of availability on earlier outcomes. It implies an effect that is heterogeneous on the risk-difference scale (students who often answer the next item correctly gain less).
+- δ is calibrated per Δ and scenario so that the average proximal effect over the trial's DPs, E[Y(1) − Y(0)] = δ · E[1 − Y(0)], equals Δ: 3 fixed-point iterations of 200 large simulated trials (N = 2,000 students each). The achieved Δ is reported.
+- Analysis of each simulated trial: weighted-centred least squares with working independence. OLS of Y on (1, A − 0.5) over DPs with outcome, a student-clustered sandwich variance × N/(N − 2), and rejection if |t| > t_{N−2, 0.975} (the F(1, N − q − p) test).
+- Power curve: N = round(N_Liao × {0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.25, 1.4, 1.6}), 1,000 trials each. A probit fit of rejection on log N is solved for 0.80 (rounded up) and then confirmed with 2,000 trials at that N, reporting power and MC SE. Seed 20261120.
+- Type I error check: Δ = 0 (δ = 0) under S_obs, at the simulated N for Δ = 0.05, with 2,000 trials.
+
+**Decision rule (fixed now).** For each Δ × scenario, the reported answer is N_Liao if the simulated power at N_Liao is within 0.77 to 0.83. Otherwise the simulation N is reported as the answer, with the reason. Both numbers are always shown. The Liao working assumptions are assessed in the write-up:
+- the continuous outcome and constant residual variance, versus a binary Y;
+- a constant (homogeneous) effect, which a binary outcome with heterogeneous base rates cannot have on the risk-difference scale;
+- known, fixed expected availability, versus availability that depends on earlier outcomes and treatment, and that varies widely between students;
+- the large-N approximation.
+
+**Stated caveats.**
+- The logged control condition already includes ASSISTments' own hints (E5), so p0 is the "usual ASSISTments" next-answer rate, not a no-help rate.
+- A trial would randomize at every DP, unlike ARIA's at-most-one-hint policy.
+- The flip model is an assumption about how a hint works, not an estimate.
+- Nothing here estimates an effect: Δ values are inputs.
+
+Output: `results_cale/e10_mrt_power.json`.
