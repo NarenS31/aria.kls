@@ -9,13 +9,13 @@ Everything here is exploratory and was added after the locked evaluation (`docs/
 PYTHON=aria_pace/.venv/bin/python scripts/cale/run_all.sh
 ```
 
-This runs Step 1 (reproduction gate; the script stops if it fails), builds the cross-validation held-out predictions, then E1-E9. Outputs go to `aria_pace/results_cale/` (JSON, `e3_summary.md`, `figures/*.pdf|png`, `run_all.log`). The full run (E1-E9) took **278 s** on an Apple-silicon Mac (macOS 26.4, Python 3.11.18; numpy 2.4.6, pandas 3.0.6, scipy 1.17.1, scikit-learn 1.9.1, matplotlib 3.11.2, the versions pinned in `aria_pace/requirements.txt`). Every JSON records the sha256 of the raw file and of each `aria_pace/results/` file it read, the package versions, the seeds and its runtime (`_provenance`).
+This runs Step 1 (reproduction gate; the script stops if it fails), builds the cross-validation held-out predictions, then E1-E10. Outputs go to `aria_pace/results_cale/` (JSON, `e3_summary.md`, `figures/*.pdf|png`, `run_all.log`). The full run (E1-E9) took **278 s** on an Apple-silicon Mac (macOS 26.4, Python 3.11.18; numpy 2.4.6, pandas 3.0.6, scipy 1.17.1, scikit-learn 1.9.1, matplotlib 3.11.2, the versions pinned in `aria_pace/requirements.txt`). E10 alone takes about 200 s more on an idle machine (its simulation; much longer under load; run on its own, it does not need the CV cache). Every JSON records the sha256 of the raw file and of each `aria_pace/results/` file it read, the package versions, the seeds and its runtime (`_provenance`).
 
 Re-run one analysis (after `run_all.sh` or `build_cv.py` has made the cache in `aria_pace/results_cale/_cache/`, which is gitignored):
 
 ```bash
-cd scripts/cale && ../../aria_pace/.venv/bin/python e3_errors.py     # or step1_reproduce, build_cv, e1_tradeoff, e2_calibration, e4_paired, e5_logged_hints, e6_skills
-../../aria_pace/.venv/bin/python -m pytest tests                     # 20 checks on the outputs
+cd scripts/cale && ../../aria_pace/.venv/bin/python e3_errors.py     # or step1_reproduce, build_cv, e1_tradeoff, e2_calibration, e4_paired, e5_logged_hints, e6_skills, e10_mrt_power
+../../aria_pace/.venv/bin/python -m pytest tests                     # 23 checks on the outputs
 ```
 
 ## Data and preprocessing
@@ -57,7 +57,7 @@ cd scripts/cale && ../../aria_pace/.venv/bin/python e3_errors.py     # or step1_
 
 ## Seeds
 
-Split 20261015; CV folds 20261022 (+f for FIT/CAL); random policy 20261017 (200 draws); bootstraps E1 20261112, E2 20261113, E4 20261114, E5 20261115, E7 20261116, E8 20261117, E9 20261118. All model fitting is deterministic.
+Split 20261015; CV folds 20261022 (+f for FIT/CAL); random policy 20261017 (200 draws); bootstraps E1 20261112, E2 20261113, E4 20261114, E5 20261115, E7 20261116, E8 20261117, E9 20261118, E10 bootstrap 20261119 and simulation 20261120. All model fitting is deterministic.
 
 ## Per analysis
 
@@ -74,5 +74,6 @@ Split 20261015; CV folds 20261022 (+f for FIT/CAL); random policy 20261017 (200 
 | E7 (Addendum 1) | `e7_misses_by_help.py` | `e7_misses_by_help.json` | CV held-out |
 | E8 (Addendum 1) | `e8_hintfirst_variant.py` | `e8_hintfirst_variant.json` | CV held-out |
 | E9 (Addendum 1) | `e9_riskscore_paired.py` | `e9_riskscore_paired.json` | CV held-out |
+| E10 (Addendum 2) | `e10_mrt_power.py` | `e10_mrt_power.json` | train + validation (all sequences, no risk model) |
 
 Figures: matplotlib, 3.3 in wide (237.6 pt), all text 8 pt, TrueType fonts embedded (`pdf.fonttype 42`), setting colours Quiet #2457A6, Balanced #7A4AA8, Supportive #1F7A58, baselines in Okabe-Ito colours. Quiet and Balanced are hard to tell apart under protan colour vision, so each setting also has its own marker shape and text label.

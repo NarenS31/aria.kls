@@ -175,6 +175,78 @@ Data: `e9_riskscore_paired.json`. Target: 3,087 first hints (1.314 per student).
 - **What it shows:** at the Quiet hint rate, the logistic risk head misses less help than BKT (about a quarter fewer misses: 106 vs 142), and the interval excludes zero. PFA and BKT are not distinguishable.
 - **What it does not show:** that the head should replace BKT. The pre-registered rule (SPEC A1.8) chose BKT by validation AUC; this comparison is post hoc, at one operating point, on CV data. It is a reason not to claim BKT is the best risk score for this decision.
 
+## Addendum 2 (E10; plan committed before running, `ANALYSIS_PLAN.md` Addendum 2)
+
+### E10. Planning a micro-randomized trial (MRT) of a hint after a wrong step (train + validation)
+
+Data: `e10_mrt_power.json`. This section is a planning calculation; it does not estimate an effect. The 3, 5 and 8 point effects are inputs. Data: all 3,331 train + validation students and all of their 52,363 sequences, with no scope filter. No test student is included, and no risk model is used.
+
+**Assumptions.**
+- **Session = one sequence**, meaning one student's rows in one assignment. The 2009-10 file has no session id or timestamp.
+- **Decision point (DP)** = a try 3-9 on which the student has not yet mastered and the first answer was wrong (verified error: `correct = 0`, `first_action = 0`). These are exactly the `policy.Table` cells, which a unit test checks.
+- **Proximal outcome** = correct first answer on the next problem (try i + 1).
+- 1,305 of the 20,339 DPs (6.4%) have no outcome, because the student left the assignment right after the wrong answer. These are left out of the power calculation.
+- Randomization probability 0.5 at every DP, two-sided α = 0.05, power 80%. The analysis assumes a constant effect, an intercept-only control and a student-clustered sandwich variance.
+- Students with no DP still count in N.
+
+**Estimates from the logs.**
+
+| Quantity | Estimate |
+|---|---|
+| DPs per session (all sessions) | mean 0.36; 82% of sessions have none |
+| DPs per session, per student (mean of each student's per-session mean) | 0.43 [0.40, 0.45] |
+| DPs per student over the whole 2009-10 record | mean 5.7 [5.3, 6.1], median 1 (IQR 0-6), 90th percentile 15; 39% of students have none |
+| Sessions per student | mean 15.7, median 5 (IQR 2-12) |
+| Base rate: next answer correct after a wrong step | **55.3% [54.2, 56.5]** (19,034 DPs) |
+| By try | 59.7% at try 3, falling to 47.6-49.2% at tries 8-9 |
+| Between students (979 with ≥ 5 DPs) | SD of student rates 0.21 (0.16 expected from binomial noise alone); 10th/50th/90th percentile 25% / 54% / 80% |
+| Within-student ICC (ANOVA) | 0.077 [0.066, 0.088] |
+| Between skills (54 skills with ≥ 100 DPs) | median 56%, IQR 49-64%, range 39-79% |
+| Correlation of consecutive outcomes | r = 0.15 within student, 0.13 within session |
+
+**Students needed for 80% power.** τ̄ is the expected number of DPs with an outcome per student. "Liao" is the Liao et al. (2016) formula (noncentral F). "Simulation" resamples real students (method below). The bold number in each row is the reported answer under the pre-registered rule.
+
+| Scenario (τ̄) | Effect | Liao N | Simulated power at Liao N | Simulation N (confirmed power) |
+|---|---|---|---|---|
+| Each student's full 2009-10 record (5.71) | 3 pts | **1,511** | 0.774 | 1,524 (0.810) |
+| | 5 pts | **546** | 0.781 | 536 (0.792) |
+| | 8 pts | **215** | 0.814 | 218 (0.802) |
+| 1 session per student (0.43) | 3 pts | 20,270 | 0.765 | **20,352** (0.811) |
+| | 5 pts | **7,299** | 0.799 | 7,343 (0.786) |
+| | 8 pts | 2,853 | 0.768 | **2,857** (0.776) |
+| 5 sessions per student (2.13) | 3 pts | **4,056** | 0.798 | 4,028 (0.786) |
+| | 5 pts | **1,462** | 0.782 | 1,462 (0.804) |
+| | 8 pts | **572** | 0.788 | 584 (0.793) |
+| 10 sessions per student (4.25) | 3 pts | **2,029** | 0.772 | 2,029 (0.785) |
+| | 5 pts | **732** | 0.780 | 737 (0.785) |
+| | 8 pts | **287** | 0.772 | 298 (0.802) |
+
+The Monte Carlo SE is 0.013 for each power at Liao's N (1,000 trials) and 0.009 for each confirmed power (2,000 trials).
+
+**Simulation method.**
+- Real students are drawn with replacement, and their sequences are replayed try by try with a coin flip at every DP.
+- A hint turns a logged wrong next answer into a correct one with probability δ. δ is calibrated so the average effect over DPs equals the target: δ = 0.06-0.18, and the realised effect in the confirmation trials is within 0.001 of the target.
+- DPs are recomputed after every change. A rescued answer can therefore create mastery or remove a later error, which lowers the DPs per student slightly (5.71 to 5.57 at 8 points).
+- Each trial is analysed with WCLS (OLS on A − 0.5, student-clustered sandwich, t with N − 2 df). With no effect, the Type I error is 5.35% (MC SE 0.5) at N = 536.
+
+**Do Liao's assumptions fit?**
+- They are broken on paper. The outcome is binary, not continuous. A constant risk-difference effect is impossible when student base rates run from 25% to 80% (the flip model gives a larger effect to students with more room). Availability is random, uneven and partly caused by earlier treatment.
+- In practice the formula still holds. Simulated power at Liao's N is 0.765-0.814 (mean 0.78), and the simulation N is within −2% to +4% of Liao's in all 12 cells.
+- Three things explain this:
+  - centring the treatment at 0.5 removes within-student correlation from the variance;
+  - p0 is near 0.5, so the Bernoulli variance barely moves with the effect;
+  - the ICC is small (0.08).
+- Two cells (1 session; 3 and 8 points) fall just outside the pre-set 0.77-0.83 band, so the simulation N is reported there. It differs from Liao's by 0.4% and 0.1%.
+- **Practical reading:** across the 12 cells, Liao's N gives on average about 2 points less power than nominal. Adding about 5% to Liao's N is a safe margin.
+
+- **What it shows:** with randomization at every wrong step, a 5-point proximal effect needs about 550 students followed for as long as they used ASSISTments in 2009-10, or about 1,460 students for 5 sessions each. A 3-point effect needs roughly 2.8 times as many students as a 5-point effect, and an 8-point effect about 40% as many. Decision points are concentrated: the top 20% of students supply 79% of them (the top 10% supply 61%), so the session budget per student matters more than the formula.
+- **What weakens it:**
+  - The "full record" scenario rests on a mean of 15.7 sessions per student and a long tail (up to 369 sessions). A planned trial should use the K-session rows.
+  - The base rate is under usual ASSISTments help: 70% of stuck sequences already had in-system hints (E5). The control arm of a real trial would look the same, but the effect of an extra hint may be smaller than intended.
+  - The simulation's effect model is one assumption: every rescued wrong answer is equally likely. If the effect were concentrated in a few students, or varied with the try, the variance would rise and N would grow. This was not simulated.
+  - The trial randomizes at every DP, unlike ARIA's at-most-one-hint policy, so it would estimate the effect of a hint at a wrong step, not of the deployed policy.
+- **What it does not show:** that ARIA's hints have any effect, or of what size.
+
 ## What weakens or contradicts the main result
 
 1. **E5:** in the logs, the stuck label overlaps with help ASSISTments already gave. With decision points after the first logged hint removed, Quiet missed help is 14.7% instead of 4.8%.

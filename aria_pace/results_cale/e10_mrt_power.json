@@ -1,0 +1,1567 @@
+{
+ "_provenance": {
+  "env": {
+   "matplotlib": "3.11.2",
+   "numpy": "2.4.6",
+   "pandas": "3.0.6",
+   "platform": "macOS-26.4.1-arm64-arm-64bit",
+   "python": "3.11.18",
+   "scipy": "1.17.1",
+   "sklearn": "1.9.1"
+  },
+  "generated_utc": "2026-11-15T15:22:36Z",
+  "inputs_sha256": {
+   "aria_pace/data/raw/skill_builder_data_corrected_collapsed.csv": "162ef8d2d28bcbfea6591a282994062bd8d5eaa00636544292a0d268dca6e5da"
+  },
+  "runtime_seconds": 2523.4,
+  "seeds": {
+   "cv_folds": 20261022,
+   "e1_bootstrap": 20261112,
+   "e2_bootstrap": 20261113,
+   "e4_bootstrap": 20261114,
+   "e5_bootstrap": 20261115,
+   "random_policy": 20261017,
+   "split": 20261015
+  }
+ },
+ "analysis": "E10 micro-randomized trial planning: proximal effect of a hint after a wrong step on next-answer correctness",
+ "bootstrap": {
+  "draws": 1000,
+  "seed": 20261119,
+  "unit": "student"
+ },
+ "data": "train + validation students (no test student), all sequences, no policy-scope filter",
+ "decision_point": "try i in 3..9, i <= n, not mastered through try i (MASTERY_RUN consecutive correct), correct == 0 and first_action == 0 at try i",
+ "design": {
+  "alpha_two_sided": 0.05,
+  "effects_risk_difference": [
+   0.03,
+   0.05,
+   0.08
+  ],
+  "randomization_probability": 0.5,
+  "target_power": 0.8
+ },
+ "estimates": {
+  "base_rate_next_correct": {
+   "ci95": [
+    0.5416393548798043,
+    0.5654636055325293
+   ],
+   "p0": 0.5534832405169696,
+   "sd_bernoulli": 0.4971313136222702
+  },
+  "between_skill": {
+   "dps_covered": 16256,
+   "iqr": [
+    0.4936961646314896,
+    0.6430059007289136
+   ],
+   "max": 0.7851851851851852,
+   "median": 0.5636311128224875,
+   "min": 0.390625,
+   "skills_with_ge100_dps": 54
+  },
+  "between_student": {
+   "icc_anova": 0.07663777656332042,
+   "icc_ci95": [
+    0.06586718086881203,
+    0.08786533208574779
+   ],
+   "sd_expected_from_binomial_noise_alone": 0.16029516348035858,
+   "sd_of_student_rates": 0.21270052818730906,
+   "student_rate_p10_p50_p90": [
+    0.25,
+    0.5384615384615384,
+    0.8009756097560978
+   ],
+   "students_with_ge5_dps": 979
+  },
+  "by_try": {
+   "3": {
+    "ci95": [
+     0.5811622713228479,
+     0.6119659882814602
+    ],
+    "dps_with_outcome": 5621,
+    "p_next_correct": 0.5968688845401174
+   },
+   "4": {
+    "ci95": [
+     0.5513699540875151,
+     0.5853762994929872
+    ],
+    "dps_with_outcome": 4173,
+    "p_next_correct": 0.5684160076683441
+   },
+   "5": {
+    "ci95": [
+     0.5292888126455849,
+     0.5695815463492834
+    ],
+    "dps_with_outcome": 2899,
+    "p_next_correct": 0.5505346671265954
+   },
+   "6": {
+    "ci95": [
+     0.5038650745777583,
+     0.5470842981800462
+    ],
+    "dps_with_outcome": 2329,
+    "p_next_correct": 0.5255474452554745
+   },
+   "7": {
+    "ci95": [
+     0.48795093246424043,
+     0.5396614838805642
+    ],
+    "dps_with_outcome": 1596,
+    "p_next_correct": 0.5137844611528822
+   },
+   "8": {
+    "ci95": [
+     0.4498495292807886,
+     0.503382981575062
+    ],
+    "dps_with_outcome": 1317,
+    "p_next_correct": 0.4760820045558087
+   },
+   "9": {
+    "ci95": [
+     0.463015793102422,
+     0.5204528992139409
+    ],
+    "dps_with_outcome": 1099,
+    "p_next_correct": 0.49226569608735216
+   }
+  },
+  "decision_points": {
+   "total": 20339,
+   "with_outcome": 19034,
+   "without_outcome_left_assignment": 1305
+  },
+  "dps_per_session_incl_no_outcome": {
+   "max": 7.0,
+   "mean": 0.38842312319767774,
+   "median": 0.0,
+   "p25": 0.0,
+   "p75": 0.0,
+   "p90": 2.0,
+   "sd": 0.9904133708451328,
+   "share_zero": 0.8140480873899509
+  },
+  "dps_per_session_with_outcome": {
+   "max": 7.0,
+   "mean": 0.3635009453239883,
+   "median": 0.0,
+   "p25": 0.0,
+   "p75": 0.0,
+   "p90": 1.0,
+   "sd": 0.9599433395421124,
+   "share_sessions_with_any": 0.17562018982869584,
+   "share_zero": 0.8243798101713041
+  },
+  "dps_per_session_with_outcome_sessions_n_ge_3": {
+   "max": 7.0,
+   "mean": 0.7406513872135102,
+   "median": 0.0,
+   "p25": 0.0,
+   "p75": 1.0,
+   "p90": 3.0,
+   "sd": 1.2642285607563724,
+   "share_zero": 0.6421650647885132
+  },
+  "dps_per_student_total_incl_no_outcome": {
+   "max": 143.0,
+   "mean": 6.105974181927349,
+   "median": 2.0,
+   "p25": 0.0,
+   "p75": 6.0,
+   "p90": 16.0,
+   "sd": 12.708342901946239,
+   "share_zero": 0.3590513359351546
+  },
+  "dps_per_student_total_with_outcome": {
+   "ci95_mean": [
+    5.286040228159712,
+    6.136625637946563
+   ],
+   "max": 140.0,
+   "mean": 5.714199939957971,
+   "median": 1.0,
+   "p25": 0.0,
+   "p75": 6.0,
+   "p90": 15.0,
+   "sd": 12.330044829941226,
+   "share_zero": 0.3878715100570399
+  },
+  "dps_per_student_total_with_outcome_students_with_any": {
+   "max": 140.0,
+   "mean": 9.334968121628249,
+   "median": 4.0,
+   "p25": 2.0,
+   "p75": 10.0,
+   "p90": 25.0,
+   "sd": 14.649021322197541,
+   "share_zero": 0.0
+  },
+  "lag1_correlation": {
+   "consecutive_dps_same_session": {
+    "pairs": 9838,
+    "r": 0.1339123322531442
+   },
+   "consecutive_dps_same_student": {
+    "pairs": 16995,
+    "r": 0.14877868315193518
+   }
+  },
+  "sessions": 52363,
+  "sessions_per_student": {
+   "max": 369.0,
+   "mean": 15.719903932752928,
+   "median": 5.0,
+   "p25": 2.0,
+   "p75": 12.0,
+   "p90": 30.0,
+   "sd": 33.751439388143865,
+   "share_zero": 0.0
+  },
+  "share_of_dps_with_outcome_from_top_students": {
+   "top_10pct": 0.6082273825785437,
+   "top_20pct": 0.7900073552590102
+  },
+  "students": 3331,
+  "students_per_session_mean_dps_with_outcome": {
+   "ci95_mean": [
+    0.40418318400822933,
+    0.4459347100597439
+   ],
+   "max": 7.0,
+   "mean": 0.42536253986698286,
+   "median": 0.20125786163522014,
+   "p25": 0.0,
+   "p75": 0.6,
+   "p90": 1.0434782608695652,
+   "sd": 0.6317098951864843,
+   "share_zero": 0.3878715100570399
+  },
+  "students_with_any_dp": 2039
+ },
+ "liao_method": {
+  "noncentrality": "N rho (1 - rho) d^2 tau_bar, tau_bar = expected DPs with outcome per student",
+  "reference": "Liao, Klasnja, Tewari, Murphy (2016), Statistics in Medicine 35(12):1944-1971",
+  "standardized_effect": "d = effect / sqrt(p0 (1 - p0))",
+  "tau_bar_by_scenario": {
+   "1": 0.42536253986698286,
+   "10": 4.253625398669828,
+   "5": 2.126812699334914,
+   "obs": 5.714199939957971
+  },
+  "test": "noncentral F(1, N - q - p)",
+  "working_model": "Y = a0 + (A - rho) b0 + e; constant effect (p = 1), intercept-only control (q = 1)"
+ },
+ "proximal_outcome": "correct at try i + 1 (first answer on the next problem); DPs without try i + 1 have no outcome",
+ "results": {
+  "S_10|delta_3pt": {
+   "answer_N": 2029,
+   "decision": "liao",
+   "effect": 0.03,
+   "liao": {
+    "N": 2029,
+    "power_formula": 0.8000571188078234,
+    "simulated_power_at_N": 0.772,
+    "simulated_power_mc_se": 0.013267102170406315
+   },
+   "scenario": 10,
+   "simulation": {
+    "N": 2029,
+    "achieved_effect_in_confirm_trials": 0.03005563475994139,
+    "calibration": [
+     {
+      "delta": 0.06120092200192325,
+      "share_next_wrong_under_trial": 0.4901886935470881
+     },
+     {
+      "delta": 0.061271533077334364,
+      "share_next_wrong_under_trial": 0.48962378601063
+     },
+     {
+      "delta": 0.06124145471132762,
+      "share_next_wrong_under_trial": 0.4898642617392137
+     }
+    ],
+    "confirm_dps_with_outcome_per_student": 4.21326712666338,
+    "confirm_mc_se": 0.009186266924055712,
+    "confirm_mean_beta_hat": 0.03014574055272831,
+    "confirm_power": 0.785,
+    "delta_flip_probability": 0.06124145471132762,
+    "grid": [
+     {
+      "N": 1217,
+      "liao_power": 0.5828900953142009,
+      "mean_beta_hat": 0.03002295006488755,
+      "mean_dps_with_outcome_per_student": 4.199474116680362,
+      "power": 0.565
+     },
+     {
+      "N": 1420,
+      "liao_power": 0.6493166162806948,
+      "mean_beta_hat": 0.030484430975621177,
+      "mean_dps_with_outcome_per_student": 4.220719718309859,
+      "power": 0.668
+     },
+     {
+      "N": 1623,
+      "liao_power": 0.7073258055416701,
+      "mean_beta_hat": 0.030323303939908536,
+      "mean_dps_with_outcome_per_student": 4.214478743068392,
+      "power": 0.703
+     },
+     {
+      "N": 1826,
+      "liao_power": 0.7573603143668951,
+      "mean_beta_hat": 0.030047810079798835,
+      "mean_dps_with_outcome_per_student": 4.2132820372398685,
+      "power": 0.753
+     },
+     {
+      "N": 2029,
+      "liao_power": 0.8000571188078234,
+      "mean_beta_hat": 0.02924333613853938,
+      "mean_dps_with_outcome_per_student": 4.215201577131592,
+      "power": 0.772
+     },
+     {
+      "N": 2232,
+      "liao_power": 0.8361527831740364,
+      "mean_beta_hat": 0.03029643048883443,
+      "mean_dps_with_outcome_per_student": 4.2122343189964155,
+      "power": 0.83
+     },
+     {
+      "N": 2536,
+      "liao_power": 0.8795361995261479,
+      "mean_beta_hat": 0.02998602351751537,
+      "mean_dps_with_outcome_per_student": 4.204330835962145,
+      "power": 0.872
+     },
+     {
+      "N": 2841,
+      "liao_power": 0.9124244954831108,
+      "mean_beta_hat": 0.030018968714299283,
+      "mean_dps_with_outcome_per_student": 4.2059369940161915,
+      "power": 0.906
+     },
+     {
+      "N": 3246,
+      "liao_power": 0.9434552363918558,
+      "mean_beta_hat": 0.030236461458537433,
+      "mean_dps_with_outcome_per_student": 4.214597658656809,
+      "power": 0.94
+     }
+    ],
+    "probit": [
+     -9.300328611243874,
+     1.3318476010471343
+    ]
+   },
+   "standardized_effect_d": 0.06034622880906385,
+   "tau_bar": 4.253625398669828
+  },
+  "S_10|delta_5pt": {
+   "answer_N": 732,
+   "decision": "liao",
+   "effect": 0.05,
+   "liao": {
+    "N": 732,
+    "power_formula": 0.8002324517669221,
+    "simulated_power_at_N": 0.78,
+    "simulated_power_mc_se": 0.01309961831505025
+   },
+   "scenario": 10,
+   "simulation": {
+    "N": 737,
+    "achieved_effect_in_confirm_trials": 0.05001535775444341,
+    "calibration": [
+     {
+      "delta": 0.1017195051532385,
+      "share_next_wrong_under_trial": 0.49154781007512727
+     },
+     {
+      "delta": 0.10242323906777086,
+      "share_next_wrong_under_trial": 0.48817046263217934
+     },
+     {
+      "delta": 0.10200803504792921,
+      "share_next_wrong_under_trial": 0.4901574662869169
+     }
+    ],
+    "confirm_dps_with_outcome_per_student": 4.18364789687924,
+    "confirm_mc_se": 0.009186266924055712,
+    "confirm_mean_beta_hat": 0.05008034207363923,
+    "confirm_power": 0.785,
+    "delta_flip_probability": 0.10200803504792921,
+    "grid": [
+     {
+      "N": 439,
+      "liao_power": 0.582545854022041,
+      "mean_beta_hat": 0.050849737595271435,
+      "mean_dps_with_outcome_per_student": 4.1715968109339405,
+      "power": 0.585
+     },
+     {
+      "N": 512,
+      "liao_power": 0.6489464763958233,
+      "mean_beta_hat": 0.050279649999028085,
+      "mean_dps_with_outcome_per_student": 4.196654296875,
+      "power": 0.65
+     },
+     {
+      "N": 586,
+      "liao_power": 0.7076839838861025,
+      "mean_beta_hat": 0.049493854892690765,
+      "mean_dps_with_outcome_per_student": 4.182836177474402,
+      "power": 0.693
+     },
+     {
+      "N": 659,
+      "liao_power": 0.7576171754403693,
+      "mean_beta_hat": 0.049669176107865025,
+      "mean_dps_with_outcome_per_student": 4.187817905918058,
+      "power": 0.747
+     },
+     {
+      "N": 732,
+      "liao_power": 0.8002324517669221,
+      "mean_beta_hat": 0.04989963584222292,
+      "mean_dps_with_outcome_per_student": 4.1845177595628416,
+      "power": 0.78
+     },
+     {
+      "N": 805,
+      "liao_power": 0.8362643311373079,
+      "mean_beta_hat": 0.050351796514906774,
+      "mean_dps_with_outcome_per_student": 4.189201242236025,
+      "power": 0.844
+     },
+     {
+      "N": 915,
+      "liao_power": 0.879813866710719,
+      "mean_beta_hat": 0.05055512784704188,
+      "mean_dps_with_outcome_per_student": 4.166312568306011,
+      "power": 0.873
+     },
+     {
+      "N": 1025,
+      "liao_power": 0.9126841599134559,
+      "mean_beta_hat": 0.0494175731952166,
+      "mean_dps_with_outcome_per_student": 4.186048780487805,
+      "power": 0.89
+     },
+     {
+      "N": 1171,
+      "liao_power": 0.9436632515020176,
+      "mean_beta_hat": 0.05061446258729272,
+      "mean_dps_with_outcome_per_student": 4.186524338172502,
+      "power": 0.937
+     }
+    ],
+    "probit": [
+     -7.711399497670412,
+     1.2956475471123463
+    ]
+   },
+   "standardized_effect_d": 0.10057704801510643,
+   "tau_bar": 4.253625398669828
+  },
+  "S_10|delta_8pt": {
+   "answer_N": 287,
+   "decision": "liao",
+   "effect": 0.08,
+   "liao": {
+    "N": 287,
+    "power_formula": 0.8000692498280653,
+    "simulated_power_at_N": 0.772,
+    "simulated_power_mc_se": 0.013267102170406315
+   },
+   "scenario": 10,
+   "simulation": {
+    "N": 298,
+    "achieved_effect_in_confirm_trials": 0.08017300663640356,
+    "calibration": [
+     {
+      "delta": 0.16296043457447915,
+      "share_next_wrong_under_trial": 0.49091670753637406
+     },
+     {
+      "delta": 0.1632368306567202,
+      "share_next_wrong_under_trial": 0.490085476899735
+     },
+     {
+      "delta": 0.1636983776357859,
+      "share_next_wrong_under_trial": 0.4887036826839712
+     }
+    ],
+    "confirm_dps_with_outcome_per_student": 4.144057046979866,
+    "confirm_mc_se": 0.008910555538236659,
+    "confirm_mean_beta_hat": 0.07982855033107948,
+    "confirm_power": 0.802,
+    "delta_flip_probability": 0.1636983776357859,
+    "grid": [
+     {
+      "N": 172,
+      "liao_power": 0.5808809321403178,
+      "mean_beta_hat": 0.08034253653912399,
+      "mean_dps_with_outcome_per_student": 4.1335523255813955,
+      "power": 0.579
+     },
+     {
+      "N": 201,
+      "liao_power": 0.6485440110092222,
+      "mean_beta_hat": 0.07921984060112083,
+      "mean_dps_with_outcome_per_student": 4.12092039800995,
+      "power": 0.626
+     },
+     {
+      "N": 230,
+      "liao_power": 0.7075151767122563,
+      "mean_beta_hat": 0.07856614956518607,
+      "mean_dps_with_outcome_per_student": 4.166173913043479,
+      "power": 0.668
+     },
+     {
+      "N": 258,
+      "liao_power": 0.7566378989301809,
+      "mean_beta_hat": 0.08044486351422116,
+      "mean_dps_with_outcome_per_student": 4.153182170542635,
+      "power": 0.729
+     },
+     {
+      "N": 287,
+      "liao_power": 0.8000692498280653,
+      "mean_beta_hat": 0.0793920449529966,
+      "mean_dps_with_outcome_per_student": 4.14730662020906,
+      "power": 0.772
+     },
+     {
+      "N": 316,
+      "liao_power": 0.8366878619321356,
+      "mean_beta_hat": 0.08072679435396121,
+      "mean_dps_with_outcome_per_student": 4.137180379746836,
+      "power": 0.823
+     },
+     {
+      "N": 359,
+      "liao_power": 0.8801641089462011,
+      "mean_beta_hat": 0.0793549927638007,
+      "mean_dps_with_outcome_per_student": 4.1434958217270195,
+      "power": 0.856
+     },
+     {
+      "N": 402,
+      "liao_power": 0.9129674843798904,
+      "mean_beta_hat": 0.0796162344745399,
+      "mean_dps_with_outcome_per_student": 4.12518407960199,
+      "power": 0.908
+     },
+     {
+      "N": 459,
+      "liao_power": 0.9438391171772651,
+      "mean_beta_hat": 0.0806579182204382,
+      "mean_dps_with_outcome_per_student": 4.1299716775599125,
+      "power": 0.928
+     }
+    ],
+    "probit": [
+     -6.674463780333467,
+     1.319475523001715
+    ]
+   },
+   "standardized_effect_d": 0.1609232768241703,
+   "tau_bar": 4.253625398669828
+  },
+  "S_1|delta_3pt": {
+   "answer_N": 20352,
+   "decision": "simulation",
+   "effect": 0.03,
+   "liao": {
+    "N": 20270,
+    "power_formula": 0.8000049654430905,
+    "simulated_power_at_N": 0.765,
+    "simulated_power_mc_se": 0.013408019988051927
+   },
+   "scenario": 1,
+   "simulation": {
+    "N": 20352,
+    "achieved_effect_in_confirm_trials": 0.03002886998938991,
+    "calibration": [
+     {
+      "delta": 0.06127392475074594,
+      "share_next_wrong_under_trial": 0.48960467477864283
+     },
+     {
+      "delta": 0.06110613709628368,
+      "share_next_wrong_under_trial": 0.49094905071039946
+     },
+     {
+      "delta": 0.061219128138664466,
+      "share_next_wrong_under_trial": 0.4900429148884391
+     }
+    ],
+    "confirm_dps_with_outcome_per_student": 0.421489042845912,
+    "confirm_mc_se": 0.00875439889427024,
+    "confirm_mean_beta_hat": 0.030104191699568298,
+    "confirm_power": 0.811,
+    "delta_flip_probability": 0.061219128138664466,
+    "grid": [
+     {
+      "N": 12162,
+      "liao_power": 0.5832143920528281,
+      "mean_beta_hat": 0.029499136510686128,
+      "mean_dps_with_outcome_per_student": 0.4206790823877652,
+      "power": 0.586
+     },
+     {
+      "N": 14189,
+      "liao_power": 0.6495098052564584,
+      "mean_beta_hat": 0.02967497669686882,
+      "mean_dps_with_outcome_per_student": 0.4209840016914511,
+      "power": 0.614
+     },
+     {
+      "N": 16216,
+      "liao_power": 0.7074136614844756,
+      "mean_beta_hat": 0.030253428409987806,
+      "mean_dps_with_outcome_per_student": 0.4209580661075481,
+      "power": 0.704
+     },
+     {
+      "N": 18243,
+      "liao_power": 0.7573672793020396,
+      "mean_beta_hat": 0.030135614190405398,
+      "mean_dps_with_outcome_per_student": 0.42072975935975443,
+      "power": 0.749
+     },
+     {
+      "N": 20270,
+      "liao_power": 0.8000049654430905,
+      "mean_beta_hat": 0.029358428037553713,
+      "mean_dps_with_outcome_per_student": 0.42106581154415396,
+      "power": 0.765
+     },
+     {
+      "N": 22297,
+      "liao_power": 0.8360600052484954,
+      "mean_beta_hat": 0.029675428331826466,
+      "mean_dps_with_outcome_per_student": 0.4214090236354666,
+      "power": 0.826
+     },
+     {
+      "N": 25338,
+      "liao_power": 0.8794779344575915,
+      "mean_beta_hat": 0.030302631653759897,
+      "mean_dps_with_outcome_per_student": 0.42122034098981764,
+      "power": 0.894
+     },
+     {
+      "N": 28378,
+      "liao_power": 0.912287808544484,
+      "mean_beta_hat": 0.029733195357486777,
+      "mean_dps_with_outcome_per_student": 0.4207805342166467,
+      "power": 0.908
+     },
+     {
+      "N": 32432,
+      "liao_power": 0.9433887329451219,
+      "mean_beta_hat": 0.030297313176441874,
+      "mean_dps_with_outcome_per_student": 0.4212580784410459,
+      "power": 0.936
+     }
+    ],
+    "probit": [
+     -12.833564429418695,
+     1.3784191070935927
+    ]
+   },
+   "standardized_effect_d": 0.06034622880906385,
+   "tau_bar": 0.42536253986698286
+  },
+  "S_1|delta_5pt": {
+   "answer_N": 7299,
+   "decision": "liao",
+   "effect": 0.05,
+   "liao": {
+    "N": 7299,
+    "power_formula": 0.8000356149337524,
+    "simulated_power_at_N": 0.799,
+    "simulated_power_mc_se": 0.01267276607532862
+   },
+   "scenario": 1,
+   "simulation": {
+    "N": 7343,
+    "achieved_effect_in_confirm_trials": 0.05009041710869289,
+    "calibration": [
+     {
+      "delta": 0.10243877025668685,
+      "share_next_wrong_under_trial": 0.4880964489783708
+     },
+     {
+      "delta": 0.10175096093027783,
+      "share_next_wrong_under_trial": 0.4913958506422479
+     },
+     {
+      "delta": 0.10231159971534441,
+      "share_next_wrong_under_trial": 0.48870313961576284
+     }
+    ],
+    "confirm_dps_with_outcome_per_student": 0.41852635162740026,
+    "confirm_mc_se": 0.009170714257897256,
+    "confirm_mean_beta_hat": 0.04983324265908024,
+    "confirm_power": 0.786,
+    "delta_flip_probability": 0.10231159971534441,
+    "grid": [
+     {
+      "N": 4379,
+      "liao_power": 0.583161212109988,
+      "mean_beta_hat": 0.050829296827878664,
+      "mean_dps_with_outcome_per_student": 0.41912308746289106,
+      "power": 0.578
+     },
+     {
+      "N": 5109,
+      "liao_power": 0.6494868606900732,
+      "mean_beta_hat": 0.05078753560092484,
+      "mean_dps_with_outcome_per_student": 0.41905167351732237,
+      "power": 0.661
+     },
+     {
+      "N": 5839,
+      "liao_power": 0.70741441554896,
+      "mean_beta_hat": 0.04901661680185676,
+      "mean_dps_with_outcome_per_student": 0.41866929268710396,
+      "power": 0.687
+     },
+     {
+      "N": 6569,
+      "liao_power": 0.7573856476564969,
+      "mean_beta_hat": 0.049917663418661384,
+      "mean_dps_with_outcome_per_student": 0.419144009742731,
+      "power": 0.74
+     },
+     {
+      "N": 7299,
+      "liao_power": 0.8000356149337524,
+      "mean_beta_hat": 0.05061372337930441,
+      "mean_dps_with_outcome_per_student": 0.4182570215097959,
+      "power": 0.799
+     },
+     {
+      "N": 8029,
+      "liao_power": 0.8360984775474665,
+      "mean_beta_hat": 0.050004810088542954,
+      "mean_dps_with_outcome_per_student": 0.418421347614896,
+      "power": 0.831
+     },
+     {
+      "N": 9124,
+      "liao_power": 0.8795154969650284,
+      "mean_beta_hat": 0.04980923755671651,
+      "mean_dps_with_outcome_per_student": 0.4182112012275318,
+      "power": 0.856
+     },
+     {
+      "N": 10219,
+      "liao_power": 0.9123314918384116,
+      "mean_beta_hat": 0.050093676496472554,
+      "mean_dps_with_outcome_per_student": 0.41868891280947257,
+      "power": 0.905
+     },
+     {
+      "N": 11678,
+      "liao_power": 0.9434103271662349,
+      "mean_beta_hat": 0.050051592404862684,
+      "mean_dps_with_outcome_per_student": 0.41792969686590165,
+      "power": 0.938
+     }
+    ],
+    "probit": [
+     -10.787935952478518,
+     1.3064788372203897
+    ]
+   },
+   "standardized_effect_d": 0.10057704801510643,
+   "tau_bar": 0.42536253986698286
+  },
+  "S_1|delta_8pt": {
+   "answer_N": 2857,
+   "decision": "simulation",
+   "effect": 0.08,
+   "liao": {
+    "N": 2853,
+    "power_formula": 0.8001259279355551,
+    "simulated_power_at_N": 0.768,
+    "simulated_power_mc_se": 0.013348258313353095
+   },
+   "scenario": 1,
+   "simulation": {
+    "N": 2857,
+    "achieved_effect_in_confirm_trials": 0.08007234963078315,
+    "calibration": [
+     {
+      "delta": 0.1633024638286374,
+      "share_next_wrong_under_trial": 0.4898885058093708
+     },
+     {
+      "delta": 0.16390934492393666,
+      "share_next_wrong_under_trial": 0.4880746734551626
+     },
+     {
+      "delta": 0.16361442512923643,
+      "share_next_wrong_under_trial": 0.48895444235316826
+     }
+    ],
+    "confirm_dps_with_outcome_per_student": 0.41471351067553375,
+    "confirm_mc_se": 0.009322660564452617,
+    "confirm_mean_beta_hat": 0.07947624708233147,
+    "confirm_power": 0.776,
+    "delta_flip_probability": 0.16361442512923643,
+    "grid": [
+     {
+      "N": 1712,
+      "liao_power": 0.5832307989312223,
+      "mean_beta_hat": 0.08012131352805921,
+      "mean_dps_with_outcome_per_student": 0.41522079439252335,
+      "power": 0.569
+     },
+     {
+      "N": 1997,
+      "liao_power": 0.6495140740809455,
+      "mean_beta_hat": 0.0811078819165685,
+      "mean_dps_with_outcome_per_student": 0.414872308462694,
+      "power": 0.65
+     },
+     {
+      "N": 2282,
+      "liao_power": 0.7074085426245941,
+      "mean_beta_hat": 0.08036090324671662,
+      "mean_dps_with_outcome_per_student": 0.4144040315512708,
+      "power": 0.708
+     },
+     {
+      "N": 2568,
+      "liao_power": 0.7575172816625544,
+      "mean_beta_hat": 0.08084460027812504,
+      "mean_dps_with_outcome_per_student": 0.41402959501557635,
+      "power": 0.752
+     },
+     {
+      "N": 2853,
+      "liao_power": 0.8001259279355551,
+      "mean_beta_hat": 0.07822846020380796,
+      "mean_dps_with_outcome_per_student": 0.4146165439887838,
+      "power": 0.768
+     },
+     {
+      "N": 3138,
+      "liao_power": 0.8361564245350177,
+      "mean_beta_hat": 0.08029751859570083,
+      "mean_dps_with_outcome_per_student": 0.4146363926067559,
+      "power": 0.839
+     },
+     {
+      "N": 3566,
+      "liao_power": 0.8795830372640281,
+      "mean_beta_hat": 0.08049693407829508,
+      "mean_dps_with_outcome_per_student": 0.41428042624789685,
+      "power": 0.871
+     },
+     {
+      "N": 3994,
+      "liao_power": 0.9123997143349165,
+      "mean_beta_hat": 0.08161245664188886,
+      "mean_dps_with_outcome_per_student": 0.41388532799198796,
+      "power": 0.91
+     },
+     {
+      "N": 4565,
+      "liao_power": 0.9435035240915012,
+      "mean_beta_hat": 0.08095005591781217,
+      "mean_dps_with_outcome_per_student": 0.4149073384446878,
+      "power": 0.935
+     }
+    ],
+    "probit": [
+     -9.835698821576173,
+     1.3418376742923355
+    ]
+   },
+   "standardized_effect_d": 0.1609232768241703,
+   "tau_bar": 0.42536253986698286
+  },
+  "S_5|delta_3pt": {
+   "answer_N": 4056,
+   "decision": "liao",
+   "effect": 0.03,
+   "liao": {
+    "N": 4056,
+    "power_formula": 0.8000497105615347,
+    "simulated_power_at_N": 0.798,
+    "simulated_power_mc_se": 0.01269629867323544
+   },
+   "scenario": 5,
+   "simulation": {
+    "N": 4028,
+    "achieved_effect_in_confirm_trials": 0.02996749325674482,
+    "calibration": [
+     {
+      "delta": 0.06107826675986711,
+      "share_next_wrong_under_trial": 0.4911730733608864
+     },
+     {
+      "delta": 0.06120693658395008,
+      "share_next_wrong_under_trial": 0.4901405244951716
+     },
+     {
+      "delta": 0.06112786305088341,
+      "share_next_wrong_under_trial": 0.4907745584861639
+     }
+    ],
+    "confirm_dps_with_outcome_per_student": 2.1069676017874874,
+    "confirm_mc_se": 0.00916290756255895,
+    "confirm_mean_beta_hat": 0.030126533989916736,
+    "confirm_power": 0.7865,
+    "delta_flip_probability": 0.06112786305088341,
+    "grid": [
+     {
+      "N": 2434,
+      "liao_power": 0.5832252090436284,
+      "mean_beta_hat": 0.02998745617385231,
+      "mean_dps_with_outcome_per_student": 2.111005341002465,
+      "power": 0.558
+     },
+     {
+      "N": 2839,
+      "liao_power": 0.6494581144401871,
+      "mean_beta_hat": 0.030138260669941363,
+      "mean_dps_with_outcome_per_student": 2.1083437830221907,
+      "power": 0.66
+     },
+     {
+      "N": 3245,
+      "liao_power": 0.7074485054501243,
+      "mean_beta_hat": 0.029545103502976365,
+      "mean_dps_with_outcome_per_student": 2.1045371340523884,
+      "power": 0.671
+     },
+     {
+      "N": 3650,
+      "liao_power": 0.7573516148776243,
+      "mean_beta_hat": 0.030169943763898574,
+      "mean_dps_with_outcome_per_student": 2.105935342465753,
+      "power": 0.756
+     },
+     {
+      "N": 4056,
+      "liao_power": 0.8000497105615347,
+      "mean_beta_hat": 0.03003579380143628,
+      "mean_dps_with_outcome_per_student": 2.106981015779093,
+      "power": 0.798
+     },
+     {
+      "N": 4462,
+      "liao_power": 0.8361465327730291,
+      "mean_beta_hat": 0.02991898514204463,
+      "mean_dps_with_outcome_per_student": 2.105085387718512,
+      "power": 0.824
+     },
+     {
+      "N": 5070,
+      "liao_power": 0.8795314258350171,
+      "mean_beta_hat": 0.029663430738016302,
+      "mean_dps_with_outcome_per_student": 2.1052528599605522,
+      "power": 0.881
+     },
+     {
+      "N": 5678,
+      "liao_power": 0.9123279406502871,
+      "mean_beta_hat": 0.030313812187323652,
+      "mean_dps_with_outcome_per_student": 2.105114476928496,
+      "power": 0.912
+     },
+     {
+      "N": 6490,
+      "liao_power": 0.9434528331382789,
+      "mean_beta_hat": 0.030126625741655318,
+      "mean_dps_with_outcome_per_student": 2.106591063174114,
+      "power": 0.947
+     }
+    ],
+    "probit": [
+     -11.031017035141051,
+     1.430267581919118
+    ]
+   },
+   "standardized_effect_d": 0.06034622880906385,
+   "tau_bar": 2.126812699334914
+  },
+  "S_5|delta_5pt": {
+   "answer_N": 1462,
+   "decision": "liao",
+   "effect": 0.05,
+   "liao": {
+    "N": 1462,
+    "power_formula": 0.8002131649742245,
+    "simulated_power_at_N": 0.782,
+    "simulated_power_mc_se": 0.013056645817360598
+   },
+   "scenario": 5,
+   "simulation": {
+    "N": 1462,
+    "achieved_effect_in_confirm_trials": 0.05012874299989272,
+    "calibration": [
+     {
+      "delta": 0.10184061178429783,
+      "share_next_wrong_under_trial": 0.49096327215612023
+     },
+     {
+      "delta": 0.10207316091154661,
+      "share_next_wrong_under_trial": 0.4898447305195969
+     },
+     {
+      "delta": 0.10230479276904617,
+      "share_next_wrong_under_trial": 0.4887356559420962
+     }
+    ],
+    "confirm_dps_with_outcome_per_student": 2.0936480848153214,
+    "confirm_mc_se": 0.00887648579112252,
+    "confirm_mean_beta_hat": 0.05087957382979228,
+    "confirm_power": 0.804,
+    "delta_flip_probability": 0.10230479276904617,
+    "grid": [
+     {
+      "N": 877,
+      "liao_power": 0.5829967225032515,
+      "mean_beta_hat": 0.05044329924401801,
+      "mean_dps_with_outcome_per_student": 2.094212086659065,
+      "power": 0.596
+     },
+     {
+      "N": 1023,
+      "liao_power": 0.6493424010817331,
+      "mean_beta_hat": 0.05175134741364668,
+      "mean_dps_with_outcome_per_student": 2.096190615835777,
+      "power": 0.666
+     },
+     {
+      "N": 1170,
+      "liao_power": 0.7076580119505298,
+      "mean_beta_hat": 0.05007435652783998,
+      "mean_dps_with_outcome_per_student": 2.0938820512820513,
+      "power": 0.691
+     },
+     {
+      "N": 1316,
+      "liao_power": 0.7575946593763911,
+      "mean_beta_hat": 0.05056905949319856,
+      "mean_dps_with_outcome_per_student": 2.090112462006079,
+      "power": 0.753
+     },
+     {
+      "N": 1462,
+      "liao_power": 0.8002131649742245,
+      "mean_beta_hat": 0.0499213901570109,
+      "mean_dps_with_outcome_per_student": 2.0935861833105336,
+      "power": 0.782
+     },
+     {
+      "N": 1608,
+      "liao_power": 0.8362479792130197,
+      "mean_beta_hat": 0.05013812054283258,
+      "mean_dps_with_outcome_per_student": 2.0907319651741294,
+      "power": 0.836
+     },
+     {
+      "N": 1828,
+      "liao_power": 0.8798013245429995,
+      "mean_beta_hat": 0.049415055542527675,
+      "mean_dps_with_outcome_per_student": 2.089930525164114,
+      "power": 0.859
+     },
+     {
+      "N": 2047,
+      "liao_power": 0.9125458946880736,
+      "mean_beta_hat": 0.050450239660650674,
+      "mean_dps_with_outcome_per_student": 2.0912706399609187,
+      "power": 0.909
+     },
+     {
+      "N": 2339,
+      "liao_power": 0.9435708429978658,
+      "mean_beta_hat": 0.05099118644856857,
+      "mean_dps_with_outcome_per_student": 2.09488798631894,
+      "power": 0.934
+     }
+    ],
+    "probit": [
+     -8.352131965157655,
+     1.2616122411678126
+    ]
+   },
+   "standardized_effect_d": 0.10057704801510643,
+   "tau_bar": 2.126812699334914
+  },
+  "S_5|delta_8pt": {
+   "answer_N": 572,
+   "decision": "liao",
+   "effect": 0.08,
+   "liao": {
+    "N": 572,
+    "power_formula": 0.8000278047096094,
+    "simulated_power_at_N": 0.788,
+    "simulated_power_mc_se": 0.012925014506761683
+   },
+   "scenario": 5,
+   "simulation": {
+    "N": 584,
+    "achieved_effect_in_confirm_trials": 0.07958611361851683,
+    "calibration": [
+     {
+      "delta": 0.16360703703795076,
+      "share_next_wrong_under_trial": 0.48897652233285643
+     },
+     {
+      "delta": 0.1631500523065088,
+      "share_next_wrong_under_trial": 0.4903461498725394
+     },
+     {
+      "delta": 0.16285581589649709,
+      "share_next_wrong_under_trial": 0.49123207273631514
+     }
+    ],
+    "confirm_dps_with_outcome_per_student": 2.0780770547945204,
+    "confirm_mc_se": 0.009051457065025498,
+    "confirm_mean_beta_hat": 0.08064260804647563,
+    "confirm_power": 0.7935,
+    "delta_flip_probability": 0.16285581589649709,
+    "grid": [
+     {
+      "N": 343,
+      "liao_power": 0.5820591519476466,
+      "mean_beta_hat": 0.08059250359236694,
+      "mean_dps_with_outcome_per_student": 2.081804664723032,
+      "power": 0.569
+     },
+     {
+      "N": 400,
+      "liao_power": 0.6484848361057871,
+      "mean_beta_hat": 0.08004027959232056,
+      "mean_dps_with_outcome_per_student": 2.07982,
+      "power": 0.648
+     },
+     {
+      "N": 458,
+      "liao_power": 0.7074616060554327,
+      "mean_beta_hat": 0.08082156918895379,
+      "mean_dps_with_outcome_per_student": 2.0791746724890827,
+      "power": 0.697
+     },
+     {
+      "N": 515,
+      "liao_power": 0.7574013370746834,
+      "mean_beta_hat": 0.07885211884541377,
+      "mean_dps_with_outcome_per_student": 2.0707631067961163,
+      "power": 0.742
+     },
+     {
+      "N": 572,
+      "liao_power": 0.8000278047096094,
+      "mean_beta_hat": 0.07942075125964404,
+      "mean_dps_with_outcome_per_student": 2.075222027972028,
+      "power": 0.788
+     },
+     {
+      "N": 629,
+      "liao_power": 0.8360740583526205,
+      "mean_beta_hat": 0.078314696318175,
+      "mean_dps_with_outcome_per_student": 2.07414626391097,
+      "power": 0.799
+     },
+     {
+      "N": 715,
+      "liao_power": 0.8796967985844876,
+      "mean_beta_hat": 0.08053023625949547,
+      "mean_dps_with_outcome_per_student": 2.0639034965034964,
+      "power": 0.876
+     },
+     {
+      "N": 801,
+      "liao_power": 0.9126171407801525,
+      "mean_beta_hat": 0.08014182284339713,
+      "mean_dps_with_outcome_per_student": 2.0755992509363295,
+      "power": 0.903
+     },
+     {
+      "N": 915,
+      "liao_power": 0.9436047549038196,
+      "mean_beta_hat": 0.07939753145194792,
+      "mean_dps_with_outcome_per_student": 2.0762087431693987,
+      "power": 0.93
+     }
+    ],
+    "probit": [
+     -7.454589604319768,
+     1.3026847871244347
+    ]
+   },
+   "standardized_effect_d": 0.1609232768241703,
+   "tau_bar": 2.126812699334914
+  },
+  "S_obs|delta_3pt": {
+   "answer_N": 1511,
+   "decision": "liao",
+   "effect": 0.03,
+   "liao": {
+    "N": 1511,
+    "power_formula": 0.800090710275424,
+    "simulated_power_at_N": 0.774,
+    "simulated_power_mc_se": 0.013225883713385657
+   },
+   "scenario": "obs",
+   "simulation": {
+    "N": 1524,
+    "achieved_effect_in_confirm_trials": 0.02993143620013836,
+    "calibration": [
+     {
+      "delta": 0.06719260889785751,
+      "share_next_wrong_under_trial": 0.4464776780077752
+     },
+     {
+      "delta": 0.06740624563440677,
+      "share_next_wrong_under_trial": 0.4450626157509481
+     },
+     {
+      "delta": 0.06717743256713678,
+      "share_next_wrong_under_trial": 0.4465785436205552
+     }
+    ],
+    "confirm_dps_with_outcome_per_student": 5.654310695538058,
+    "confirm_mc_se": 0.008763268511234835,
+    "confirm_mean_beta_hat": 0.03007499609517651,
+    "confirm_power": 0.8105,
+    "delta_flip_probability": 0.06717743256713678,
+    "grid": [
+     {
+      "N": 907,
+      "liao_power": 0.5831604943932704,
+      "mean_beta_hat": 0.029569820530313665,
+      "mean_dps_with_outcome_per_student": 5.656297684674752,
+      "power": 0.552
+     },
+     {
+      "N": 1058,
+      "liao_power": 0.64950822977356,
+      "mean_beta_hat": 0.029651328649893432,
+      "mean_dps_with_outcome_per_student": 5.6566644612476376,
+      "power": 0.625
+     },
+     {
+      "N": 1209,
+      "liao_power": 0.7074520090154316,
+      "mean_beta_hat": 0.029543460488588337,
+      "mean_dps_with_outcome_per_student": 5.652466501240695,
+      "power": 0.699
+     },
+     {
+      "N": 1360,
+      "liao_power": 0.7574342156058289,
+      "mean_beta_hat": 0.028915086128371664,
+      "mean_dps_with_outcome_per_student": 5.658952205882353,
+      "power": 0.73
+     },
+     {
+      "N": 1511,
+      "liao_power": 0.800090710275424,
+      "mean_beta_hat": 0.029437854748835656,
+      "mean_dps_with_outcome_per_student": 5.633114493712773,
+      "power": 0.774
+     },
+     {
+      "N": 1662,
+      "liao_power": 0.8361565095795568,
+      "mean_beta_hat": 0.029468861821470797,
+      "mean_dps_with_outcome_per_student": 5.638941636582431,
+      "power": 0.822
+     },
+     {
+      "N": 1889,
+      "liao_power": 0.8796562074881265,
+      "mean_beta_hat": 0.03036383396561326,
+      "mean_dps_with_outcome_per_student": 5.6335219692959235,
+      "power": 0.889
+     },
+     {
+      "N": 2115,
+      "liao_power": 0.9123845763559394,
+      "mean_beta_hat": 0.029676367506150044,
+      "mean_dps_with_outcome_per_student": 5.671505910165485,
+      "power": 0.902
+     },
+     {
+      "N": 2418,
+      "liao_power": 0.9435552936738257,
+      "mean_beta_hat": 0.029842400190216885,
+      "mean_dps_with_outcome_per_student": 5.661952440033086,
+      "power": 0.951
+     }
+    ],
+    "probit": [
+     -9.859318923707718,
+     1.4600701947591403
+    ]
+   },
+   "standardized_effect_d": 0.06034622880906385,
+   "tau_bar": 5.714199939957971
+  },
+  "S_obs|delta_5pt": {
+   "answer_N": 546,
+   "decision": "liao",
+   "effect": 0.05,
+   "liao": {
+    "N": 546,
+    "power_formula": 0.8006709535318739,
+    "simulated_power_at_N": 0.781,
+    "simulated_power_mc_se": 0.013078187947877183
+   },
+   "scenario": "obs",
+   "simulation": {
+    "N": 536,
+    "achieved_effect_in_confirm_trials": 0.0500323702874488,
+    "calibration": [
+     {
+      "delta": 0.11225934479001091,
+      "share_next_wrong_under_trial": 0.44539721921171516
+     },
+     {
+      "delta": 0.11235762869362598,
+      "share_next_wrong_under_trial": 0.4450076116890894
+     },
+     {
+      "delta": 0.11233797552299994,
+      "share_next_wrong_under_trial": 0.44508546435183943
+     }
+    ],
+    "confirm_dps_with_outcome_per_student": 5.61651119402985,
+    "confirm_mc_se": 0.009075681792570737,
+    "confirm_mean_beta_hat": 0.05013131250480262,
+    "confirm_power": 0.792,
+    "delta_flip_probability": 0.11233797552299994,
+    "grid": [
+     {
+      "N": 328,
+      "liao_power": 0.583475001712154,
+      "mean_beta_hat": 0.05014247801406148,
+      "mean_dps_with_outcome_per_student": 5.612213414634146,
+      "power": 0.577
+     },
+     {
+      "N": 382,
+      "liao_power": 0.6493746932934374,
+      "mean_beta_hat": 0.05033798404229438,
+      "mean_dps_with_outcome_per_student": 5.631934554973822,
+      "power": 0.664
+     },
+     {
+      "N": 437,
+      "liao_power": 0.7079707803223766,
+      "mean_beta_hat": 0.04982203182351859,
+      "mean_dps_with_outcome_per_student": 5.621828375286041,
+      "power": 0.704
+     },
+     {
+      "N": 491,
+      "liao_power": 0.7575739596982928,
+      "mean_beta_hat": 0.0493052113266505,
+      "mean_dps_with_outcome_per_student": 5.615122199592668,
+      "power": 0.762
+     },
+     {
+      "N": 546,
+      "liao_power": 0.8006709535318739,
+      "mean_beta_hat": 0.04950995584783212,
+      "mean_dps_with_outcome_per_student": 5.599,
+      "power": 0.781
+     },
+     {
+      "N": 601,
+      "liao_power": 0.8370325666938802,
+      "mean_beta_hat": 0.0501054828032475,
+      "mean_dps_with_outcome_per_student": 5.603450915141431,
+      "power": 0.838
+     },
+     {
+      "N": 682,
+      "liao_power": 0.8799912949761658,
+      "mean_beta_hat": 0.049060654840678085,
+      "mean_dps_with_outcome_per_student": 5.615453079178885,
+      "power": 0.875
+     },
+     {
+      "N": 764,
+      "liao_power": 0.9128573323450017,
+      "mean_beta_hat": 0.0503365217785457,
+      "mean_dps_with_outcome_per_student": 5.619784031413613,
+      "power": 0.917
+     },
+     {
+      "N": 874,
+      "liao_power": 0.9440821294855825,
+      "mean_beta_hat": 0.049632298420079574,
+      "mean_dps_with_outcome_per_student": 5.609471395881006,
+      "power": 0.945
+     }
+    ],
+    "probit": [
+     -7.768828213832837,
+     1.3703602181442658
+    ]
+   },
+   "standardized_effect_d": 0.10057704801510643,
+   "tau_bar": 5.714199939957971
+  },
+  "S_obs|delta_8pt": {
+   "answer_N": 215,
+   "decision": "liao",
+   "effect": 0.08,
+   "liao": {
+    "N": 215,
+    "power_formula": 0.8016529483739319,
+    "simulated_power_at_N": 0.814,
+    "simulated_power_mc_se": 0.012304633273690038
+   },
+   "scenario": "obs",
+   "simulation": {
+    "N": 218,
+    "achieved_effect_in_confirm_trials": 0.08008701330739508,
+    "calibration": [
+     {
+      "delta": 0.17987311954438842,
+      "share_next_wrong_under_trial": 0.4447579505077628
+     },
+     {
+      "delta": 0.17999599699673158,
+      "share_next_wrong_under_trial": 0.44445432862294526
+     },
+     {
+      "delta": 0.17974283558664877,
+      "share_next_wrong_under_trial": 0.44508032678406445
+     }
+    ],
+    "confirm_dps_with_outcome_per_student": 5.5722591743119265,
+    "confirm_mc_se": 0.00890207138816579,
+    "confirm_mean_beta_hat": 0.07940552253363414,
+    "confirm_power": 0.8025,
+    "delta_flip_probability": 0.17974283558664877,
+    "grid": [
+     {
+      "N": 129,
+      "liao_power": 0.5824208646506158,
+      "mean_beta_hat": 0.07755010066237762,
+      "mean_dps_with_outcome_per_student": 5.5285581395348835,
+      "power": 0.542
+     },
+     {
+      "N": 150,
+      "liao_power": 0.6481791718312359,
+      "mean_beta_hat": 0.08096477388962793,
+      "mean_dps_with_outcome_per_student": 5.54028,
+      "power": 0.668
+     },
+     {
+      "N": 172,
+      "liao_power": 0.708247735003083,
+      "mean_beta_hat": 0.07891850600403956,
+      "mean_dps_with_outcome_per_student": 5.5457848837209305,
+      "power": 0.668
+     },
+     {
+      "N": 194,
+      "liao_power": 0.7597776207556357,
+      "mean_beta_hat": 0.07892115514129529,
+      "mean_dps_with_outcome_per_student": 5.534551546391753,
+      "power": 0.741
+     },
+     {
+      "N": 215,
+      "liao_power": 0.8016529483739319,
+      "mean_beta_hat": 0.0817793720475575,
+      "mean_dps_with_outcome_per_student": 5.5431348837209296,
+      "power": 0.814
+     },
+     {
+      "N": 237,
+      "liao_power": 0.8386518138405639,
+      "mean_beta_hat": 0.07964664276286954,
+      "mean_dps_with_outcome_per_student": 5.516443037974684,
+      "power": 0.825
+     },
+     {
+      "N": 269,
+      "liao_power": 0.8816466630493729,
+      "mean_beta_hat": 0.0793028745772099,
+      "mean_dps_with_outcome_per_student": 5.526029739776951,
+      "power": 0.847
+     },
+     {
+      "N": 301,
+      "liao_power": 0.9140697853140782,
+      "mean_beta_hat": 0.08024021851195079,
+      "mean_dps_with_outcome_per_student": 5.58205315614618,
+      "power": 0.91
+     },
+     {
+      "N": 344,
+      "liao_power": 0.9449063209862547,
+      "mean_beta_hat": 0.08029715558922526,
+      "mean_dps_with_outcome_per_student": 5.5234883720930235,
+      "power": 0.942
+     }
+    ],
+    "probit": [
+     -6.600987188385842,
+     1.3828798352908547
+    ]
+   },
+   "standardized_effect_d": 0.1609232768241703,
+   "tau_bar": 5.714199939957971
+  }
+ },
+ "session_definition": "one sequence (one student's rows in one assignment); the file has no session id or timestamp",
+ "simulation_method": {
+  "analysis": "WCLS: OLS of Y on (1, A - 0.5), student-clustered sandwich x N/(N - 2), two-sided t(N - 2)",
+  "calibration": "3 iterations x 200 trials of 2000 students",
+  "confirm_sims": 2000,
+  "effect_model": "under A = 1 a logged wrong next answer becomes correct with probability delta; later tries as logged; DPs recomputed after each change",
+  "grid_multipliers_of_liao_N": [
+   0.6,
+   0.7,
+   0.8,
+   0.9,
+   1.0,
+   1.1,
+   1.25,
+   1.4,
+   1.6
+  ],
+  "resampling": "real train + validation students, uniformly with replacement; S_obs keeps all their sessions, S_K draws K of their sessions with replacement",
+  "seed": 20261120,
+  "sims_per_grid_point": 1000
+ },
+ "status": "exploratory, post hoc addition to the locked evaluation (CALE-AI); no test student used",
+ "type_I_check": {
+  "N": 536,
+  "mc_se": 0.005031786462082826,
+  "rejection_rate": 0.0535,
+  "scenario": "obs",
+  "trials": 2000
+ }
+}
