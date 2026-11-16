@@ -1,0 +1,23 @@
+% CALE-AI reporting table (the eight fields in the call). Filled from repository facts; "TODO" marks anything not settled in the repo.
+% Sources: aria_pace/SPEC.md (Amendments 1, 2, 6, 7), docs/aria_pace/DATA.md, docs/aria_pace/PILOT_PROTOCOL.md, docs/cale/RESULTS_CALE.md (E3, E5-E8, E10).
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{p{0.27\columnwidth}p{0.68\columnwidth}}
+\toprule
+Field & This work \\
+\midrule
+Intervention & One unsolicited hint per problem set from ARIA, given after a wrong first answer at tries 3--9 when the calibrated BKT stuck risk is $\ge\tau$ (Quiet 0.57, Balanced 0.19, Supportive 0.09). \\
+Comparison condition & Offline: always-help, $n$-wrong-in-a-row rules, a random policy matched to the hint rate, PFA, and a logistic risk head. Planned trial: no ARIA hint at a decision point (usual ASSISTments support), randomized with probability 0.5. \\
+Target population & ASSISTments 2009--10 skill-builder students (math). Grade level is not stated in the dataset. TODO: the planned trial population (grades, schools). \\
+Human outcomes & None measured. The replay reports log-defined proxies (hints per student, missed help on the logged stuck label). Planned proximal outcome: correct first answer on the next problem. \\
+Methodology & Pre-registered offline replay with a single locked test evaluation, 5-fold cross-validation, a closed-loop simulation under assumed student responses, and a planned micro-randomized trial. \\
+Time horizon & Within one problem set: tries 1--10, measured in opportunities (no wall-clock time in the logs). Trial: next problem (proximal). TODO: sessions per student in the trial. \\
+Adaptation mechanism & Per-skill BKT updated after every answer gives a stuck risk, which is Platt-calibrated and thresholded. Parameters and thresholds are frozen; there is no online learning. \\
+Possible unintended effects & Missed help when wrong answers are hint requests (E3); students who already received ASSISTments hints (E5); uneven benefit across skills (E6); frustration or disengagement from withheld help (not measured). TODO: equity across student groups (no demographics in the data). \\
+\bottomrule
+\end{tabular}
+\caption{CALE-AI reporting summary.}
+\label{tab:reporting}
+\end{table}

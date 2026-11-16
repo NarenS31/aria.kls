@@ -1,0 +1,75 @@
+{
+ "rule": "the FIRST sequence, in the order of policy.Table(validation, include_leavers=False), such that\n  (1) it is stuck (y = 1);\n  (2) it has >= 3 verified errors at decision points (tries 3-9);\n  (3) calibrated risk is below the Quiet threshold 0.57 at its first decision point and reaches >= 0.57 at a later one;\n  (4) the Quiet policy fires (a verified error with risk >= 0.57) at some try i*;\n  (5) ASSISTments logged a hint (hint_count > 0) at some try in 3..i*, i.e. in the same window, at or before ARIA's hint.",
+ "position_in_validation_table_order": 10,
+ "sequences_scanned_before_it": 10,
+ "sequence_hash": "753b61157996",
+ "skill_name": "Divisibility Rules",
+ "n_opportunities": 10,
+ "label_stuck": 1,
+ "correct_tries_1_10": [
+  1,
+  1,
+  0,
+  0,
+  1,
+  0,
+  1,
+  0,
+  1,
+  1
+ ],
+ "first_action_tries_1_10": [
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0
+ ],
+ "hint_count_tries_1_10": [
+  0,
+  0,
+  2,
+  0,
+  0,
+  0,
+  0,
+  2,
+  0,
+  0
+ ],
+ "decision_tries": [
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9
+ ],
+ "risk_at_decision_tries": [
+  0.163,
+  0.269,
+  0.177,
+  0.43,
+  0.366,
+  1.0,
+  1.0
+ ],
+ "verified_error_tries": [
+  3,
+  4,
+  6,
+  8
+ ],
+ "quiet_first_hint_try": 8,
+ "logged_hint_tries": [
+  3,
+  8
+ ],
+ "note": "user_id and assignment_id are not stored; sequence_hash = sha256('user_id:assignment_id')[:12]. Validation split only."
+}
