@@ -45,12 +45,12 @@ def main():
     # Baselines as points.
     rule = [o["n_rule"][str(n)] for n in range(1, 6)]
     for n, r in zip(range(1, 6), rule):
-        h = point(ax, r, marker="D", s=18, color=FS.OI["vermillion"], zorder=5, label="k-in-a-row rule" if n == 2 else None)
+        h = point(ax, r, marker="D", s=18, color=FS.OI["vermillion"], zorder=5, label="n-errors-in-a-row rule" if n == 2 else None)
         if n == 1:
             ax.annotate("Always-\nhelp", (r["hints_per_student"], 100 * r["missed_help_rate"]), xytext=(0, 7), textcoords="offset points",
                         ha="center", va="bottom", linespacing=0.9, color="#2B2B2B")
         else:
-            ax.annotate(f"k={n}", (r["hints_per_student"], 100 * r["missed_help_rate"]), xytext=(-6, 0) if n == 2 else (5, -1),
+            ax.annotate(f"n={n}", (r["hints_per_student"], 100 * r["missed_help_rate"]), xytext=(-6, 0) if n == 2 else (5, -1),
                         textcoords="offset points", va="center", ha="right" if n == 2 else "left", color="#2B2B2B")
     for i, r in enumerate(o["random_matched"].values()):
         point(ax, r, marker="x", s=18, color=FS.OI["gray"], linewidths=0.9, zorder=4, label="Random (matched)" if i == 0 else None)
@@ -69,8 +69,8 @@ def main():
     ax.set_xticks([0, 0.5, 1, 1.5, 2, 2.5, 3])
     ax.grid(True, axis="y")
     handles = [h for h in ax.get_legend_handles_labels()[0] if h not in settings] + settings
-    leg = ax.legend(handles=handles, loc="upper right", frameon=False, handlelength=1.8, borderaxespad=0.1, labelspacing=0.2,
-                    handletextpad=0.5)
+    leg = ax.legend(handles=handles, loc="upper right", frameon=False, handlelength=1.3, borderaxespad=0.0, labelspacing=0.2,
+                    handletextpad=0.3)
     for t in leg.get_texts()[-3:]:
         t.set_color(FS.SETTING[t.get_text().split()[0].lower()])
 

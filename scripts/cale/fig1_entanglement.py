@@ -93,7 +93,7 @@ def main():
     ax.set_ylim(0, 1.05)
     ax.set_ylabel("Stuck risk")
     ax.set_yticks([0, 0.5, 1])
-    ax.text(2.65, 1.03, "tries 3-9", ha="left", va="top", color=FS.OI["gray"])
+    ax.text(2.65, 1.03, "opportunities 3–9", ha="left", va="top", color=FS.OI["gray"])
 
     y_ans, y_hint = 1.0, 0.0
     for t, c, f in zip(tries, corr, fa):
@@ -112,9 +112,9 @@ def main():
     st.spines["left"].set_visible(False)
     st.set_xlim(0.5, n_show + 0.5)
     st.set_xticks(tries)
-    st.set_xlabel("Try (problem in the assignment)")
-    handles = [Line2D([], [], color=q_col, marker="o", mfc=q_col, ms=4, label="Risk, verified error"),
-               Line2D([], [], color=q_col, marker="o", mfc="white", ms=4, label="Risk, other try"),
+    st.set_xlabel("Opportunity (problem in the assignment)")
+    handles = [Line2D([], [], color=q_col, marker="o", mfc=q_col, ms=4, label="Risk at a decision point"),
+               Line2D([], [], color=q_col, marker="o", mfc="white", ms=4, label="Risk, other opportunity"),
                Line2D([], [], ls="", marker="^", color=FS.OI["orange"], ms=5, label="ASSISTments hint"),
                Line2D([], [], ls="", marker="o", color="black", ms=4, label="Correct"),
                Line2D([], [], ls="", marker="x", color=FS.OI["vermillion"], ms=5, label="Wrong")]
