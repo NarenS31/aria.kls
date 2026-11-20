@@ -1,5 +1,5 @@
 {
- "rule": "the FIRST sequence, in the order of policy.Table(validation, include_leavers=False), such that\n  (1) it is stuck (y = 1);\n  (2) it has >= 3 verified errors at decision points (tries 3-9);\n  (3) calibrated risk is below the Quiet threshold 0.57 at its first decision point and reaches >= 0.57 at a later one;\n  (4) the Quiet policy fires (a verified error with risk >= 0.57) at some try i*;\n  (5) ASSISTments logged a hint (hint_count > 0) at some try in 3..i*, i.e. in the same window, at or before ARIA's hint.",
+ "rule": "the FIRST sequence, in the order of policy.Table(validation, include_leavers=False), such that\n  (1) it is stuck (y = 1);\n  (2) it has >= 3 verified errors at decision points (tries 3-9);\n  (3) calibrated risk is below the Quiet threshold 0.57 at its first decision point and reaches >= 0.57 at a later one;\n  (4) the Quiet policy fires (a verified error with risk >= 0.57) at some try i*;\n  (5) ASSISTments logged a hint (hint_count > 0) at some try in 3..i*, i.e. in the same window, at or before the policy's first hint.",
  "position_in_validation_table_order": 10,
  "sequences_scanned_before_it": 10,
  "sequence_hash": "753b61157996",

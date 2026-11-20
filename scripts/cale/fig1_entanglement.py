@@ -10,7 +10,7 @@ the FIRST sequence, in the order of policy.Table(validation, include_leavers=Fal
   (2) it has >= 3 verified errors at decision points (tries 3-9);
   (3) calibrated risk is below the Quiet threshold 0.57 at its first decision point and reaches >= 0.57 at a later one;
   (4) the Quiet policy fires (a verified error with risk >= 0.57) at some try i*;
-  (5) ASSISTments logged a hint (hint_count > 0) at some try in 3..i*, i.e. in the same window, at or before ARIA's hint.
+  (5) ASSISTments logged a hint (hint_count > 0) at some try in 3..i*, i.e. in the same window, at or before the policy's first hint.
 Writes paper/cale/figures/fig1_entanglement.{pdf,png} and paper/cale/figures/fig1_selection.json.
 """
 import hashlib
@@ -80,7 +80,7 @@ def main():
     dp_risk = s[v]
     ve_try = P.DEC[v & e]
 
-    fig, (ax, st) = plt.subplots(2, 1, figsize=(FS.WIDTH, 2.35), sharex=True, gridspec_kw={"height_ratios": [2.6, 1.0], "hspace": 0.08})
+    fig, (ax, st) = plt.subplots(2, 1, figsize=(FS.WIDTH, 2.75), sharex=True, gridspec_kw={"height_ratios": [2.4, 1.25], "hspace": 0.08})
     q_col = FS.SETTING["quiet"]
     ax.axvspan(2.5, 9.5, color="#F2F2F2", zorder=0, lw=0)
     ax.axhline(TAU, color=FS.OI["gray"], ls="--", lw=0.9, zorder=1)
@@ -88,7 +88,7 @@ def main():
     ax.plot(dp_try, dp_risk, color=q_col, zorder=3)
     ax.scatter(dp_try, dp_risk, s=14, facecolor="white", edgecolor=q_col, lw=0.9, zorder=4, marker=FS.SETTING_MARKER["quiet"])
     ax.scatter(ve_try, s[np.isin(P.DEC, ve_try)], s=16, facecolor=q_col, edgecolor=q_col, zorder=5, marker=FS.SETTING_MARKER["quiet"])
-    ax.annotate("ARIA (Quiet)\nfirst hint", xy=(i_star, s[list(P.DEC).index(i_star)]), xytext=(9.45, 0.2),
+    ax.annotate("Quiet policy\nfirst hint", xy=(i_star, s[list(P.DEC).index(i_star)]), xytext=(9.45, 0.2),
                 ha="right", va="center", arrowprops={"arrowstyle": "-|>", "lw": 0.7, "color": "black"})
     ax.set_ylim(0, 1.05)
     ax.set_ylabel("Stuck risk")
@@ -104,25 +104,25 @@ def main():
         else:
             st.scatter(t, y_ans, marker="x", s=18, color=FS.OI["vermillion"], lw=1.2, zorder=3)
             st.scatter(t, y_ans, marker="o", s=34, facecolor="none", edgecolor=FS.OI["vermillion"], lw=0.7, zorder=3)
-    st.scatter(tries[hint], np.full(hint.sum(), y_hint), marker="D", s=16, color=FS.OI["orange"], zorder=3)
-    st.set_ylim(-0.6, 1.6)
+    st.scatter(tries[hint], np.full(hint.sum(), y_hint), marker="^", s=22, color=FS.OI["orange"], zorder=3)
+    st.set_ylim(-0.7, 1.6)
     st.set_yticks([y_ans, y_hint])
-    st.set_yticklabels(["Answer", "ASSISTments\nhint"])
+    st.set_yticklabels(["Answer", "Logged\nhint"])
     st.tick_params(axis="y", length=0)
     st.spines["left"].set_visible(False)
     st.set_xlim(0.5, n_show + 0.5)
     st.set_xticks(tries)
     st.set_xlabel("Try (problem in the assignment)")
-    handles = [Line2D([], [], color=q_col, marker="o", mfc=q_col, ms=4, label="Risk at a verified error"),
+    handles = [Line2D([], [], color=q_col, marker="o", mfc=q_col, ms=4, label="Risk, verified error"),
                Line2D([], [], color=q_col, marker="o", mfc="white", ms=4, label="Risk, other try"),
+               Line2D([], [], ls="", marker="^", color=FS.OI["orange"], ms=5, label="ASSISTments hint"),
                Line2D([], [], ls="", marker="o", color="black", ms=4, label="Correct"),
-               Line2D([], [], ls="", marker="x", color=FS.OI["vermillion"], ms=5, label="Wrong"),
-               Line2D([], [], ls="", marker="D", color=FS.OI["orange"], ms=4, label="Logged hint")]
-    fig.legend(handles=handles, loc="lower center", ncol=3, frameon=False, bbox_to_anchor=(0.5, -0.02), handlelength=1.4,
-               columnspacing=0.9, handletextpad=0.4)
-    fig.subplots_adjust(left=0.25, right=0.98, top=0.98, bottom=0.36)
+               Line2D([], [], ls="", marker="x", color=FS.OI["vermillion"], ms=5, label="Wrong")]
+    fig.legend(handles=handles, loc="lower center", ncol=2, frameon=False, bbox_to_anchor=(0.5, 0.0), handlelength=1.4,
+               columnspacing=1.2, handletextpad=0.4, labelspacing=0.25)
+    fig.subplots_adjust(left=0.17, right=0.98, top=0.98, bottom=0.37)
     OUTDIR.mkdir(parents=True, exist_ok=True)
-    fig.savefig(OUTDIR / "fig1_entanglement.pdf")
+    fig.savefig(OUTDIR / "fig1_entanglement.pdf", metadata=FS.PDF_META)
     fig.savefig(OUTDIR / "fig1_entanglement.png", dpi=300)
     plt.close(fig)
 

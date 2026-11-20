@@ -1,6 +1,6 @@
 # Figures and tables for the CALE-AI paper
 
-All figures: vector PDF, 3.3 in wide (AAAI single column), fonts 8 pt, TrueType fonts embedded. They use the shared style in `scripts/cale/figstyle.py`: setting colour Quiet `#2457A6` with circle markers, and Okabe-Ito colours for everything else (vermillion `#D55E00` for wrong answers, orange `#E69F00` for logged hints, gray for the threshold). No test data are used anywhere.
+All figures: vector PDF, 3.3 in wide (AAAI single column), all text 9 pt at final size, TrueType fonts embedded (pdf/ps fonttype 42; `pdffonts` shows no Type 3), no titles inside the plot, PDF metadata cleared. They use the shared style in `scripts/cale/figstyle.py`: setting colour Quiet `#2457A6` with circle markers, and Okabe-Ito colours for everything else (vermillion `#D55E00` for wrong answers, orange `#E69F00` triangles for logged ASSISTments hints, gray for the threshold). No test data are used anywhere.
 
 ## Figure 1: the entanglement timeline (`figures/fig1_entanglement.pdf`)
 
@@ -33,9 +33,11 @@ The table order is the loader's order: students by `user_id` and, within a stude
 
 **Caveat for the caption.** Risk is exactly 1.00 at tries 8 and 9 for a structural reason, not because the model is confident. After a wrong answer at try 8, three correct answers in a row by try 10 are no longer possible, so the stuck label is already determined. The caption should say this, or a reader may read the jump as model confidence.
 
-## Figure 2: trade-off curve (existing)
+## Trade-off curve (`figures/fig2_tradeoff.pdf`; the paper's Figure 1)
 
-`aria_pace/results_cale/figures/e1_tradeoff.pdf` (CALE E1), included unchanged.
+**Script:** `scripts/cale/fig2_tradeoff.py` (plot only; reads `aria_pace/results_cale/e1_tradeoff.json`, recomputes nothing). Pooled CV held-out folds, post hoc (CALE E1). BKT, PFA and logistic-risk threshold sweeps with 95% student-bootstrap bands; the k-in-a-row rule (k = 1-5) and matched-random baselines as points with 95% student-bootstrap error bars; the three frozen BKT settings as distinct markers (Quiet circle, Balanced square, Supportive triangle). The older `aria_pace/results_cale/figures/e1_tradeoff.pdf` is left as is.
+
+Note on numbering: `fig1_entanglement.pdf` is the paper's Figure 2 and `fig2_tradeoff.pdf` is the paper's Figure 1; the file names were kept as requested.
 
 ## Tables
 
