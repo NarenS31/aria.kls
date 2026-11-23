@@ -1,0 +1,580 @@
+{
+ "A1_late_share_of_first_hints": {
+  "balanced": {
+   "by_opportunity": {
+    "3": 997,
+    "4": 612,
+    "5": 337,
+    "6": 143,
+    "7": 70,
+    "8": 73,
+    "9": 41
+   },
+   "late_hints_i_ge_8": 114,
+   "late_share": 0.05015398152221733,
+   "sensitivity_i_ge_7_zero_slack": {
+    "count": 184,
+    "share": 0.08095028596568411
+   },
+   "stuck_with_decision_point": 2279,
+   "stuck_with_first_hint": 2273
+  },
+  "quiet": {
+   "by_opportunity": {
+    "3": 314,
+    "4": 328,
+    "5": 334,
+    "6": 314,
+    "7": 284,
+    "8": 385,
+    "9": 178
+   },
+   "late_hints_i_ge_8": 563,
+   "late_share": 0.2634534394010295,
+   "sensitivity_i_ge_7_zero_slack": {
+    "count": 847,
+    "share": 0.3963500233972859
+   },
+   "stuck_with_decision_point": 2279,
+   "stuck_with_first_hint": 2137
+  },
+  "supportive": {
+   "by_opportunity": {
+    "3": 1125,
+    "4": 603,
+    "5": 293,
+    "6": 104,
+    "7": 45,
+    "8": 69,
+    "9": 39
+   },
+   "late_hints_i_ge_8": 108,
+   "late_share": 0.04741000877963126,
+   "sensitivity_i_ge_7_zero_slack": {
+    "count": 153,
+    "share": 0.06716417910447761
+   },
+   "stuck_with_decision_point": 2279,
+   "stuck_with_first_hint": 2278
+  },
+  "three_errors": {
+   "by_opportunity": {
+    "3": 359,
+    "4": 116,
+    "5": 110,
+    "6": 129,
+    "7": 103,
+    "8": 91,
+    "9": 59
+   },
+   "late_hints_i_ge_8": 150,
+   "late_share": 0.15511892450879008,
+   "sensitivity_i_ge_7_zero_slack": {
+    "count": 253,
+    "share": 0.26163391933815927
+   },
+   "stuck_with_decision_point": 2279,
+   "stuck_with_first_hint": 967
+  },
+  "two_errors_tuned": {
+   "by_opportunity": {
+    "3": 580,
+    "4": 267,
+    "5": 273,
+    "6": 177,
+    "7": 146,
+    "8": 104,
+    "9": 110
+   },
+   "late_hints_i_ge_8": 214,
+   "late_share": 0.1291490645745323,
+   "sensitivity_i_ge_7_zero_slack": {
+    "count": 360,
+    "share": 0.21726010863005432
+   },
+   "stuck_with_decision_point": 2279,
+   "stuck_with_first_hint": 1657
+  }
+ },
+ "A2_missed_help_early_hints_only": {
+  "balanced": {
+   "early_hints_per_student": 2.2758620689655173,
+   "hints_per_student_all": 2.3243933588761174,
+   "late_hints_counted_as_missed": 114.0,
+   "missed_all": {
+    "ci95": [
+     0.0008338302709231395,
+     0.004723407964049361
+    ],
+    "count": 6.0,
+    "rate": 0.0026327336551118913
+   },
+   "missed_early_only": {
+    "ci95": [
+     0.043036199898092965,
+     0.06308057882217868
+    ],
+    "count": 120.0,
+    "rate": 0.05265467310223782
+   },
+   "stuck_with_help_opportunity": 2279
+  },
+  "note": "random is the draw-average of 200 draws (counts are expected values); PFA and risk head use one threshold matched to Quiet's intervened-sequence count (E9 rule), thresholds: {'pfa': 0.5447, 'risk_head': 0.6133}",
+  "pfa_matched_to_quiet": {
+   "early_hints_per_student": 1.0902511707109408,
+   "hints_per_student_all": 1.3137505321413367,
+   "late_hints_counted_as_missed": 525.0,
+   "missed_all": {
+    "ci95": [
+     0.04747016690760941,
+     0.0674089451443473
+    ],
+    "count": 130.0,
+    "rate": 0.05704256252742431
+   },
+   "missed_early_only": {
+    "ci95": [
+     0.2673502052237521,
+     0.30671589858929105
+    ],
+    "count": 655.0,
+    "rate": 0.28740675734971477
+   },
+   "stuck_with_help_opportunity": 2279
+  },
+  "quiet": {
+   "early_hints_per_student": 1.0744997871434654,
+   "hints_per_student_all": 1.314176245210728,
+   "late_hints_counted_as_missed": 563.0,
+   "missed_all": {
+    "ci95": [
+     0.05260730201846753,
+     0.07313642756680731
+    ],
+    "count": 142.0,
+    "rate": 0.06230802983764809
+   },
+   "missed_early_only": {
+    "ci95": [
+     0.28974403161166107,
+     0.3283700551880231
+    ],
+    "count": 705.0,
+    "rate": 0.3093462044756472
+   },
+   "stuck_with_help_opportunity": 2279
+  },
+  "random_matched_to_quiet": {
+   "early_hints_per_student": 1.1930587484035748,
+   "hints_per_student_all": 1.3141762452107277,
+   "late_hints_counted_as_missed": 284.5,
+   "missed_all": {
+    "ci95": [
+     0.3245633079567389,
+     0.3409461345559141
+    ],
+    "count": 757.2,
+    "rate": 0.33225537516454645
+   },
+   "missed_early_only": {
+    "ci95": [
+     0.4478814547494389,
+     0.4661619302826223
+    ],
+    "count": 1041.7,
+    "rate": 0.4570930232558144
+   },
+   "stuck_with_help_opportunity": 2279
+  },
+  "risk_head_matched_to_quiet": {
+   "early_hints_per_student": 1.1340996168582376,
+   "hints_per_student_all": 1.314176245210728,
+   "late_hints_counted_as_missed": 423.0,
+   "missed_all": {
+    "ci95": [
+     0.03817215563225054,
+     0.055753052568999775
+    ],
+    "count": 106.0,
+    "rate": 0.046511627906976744
+   },
+   "missed_early_only": {
+    "ci95": [
+     0.21355483472267436,
+     0.25047000485230186
+    ],
+    "count": 529.0,
+    "rate": 0.23211935059236508
+   },
+   "stuck_with_help_opportunity": 2279
+  },
+  "supportive": {
+   "early_hints_per_student": 2.543635589612601,
+   "hints_per_student_all": 2.589612601106854,
+   "late_hints_counted_as_missed": 108.0,
+   "missed_all": {
+    "ci95": [
+     0.0,
+     0.0014335385827053536
+    ],
+    "count": 1.0,
+    "rate": 0.00043878894251864854
+   },
+   "missed_early_only": {
+    "ci95": [
+     0.03853117634454682,
+     0.05781441846232787
+    ],
+    "count": 109.0,
+    "rate": 0.04782799473453269
+   },
+   "stuck_with_help_opportunity": 2279
+  },
+  "three_errors": {
+   "early_hints_per_student": 0.6836951894423159,
+   "hints_per_student_all": 0.7475521498510004,
+   "late_hints_counted_as_missed": 150.0,
+   "missed_all": {
+    "ci95": [
+     0.5541694703001757,
+     0.5989082396867335
+    ],
+    "count": 1312.0,
+    "rate": 0.5756910925844668
+   },
+   "missed_early_only": {
+    "ci95": [
+     0.6211788598378322,
+     0.6618802321274231
+    ],
+    "count": 1462.0,
+    "rate": 0.6415094339622641
+   },
+   "stuck_with_help_opportunity": 2279
+  },
+  "thresholds_matched": {
+   "pfa": 0.544677734375,
+   "risk_head": 0.61328125
+  },
+  "two_errors_tuned": {
+   "early_hints_per_student": 1.2882077479778629,
+   "hints_per_student_all": 1.3793103448275863,
+   "late_hints_counted_as_missed": 214.0,
+   "missed_all": {
+    "ci95": [
+     0.2538916536762993,
+     0.2914125221219157
+    ],
+    "count": 622.0,
+    "rate": 0.27292672224659936
+   },
+   "missed_early_only": {
+    "ci95": [
+     0.3461806576613324,
+     0.38754393603273
+    ],
+    "count": 836.0,
+    "rate": 0.3668275559455902
+   },
+   "stuck_with_help_opportunity": 2279
+  }
+ },
+ "A2_secondary_denominator_stuck_with_error_at_i_le_7": {
+  "balanced": {
+   "denominator": 2173,
+   "missed_early_only": {
+    "ci95": [
+     0.0030064234903642143,
+     0.010120603920019518
+    ],
+    "count": 14,
+    "rate": 0.006442705936493327
+   }
+  },
+  "pfa_matched": {
+   "denominator": 2173,
+   "missed_early_only": {
+    "ci95": [
+     0.23323189101339845,
+     0.2719643470649827
+    ],
+    "count": 549,
+    "rate": 0.25264611136677406
+   }
+  },
+  "quiet": {
+   "denominator": 2173,
+   "missed_early_only": {
+    "ci95": [
+     0.2571540491505855,
+     0.293602738684625
+    ],
+    "count": 599,
+    "rate": 0.27565577542567876
+   }
+  },
+  "risk_head_matched": {
+   "denominator": 2173,
+   "missed_early_only": {
+    "ci95": [
+     0.17692829076226563,
+     0.21189196690064857
+    ],
+    "count": 423,
+    "rate": 0.1946617579383341
+   }
+  },
+  "supportive": {
+   "denominator": 2173,
+   "missed_early_only": {
+    "ci95": [
+     0.0,
+     0.0030489468333138154
+    ],
+    "count": 3,
+    "rate": 0.0013805798435342844
+   }
+  },
+  "three_errors": {
+   "denominator": 2173,
+   "missed_early_only": {
+    "ci95": [
+     0.6026664602970423,
+     0.6460681804278228
+    ],
+    "count": 1356,
+    "rate": 0.6240220892774966
+   }
+  },
+  "two_errors_tuned": {
+   "denominator": 2173,
+   "missed_early_only": {
+    "ci95": [
+     0.31573758788049533,
+     0.355626226067384
+    ],
+    "count": 730,
+    "rate": 0.3359410952600092
+   }
+  }
+ },
+ "A3_first_hint_opportunity_in_stuck": {
+  "balanced": {
+   "mean": 4.146502419709635,
+   "median": 4.0,
+   "n": 2273,
+   "q1": 3.0,
+   "q3": 5.0,
+   "share_of_stuck_with_decision_point_that_got_a_hint": 0.9973672663448881
+  },
+  "quiet": {
+   "mean": 5.839026672905943,
+   "median": 6.0,
+   "n": 2137,
+   "q1": 4.0,
+   "q3": 8.0,
+   "share_of_stuck_with_decision_point_that_got_a_hint": 0.937691970162352
+  },
+  "supportive": {
+   "mean": 3.9920983318700616,
+   "median": 4.0,
+   "n": 2278,
+   "q1": 3.0,
+   "q3": 4.0,
+   "share_of_stuck_with_decision_point_that_got_a_hint": 0.9995612110574813
+  },
+  "three_errors": {
+   "mean": 5.010341261633919,
+   "median": 5.0,
+   "n": 967,
+   "q1": 3.0,
+   "q3": 7.0,
+   "share_of_stuck_with_decision_point_that_got_a_hint": 0.4243089074155331
+  },
+  "two_errors_tuned": {
+   "mean": 4.875678937839469,
+   "median": 4.0,
+   "n": 1657,
+   "q1": 3.0,
+   "q3": 6.0,
+   "share_of_stuck_with_decision_point_that_got_a_hint": 0.7270732777534006
+  }
+ },
+ "A4_I_and_D": {
+  "always_help": {
+   "D_total": 0.0,
+   "D_total_per_student": 0.0,
+   "I_unnecessary_per_student": 1.695189442315879,
+   "J_per_student_own_profile": null,
+   "J_per_student_quiet_weights": 5.085568326947637,
+   "censored_n": 0,
+   "iqr_delay": [
+    0.0,
+    0.0
+   ],
+   "mean_delay_fired_only": 0.0,
+   "mean_delay_incl_censored": 0.0,
+   "median_delay_incl_censored": 0.0,
+   "n_stuck_with_decision_point": 2279,
+   "unnecessary_count": 3982
+  },
+  "balanced": {
+   "D_total": 451.0,
+   "D_total_per_student": 0.19199659429544488,
+   "I_unnecessary_per_student": 1.356747552149851,
+   "J_per_student_own_profile": 1.5487441464452958,
+   "J_per_student_quiet_weights": 4.262239250744998,
+   "censored_n": 6,
+   "iqr_delay": [
+    0.0,
+    0.0
+   ],
+   "mean_delay_fired_only": 0.18125824901011878,
+   "mean_delay_incl_censored": 0.19789381307591047,
+   "median_delay_incl_censored": 0.0,
+   "n_stuck_with_decision_point": 2279,
+   "unnecessary_count": 3187
+  },
+  "quiet": {
+   "D_total": 4864.0,
+   "D_total_per_student": 2.0706683695189443,
+   "I_unnecessary_per_student": 0.4044274159216688,
+   "J_per_student_own_profile": 3.2839506172839505,
+   "J_per_student_quiet_weights": 3.2839506172839505,
+   "censored_n": 142,
+   "iqr_delay": [
+    0.0,
+    4.0
+   ],
+   "mean_delay_fired_only": 1.8689751988769303,
+   "mean_delay_incl_censored": 2.1342694164107066,
+   "median_delay_incl_censored": 2.0,
+   "n_stuck_with_decision_point": 2279,
+   "unnecessary_count": 950
+  },
+  "supportive": {
+   "D_total": 70.0,
+   "D_total_per_student": 0.02979991485738612,
+   "I_unnecessary_per_student": 1.6198382290336313,
+   "J_per_student_own_profile": 1.7092379736057897,
+   "J_per_student_quiet_weights": 4.88931460195828,
+   "censored_n": 1,
+   "iqr_delay": [
+    0.0,
+    0.0
+   ],
+   "mean_delay_fired_only": 0.028094820017559263,
+   "mean_delay_incl_censored": 0.030715225976305396,
+   "median_delay_incl_censored": 0.0,
+   "n_stuck_with_decision_point": 2279,
+   "unnecessary_count": 3805
+  },
+  "two_errors_tuned": {
+   "D_total": 5265.0,
+   "D_total_per_student": 2.2413793103448274,
+   "I_unnecessary_per_student": 0.6739037888463176,
+   "J_per_student_own_profile": null,
+   "J_per_student_quiet_weights": 4.26309067688378,
+   "censored_n": 622,
+   "iqr_delay": [
+    0.0,
+    4.0
+   ],
+   "mean_delay_fired_only": 1.228123114061557,
+   "mean_delay_incl_censored": 2.3102237823606844,
+   "median_delay_incl_censored": 1.0,
+   "n_stuck_with_decision_point": 2279,
+   "unnecessary_count": 1583
+  }
+ },
+ "A4_definitions": "policy.evaluate_fire / stage5.seq_vec: unnecessary = first hint fired on a sequence with y=0 (mastered by opp 10); delay on stuck sequences with a help opportunity = i_first - i_err if hinted, else T_DETERMINE(10) - i_err (censored); i_err = first verified error at i in 3..9",
+ "_provenance": {
+  "env": {
+   "matplotlib": "3.11.0",
+   "numpy": "2.4.6",
+   "pandas": "3.0.3",
+   "platform": "macOS-26.4.1-arm64-arm-64bit",
+   "python": "3.11.18",
+   "scipy": "1.17.1",
+   "sklearn": "1.9.0"
+  },
+  "generated_utc": "2026-11-23T02:38:38Z",
+  "inputs_sha256": {
+   "aria_pace/data/raw/skill_builder_data_corrected_collapsed.csv": "162ef8d2d28bcbfea6591a282994062bd8d5eaa00636544292a0d268dca6e5da",
+   "aria_pace/results/baselines_val.json": "b6787befe9a88762a49048cfddc94bd2f703a21476a817ebada35e8f05a4bdee",
+   "aria_pace/results/riskhead_val.json": "d396aec2d5ed070af0eddb85ddc547b6c3f710ef903bbc2f25e9c1dc0c8c1da7"
+  },
+  "runtime_seconds": 12.4,
+  "seeds": {
+   "cv_folds": 20261022,
+   "e1_bootstrap": 20261112,
+   "e2_bootstrap": 20261113,
+   "e4_bootstrap": 20261114,
+   "e5_bootstrap": 20261115,
+   "random_policy": 20261017,
+   "split": 20261015
+  }
+ },
+ "analysis": "E11 late-hint decomposition",
+ "bootstrap": {
+  "draws": 1000,
+  "seed": 20261123,
+  "unit": "student"
+ },
+ "data": "pooled held-out folds of the A7 5-fold CV (no test student)",
+ "definition": {
+  "basis": "after the error at i the streak is 0; 3 correct needed within i+1..10, so i <= 7",
+  "early_first_hint": "i <= 7",
+  "late_first_hint": "first policy hint at decision point i >= 8 (r_k = 1.00: mastery by opportunity 10 impossible)",
+  "note": "r_k is not defined anywhere in the repo; this is the task's gloss. Sensitivity with the zero-slack boundary i >= 7 is reported."
+ },
+ "n_sequences": 14640,
+ "n_stuck": 2526,
+ "n_students": 2349,
+ "status": "exploratory, post hoc addition to the locked evaluation (CALE-AI); no test student used",
+ "step0_reproduction": {
+  "detail": {
+   "quiet": {
+    "e1_hints_per_student": 1.314176245210728,
+    "e1_missed": 0.06230802983764809,
+    "e1_missed_n": 142,
+    "e1_reduction": 0.5069477719214184,
+    "recomputed_hints_per_student": 1.314176245210728,
+    "recomputed_missed": 0.06230802983764809,
+    "recomputed_missed_n": 142,
+    "recomputed_reduction": 0.5069477719214184
+   },
+   "three_errors": {
+    "e1_hints_per_student": 0.7475521498510004,
+    "e1_missed": 0.5756910925844668,
+    "e1_missed_n": 1312,
+    "e1_reduction": 0.719533620827344,
+    "recomputed_hints_per_student": 0.7475521498510004,
+    "recomputed_missed": 0.5756910925844668,
+    "recomputed_missed_n": 1312,
+    "recomputed_reduction": 0.719533620827344
+   },
+   "two_errors_tuned": {
+    "e1_hints_per_student": 1.3793103448275863,
+    "e1_missed": 0.27292672224659936,
+    "e1_missed_n": 622,
+    "e1_reduction": 0.48251078102539535,
+    "recomputed_hints_per_student": 1.3793103448275863,
+    "recomputed_missed": 0.27292672224659936,
+    "recomputed_missed_n": 622,
+    "recomputed_reduction": 0.48251078102539535
+   }
+  },
+  "match": true,
+  "paper": {
+   "quiet_missed_pct": 6.2,
+   "quiet_reduction_pct": 50.7,
+   "two_errors_missed_pct": 27.3
+  },
+  "recomputed": {
+   "quiet_missed_pct": 6.2,
+   "quiet_reduction_pct": 50.7,
+   "two_errors_missed_pct": 27.3
+  }
+ }
+}
