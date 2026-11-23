@@ -1,0 +1,236 @@
+{
+ "_provenance": {
+  "env": {
+   "matplotlib": "3.11.0",
+   "numpy": "2.4.6",
+   "pandas": "3.0.3",
+   "platform": "macOS-26.4.1-arm64-arm-64bit",
+   "python": "3.11.18",
+   "scipy": "1.17.1",
+   "sklearn": "1.9.0"
+  },
+  "generated_utc": "2026-11-23T02:54:30Z",
+  "inputs_sha256": {
+   "aria_pace/data/raw/skill_builder_data_corrected_collapsed.csv": "162ef8d2d28bcbfea6591a282994062bd8d5eaa00636544292a0d268dca6e5da",
+   "aria_pace/results/baselines_val.json": "b6787befe9a88762a49048cfddc94bd2f703a21476a817ebada35e8f05a4bdee",
+   "aria_pace/results/riskhead_val.json": "d396aec2d5ed070af0eddb85ddc547b6c3f710ef903bbc2f25e9c1dc0c8c1da7"
+  },
+  "runtime_seconds": 15.1,
+  "seeds": {
+   "cv_folds": 20261022,
+   "e1_bootstrap": 20261112,
+   "e2_bootstrap": 20261113,
+   "e4_bootstrap": 20261114,
+   "e5_bootstrap": 20261115,
+   "random_policy": 20261017,
+   "split": 20261015
+  }
+ },
+ "analysis": "E12 CIs, paired differences, late shares",
+ "delay_decomposition": {
+  "quiet": {
+   "D_from_censored": 870,
+   "D_from_hinted": 3994,
+   "hinted": 2137,
+   "mean_delay_all": 2.1342694164107066,
+   "mean_delay_censored": 6.126760563380282,
+   "mean_delay_hinted": 1.8689751988769303,
+   "mean_i_err_all": 3.964019306713471,
+   "median_delay_all": 2.0,
+   "median_first_hint_opp": 6.0,
+   "n_stuck": 2279,
+   "share_delay_zero": 0.3510311540149188,
+   "unhinted_censored": 142
+  },
+  "two_errors_tuned": {
+   "D_from_censored": 3230,
+   "D_from_hinted": 2035,
+   "hinted": 1657,
+   "mean_delay_all": 2.3102237823606844,
+   "mean_delay_censored": 5.192926045016077,
+   "mean_delay_hinted": 1.228123114061557,
+   "mean_i_err_all": 3.964019306713471,
+   "median_delay_all": 1.0,
+   "median_first_hint_opp": 4.0,
+   "n_stuck": 2279,
+   "share_delay_zero": 0.2544975866608161,
+   "unhinted_censored": 622
+  }
+ },
+ "matched_thresholds": {
+  "pfa": 0.544677734375,
+  "risk_head": 0.61328125
+ },
+ "n_students": 2349,
+ "paired": {
+  "early_only_quiet_minus_pfa_matched": {
+   "ci95_pp": [
+    0.8149964487992671,
+    3.633021593129959
+   ],
+   "diff_pp": 2.193944712593243,
+   "seed": 20261118
+  },
+  "early_only_quiet_minus_risk_head_matched": {
+   "ci95_pp": [
+    5.976484226573732,
+    9.58046057154717
+   ],
+   "diff_pp": 7.7226853883282125,
+   "seed": 20261118
+  },
+  "early_only_quiet_minus_two_errors": {
+   "ci95_pp": [
+    -7.747401723251595,
+    -3.6910315317466176
+   ],
+   "diff_pp": -5.748135146994299,
+   "seed": 20261114
+  },
+  "original_all_hints_quiet_minus_two_errors": {
+   "ci95_pp": [
+    -23.053964124153442,
+    -18.98473056059555
+   ],
+   "diff_pp": -21.061869240895128,
+   "matches_e4_paired_json": true,
+   "seed": 20261114
+  }
+ },
+ "per_policy": {
+  "balanced": {
+   "N_stuck_with_decision_point": 2279,
+   "ci95": [
+    0.04261059896507609,
+    0.06282411456055968
+   ],
+   "first_hints_in_stuck": 2273.0,
+   "late_i_ge_8": 114.0,
+   "late_share": 0.05015398152221733,
+   "late_share_ci95": [
+    0.04045018959387999,
+    0.060373419231686945
+   ],
+   "missed_early_only_n": 120.0,
+   "missed_early_only_rate": 0.05265467310223782
+  },
+  "pfa_matched": {
+   "N_stuck_with_decision_point": 2279,
+   "ci95": [
+    0.26581883810075174,
+    0.30797353050298365
+   ],
+   "first_hints_in_stuck": 2149.0,
+   "late_i_ge_8": 525.0,
+   "late_share": 0.24429967426710097,
+   "late_share_ci95": [
+    0.22407695412517323,
+    0.26354717603011685
+   ],
+   "missed_early_only_n": 655.0,
+   "missed_early_only_rate": 0.28740675734971477
+  },
+  "quiet": {
+   "N_stuck_with_decision_point": 2279,
+   "ci95": [
+    0.2902260001977537,
+    0.3271404987187069
+   ],
+   "first_hints_in_stuck": 2137.0,
+   "late_i_ge_8": 563.0,
+   "late_share": 0.2634534394010295,
+   "late_share_ci95": [
+    0.24408242379490966,
+    0.28246381840726964
+   ],
+   "missed_early_only_n": 705.0,
+   "missed_early_only_rate": 0.3093462044756472
+  },
+  "random_matched_to_quiet": {
+   "N_stuck_with_decision_point": 2279,
+   "ci95": [
+    0.44773469883141465,
+    0.4669253305016056
+   ],
+   "first_hints_in_stuck": 1521.8,
+   "late_i_ge_8": 284.5,
+   "late_share": 0.186954178960303,
+   "late_share_ci95": [
+    0.18010452385667536,
+    0.19433446554748265
+   ],
+   "missed_early_only_n": 1041.7,
+   "missed_early_only_rate": 0.4570930232558144
+  },
+  "risk_head_matched": {
+   "N_stuck_with_decision_point": 2279,
+   "ci95": [
+    0.2133210908604141,
+    0.2502244967773183
+   ],
+   "first_hints_in_stuck": 2173.0,
+   "late_i_ge_8": 423.0,
+   "late_share": 0.1946617579383341,
+   "late_share_ci95": [
+    0.1761598061792362,
+    0.2129434757846232
+   ],
+   "missed_early_only_n": 529.0,
+   "missed_early_only_rate": 0.23211935059236508
+  },
+  "supportive": {
+   "N_stuck_with_decision_point": 2279,
+   "ci95": [
+    0.038391407738334805,
+    0.05761564722421408
+   ],
+   "first_hints_in_stuck": 2278.0,
+   "late_i_ge_8": 108.0,
+   "late_share": 0.04741000877963126,
+   "late_share_ci95": [
+    0.03810058167549531,
+    0.05738185536020133
+   ],
+   "missed_early_only_n": 109.0,
+   "missed_early_only_rate": 0.04782799473453269
+  },
+  "three_errors": {
+   "N_stuck_with_decision_point": 2279,
+   "ci95": [
+    0.6215505181401251,
+    0.6625334162069882
+   ],
+   "first_hints_in_stuck": 967.0,
+   "late_i_ge_8": 150.0,
+   "late_share": 0.15511892450879008,
+   "late_share_ci95": [
+    0.13234990277102576,
+    0.17997196840905125
+   ],
+   "missed_early_only_n": 1462.0,
+   "missed_early_only_rate": 0.6415094339622641
+  },
+  "two_errors_tuned": {
+   "N_stuck_with_decision_point": 2279,
+   "ci95": [
+    0.34638470189771964,
+    0.38765578155989117
+   ],
+   "first_hints_in_stuck": 1657.0,
+   "late_i_ge_8": 214.0,
+   "late_share": 0.1291490645745323,
+   "late_share_ci95": [
+    0.11485286196074758,
+    0.14437793133643093
+   ],
+   "missed_early_only_n": 836.0,
+   "missed_early_only_rate": 0.3668275559455902
+  }
+ },
+ "seeds": {
+  "bkt_vs_pfa_risk_head": 20261118,
+  "quiet_vs_two_errors": 20261114,
+  "single_policy_ci": 20261112
+ },
+ "status": "exploratory, post hoc addition to the locked evaluation (CALE-AI); no test student used"
+}
